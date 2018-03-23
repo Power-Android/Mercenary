@@ -14,6 +14,7 @@ import com.power.mercenary.base.BaseActivity;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
+
 /**
  * Created by Administrator on 2018/3/23.
  */

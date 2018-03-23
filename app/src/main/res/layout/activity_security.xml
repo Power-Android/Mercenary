@@ -43,6 +43,7 @@
             android:layout_height="1dp"
             android:background="#FFF5F5F5"/>
         <RelativeLayout
+            android:id="@+id/rl_xgbdsj"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingTop="10dp"

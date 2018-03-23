@@ -23,6 +23,7 @@
         <activity android:name=".activity.ModifyNameActivity" android:screenOrientation="portrait"></activity>
 
         <activity android:name=".activity.SecurityActivity" android:screenOrientation="portrait"></activity>
+        <activity android:name=".activity.ModifyPhoneActivity" android:screenOrientation="portrait"></activity>
     </application>
 
 </manifest>
