@@ -20,6 +20,7 @@ import butterknife.ButterKnife;
 public class AboutUsActivity extends BaseActivity {
     @BindView(R.id.left_back)
     ImageView left_back;
+
     @BindView(R.id.title_text)
     TextView title_text;
 
