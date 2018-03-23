@@ -64,8 +64,6 @@ public class MainActivity extends BaseActivity {
     private MessageFragment messageFragment;
     private MineFragment mineFragment;
 
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
