@@ -21,7 +21,6 @@ public class SecurityActivity extends BaseActivity implements View.OnClickListen
 
     @BindView(R.id.left_back)
     ImageView left_back;
-
     @BindView(R.id.title_text)
     TextView title_text;
 
