@@ -155,7 +155,7 @@ public class MainActivity extends BaseActivity {
                 if (mineFragment == null){
                     mineFragment = new MineFragment();
                 }
-                addFragments(homeFragment);
+                addFragments(mineFragment);
                 ivHome.setImageResource(R.drawable.home_false);
                 ivPub.setImageResource(R.drawable.pub_false);
                 ivIssue.setImageResource(R.drawable.issue_bg);
