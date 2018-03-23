@@ -30,6 +30,7 @@ public class AboutUsActivity extends BaseActivity {
 
         setContentView(R.layout.activity_about_us);
         ButterKnife.bind(this);
+
         title_text.setText("关于我们");
 
         left_back.setOnClickListener(new View.OnClickListener() {
