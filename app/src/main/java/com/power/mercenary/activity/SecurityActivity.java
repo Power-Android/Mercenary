@@ -26,9 +26,6 @@ public class SecurityActivity extends BaseActivity implements View.OnClickListen
     TextView title_text;
 
 
-
-
-
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
