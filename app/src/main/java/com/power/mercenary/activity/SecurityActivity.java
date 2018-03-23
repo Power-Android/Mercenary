@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.power.mercenary.R;
@@ -24,6 +25,9 @@ public class SecurityActivity extends BaseActivity implements View.OnClickListen
     @BindView(R.id.title_text)
     TextView title_text;
 
+    @BindView(R.id.rl_xgbdsj)
+    RelativeLayout rl_xgbdsj;
+
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -32,6 +36,7 @@ public class SecurityActivity extends BaseActivity implements View.OnClickListen
         ButterKnife.bind(this);
         title_text.setText("账号与安全");
         left_back.setOnClickListener(this);
+        rl_xgbdsj.setOnClickListener(this);
     }
 
     @Override
@@ -42,7 +47,12 @@ public class SecurityActivity extends BaseActivity implements View.OnClickListen
             case R.id.left_back:
                 finish();
                 break;
+            case R.id.rl_xgbdsj:
 
+                intent = new Intent(SecurityActivity.this,ModifyPhoneActivity.class);
+                startActivity(intent);
+
+                break;
         }
 
     }
