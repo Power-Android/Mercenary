@@ -20,7 +20,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity android:name=".activity.SetupActivity" android:screenOrientation="portrait"></activity>
         <activity android:name=".activity.HelpActivity" android:screenOrientation="portrait"></activity>
         <activity android:name=".activity.AboutUsActivity" android:screenOrientation="portrait"></activity>
@@ -31,6 +30,9 @@
         <activity android:name=".activity.ProblemFeedbackActivity" android:screenOrientation="portrait" ></activity>
         <activity android:name=".activity.ModifyNameActivity" android:screenOrientation="portrait"></activity>
         <activity android:name=".activity.MyFollowActivity" android:screenOrientation="portrait"></activity>
+        <activity android:name=".activity.MyValueActivity" android:screenOrientation="portrait"></activity>\
+        <activity android:name=".activity.MyBankCardActivity" android:screenOrientation="portrait"></activity>
+
     </application>
 
 </manifest>
