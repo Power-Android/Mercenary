@@ -12,9 +12,14 @@ import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.bigkoo.pickerview.OptionsPickerView;
+import com.bigkoo.pickerview.listener.CustomListener;
 import com.power.mercenary.R;
 import com.power.mercenary.base.BaseActivity;
 import com.power.mercenary.view.FKTypePop;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -34,7 +39,10 @@ public class ProblemFeedbackActivity extends BaseActivity {
     @BindView(R.id.rl_fklx)
     RelativeLayout rl_fklx;
 
-    private FKTypePop fkTypePop;
+    @BindView(R.id.fk_tv)
+    TextView fkTv;
+
+    private OptionsPickerView pvCustomOptions;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -43,7 +51,18 @@ public class ProblemFeedbackActivity extends BaseActivity {
         ButterKnife.bind(this);
 
         title_text.setText("问题反馈");
-        fkTypePop = new FKTypePop(ProblemFeedbackActivity.this,R.layout.fk_pop_view);
+
+        final List<String> feedbackList = new ArrayList<>();
+        feedbackList.add("问题反馈。。。");
+        feedbackList.add("问题反馈。。。");
+        feedbackList.add("问题反馈。。。");
+        feedbackList.add("问题反馈。。。");
+        feedbackList.add("问题反馈。。。");
+        feedbackList.add("问题反馈。。。");
+        feedbackList.add("问题反馈。。。");
+        feedbackList.add("问题反馈。。。");
+        feedbackList.add("问题反馈。。。");
+
         left_back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -54,36 +73,54 @@ public class ProblemFeedbackActivity extends BaseActivity {
         rl_fklx.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                setShowPop(fkTypePop,rl_fklx);
+                initCustomOptionPicker(feedbackList);
+                pvCustomOptions.show();
             }
         });
 
     }
 
-    public void setShowPop(PopupWindow popupWindow, View view){
-        if(popupWindow!=null&&popupWindow.isShowing()){
-            popupWindow.dismiss();
-        }else{
-            setWindowTranslucence(0.3);
-            popupWindow.showAtLocation(view, Gravity.BOTTOM, 0, 0);
-        }
+    private void initCustomOptionPicker(final List<String> data){
+        pvCustomOptions = new OptionsPickerView.Builder(this, new OptionsPickerView.OnOptionsSelectListener() {
+            @Override
+            public void onOptionsSelect(int options1, int option2, int options3, View v) {
+                //返回的分别是三个级别的选中位置
+                String tx = data.get(options1);
+                    fkTv.setText(tx);
+            }
+        })
+                .setLayoutRes(R.layout.pickerview_custom_options, new CustomListener() {
+                    @Override
+                    public void customLayout(View v) {
+                        final TextView tvSubmit = (TextView) v.findViewById(R.id.tv_finish);
+                        final TextView tvCancle = (TextView) v.findViewById(R.id.tv_cancle);
+
+                        tvSubmit.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                pvCustomOptions.returnData();
+                                pvCustomOptions.dismiss();
+                            }
+                        });
+
+                        tvCancle.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                pvCustomOptions.dismiss();
+                            }
+                        });
+                    }
+                })
+                .setSelectOptions(2)//默认选中项
+                .setContentTextSize(20)//设置滚轮文字大小
+                .setBgColor(getResources().getColor(R.color.concrete))
+                .setTextColorOut(getResources().getColor(R.color.textColorDrak))
+                .setDividerColor(getResources().getColor(R.color.textColorDrak))
+                .setTextColorCenter(getResources().getColor(R.color.black)) //设置选中项文字颜色
+                .build();
+        pvCustomOptions.setPicker(data);//添加数据
+
     }
-    //设置Window窗口的透明度
-    public void setWindowTranslucence(double d){
 
-        Window window = getWindow();
-        WindowManager.LayoutParams attributes = window.getAttributes();
-        attributes.alpha=(float) d;
-        window.setAttributes(attributes);
-
-    }
-
-    private PopupWindow.OnDismissListener onDismissListener = new PopupWindow.OnDismissListener() {
-        @Override
-        public void onDismiss() {
-            // TODO Auto-generated method stub
-            setWindowTranslucence(1.0f);
-        }
-    };
 
 }

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingLeft="10dp"
+    android:paddingRight="10dp"
+    android:paddingTop="15dp"
+    android:orientation="vertical">
+    <TextView
+        android:id="@+id/item_title_tv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="简单的任务"
+        android:textColor="@color/textColorDrak"/>
+    <TextView
+        android:id="@+id/item_content_tv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="10dp"
+        android:text="点击链接下载转发文章即可赚钱，点击链接转发文章即可赚钱，点击链接转发文章即可赚钱"
+        android:singleLine="true"
+        android:ellipsize="end"/>
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/tag_recycler"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"/>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/concrete"
+        android:paddingTop="10dp"
+        android:paddingBottom="5dp"/>
+</LinearLayout>

@@ -11,7 +11,7 @@ import java.util.List;
  */
 
 public class BannerUtils {
-    public static void startBanner(Banner banner, List<String> imageurls) {
+    public static void startBanner(Banner banner, List<Integer> imageurls) {
         //设置banner样式
         banner.setBannerStyle(BannerConfig.CIRCLE_INDICATOR);//注意这里的设置，设置不对容易报错
         //设置图片加载器

@@ -30,18 +30,29 @@
 
 
             <TextView
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="14sp"
                 android:text="请选择反馈类型"
                 />
 
             <ImageView
+                android:id="@+id/view_01"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="2dp"
                 android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
                 android:src="@mipmap/right_fh"/>
+
+            <TextView
+                android:id="@+id/fk_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="反馈类型"
+                android:layout_centerVertical="true"
+                android:layout_toLeftOf="@+id/view_01"
+                android:layout_marginRight="10dp"/>
 
 
         </RelativeLayout>
