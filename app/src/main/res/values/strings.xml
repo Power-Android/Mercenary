@@ -1,3 +1,23 @@
 <resources>
     <string name="app_name">佣兵</string>
+    <string name="picked_content_is">picked content is : </string>
+
+    <string-array name="test_display_2">
+        <item>Dashing through the snow</item>
+        <item>In a one-horse open sleigh</item>
+        <item>Over the fields we go</item>
+        <item>Laughing all the way</item>
+        <item>Bells on bob-tail ring</item>
+        <item>making spirits bright</item>
+        <item>What fun it is to ride and sing</item>
+        <item>A sleighing song tonight</item>
+        <item>Jingle bells, jingle bells</item>
+        <item>jingle all the way</item>
+        <item>O what fun it is to ride</item>
+        <item>In a one-horse open sleigh</item>
+        <item>Now the ground is white</item>
+        <item>Go it while you are young</item>
+        <item>Take the girls tonight</item>
+        <item>And sing this sleighing song</item>
+    </string-array>
 </resources>

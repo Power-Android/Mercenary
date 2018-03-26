@@ -26,9 +26,12 @@ public class SecurityActivity extends BaseActivity implements View.OnClickListen
     @BindView(R.id.title_text)
     TextView title_text;
 
+    @BindView(R.id.rl_xgmm)
+    RelativeLayout rl_xgmm;
     @BindView(R.id.rl_xgbdsj)
     RelativeLayout rl_xgbdsj;
-
+@BindView(R.id.rl_xgbdyx)
+RelativeLayout rl_xgbdyx;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -38,6 +41,8 @@ public class SecurityActivity extends BaseActivity implements View.OnClickListen
         title_text.setText("账号与安全");
         left_back.setOnClickListener(this);
         rl_xgbdsj.setOnClickListener(this);
+        rl_xgbdyx.setOnClickListener(this);
+        rl_xgmm.setOnClickListener(this);
     }
 
     @Override
@@ -51,6 +56,18 @@ public class SecurityActivity extends BaseActivity implements View.OnClickListen
             case R.id.rl_xgbdsj:
 
                 intent = new Intent(SecurityActivity.this,ModifyPhoneActivity.class);
+                startActivity(intent);
+
+                break;
+            case R.id.rl_xgbdyx:
+
+                intent = new Intent(SecurityActivity.this,ModifyEmailActivity.class);
+                startActivity(intent);
+
+                break;
+            case R.id.rl_xgmm:
+
+                intent = new Intent(SecurityActivity.this,ModifyPasswordActivity.class);
                 startActivity(intent);
 
                 break;

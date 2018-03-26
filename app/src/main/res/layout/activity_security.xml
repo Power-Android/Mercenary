@@ -18,6 +18,7 @@
         android:orientation="vertical">
 
         <RelativeLayout
+            android:id="@+id/rl_xgmm"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingTop="10dp"
@@ -87,6 +88,7 @@
             android:background="#FFF5F5F5"/>
 
         <RelativeLayout
+            android:id="@+id/rl_xgbdyx"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingTop="10dp"

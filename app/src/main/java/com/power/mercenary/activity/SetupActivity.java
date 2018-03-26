@@ -45,6 +45,8 @@ LinearLayout ll_nc;
     @BindView(R.id.rl_gywm)
     RelativeLayout rl_gywm;
 
+    @BindView(R.id.rl_wtfk)
+    RelativeLayout rl_wtfk;
     private SelectorPop selectorPop;
 
 
@@ -52,7 +54,6 @@ LinearLayout ll_nc;
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_setup);
-
         ButterKnife.bind(this);
         title_text.setText("设置");
         selectorPop = new SelectorPop(SetupActivity.this,R.layout.selector_pop_item_view);
@@ -63,6 +64,7 @@ LinearLayout ll_nc;
         rl_gywm.setOnClickListener(this);
         ll_nc.setOnClickListener(this);
         rl_zhyaq.setOnClickListener(this);
+        rl_wtfk.setOnClickListener(this);
     }
 
     @Override
@@ -95,6 +97,13 @@ LinearLayout ll_nc;
             case R.id.rl_zhyaq:
 
                 intent = new Intent(SetupActivity.this,SecurityActivity.class);
+
+                startActivity(intent);
+
+                break;
+            case R.id.rl_wtfk:
+
+                intent = new Intent(SetupActivity.this,ProblemFeedbackActivity.class);
 
                 startActivity(intent);
 
