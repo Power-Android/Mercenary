@@ -1,6 +1,7 @@
 package com.power.mercenary.fragment;
 
 import android.os.Bundle;
+import android.support.annotation.LayoutRes;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -9,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -16,10 +18,12 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.power.mercenary.R;
 import com.power.mercenary.base.BaseFragment;
+import com.power.mercenary.bean.NineGridTestModel;
 import com.power.mercenary.bean.Testbean;
 import com.power.mercenary.utils.BannerUtils;
 import com.power.mercenary.utils.TUtils;
 import com.power.mercenary.view.MyPageIndicator;
+import com.power.mercenary.view.NineGridTestLayout;
 import com.power.mercenary.view.PageGridView;
 import com.youth.banner.Banner;
 import com.youth.banner.listener.OnBannerListener;
@@ -64,8 +68,25 @@ public class HomeFragment extends BaseFragment {
     LinearLayout tuijianTabLl;
     @BindView(R.id.tuijian_recycler)
     RecyclerView tuijianRecycler;
+    @BindView(R.id.post_rl)
+    RelativeLayout postRl;
+    @BindView(R.id.post_recycler)
+    RecyclerView postRecycler;
     Unbinder unbinder1;
     private int width;
+
+    private List<NineGridTestModel> mList = new ArrayList<>();
+    private String[] mUrls = new String[]{"https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=202447557,2967022603&fm=27&gp=0.jpg",
+            "https://ss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=104961686,3757525983&fm=27&gp=0.jpg",
+            "https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=569334953,1638673400&fm=27&gp=0.jpg",
+            "https://ss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=2043305675,3979419376&fm=200&gp=0.jpg",
+            "http://img5.imgtn.bdimg.com/it/u=266745161,658804068&fm=27&gp=0.jpg",
+            "http://img5.imgtn.bdimg.com/it/u=222615259,2947254622&fm=27&gp=0.jpg",
+            "http://img1.imgtn.bdimg.com/it/u=950771854,530317119&fm=27&gp=0.jpg",
+            "http://img2.imgtn.bdimg.com/it/u=2557022909,3736713361&fm=27&gp=0.jpg",
+            "http://img2.imgtn.bdimg.com/it/u=1830359176,654163576&fm=200&gp=0.jpg",
+            "http://img4.imgtn.bdimg.com/it/u=4193964417,1586871857&fm=27&gp=0.jpg",
+    };
 
     @Override
     protected View initView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -141,7 +162,51 @@ public class HomeFragment extends BaseFragment {
         tuijianRecycler.setAdapter(tuijianAdapter);
         //----------------------------结束-----------------------------------------------
         //----------------------------热门帖子--------------------------------------------
+        NineGridTestModel model1 = new NineGridTestModel();
+        model1.urlList.add(mUrls[0]);
+        mList.add(model1);
 
+        NineGridTestModel model2 = new NineGridTestModel();
+        model2.urlList.add(mUrls[0]);
+        model2.urlList.add(mUrls[1]);
+        mList.add(model2);
+
+        NineGridTestModel model6 = new NineGridTestModel();
+        for (int i = 0; i < 9; i++) {
+            model6.urlList.add(mUrls[i]);
+        }
+        mList.add(model6);
+
+        NineGridTestModel model7 = new NineGridTestModel();
+        for (int i = 3; i < 7; i++) {
+            model7.urlList.add(mUrls[i]);
+        }
+        mList.add(model7);
+
+        NineGridTestModel model8 = new NineGridTestModel();
+        for (int i = 3; i < 6; i++) {
+            model8.urlList.add(mUrls[i]);
+        }
+        mList.add(model8);
+        postRecycler.setNestedScrollingEnabled(false);
+        postRecycler.setLayoutManager(new LinearLayoutManager(mContext));
+        MyAdapter myAdapter = new MyAdapter(R.layout.item_circle_friend, mList);
+        postRecycler.setAdapter(myAdapter);
+        //-------------------------------结束-------——--------------------------------------------
+    }
+
+    private class MyAdapter extends BaseQuickAdapter<NineGridTestModel, BaseViewHolder> {
+
+        public MyAdapter(@LayoutRes int layoutResId, @Nullable List<NineGridTestModel> data) {
+            super(layoutResId, data);
+        }
+
+        @Override
+        protected void convert(final BaseViewHolder helper, NineGridTestModel item) {
+            NineGridTestLayout nineGridlayout = helper.getView(R.id.nine_gridlayout);
+            nineGridlayout.setIsShowAll(mList.get(helper.getAdapterPosition()).isShowAll);
+            nineGridlayout.setUrlList(mList.get(helper.getAdapterPosition()).urlList);
+        }
     }
 
     //任务推荐Tab
@@ -281,7 +346,7 @@ public class HomeFragment extends BaseFragment {
         unbinder.unbind();
     }
 
-    @OnClick({R.id.location_tv, R.id.search_tv,R.id.renwutj_ll, R.id.tongcheng_ll})
+    @OnClick({R.id.location_tv, R.id.search_tv,R.id.renwutj_ll, R.id.tongcheng_ll, R.id.post_rl})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.location_tv://定位
@@ -294,6 +359,10 @@ public class HomeFragment extends BaseFragment {
             case R.id.tongcheng_ll://同城
                 initTongcheng();
                 break;
+            case R.id.post_rl://热门帖子
+
+                break;
+
         }
     }
 }

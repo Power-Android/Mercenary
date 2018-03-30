@@ -20,38 +20,39 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".activity.SetupActivity" android:screenOrientation="portrait"></activity>
-        <activity android:name=".activity.HelpActivity" android:screenOrientation="portrait"></activity>
-        <activity android:name=".activity.AboutUsActivity" android:screenOrientation="portrait"></activity>
-        <activity android:name=".activity.SecurityActivity" android:screenOrientation="portrait"></activity>
-        <activity android:name=".activity.ModifyPhoneActivity" android:screenOrientation="portrait"></activity>
-        <activity android:name=".activity.ModifyEmailActivity" android:screenOrientation="portrait"></activity>
-        <activity android:name=".activity.ModifyPasswordActivity" android:screenOrientation="portrait"></activity>
-        <activity android:name=".activity.ProblemFeedbackActivity" android:screenOrientation="portrait" ></activity>
-        <activity android:name=".activity.ModifyNameActivity" android:screenOrientation="portrait"></activity>
-        <activity android:name=".activity.MyFollowActivity" android:screenOrientation="portrait"></activity>
-        <activity android:name=".activity.MyValueActivity" android:screenOrientation="portrait"></activity>
-        <activity android:name=".activity.MyBankCardActivity" android:screenOrientation="portrait"></activity>
-        <activity android:name=".activity.SmallChangeActivity" android:screenOrientation="portrait"></activity>
-        <activity android:name=".activity.WithdrawalsActivity" android:screenOrientation="portrait"></activity>
-        <activity android:name=".activity.WithdrawalsDetailsActivity" android:screenOrientation="portrait"></activity>
-        <activity android:name=".activity.AddCardActivity" android:screenOrientation="portrait"></activity>
-        <activity android:name=".activity.CardMsgActivity" android:screenOrientation="portrait"></activity>
-        <activity android:name=".activity.MyCollection" android:screenOrientation="portrait"></activity>
-        <activity android:name=".activity.MyExtensionActivity" android:screenOrientation="portrait"></activity>
-        <activity android:name=".activity.MyQualificationsActivity" android:screenOrientation="portrait"></activity>
-        <activity android:name=".activity.GZNXActivity" android:screenOrientation="portrait"></activity>
-        <activity android:name=".activity.HYActivity" android:screenOrientation="portrait"></activity>
-        <activity android:name=".activity.TCActivity" android:screenOrientation="portrait"></activity>
-        <activity android:name=".activity.ZWJCActivity" android:screenOrientation="portrait"></activity>
-        <activity android:name=".activity.PersonalRZActivity" android:screenOrientation="portrait"></activity>
-        <activity android:name=".activity.IDnumberActivity" android:screenOrientation="portrait"></activity>
-        <activity android:name=".activity.CertificateUploadingActivity" android:screenOrientation="portrait"></activity>
-        <activity android:name=".activity.TaskStatisticsActivity" android:screenOrientation="portrait"></activity>
-        <activity android:name=".activity.MyAchievementActivity" android:screenOrientation="portrait"></activity>
-        <activity android:name=".activity.TaskDetailsActivity" android:screenOrientation="portrait"></activity>
-        <activity android:name=".activity.ForgetPasswordActivity" android:screenOrientation="portrait"></activity>
-        <activity android:name=".activity.RegisterActivity" android:screenOrientation="portrait"></activity>
+        <activity android:name=".activity.SetupActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".activity.HelpActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".activity.AboutUsActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".activity.SecurityActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".activity.ModifyPhoneActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".activity.ModifyEmailActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".activity.ModifyPasswordActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".activity.ProblemFeedbackActivity" android:screenOrientation="portrait" />
+        <activity android:name=".activity.ModifyNameActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".activity.MyFollowActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".activity.MyValueActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".activity.MyBankCardActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".activity.SmallChangeActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".activity.WithdrawalsActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".activity.WithdrawalsDetailsActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".activity.AddCardActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".activity.CardMsgActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".activity.MyCollection" android:screenOrientation="portrait"/>
+        <activity android:name=".activity.MyExtensionActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".activity.MyQualificationsActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".activity.GZNXActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".activity.HYActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".activity.TCActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".activity.ZWJCActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".activity.PersonalRZActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".activity.IDnumberActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".activity.CertificateUploadingActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".activity.TaskStatisticsActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".activity.MyAchievementActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".activity.TaskDetailsActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".activity.ForgetPasswordActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".activity.RegisterActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".activity.HomePostPicActivity" />
 
     </application>
 
