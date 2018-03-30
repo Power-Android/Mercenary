@@ -189,6 +189,7 @@
         android:orientation="horizontal">
 
         <LinearLayout
+            android:id="@+id/ll_wjd"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -211,6 +212,7 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/ll_rwz"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -233,6 +235,7 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/ll_shz"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -255,6 +258,7 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/ll_dpj"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"

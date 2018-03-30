@@ -20,6 +20,7 @@
             android:gravity="center_vertical"
             android:paddingLeft="10dp"
             android:paddingRight="10dp"
+            android:layout_marginTop="10dp"
             android:orientation="horizontal">
 
             <ImageView
@@ -131,9 +132,17 @@
                     android:paddingTop="12dp"
                     android:layout_centerInParent="true"
                     android:paddingBottom="12dp"
-                    android:text="任务"
+                    android:text="我的履历"
                     android:textColor="@color/colorPrimary"
                     android:textSize="15sp"/>
+
+
+                <View
+                    android:layout_width="2dp"
+                    android:layout_height="20dp"
+                    android:layout_marginTop="12dp"
+                    android:layout_alignParentRight="true"
+                    android:background="@color/concrete"/>
 
             </RelativeLayout>
 
@@ -161,9 +170,15 @@
                     android:paddingTop="12dp"
                     android:layout_centerInParent="true"
                     android:paddingBottom="12dp"
-                    android:text="系统消息"
+                    android:text="任务统计"
                     android:textColor="@color/textColor"
                     android:textSize="15sp"/>
+                <View
+                    android:layout_width="2dp"
+                    android:layout_height="20dp"
+                    android:layout_marginTop="12dp"
+                    android:layout_alignParentRight="true"
+                    android:background="@color/concrete"/>
             </RelativeLayout>
             <View
                 android:id="@+id/indicator_tongcheng"
@@ -189,7 +204,7 @@
                     android:paddingTop="12dp"
                     android:layout_centerInParent="true"
                     android:paddingBottom="12dp"
-                    android:text="酒馆"
+                    android:text="我的成就"
                     android:textColor="@color/textColor"
                     android:textSize="15sp"/>
             </RelativeLayout>
@@ -199,6 +214,81 @@
                 android:layout_height="2dp" />
         </LinearLayout>
 
+
+    </LinearLayout>
+
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/vp_grzl"
+        android:layout_marginTop="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"></android.support.v4.view.ViewPager>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/bg_color"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:padding="15dp"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/w_sc_2x"
+                />
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="收藏"
+                android:layout_marginLeft="10dp"
+                android:textSize="14sp"/>
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="1dp"
+            android:layout_height="20dp"
+            android:background="@color/bg_color"/>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:padding="15dp"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/msg_2x"
+                />
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="私信"
+                android:layout_marginLeft="10dp"
+                android:textSize="14sp"/>
+
+        </LinearLayout>
 
     </LinearLayout>
 

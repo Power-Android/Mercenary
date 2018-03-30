@@ -120,12 +120,12 @@
                         android:layout_height="1dp"
                         android:background="#FFF5F5F5"/>
 
-                    <RelativeLayout
+                    <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:paddingTop="10dp"
                         android:paddingBottom="10dp"
-                        >
+                        android:orientation="horizontal">
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -134,25 +134,43 @@
                             android:text="姓名"
                             />
 
-                        <TextView
-                            android:layout_width="wrap_content"
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_weight="1"
                             android:layout_height="wrap_content"
-                            android:textSize="12sp"
-                            android:text="李青"
+                            android:gravity="center_vertical|right"
                             android:layout_alignParentRight="true"
-                            />
+                            android:orientation="horizontal">
 
-                    </RelativeLayout>
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textSize="12sp"
+                                android:text="李青"
+                                />
+
+                            <ImageView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="10dp"
+                                android:src="@drawable/right_fh"/>
+
+                        </LinearLayout>
+
+
+
+                    </LinearLayout>
                     <View
                         android:layout_width="match_parent"
                         android:layout_height="1dp"
                         android:background="#FFF5F5F5"/>
-                    <RelativeLayout
+                    <LinearLayout
+                        android:id="@+id/ll_nl"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:paddingTop="10dp"
                         android:paddingBottom="10dp"
-                        >
+                        android:orientation="horizontal">
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -161,25 +179,43 @@
                             android:text="姓别"
                             />
 
-                        <TextView
-                            android:layout_width="wrap_content"
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_weight="1"
                             android:layout_height="wrap_content"
-                            android:textSize="12sp"
-                            android:text="男"
+                            android:gravity="center_vertical|right"
                             android:layout_alignParentRight="true"
-                            />
+                            android:orientation="horizontal">
 
-                    </RelativeLayout>
+                            <TextView
+                                android:id="@+id/tv_sz_age"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textSize="12sp"
+                                android:text="男"
+                                />
+
+                            <ImageView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="10dp"
+                                android:src="@drawable/right_fh"/>
+
+                        </LinearLayout>
+
+
+
+                    </LinearLayout>
                     <View
                         android:layout_width="match_parent"
                         android:layout_height="1dp"
                         android:background="#FFF5F5F5"/>
-                    <RelativeLayout
+                    <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:paddingTop="10dp"
                         android:paddingBottom="10dp"
-                        >
+                        android:orientation="horizontal">
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -188,14 +224,30 @@
                             android:text="年龄"
                             />
 
-                        <TextView
-                            android:layout_width="wrap_content"
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_weight="1"
                             android:layout_height="wrap_content"
-                            android:textSize="12sp"
-                            android:text="23"
+                            android:gravity="center_vertical|right"
                             android:layout_alignParentRight="true"
-                            />
-                    </RelativeLayout>
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textSize="12sp"
+                                android:text="23"
+                                />
+                            <ImageView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="10dp"
+                                android:src="@drawable/right_fh"/>
+                        </LinearLayout>
+
+
+                    </LinearLayout>
                 </LinearLayout>
 
                 <RelativeLayout

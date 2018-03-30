@@ -53,6 +53,7 @@
         <activity android:name=".activity.ForgetPasswordActivity" android:screenOrientation="portrait"/>
         <activity android:name=".activity.RegisterActivity" android:screenOrientation="portrait"/>
         <activity android:name=".activity.HomePostPicActivity" />
+        <activity android:name=".activity.ReleaseTaskActivity" android:screenOrientation="portrait"></activity>
 
     </application>
 
