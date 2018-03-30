@@ -9,6 +9,15 @@ import java.io.Serializable;
 public class Testbean implements Serializable {
     private String title;
     private int img;
+    private boolean isChecked;
+
+    public boolean isChecked() {
+        return isChecked;
+    }
+
+    public void setChecked(boolean checked) {
+        isChecked = checked;
+    }
 
     public String getTitle() {
         return title;
