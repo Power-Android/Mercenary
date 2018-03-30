@@ -11,5 +11,9 @@
     <color name="textColor">#666666</color>
     <color name="textColorDrak">#444444</color>
     <color name="red">#f5513c</color>
+
+    <color name="pro_content">#FFFDC72D</color>
+    <color name="pro_kuang">#FFE5E5E5</color>
+
 </resources>
 

@@ -16,7 +16,7 @@
             android:id="@+id/left_back"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@mipmap/back_2x"
+            android:src="@drawable/back_2x"
             />
         <TextView
             android:layout_width="wrap_content"
@@ -70,6 +70,7 @@
             android:gravity="right"
             android:layout_height="wrap_content">
             <TextView
+                android:id="@+id/tv_tx"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="提现"
@@ -124,7 +125,7 @@
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@mipmap/right_fh"/>
+                    android:src="@drawable/right_fh"/>
             </LinearLayout>
         </RelativeLayout>
 
@@ -162,7 +163,7 @@
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@mipmap/right_fh"/>
+                    android:src="@drawable/right_fh"/>
             </LinearLayout>
         </RelativeLayout>
 
@@ -199,7 +200,7 @@
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@mipmap/right_fh"/>
+                    android:src="@drawable/right_fh"/>
             </LinearLayout>
         </RelativeLayout>
 

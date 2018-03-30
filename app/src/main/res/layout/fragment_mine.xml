@@ -65,7 +65,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
-                android:src="@mipmap/moren_2x"/>
+                android:src="@drawable/moren_2x"/>
 
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -166,6 +166,7 @@
             />
 
         <TextView
+            android:id="@+id/tv_fbrw"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="发布统计"
@@ -197,7 +198,7 @@
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@mipmap/wjd_2x"/>
+                android:src="@drawable/wjd_2x"/>
 
             <TextView
                 android:layout_width="wrap_content"
@@ -219,7 +220,7 @@
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@mipmap/rwz_2x"/>
+                android:src="@drawable/rwz_2x"/>
 
             <TextView
                 android:layout_width="wrap_content"
@@ -241,7 +242,7 @@
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@mipmap/shz_2x"/>
+                android:src="@drawable/shz_2x"/>
 
             <TextView
                 android:layout_width="wrap_content"
@@ -263,7 +264,7 @@
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@mipmap/dpj_2x"/>
+                android:src="@drawable/dpj_2x"/>
 
             <TextView
                 android:layout_width="wrap_content"
@@ -299,6 +300,7 @@
                 />
 
             <TextView
+                android:id="@+id/tv_jsrw"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="接受统计"
@@ -330,7 +332,7 @@
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@mipmap/ybm_2x"/>
+                    android:src="@drawable/ybm_2x"/>
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -352,7 +354,7 @@
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@mipmap/rwz_2x"/>
+                    android:src="@drawable/rwz_2x"/>
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -374,7 +376,7 @@
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@mipmap/shz_2x"/>
+                    android:src="@drawable/shz_2x"/>
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -396,12 +398,12 @@
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@mipmap/dpj_2x"/>
+                    android:src="@drawable/dpj_2x"/>
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="待评价"
+                    android:text="已完成"
                     android:textSize="12sp"
                     android:layout_marginTop="10dp"
                     android:textColor="#999"/>
@@ -421,6 +423,7 @@
         android:background="@color/white">
 
         <RelativeLayout
+            android:id="@+id/rl_wdsc"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingTop="10dp"
@@ -438,7 +441,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
-                android:src="@mipmap/right_fh"/>
+                android:src="@drawable/right_fh"/>
         </RelativeLayout>
 
         <View
@@ -465,7 +468,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
-                android:src="@mipmap/right_fh"/>
+                android:src="@drawable/right_fh"/>
         </RelativeLayout>
 
         <View
@@ -473,6 +476,7 @@
             android:layout_height="1dp"
             android:background="#FFF5F5F5"/>
         <RelativeLayout
+            android:id="@+id/rl_wdtg"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingTop="10dp"
@@ -490,7 +494,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
-                android:src="@mipmap/right_fh"/>
+                android:src="@drawable/right_fh"/>
         </RelativeLayout>
 
         <View
@@ -498,6 +502,7 @@
             android:layout_height="1dp"
             android:background="#FFF5F5F5"/>
         <RelativeLayout
+            android:id="@+id/rl_cj"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingTop="10dp"
@@ -515,7 +520,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
-                android:src="@mipmap/right_fh"/>
+                android:src="@drawable/right_fh"/>
         </RelativeLayout>
 
         <View
@@ -523,6 +528,7 @@
             android:layout_height="1dp"
             android:background="#FFF5F5F5"/>
         <RelativeLayout
+            android:id="@+id/rl_wdzl"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingTop="10dp"
@@ -540,7 +546,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
-                android:src="@mipmap/right_fh"/>
+                android:src="@drawable/right_fh"/>
         </RelativeLayout>
 
 

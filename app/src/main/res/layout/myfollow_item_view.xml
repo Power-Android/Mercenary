@@ -14,7 +14,7 @@
                 <ImageView
                     android:layout_width="60dp"
                     android:layout_height="60dp"
-                    android:src="@mipmap/moren_2x"/>
+                    android:src="@drawable/moren_2x"/>
                 
                 <TextView
                     android:layout_width="match_parent"

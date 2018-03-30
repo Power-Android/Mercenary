@@ -6,6 +6,7 @@ import android.support.annotation.Nullable;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.power.mercenary.R;
 import com.power.mercenary.base.BaseActivity;
@@ -25,6 +26,12 @@ public class MyValueActivity extends BaseActivity {
     @BindView(R.id.rl_yhk)
     RelativeLayout rl_yhk;
 
+    @BindView(R.id.rigth_text)
+    TextView rigth_text;
+
+    @BindView(R.id.tv_tx)
+    TextView tv_tx;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,6 +49,23 @@ public class MyValueActivity extends BaseActivity {
             public void onClick(View view) {
 
                 Intent intent = new Intent(MyValueActivity.this,MyBankCardActivity.class);
+                startActivity(intent);
+
+            }
+        });
+        rigth_text.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MyValueActivity.this,SmallChangeActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        tv_tx.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                Intent intent = new Intent(MyValueActivity.this,WithdrawalsActivity.class);
                 startActivity(intent);
 
             }

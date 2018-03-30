@@ -30,6 +30,7 @@
 
 
             <LinearLayout
+                android:id="@+id/ll_add_crad"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/shape_yjbs_jx"
@@ -44,7 +45,7 @@
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@mipmap/add_2x"/>
+                    android:src="@drawable/add_2x"/>
 
                 <TextView
                     android:layout_width="wrap_content"

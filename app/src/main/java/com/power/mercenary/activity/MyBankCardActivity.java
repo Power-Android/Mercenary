@@ -1,9 +1,11 @@
 package com.power.mercenary.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.power.mercenary.R;
@@ -35,6 +37,9 @@ public class MyBankCardActivity extends BaseActivity {
 
     private MyBankCardAdapter adapter;
 
+    @BindView(R.id.ll_add_crad)
+    LinearLayout ll_add_crad;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -57,6 +62,14 @@ public class MyBankCardActivity extends BaseActivity {
                 finish();
             }
         });
+        ll_add_crad.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
 
+                Intent intent = new Intent(MyBankCardActivity.this,AddCardActivity.class);
+                startActivity(intent);
+
+            }
+        });
     }
 }

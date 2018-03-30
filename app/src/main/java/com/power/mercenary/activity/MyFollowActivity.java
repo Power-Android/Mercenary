@@ -3,6 +3,7 @@ package com.power.mercenary.activity;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
+import android.support.v4.view.ViewPager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -39,6 +40,8 @@ public class MyFollowActivity extends BaseActivity {
     @BindView(R.id.springView)
     SpringView springView;
 
+
+
     ArrayList<String> mList=new ArrayList<>();
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -65,6 +68,8 @@ public class MyFollowActivity extends BaseActivity {
         mRecycler.setNestedScrollingEnabled(false);
         MyFollowAdapter changegameAdapter = new MyFollowAdapter(R.layout.myfollow_item_view, mList);
         mRecycler.setAdapter(changegameAdapter);
+
+
         initRefresh();
         left_back.setOnClickListener(new View.OnClickListener() {
             @Override

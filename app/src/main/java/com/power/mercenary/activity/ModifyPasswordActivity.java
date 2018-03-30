@@ -54,10 +54,10 @@ public class ModifyPasswordActivity extends BaseActivity {
 
                 if(isqh){
                     et_xg_mm.setTransformationMethod(PasswordTransformationMethod.getInstance());
-                    img_yj.setImageResource(R.mipmap.yj_2x);
+                    img_yj.setImageResource(R.drawable.yj_2x);
                 }else{//明文
                     et_xg_mm.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
-                    img_yj.setImageResource(R.mipmap.by_2x);
+                    img_yj.setImageResource(R.drawable.by_2x);
                 }
                 isqh=!isqh;
             }

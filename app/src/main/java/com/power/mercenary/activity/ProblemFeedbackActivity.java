@@ -53,15 +53,13 @@ public class ProblemFeedbackActivity extends BaseActivity {
         title_text.setText("问题反馈");
 
         final List<String> feedbackList = new ArrayList<>();
-        feedbackList.add("问题反馈。。。");
-        feedbackList.add("问题反馈。。。");
-        feedbackList.add("问题反馈。。。");
-        feedbackList.add("问题反馈。。。");
-        feedbackList.add("问题反馈。。。");
-        feedbackList.add("问题反馈。。。");
-        feedbackList.add("问题反馈。。。");
-        feedbackList.add("问题反馈。。。");
-        feedbackList.add("问题反馈。。。");
+        feedbackList.add("任务类型");
+        feedbackList.add("任务类型");
+        feedbackList.add("任务类型");
+        feedbackList.add("任务类型");
+        feedbackList.add("任务类型");
+        feedbackList.add("任务类型");
+        feedbackList.add("任务类型");
 
         left_back.setOnClickListener(new View.OnClickListener() {
             @Override

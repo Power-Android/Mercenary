@@ -4,6 +4,7 @@
               android:layout_height="wrap_content">
 
     <RelativeLayout
+        android:id="@+id/rl_title_bg"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="10dp"
@@ -13,7 +14,8 @@
             android:id="@+id/left_back"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@mipmap/back_2x"
+            android:src="@drawable/back_2x"
+            android:layout_centerVertical="true"
             />
 
         <TextView

@@ -57,13 +57,13 @@
                             <ImageView
                                 android:layout_width="50dp"
                                 android:layout_height="50dp"
-                                android:src="@mipmap/moren_2x"/>
+                                android:src="@drawable/moren_2x"/>
 
                             <ImageView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginLeft="10dp"
-                                android:src="@mipmap/right_fh"/>
+                                android:src="@drawable/right_fh"/>
                         </LinearLayout>
                     </RelativeLayout>
 
@@ -108,7 +108,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginLeft="10dp"
-                                android:src="@mipmap/right_fh"/>
+                                android:src="@drawable/right_fh"/>
 
                         </LinearLayout>
 
@@ -218,7 +218,7 @@
                     <ImageView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:src="@mipmap/right_fh"
+                        android:src="@drawable/right_fh"
                         android:layout_alignParentRight="true"
                         />
                 </RelativeLayout>
@@ -317,7 +317,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_alignParentRight="true"
-                            android:src="@mipmap/right_fh"/>
+                            android:src="@drawable/right_fh"/>
 
                     </RelativeLayout>
                     <View
@@ -344,7 +344,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_alignParentRight="true"
-                            android:src="@mipmap/right_fh"/>
+                            android:src="@drawable/right_fh"/>
 
                     </RelativeLayout>
 
@@ -376,7 +376,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_alignParentRight="true"
-                            android:src="@mipmap/right_fh"/>
+                            android:src="@drawable/right_fh"/>
 
                     </RelativeLayout>
                     <View
@@ -403,7 +403,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_alignParentRight="true"
-                            android:src="@mipmap/right_fh"/>
+                            android:src="@drawable/right_fh"/>
 
                     </RelativeLayout>
 
