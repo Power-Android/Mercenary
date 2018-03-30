@@ -14,6 +14,7 @@ import android.widget.TextView;
 
 import com.power.mercenary.R;
 import com.power.mercenary.base.BaseActivity;
+import com.power.mercenary.view.AgePop;
 import com.power.mercenary.view.SelectorPop;
 
 import butterknife.BindView;
@@ -49,6 +50,11 @@ LinearLayout ll_nc;
     RelativeLayout rl_wtfk;
     private SelectorPop selectorPop;
 
+    private AgePop agePop;
+    @BindView(R.id.ll_nl)
+    LinearLayout ll_nl;
+    @BindView(R.id.tv_sz_age)
+    TextView tv_sz_age;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,7 +63,10 @@ LinearLayout ll_nc;
         ButterKnife.bind(this);
         title_text.setText("设置");
         selectorPop = new SelectorPop(SetupActivity.this,R.layout.selector_pop_item_view);
+        agePop = new AgePop(SetupActivity.this,R.layout.nianling_pop_item_view);
         selectorPop.setOnDismissListener(onDismissListener);
+        agePop.setOnDismissListener(onDismissListener);
+        agePop.setOnAgeSelectorListener(ageSelectorListener);
         left_back.setOnClickListener(this);
         rl_bz.setOnClickListener(this);
         ll_txsc.setOnClickListener(this);
@@ -65,7 +74,29 @@ LinearLayout ll_nc;
         ll_nc.setOnClickListener(this);
         rl_zhyaq.setOnClickListener(this);
         rl_wtfk.setOnClickListener(this);
+        ll_nl.setOnClickListener(this);
     }
+
+    private AgePop.AgeSelectorListener ageSelectorListener=new AgePop.AgeSelectorListener() {
+        @Override
+        public void OnNanListener() {
+            tv_sz_age.setText("男");
+
+
+            agePop.dismiss();
+        }
+
+        @Override
+        public void OnNVListener() {
+            tv_sz_age.setText("女");
+            agePop.dismiss();
+        }
+
+        @Override
+        public void OnCancelListener() {
+            agePop.dismiss();
+        }
+    };
 
     @Override
     public void onClick(View view) {
@@ -106,6 +137,10 @@ LinearLayout ll_nc;
                 intent = new Intent(SetupActivity.this,ProblemFeedbackActivity.class);
 
                 startActivity(intent);
+
+                break;
+            case R.id.ll_nl:
+                setShowPop(agePop,ll_nl);
 
                 break;
         }

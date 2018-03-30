@@ -16,6 +16,7 @@ import com.power.mercenary.activity.MyExtensionActivity;
 import com.power.mercenary.activity.MyFollowActivity;
 import com.power.mercenary.activity.MyQualificationsActivity;
 import com.power.mercenary.activity.MyValueActivity;
+import com.power.mercenary.activity.ReleaseTaskActivity;
 import com.power.mercenary.activity.SetupActivity;
 import com.power.mercenary.activity.TaskStatisticsActivity;
 import com.power.mercenary.base.BaseFragment;
@@ -57,6 +58,15 @@ public class MineFragment extends BaseFragment {
     TextView tv_fbrw;
     @BindView(R.id.rl_cj)
     RelativeLayout rl_cj;
+
+    @BindView(R.id.ll_wjd)
+    LinearLayout ll_wjd;
+    @BindView(R.id.ll_rwz)
+    LinearLayout ll_rwz;
+    @BindView(R.id.ll_shz)
+    LinearLayout ll_shz;
+    @BindView(R.id.ll_dpj)
+    LinearLayout ll_dpj;
 
     @Override
     protected View initView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -146,6 +156,36 @@ public class MineFragment extends BaseFragment {
                 Intent intent = new Intent(getActivity(), MyAchievementActivity.class);
                 startActivity(intent);
 
+            }
+        });
+        ll_wjd.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getActivity(), ReleaseTaskActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        ll_rwz.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getActivity(), ReleaseTaskActivity.class);
+                startActivity(intent);
+            }
+        });
+        ll_shz.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getActivity(), ReleaseTaskActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        ll_dpj.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getActivity(), ReleaseTaskActivity.class);
+                startActivity(intent);
             }
         });
 
