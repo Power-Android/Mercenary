@@ -99,7 +99,7 @@ public class PubFragment extends BaseFragment {
         titleAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-
+                //TODO 刷新热门数据
             }
         });
 
@@ -129,7 +129,37 @@ public class PubFragment extends BaseFragment {
         }
 
         List<Testbean> contentList = new ArrayList<>();
+        for (int i = 0; i < 4; i++) {
+            Testbean testbean = new Testbean();
+            testbean.setTitle("酒馆热门推荐");
+            testbean.setContent("酒馆热门推荐内容，七月七日晴，突然下起了大雪，覆盖你来的那条街。");
+            testbean.setNum("10" + i);
+            contentList.add(testbean);
+        }
+        recyclerContent.setNestedScrollingEnabled(false);
+        recyclerContent.setLayoutManager(new LinearLayoutManager(mContext));
+        ContentAdapter adapter = new ContentAdapter(R.layout.item_content_layout,contentList);
+        recyclerContent.setAdapter(adapter);
+        adapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+                TUtils.showShort(mContext,"点击了---item"+position);
+            }
+        });
+    }
 
+    private class ContentAdapter extends BaseQuickAdapter<Testbean,BaseViewHolder>{
+
+        public ContentAdapter(int layoutResId, @Nullable List<Testbean> data) {
+            super(layoutResId, data);
+        }
+
+        @Override
+        protected void convert(BaseViewHolder helper, Testbean item) {
+            helper.setText(R.id.item_title_tv,item.getTitle())
+                    .setText(R.id.item_content_tv,item.getContent())
+                    .setText(R.id.item_num_tv,item.getNum());
+        }
     }
 
     private class TitleAdapter extends BaseQuickAdapter<Testbean,BaseViewHolder>{
