@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:paddingTop="5dp"
+            android:paddingBottom="5dp"
+            android:background="@color/white">
+            <TextView
+                android:id="@+id/item_title_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="酒馆热门推荐"
+                android:textColor="@color/textColorDrak"
+                android:textSize="15sp"/>
+            <TextView
+                android:id="@+id/item_content_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="酒馆热门推荐内容，七月七日晴，突然下起了大雪，覆盖你来的那条街。酒馆热门推荐内容，七月七日晴，突然下起了大雪，覆盖你来的那条街。"
+                android:layout_below="@+id/item_title_tv"
+                android:layout_marginTop="10dp"/>
+            <TextView
+                android:id="@+id/item_num_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="10000"
+                android:drawableLeft="@drawable/pl_iv"
+                android:drawablePadding="5dp"
+                android:layout_below="@+id/item_content_tv"
+                android:layout_marginTop="10dp"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="10dp"/>
+        </RelativeLayout>
+
+    </LinearLayout>
+</LinearLayout>
