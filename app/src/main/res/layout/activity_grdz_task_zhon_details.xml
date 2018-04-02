@@ -22,7 +22,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="任务中任务详情"
+            android:text="进行中任务详情"
             android:textColor="#fff"
             android:textSize="16sp"
             android:layout_centerInParent="true"/>
@@ -96,44 +96,11 @@
                                 android:textSize="12sp"
                                 />
                         </LinearLayout>
-
-                        <LinearLayout
-                            android:layout_width="0dp"
-                            android:layout_weight="1"
+                        <TextView
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:gravity="right"
-                            android:orientation="vertical">
-
-                            <LinearLayout
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:orientation="horizontal">
-
-                                <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:text="任务状态："
-                                    android:textColor="#999"
-                                    android:textSize="12sp"/>
-
-                                <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:text="任务中"
-                                    android:textSize="12sp"/>
-                            </LinearLayout>
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="2017-11-10"
-                                android:textColor="#999"
-                                android:layout_marginTop="5dp"
-                                android:textSize="12sp"/>
-
-
-                        </LinearLayout>
-
+                            android:text="100.00"
+                            android:textColor="#FFFFC910"/>
                     </LinearLayout>
 
                     <View
@@ -160,12 +127,10 @@
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="100.00"
-                                android:textColor="#FFFFC910"
+                                android:text="任务有效期：30天"
                                 android:textSize="14sp"
-                                android:layout_alignParentTop="true"
-                                android:layout_alignParentEnd="true"
-                                android:id="@+id/textView"/>
+                                android:layout_alignParentRight="true"
+                                />
                         </RelativeLayout>
 
                         <android.support.v7.widget.RecyclerView
@@ -179,129 +144,6 @@
                 </LinearLayout>
 
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@color/white"
-                    android:layout_marginTop="10dp"
-                    android:orientation="vertical">
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:padding="10dp"
-                        android:orientation="horizontal">
-
-                        <TextView
-                            android:layout_width="0dp"
-                            android:layout_weight="1"
-                            android:layout_height="wrap_content"
-                            android:text="物品名称"
-                            android:textSize="14sp"
-                            android:textColor="#999"/>
-
-                        <TextView
-                            android:layout_width="0dp"
-                            android:layout_weight="4"
-                            android:layout_height="wrap_content"
-                            android:text="送花给定制的人"
-                            android:textSize="14sp"
-                            />
-
-                    </LinearLayout>
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:padding="10dp"
-                        android:orientation="horizontal">
-
-                        <TextView
-                            android:layout_width="0dp"
-                            android:layout_weight="1"
-                            android:layout_height="wrap_content"
-                            android:text="数量"
-                            android:textSize="14sp"
-                            android:textColor="#999"/>
-
-                        <TextView
-                            android:layout_width="0dp"
-                            android:layout_weight="4"
-                            android:layout_height="wrap_content"
-                            android:text="送花给定制的人"
-                            android:textSize="14sp"
-                            />
-
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:padding="10dp"
-                        android:orientation="horizontal">
-
-                        <TextView
-                            android:layout_width="0dp"
-                            android:layout_weight="1"
-                            android:layout_height="wrap_content"
-                            android:text="开始地址"
-                            android:textSize="14sp"
-                            android:textColor="#999"/>
-
-                        <TextView
-                            android:layout_width="0dp"
-                            android:layout_weight="4"
-                            android:layout_height="wrap_content"
-                            android:text="送花给定制的人"
-                            android:textSize="14sp"
-                            />
-
-                    </LinearLayout>
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:padding="10dp"
-                        android:orientation="horizontal">
-
-                        <TextView
-                            android:layout_width="0dp"
-                            android:layout_weight="1"
-                            android:layout_height="wrap_content"
-                            android:text="目的地址"
-                            android:textSize="14sp"
-                            android:textColor="#999"/>
-
-                        <TextView
-                            android:layout_width="0dp"
-                            android:layout_weight="4"
-                            android:layout_height="wrap_content"
-                            android:text="送花给定制的人"
-                            android:textSize="14sp"
-                            />
-
-                    </LinearLayout>
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:padding="10dp"
-                        android:orientation="horizontal">
-
-                        <TextView
-                            android:layout_width="0dp"
-                            android:layout_weight="1"
-                            android:layout_height="wrap_content"
-                            android:text="送达时间"
-                            android:textSize="14sp"
-                            android:textColor="#999"/>
-
-                        <TextView
-                            android:layout_width="0dp"
-                            android:layout_weight="4"
-                            android:layout_height="wrap_content"
-                            android:text="送花给定制的人"
-                            android:textSize="14sp"
-                            />
-                    </LinearLayout>
-                </LinearLayout>
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -314,7 +156,7 @@
                         android:layout_width="0dp"
                         android:layout_weight="1"
                         android:layout_height="wrap_content"
-                        android:text="运输要求"
+                        android:text="任务要求"
                         android:textSize="14sp"
                         android:textColor="#999"/>
 
@@ -325,6 +167,33 @@
                         android:text="点击链接下载转发文章即可赚钱，点击链接开始点击..."
                         android:textSize="14sp"
                         />
+                </LinearLayout>
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/white"
+                    android:layout_marginTop="10dp"
+                    android:padding="10dp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="任务描述相关图片"
+                        android:textSize="14sp"
+                        android:textColor="#999"/>
+
+
+                    <android.support.v7.widget.RecyclerView
+                        android:id="@+id/recycler_img"
+                        android:layout_marginTop="5dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@color/white"/>
+
+
                 </LinearLayout>
 
                 <RelativeLayout
@@ -374,6 +243,8 @@
 
 
                 </RelativeLayout>
+
+
 
 
                 <LinearLayout
@@ -431,117 +302,77 @@
         android:layout_height="1dp"
         android:background="@color/bg_color"/>
 
-    <RelativeLayout
+
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:orientation="horizontal">
 
         <LinearLayout
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:background="@color/white"
-            android:visibility="gone"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:layout_gravity="center_vertical"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
             android:orientation="horizontal">
 
-            <LinearLayout
-                android:layout_width="0dp"
+            <ImageView
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:layout_gravity="center_vertical"
-                android:paddingTop="10dp"
-                android:paddingBottom="10dp"
-                android:orientation="horizontal">
+                android:src="@drawable/w_sc_2x"/>
 
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/w_sc_2x"/>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="收藏"
-                    android:layout_marginLeft="10dp"
-                    android:textSize="14sp"/>
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="0dp"
+            <TextView
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:layout_gravity="center_vertical"
-                android:paddingTop="10dp"
-                android:paddingBottom="10dp"
-                android:orientation="horizontal">
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/ts_2x"/>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="投诉"
-                    android:layout_marginLeft="10dp"
-                    android:textSize="14sp"/>
-
-            </LinearLayout>
-
-            <RelativeLayout
-                android:layout_width="0dp"
-                android:layout_height="50dp"
-                android:background="@color/huise_colorPrimary"
-                android:layout_weight="2">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="已报名"
-                    android:layout_centerInParent="true"
-                    android:textColor="@color/white"
-                    android:textSize="14sp"/>
-
-            </RelativeLayout>
+                android:text="收藏"
+                android:layout_marginLeft="10dp"
+                android:textSize="14sp"/>
 
         </LinearLayout>
 
-
         <LinearLayout
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:layout_gravity="center_vertical"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ts_2x"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="投诉"
+                android:layout_marginLeft="10dp"
+                android:textSize="14sp"/>
+
+        </LinearLayout>
+
+        <RelativeLayout
+            android:layout_width="0dp"
             android:layout_height="50dp"
             android:background="@color/colorPrimary"
-            android:orientation="horizontal">
+            android:layout_weight="2">
 
             <TextView
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                android:layout_height="match_parent"
-                android:text="审核不通过"
-                android:gravity="center"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="提交任务"
+                android:layout_centerInParent="true"
                 android:textColor="@color/white"
                 android:textSize="14sp"/>
 
-            <View
-                android:layout_width="1dp"
-                android:layout_height="25dp"
-                android:layout_gravity="center_vertical"
-                android:background="@color/white"/>
+        </RelativeLayout>
 
-            <TextView
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                android:layout_height="match_parent"
-                android:text="确认完成"
-                android:gravity="center"
-                android:textColor="@color/white"
-                android:textSize="14sp"/>
-
-        </LinearLayout>
-    </RelativeLayout>
-
-
+    </LinearLayout>
 
 </LinearLayout>

@@ -64,6 +64,7 @@ LinearLayout ll_nc;
         title_text.setText("设置");
         selectorPop = new SelectorPop(SetupActivity.this,R.layout.selector_pop_item_view);
         agePop = new AgePop(SetupActivity.this,R.layout.nianling_pop_item_view);
+
         selectorPop.setOnDismissListener(onDismissListener);
         agePop.setOnDismissListener(onDismissListener);
         agePop.setOnAgeSelectorListener(ageSelectorListener);

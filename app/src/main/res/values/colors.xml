@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="colorPrimary">#038eff</color>
+    <color name="huise_colorPrimary">#FF69C6FF</color>
     <color name="colorPrimaryDark">#038eff</color>
     <color name="colorAccent">#038eff</color>
     <color name="white">#FFFFFF</color>
@@ -14,6 +15,8 @@
 
     <color name="pro_content">#FFFDC72D</color>
     <color name="pro_kuang">#FFE5E5E5</color>
+
+    <color name="lv_se">#FF8CBD4C</color>
 
 </resources>
 

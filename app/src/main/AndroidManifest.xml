@@ -13,7 +13,7 @@
         android:theme="@style/AppTheme"
         tools:replace="android:icon, android:label,android:theme">
 
-        <activity android:name=".MainActivity">
+        <activity android:name=".activity.JKTaskZhonDetailsActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -49,7 +49,6 @@
         <activity android:name=".activity.CertificateUploadingActivity" android:screenOrientation="portrait"/>
         <activity android:name=".activity.TaskStatisticsActivity" android:screenOrientation="portrait"/>
         <activity android:name=".activity.MyAchievementActivity" android:screenOrientation="portrait"/>
-        <activity android:name=".activity.TaskDetailsActivity" android:screenOrientation="portrait"/>
         <activity android:name=".activity.ForgetPasswordActivity" android:screenOrientation="portrait"/>
         <activity android:name=".activity.RegisterActivity" android:screenOrientation="portrait"/>
         <activity android:name=".activity.HomePostPicActivity" />
