@@ -24,7 +24,7 @@ import butterknife.ButterKnife;
  * Created by Administrator on 2018/3/22.
  */
 
-public class SetupActivity extends BaseActivity implements View.OnClickListener{
+public class SetupActivity extends BaseActivity implements View.OnClickListener {
 
 
     @BindView(R.id.left_back)
@@ -35,8 +35,8 @@ public class SetupActivity extends BaseActivity implements View.OnClickListener{
 
     @BindView(R.id.rl_bz)
     RelativeLayout rl_bz;
-@BindView(R.id.ll_nc)
-LinearLayout ll_nc;
+    @BindView(R.id.ll_nc)
+    LinearLayout ll_nc;
 
     @BindView(R.id.rl_zhyaq)
     RelativeLayout rl_zhyaq;
@@ -62,8 +62,8 @@ LinearLayout ll_nc;
         setContentView(R.layout.activity_setup);
         ButterKnife.bind(this);
         title_text.setText("设置");
-        selectorPop = new SelectorPop(SetupActivity.this,R.layout.selector_pop_item_view);
-        agePop = new AgePop(SetupActivity.this,R.layout.nianling_pop_item_view);
+        selectorPop = new SelectorPop(SetupActivity.this, R.layout.selector_pop_item_view);
+        agePop = new AgePop(SetupActivity.this, R.layout.nianling_pop_item_view);
 
         selectorPop.setOnDismissListener(onDismissListener);
         agePop.setOnDismissListener(onDismissListener);
@@ -78,7 +78,7 @@ LinearLayout ll_nc;
         ll_nl.setOnClickListener(this);
     }
 
-    private AgePop.AgeSelectorListener ageSelectorListener=new AgePop.AgeSelectorListener() {
+    private AgePop.AgeSelectorListener ageSelectorListener = new AgePop.AgeSelectorListener() {
         @Override
         public void OnNanListener() {
             tv_sz_age.setText("男");
@@ -103,45 +103,45 @@ LinearLayout ll_nc;
     public void onClick(View view) {
 
         Intent intent;
-        switch (view.getId()){
+        switch (view.getId()) {
             case R.id.left_back:
                 finish();
                 break;
             case R.id.rl_bz:
 
-                intent = new Intent(SetupActivity.this,HelpActivity.class);
+                intent = new Intent(SetupActivity.this, HelpActivity.class);
                 startActivity(intent);
 
                 break;
             case R.id.ll_txsc:
-                setShowPop(selectorPop,ll_txsc);
+                setShowPop(selectorPop, ll_txsc);
                 break;
             case R.id.rl_gywm:
 
-                intent = new Intent(SetupActivity.this,AboutUsActivity.class);
+                intent = new Intent(SetupActivity.this, AboutUsActivity.class);
                 startActivity(intent);
 
                 break;
             case R.id.ll_nc:
-                intent = new Intent(SetupActivity.this,ModifyNameActivity.class);
+                intent = new Intent(SetupActivity.this, ModifyNameActivity.class);
                 startActivity(intent);
                 break;
             case R.id.rl_zhyaq:
 
-                intent = new Intent(SetupActivity.this,SecurityActivity.class);
+                intent = new Intent(SetupActivity.this, SecurityActivity.class);
 
                 startActivity(intent);
 
                 break;
             case R.id.rl_wtfk:
 
-                intent = new Intent(SetupActivity.this,ProblemFeedbackActivity.class);
+                intent = new Intent(SetupActivity.this, ProblemFeedbackActivity.class);
 
                 startActivity(intent);
 
                 break;
             case R.id.ll_nl:
-                setShowPop(agePop,ll_nl);
+                setShowPop(agePop, ll_nl);
 
                 break;
         }

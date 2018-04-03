@@ -48,6 +48,7 @@ public class PubFragment extends BaseFragment {
     @BindView(R.id.banner)
     Banner banner;
     Unbinder unbinder;
+    private int scrollPosition;
 
     @Override
     protected View initView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -72,7 +73,7 @@ public class PubFragment extends BaseFragment {
             }
         });
 
-        List<Testbean> titleList = new ArrayList<>();
+        final List<Testbean> titleList = new ArrayList<>();
         Testbean testbean0 = new Testbean();
         testbean0.setTitle("热门推荐");
         titleList.add(testbean0);
@@ -94,11 +95,16 @@ public class PubFragment extends BaseFragment {
 
         recyclerTitle.setLayoutManager(new LinearLayoutManager(mContext));
         recyclerTitle.setNestedScrollingEnabled(false);
-        TitleAdapter titleAdapter = new TitleAdapter(R.layout.item_title_recycle,titleList);
+        final TitleAdapter titleAdapter = new TitleAdapter(R.layout.item_title_recycle,titleList);
         recyclerTitle.setAdapter(titleAdapter);
+        titleList.get(0).setChecked(true);
         titleAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+                titleList.get(scrollPosition).setChecked(false);
+                scrollPosition = position;
+                titleList.get(scrollPosition).setChecked(true);
+                titleAdapter.notifyDataSetChanged();
                 //TODO 刷新热门数据
             }
         });

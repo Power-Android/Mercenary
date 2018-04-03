@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp">
+        <TextView
+            android:id="@+id/item_name_tv"
+            android:layout_width="70dp"
+            android:layout_height="wrap_content"
+            android:text="要求1"
+            android:textColor="@color/textColorDrak"
+            android:padding="15dp"/>
+        <EditText
+            android:id="@+id/item_content_et"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/item_name_tv"
+            android:layout_toLeftOf="@+id/item_del_iv"
+            android:layout_marginRight="10dp"
+            android:background="@drawable/bg_gray"
+            android:hint="请输入任务要求（0/50）"
+            android:textSize="14sp"
+            android:padding="15dp"/>
+        <ImageView
+            android:id="@+id/item_del_iv"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:src="@drawable/task_del_iv"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="15dp"/>
+    </RelativeLayout>
+</LinearLayout>

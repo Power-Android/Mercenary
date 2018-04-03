@@ -1,28 +1,43 @@
 package com.power.mercenary;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.chad.library.adapter.base.BaseViewHolder;
+import com.power.mercenary.activity.PubPaotuiActivity;
+import com.power.mercenary.activity.PubGerendingzhiActivity;
+import com.power.mercenary.activity.PubGongzuoActivity;
+import com.power.mercenary.activity.PubJiankangActivity;
+import com.power.mercenary.activity.PubQitaActivity;
+import com.power.mercenary.activity.PubShenghuoActivity;
 import com.power.mercenary.base.BaseActivity;
 import com.power.mercenary.base.BaseFragment;
 import com.power.mercenary.fragment.HomeFragment;
 import com.power.mercenary.fragment.MessageFragment;
 import com.power.mercenary.fragment.MineFragment;
 import com.power.mercenary.fragment.PubFragment;
-import com.power.mercenary.utils.TUtils;
+import com.power.mercenary.view.BaseDialog;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class MainActivity extends BaseActivity {
+public class MainActivity extends BaseActivity implements BaseQuickAdapter.OnItemChildClickListener {
 
     @BindView(R.id.fl_content)
     FrameLayout flContent;
@@ -63,6 +78,11 @@ public class MainActivity extends BaseActivity {
     private PubFragment pubFragment;
     private MessageFragment messageFragment;
     private MineFragment mineFragment;
+    private BaseDialog mDialog;
+    private BaseDialog.Builder mBuilder;
+    private List<String> list;
+    private List<String> nextList = new ArrayList<>();
+    private int PAOTUI = 101, SHENGHUO = 102, GERENDINGZHI = 103, GONGZUO = 104,JIANKANG = 105;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -131,7 +151,14 @@ public class MainActivity extends BaseActivity {
                 tvMine.setTextColor(getResources().getColor(R.color.textcolor_tab));
                 break;
             case R.id.ll_issue:
-                TUtils.showShort(mContext,"点击了---发布");
+                list = new ArrayList<>();
+                list.add("跑腿");
+                list.add("生活");
+                list.add("个人定制");
+                list.add("工作");
+                list.add("健康");
+                list.add("其他");
+                showIssueDialog();
                 break;
             case R.id.ll_message:
                 if (messageFragment == null){
@@ -165,6 +192,156 @@ public class MainActivity extends BaseActivity {
                 tvMessage.setTextColor(getResources().getColor(R.color.textcolor_tab));
                 tvMine.setTextColor(getResources().getColor(R.color.colorPrimary));
                 break;
+        }
+    }
+
+    private void showIssueDialog() {
+        mBuilder = new BaseDialog.Builder(this);
+        mDialog = mBuilder.setViewId(R.layout.dialog_issue)
+                //设置dialogpadding
+                .setPaddingdp(20, 0, 20, 30)
+                //设置显示位置
+                .setGravity(Gravity.BOTTOM)
+                //设置动画
+                .setAnimation(R.style.Bottom_Top_aniamtion)
+                //设置dialog的宽高
+                .setWidthHeightpx(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT)
+                //设置触摸dialog外围是否关闭
+                .isOnTouchCanceled(true)
+                //设置监听事件
+                .builder();
+
+        RecyclerView issueRecycler = mDialog.getView(R.id.issue_recycler);
+        issueRecycler.setLayoutManager(new GridLayoutManager(this,3));
+        issueRecycler.setNestedScrollingEnabled(false);
+        IssueAdapter issueAdapter = new IssueAdapter(R.layout.item_issue_layout,list);
+        issueRecycler.setAdapter(issueAdapter);
+        issueAdapter.setOnItemChildClickListener(this);
+        mDialog.show();
+    }
+
+    @Override
+    public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
+        mDialog.dismiss();
+        switch (position){
+            case 0://跑腿
+                nextList.clear();
+                nextList.add("物品");
+                nextList.add("人员");
+                showNextIssueDialog(60,60,2,PAOTUI);
+                break;
+            case 1://生活
+                nextList.clear();
+                nextList.add("衣");
+                nextList.add("食");
+                nextList.add("住");
+                nextList.add("行");
+                nextList.add("游");
+                showNextIssueDialog(20,20,3,SHENGHUO);
+                break;
+            case 2://个人定制
+                nextList.clear();
+                nextList.add("硬件");
+                nextList.add("软件");
+                showNextIssueDialog(60,60,2,GERENDINGZHI);
+                break;
+            case 3://工作
+                nextList.clear();
+                nextList.add("仕");
+                nextList.add("农");
+                nextList.add("工");
+                nextList.add("商");
+                nextList.add("律");
+                showNextIssueDialog(20,20,3,GONGZUO);
+                break;
+            case 4://健康
+                nextList.clear();
+                nextList.add("心理");
+                nextList.add("健身");
+                nextList.add("减肥");
+                showNextIssueDialog(20,20,3,JIANKANG);
+                break;
+            case 5://其他
+                mDialog.dismiss();
+                startActivity(new Intent(this,PubQitaActivity.class));
+                break;
+        }
+    }
+
+    private void showNextIssueDialog(int left, int right, int spanCount, final int pubType) {
+        mBuilder = new BaseDialog.Builder(this);
+        mDialog = mBuilder.setViewId(R.layout.dialog_issue)
+                //设置dialogpadding
+                .setPaddingdp(left, 0, right, 40)
+                //设置显示位置
+                .setGravity(Gravity.BOTTOM)
+                //设置动画
+                .setAnimation(R.style.Bottom_Top_aniamtion)
+                //设置dialog的宽高
+                .setWidthHeightpx(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT)
+                //设置触摸dialog外围是否关闭
+                .isOnTouchCanceled(true)
+                //设置监听事件
+                .builder();
+
+        RecyclerView issueNextRecycler = mDialog.getView(R.id.issue_recycler);
+        issueNextRecycler.setLayoutManager(new GridLayoutManager(this,spanCount));
+        issueNextRecycler.setNestedScrollingEnabled(false);
+        IssueNextAdapter issueNextAdapter = new IssueNextAdapter(R.layout.item_issue_layout,nextList);
+        issueNextRecycler.setAdapter(issueNextAdapter);
+        issueNextAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
+            @Override
+            public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
+                switch (pubType){
+                    case 101://跑腿发布页面
+                        mDialog.dismiss();
+                        startActivity(new Intent(MainActivity.this,PubPaotuiActivity.class));
+                        break;
+                    case 102://生活发布页面
+                        mDialog.dismiss();
+                        startActivity(new Intent(MainActivity.this,PubShenghuoActivity.class));
+                        break;
+                    case 103://个人定制发布页面
+                        mDialog.dismiss();
+                        startActivity(new Intent(MainActivity.this,PubGerendingzhiActivity.class));
+                        break;
+                    case 104://工作发布页
+                        mDialog.dismiss();
+                        startActivity(new Intent(MainActivity.this,PubGongzuoActivity.class));
+                        break;
+                    case 105://健康发布页面
+                        mDialog.dismiss();
+                        startActivity(new Intent(MainActivity.this,PubJiankangActivity.class));
+                        break;
+                }
+            }
+        });
+        mDialog.show();
+    }
+
+    private class IssueAdapter extends BaseQuickAdapter<String,BaseViewHolder>{
+
+        public IssueAdapter(int layoutResId, @Nullable List<String> data) {
+            super(layoutResId, data);
+        }
+
+        @Override
+        protected void convert(BaseViewHolder helper, String item) {
+            helper.setText(R.id.item_type_tv,item)
+                    .addOnClickListener(R.id.item_type_tv);
+        }
+    }
+
+    private class IssueNextAdapter extends BaseQuickAdapter<String,BaseViewHolder>{
+
+        public IssueNextAdapter(int layoutResId, @Nullable List<String> data) {
+            super(layoutResId, data);
+        }
+
+        @Override
+        protected void convert(BaseViewHolder helper, String item) {
+            helper.setText(R.id.item_type_tv,item)
+                    .addOnClickListener(R.id.item_type_tv);
         }
     }
 }

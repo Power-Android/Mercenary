@@ -15,8 +15,8 @@
 
     <color name="pro_content">#FFFDC72D</color>
     <color name="pro_kuang">#FFE5E5E5</color>
-
+    <color name="hint_color">#A0A0A0</color>
     <color name="lv_se">#FF8CBD4C</color>
-
+    <color name="picton_blue">#39B4FC</color>
 </resources>
 
