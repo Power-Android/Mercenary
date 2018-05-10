@@ -18,5 +18,6 @@
     <color name="hint_color">#A0A0A0</color>
     <color name="lv_se">#FF8CBD4C</color>
     <color name="picton_blue">#39B4FC</color>
+    <color name="partTranslucent">#10000000</color>
 </resources>
 

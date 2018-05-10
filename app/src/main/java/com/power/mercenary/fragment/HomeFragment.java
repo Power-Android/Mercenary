@@ -1,5 +1,6 @@
 package com.power.mercenary.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.Nullable;
@@ -17,6 +18,10 @@ import com.bumptech.glide.Glide;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.power.mercenary.R;
+import com.power.mercenary.activity.LocationActivity;
+import com.power.mercenary.activity.QTTaskDetailsActivity;
+import com.power.mercenary.activity.TaskListActivity;
+import com.power.mercenary.activity.WorkPubActivity;
 import com.power.mercenary.base.BaseFragment;
 import com.power.mercenary.bean.NineGridTestModel;
 import com.power.mercenary.bean.Testbean;
@@ -160,6 +165,12 @@ public class HomeFragment extends BaseFragment {
         tuijianList.add("");
         TuijianAdapter tuijianAdapter = new TuijianAdapter(R.layout.item_tuijian_renwu,tuijianList);
         tuijianRecycler.setAdapter(tuijianAdapter);
+        tuijianAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+                startActivity(new Intent(mContext, QTTaskDetailsActivity.class));
+            }
+        });
         //----------------------------结束-----------------------------------------------
         //----------------------------热门帖子--------------------------------------------
         NineGridTestModel model1 = new NineGridTestModel();
@@ -307,7 +318,10 @@ public class HomeFragment extends BaseFragment {
 
         @Override
         public void onItemClick(PageGridView pageGridView, int position) {
-            TUtils.showShort(mContext, "点击了---" + mData.get(position).getTitle());
+//            TUtils.showShort(mContext, "点击了---" + mData.get(position).getTitle());
+            Intent intent = new Intent(mContext,TaskListActivity.class);
+            intent.putExtra("type",position+"");
+            startActivity(intent);
         }
 
         @Override
@@ -350,6 +364,7 @@ public class HomeFragment extends BaseFragment {
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.location_tv://定位
+                startActivity(new Intent(mContext,LocationActivity.class));
                 break;
             case R.id.search_tv://搜索
                 break;
@@ -360,7 +375,7 @@ public class HomeFragment extends BaseFragment {
                 initTongcheng();
                 break;
             case R.id.post_rl://热门帖子
-
+                startActivity(new Intent(mContext,WorkPubActivity.class));
                 break;
 
         }

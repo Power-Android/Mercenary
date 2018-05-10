@@ -17,6 +17,7 @@
         android:orientation="vertical">
 
         <TextView
+            android:id="@+id/camera_tv"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textSize="16sp"
@@ -32,6 +33,7 @@
             android:background="#FFF5F5F5"/>
 
         <TextView
+            android:id="@+id/photo_tv"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textSize="16sp"
@@ -44,6 +46,7 @@
     </LinearLayout>
 
     <TextView
+        android:id="@+id/cancle_tv"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textSize="16sp"

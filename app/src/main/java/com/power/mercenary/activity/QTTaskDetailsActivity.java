@@ -1,8 +1,9 @@
 package com.power.mercenary.activity;
 
-import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
+import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -28,12 +29,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-/**
- * Created by Administrator on 2018/3/29.
- */
-
-public class PTTaskDetailsActivity extends BaseActivity implements View.OnClickListener{
-
+public class QTTaskDetailsActivity extends BaseActivity implements View.OnClickListener{
 
     @BindView(R.id.recycler_task_tag)
     RecyclerView recycler_task_tag;
@@ -54,23 +50,20 @@ public class PTTaskDetailsActivity extends BaseActivity implements View.OnClickL
     @BindView(R.id.tuijian_tab_ll)
     LinearLayout tuijianTabLl;
     ArrayList<String> mList=new ArrayList<>();
-
     @BindView(R.id.recycler_liu_yan)
     RecyclerView recycler_liu_yan;
-
     @BindView(R.id.springView_rwsx)
     SpringView springView_rwsx;
-
     @BindView(R.id.iv_right_fx)
     ImageView iv_right_fx;
     private SharingPop sharingPop;
-
     @BindView(R.id.left_back)
     ImageView left_back;
+
     @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_task_details);
+        setContentView(R.layout.activity_qttask_details);
         ButterKnife.bind(this);
 
         recycler_task_tag.setNestedScrollingEnabled(false);
@@ -99,7 +92,7 @@ public class PTTaskDetailsActivity extends BaseActivity implements View.OnClickL
         recycler_liu_yan.setNestedScrollingEnabled(false);
         MessageBoardAdapter changegameAdapter = new MessageBoardAdapter(R.layout.message_board_iten_view, mList);
         recycler_liu_yan.setAdapter(changegameAdapter);
-        sharingPop = new SharingPop(PTTaskDetailsActivity.this,R.layout.sharing_pop_item_view);
+        sharingPop = new SharingPop(QTTaskDetailsActivity.this,R.layout.sharing_pop_item_view);
         sharingPop.setOnDismissListener(onDismissListener);
         initRefresh();
         renwutjLl.setOnClickListener(this);
