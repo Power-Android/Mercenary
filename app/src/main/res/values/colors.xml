@@ -19,5 +19,8 @@
     <color name="lv_se">#FF8CBD4C</color>
     <color name="picton_blue">#39B4FC</color>
     <color name="partTranslucent">#10000000</color>
+    <color name="backgourd">#F5F5F5</color>
+    <color name="yellow2">#F3BE5A</color>
+
 </resources>
 

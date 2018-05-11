@@ -89,4 +89,10 @@
         <item name="android:mirrorForRtl">true</item>
     </style>
 
+    <!-- 修改昵称，底部弹出动画 -->
+    <style name="AnimBottom" parent="@android:style/Animation">
+        <item name="android:windowEnterAnimation">@anim/push_bottom_in</item>
+        <item name="android:windowExitAnimation">@anim/push_bottom_out</item>
+    </style>
+
 </resources>

@@ -19,6 +19,7 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.power.mercenary.R;
 import com.power.mercenary.activity.LocationActivity;
+import com.power.mercenary.activity.PostDetailActivity;
 import com.power.mercenary.activity.QTTaskDetailsActivity;
 import com.power.mercenary.activity.TaskListActivity;
 import com.power.mercenary.activity.WorkPubActivity;
@@ -217,6 +218,12 @@ public class HomeFragment extends BaseFragment {
             NineGridTestLayout nineGridlayout = helper.getView(R.id.nine_gridlayout);
             nineGridlayout.setIsShowAll(mList.get(helper.getAdapterPosition()).isShowAll);
             nineGridlayout.setUrlList(mList.get(helper.getAdapterPosition()).urlList);
+            helper.getView(R.id.jump_detail_ll).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    startActivity(new Intent(mContext,PostDetailActivity.class));
+                }
+            });
         }
     }
 

@@ -1,5 +1,6 @@
 package com.power.mercenary.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.Nullable;
@@ -147,6 +148,12 @@ public class WorkPubActivity extends BaseActivity {
             NineGridTestLayout nineGridlayout = helper.getView(R.id.nine_gridlayout);
             nineGridlayout.setIsShowAll(mList.get(helper.getAdapterPosition()).isShowAll);
             nineGridlayout.setUrlList(mList.get(helper.getAdapterPosition()).urlList);
+            helper.getView(R.id.jump_detail_ll).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    startActivity(new Intent(mContext,PostDetailActivity.class));
+                }
+            });
         }
     }
 
