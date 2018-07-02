@@ -10,12 +10,13 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.power.mercenary.MainActivity;
 import com.power.mercenary.R;
 import com.power.mercenary.base.BaseActivity;
 import com.power.mercenary.base.BaseFragment;
-import com.power.mercenary.fragment.HomeFragment;
 import com.power.mercenary.fragment.SignInMMFragment;
 import com.power.mercenary.fragment.SignInYZMFragment;
+import com.power.mercenary.utils.SpUtils;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -24,7 +25,7 @@ import butterknife.ButterKnife;
  * Created by Administrator on 2018/3/29.
  */
 
-public class SignInActivity extends BaseActivity implements View.OnClickListener{
+public class SignInActivity extends BaseActivity implements View.OnClickListener {
 
 
     @BindView(R.id.renwutj_tv)
@@ -41,6 +42,8 @@ public class SignInActivity extends BaseActivity implements View.OnClickListener
     LinearLayout tongchengLl;
     @BindView(R.id.tuijian_tab_ll)
     LinearLayout tuijianTabLl;
+    @BindView(R.id.tv_dl_wc)
+    TextView tvDlWc;
 
     private BaseFragment baseFragment;
 
@@ -65,6 +68,7 @@ public class SignInActivity extends BaseActivity implements View.OnClickListener
         tongchengLl.setOnClickListener(this);
         left_back.setOnClickListener(this);
         tv_cjzh.setOnClickListener(this);
+        tvDlWc.setOnClickListener(this);
         initRenwutj();
 
     }
@@ -88,14 +92,14 @@ public class SignInActivity extends BaseActivity implements View.OnClickListener
     }
 
     private void initRenwutjData() {
-        if(signInYZMFragment==null){
+        if (signInYZMFragment == null) {
             signInYZMFragment = new SignInYZMFragment();
         }
         addFragments(signInYZMFragment);
     }
 
     private void initTongchengData() {
-        if(signInMMFragment==null){
+        if (signInMMFragment == null) {
             signInMMFragment = new SignInMMFragment();
         }
         addFragments(signInMMFragment);
@@ -135,15 +139,16 @@ public class SignInActivity extends BaseActivity implements View.OnClickListener
                 initTongcheng();
                 break;
             case R.id.left_back:
-
                 finish();
-
                 break;
             case R.id.tv_cjzh:
-
-                Intent intent = new Intent(SignInActivity.this,RegisterActivity.class);
+                Intent intent = new Intent(SignInActivity.this, RegisterActivity.class);
                 startActivity(intent);
-
+                break;
+            case R.id.tv_dl_wc:
+                SpUtils.putBoolean(SignInActivity.this,"isLogin",true);
+//                startActivity(new Intent(this, MainActivity.class));
+                finish();
                 break;
         }
 

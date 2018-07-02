@@ -22,12 +22,14 @@ import com.power.mercenary.activity.PubGongzuoActivity;
 import com.power.mercenary.activity.PubJiankangActivity;
 import com.power.mercenary.activity.PubQitaActivity;
 import com.power.mercenary.activity.PubShenghuoActivity;
+import com.power.mercenary.activity.SignInActivity;
 import com.power.mercenary.base.BaseActivity;
 import com.power.mercenary.base.BaseFragment;
 import com.power.mercenary.fragment.HomeFragment;
 import com.power.mercenary.fragment.MessageFragment;
 import com.power.mercenary.fragment.MineFragment;
 import com.power.mercenary.fragment.PubFragment;
+import com.power.mercenary.utils.SpUtils;
 import com.power.mercenary.view.BaseDialog;
 
 import java.util.ArrayList;
@@ -161,6 +163,10 @@ public class MainActivity extends BaseActivity implements BaseQuickAdapter.OnIte
                 showIssueDialog();
                 break;
             case R.id.ll_message:
+                if (!SpUtils.getBoolean(this,"isLogin",false)){
+                    startActivity(new Intent(this, SignInActivity.class));
+                    return;
+                }
                 if (messageFragment == null){
                     messageFragment = new MessageFragment();
                 }
@@ -177,6 +183,10 @@ public class MainActivity extends BaseActivity implements BaseQuickAdapter.OnIte
                 tvMine.setTextColor(getResources().getColor(R.color.textcolor_tab));
                 break;
             case R.id.ll_mine:
+                if (!SpUtils.getBoolean(this,"isLogin",false)){
+                    startActivity(new Intent(this, SignInActivity.class));
+                    return;
+                }
                 if (mineFragment == null){
                     mineFragment = new MineFragment();
                 }

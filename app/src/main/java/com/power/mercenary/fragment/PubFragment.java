@@ -14,6 +14,7 @@ import android.widget.TextView;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.power.mercenary.R;
+import com.power.mercenary.activity.PubListActivity;
 import com.power.mercenary.base.BaseFragment;
 import com.power.mercenary.bean.Testbean;
 import com.power.mercenary.utils.BannerUtils;
@@ -105,7 +106,7 @@ public class PubFragment extends BaseFragment {
                 scrollPosition = position;
                 titleList.get(scrollPosition).setChecked(true);
                 titleAdapter.notifyDataSetChanged();
-                //TODO 刷新热门数据
+                //TODO 刷新热门数据，更新流式布局文字
             }
         });
 
@@ -130,6 +131,7 @@ public class PubFragment extends BaseFragment {
                 @Override
                 public void onClick(View view) {
                     TUtils.showShort(mContext,"点击了---" + hotNameList.get(finalI));
+                    startActivity(new Intent(mContext,PubListActivity.class));
                 }
             });
         }

@@ -384,7 +384,6 @@ public class HomeFragment extends BaseFragment {
             case R.id.post_rl://热门帖子
                 startActivity(new Intent(mContext,WorkPubActivity.class));
                 break;
-
         }
     }
 }
