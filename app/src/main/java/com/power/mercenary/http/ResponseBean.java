@@ -6,5 +6,5 @@ public class ResponseBean<T> implements Serializable {
 
     public int code;
     public String msg;
-    public T datas;
+    public T data;
 }
