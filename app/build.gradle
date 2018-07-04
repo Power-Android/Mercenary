@@ -56,4 +56,6 @@ dependencies {
     compile 'com.liaoinstan.springview:library:1.3.0'
     implementation files('libs/universal-image-loader-1.9.4-with-sources.jar')
     compile project(':indexlib')
+    compile 'com.google.code.gson:gson:2.8.2'
+    compile 'com.readystatesoftware.chuck:library:1.0.4'
 }

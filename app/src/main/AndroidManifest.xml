@@ -3,6 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.power.mercenary">
 
+    <uses-permission android:name="android.permission.INTERNET"/>
+
     <application
         android:name=".MyApplication"
         android:allowBackup="true"
@@ -148,6 +150,7 @@
         <activity android:name=".activity.PubListActivity"/>
         <activity android:name=".activity.SignInActivity"
             android:launchMode="singleTask"/>
+        <activity android:name=".activity.TestActivity"/>
     </application>
 
 </manifest>

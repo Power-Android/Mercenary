@@ -2,6 +2,8 @@ package com.power.mercenary;
 
 import android.app.Application;
 import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 
 import com.lzy.okgo.OkGo;
 import com.lzy.okgo.cache.CacheEntity;
@@ -122,6 +124,23 @@ public class MyApplication extends Application {
                 .addCommonHeaders(headers)                         //全局公共头
                 .addCommonParams(params);                          //全局公共参数
 
+    }
+
+    /**
+     * 网络是否可用
+     * @param context
+     * @return true 可用 false 不可用
+     */
+    public static boolean isNetworkAvailable(Context context) {
+        try {
+            ConnectivityManager cm =
+                    (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+            NetworkInfo info = cm.getActiveNetworkInfo();
+            return null != info && info.isConnected();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
     }
 }
 
