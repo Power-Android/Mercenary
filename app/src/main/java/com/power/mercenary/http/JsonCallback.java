@@ -87,8 +87,11 @@ public abstract class JsonCallback<T> extends AbsCallback<T> {
                     intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     MyApplication.getGloableContext().startActivity(intent);
                     break;
+                case 1:
+                case 2:
                 case 3:
-                    TUtils.showCustom(MyApplication.getGloableContext(), "该用户已经注册过了");
+                case 4:
+                    TUtils.showCustom(MyApplication.getGloableContext(), ((HttpException) response.getException()).getErrorBean().msg);
                     break;
             }
 
