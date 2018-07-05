@@ -20,6 +20,8 @@ import com.orhanobut.logger.AndroidLogAdapter;
 import com.orhanobut.logger.FormatStrategy;
 import com.orhanobut.logger.Logger;
 import com.orhanobut.logger.PrettyFormatStrategy;
+import com.power.mercenary.utils.CacheUtils;
+
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import okhttp3.OkHttpClient;
@@ -35,6 +37,7 @@ public class MyApplication extends Application {
     public void onCreate() {
         super.onCreate();
         application = this;
+        CacheUtils.init(this);
         setLogger();
         setOkGo();//OkGo----第三方网络框架
         //imageLoader
