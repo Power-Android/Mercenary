@@ -81,7 +81,7 @@ public abstract class JsonCallback<T> extends AbsCallback<T> {
         } else if (response.getException() instanceof HttpException) {
 
             switch (((HttpException) response.getException()).getErrorBean().code) {
-                case 202:
+                case 10010:
                     Intent intent = new Intent(MyApplication.getGloableContext(), RegisterActivity.class);
                     intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     MyApplication.getGloableContext().startActivity(intent);

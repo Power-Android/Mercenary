@@ -149,5 +149,13 @@ public class MyApplication extends Application {
     public static String getUserToken(){
         return "";
     }
+
+    public static boolean isLogin(){
+        return false;
+    }
+
+    public static void LoginOut(){
+
+    }
 }
 

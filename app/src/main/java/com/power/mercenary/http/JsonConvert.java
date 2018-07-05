@@ -130,7 +130,7 @@ public class JsonConvert<T> implements Converter<T> {
                 response.close();
                 int code = responseBean.code;
                 String msg = responseBean.msg;
-                if (code == 200) { //约定 正确返回码
+                if (code == 0) { //约定 正确返回码
                     return (T) responseBean;
                 } else{
                     throw new HttpException("{\"code\":"+code+",\"msg\":\""+msg+"\"}"); //直接抛自定义异常  会出现在 callback的onError中
