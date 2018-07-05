@@ -1,23 +1,28 @@
 package com.power.mercenary.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.MainThread;
 import android.support.annotation.Nullable;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
-import android.view.ContextMenu;
+import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.CheckBox;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.power.mercenary.MainActivity;
 import com.power.mercenary.R;
 import com.power.mercenary.base.BaseActivity;
-import com.power.mercenary.base.BaseFragment;
-import com.power.mercenary.fragment.RegisterGRFragment;
-import com.power.mercenary.fragment.RegisterQYFragment;
-import com.power.mercenary.fragment.SignInMMFragment;
-import com.power.mercenary.fragment.SignInYZMFragment;
+import com.power.mercenary.bean.user.TokenInfo;
+import com.power.mercenary.data.CacheConstants;
+import com.power.mercenary.presenter.LoginPresenter;
+import com.power.mercenary.utils.CacheUtils;
+import com.power.mercenary.utils.MyUtils;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -26,7 +31,7 @@ import butterknife.ButterKnife;
  * Created by Administrator on 2018/3/29.
  */
 
-public class RegisterActivity extends BaseActivity implements View.OnClickListener{
+public class RegisterActivity extends BaseActivity implements View.OnClickListener, LoginPresenter.TokenCallBack {
 
     @BindView(R.id.renwutj_tv)
     TextView renwutjTv;
@@ -51,20 +56,26 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
 
     @BindView(R.id.tv_ydty)
     TextView tv_ydty;
-
-    private boolean isyt;
+    @BindView(R.id.rl_title_bg)
+    RelativeLayout rlTitleBg;
+    @BindView(R.id.edt_phone)
+    EditText edtPhone;
+    @BindView(R.id.edt_code)
+    EditText edtCode;
+    @BindView(R.id.tv_hqyzm)
+    TextView tvHqyzm;
+    @BindView(R.id.edt_new_pass)
+    EditText edtNewPass;
+    @BindView(R.id.img_wj_yj)
+    ImageView imgWjYj;
     @BindView(R.id.cb_ty)
     CheckBox cb_ty;
 
     @BindView(R.id.tv_zc_wc)
     TextView tv_zc_wc;
-
-
-    private RegisterGRFragment registerGRFragment;
-    private RegisterQYFragment registerQYFragment;
-
-    private BaseFragment baseFragment;
-
+    private LoginPresenter presenter;
+    private boolean isyt;
+    String loginType="";
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -73,8 +84,10 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
         title_text.setText("注册");
         renwutjLl.setOnClickListener(this);
         tongchengLl.setOnClickListener(this);
+        tv_zc_wc.setOnClickListener(this);
         left_back.setOnClickListener(this);
         tv_ydty.setOnClickListener(this);
+        presenter = new LoginPresenter(this, this);
         initRenwutj();
     }
 
@@ -84,7 +97,7 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
         indicatorRenwutj.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
         tongchengTv.setTextColor(getResources().getColor(R.color.textColor));
         indicatorTongcheng.setBackgroundColor(getResources().getColor(R.color.concrete));
-        initRenwutjData();
+        tv_zc_wc.setText("完成");
     }
 
     //同城Tab
@@ -93,45 +106,9 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
         indicatorRenwutj.setBackgroundColor(getResources().getColor(R.color.concrete));
         tongchengTv.setTextColor(getResources().getColor(R.color.colorPrimary));
         indicatorTongcheng.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
-        initTongchengData();
-    }
-
-    private void initRenwutjData() {
-        if(registerGRFragment==null){
-            registerGRFragment = new RegisterGRFragment();
-        }
-        addFragments(registerGRFragment);
-        tv_zc_wc.setText("完成");
-    }
-
-    private void initTongchengData() {
-        if(registerQYFragment==null){
-            registerQYFragment = new RegisterQYFragment();
-        }
-        addFragments(registerQYFragment);
         tv_zc_wc.setText("下一步");
     }
-    private void addFragments(BaseFragment f) {
-        // 第一步：得到fragment管理类
-        FragmentManager manager = getSupportFragmentManager();
-        // 第二步：开启一个事务
-        FragmentTransaction transaction = manager.beginTransaction();
 
-        if (baseFragment != null) {
-            //每次把前一个fragment给隐藏了
-            transaction.hide(baseFragment);
-        }
-        //isAdded:判断当前的fragment对象是否被加载过
-        if (!f.isAdded()) {
-            // 第三步：调用添加fragment的方法 第一个参数：容器的id 第二个参数：要放置的fragment的一个实例对象
-            transaction.add(R.id.fl_content_zc, f);
-        }
-        //显示当前的fragment
-        transaction.show(f);
-        // 第四步：提交
-        transaction.commit();
-        baseFragment = f;
-    }
 
     @Override
     public void onClick(View view) {
@@ -144,19 +121,56 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
                 initTongcheng();
                 break;
             case R.id.left_back:
-
                 finish();
+                break;
+            case R.id.tv_zc_wc:
 
+                if (tv_zc_wc.getText().equals("完成")) { //个人
+                    loginType="0";
+                    RegisterNet(loginType);
+                } else if (tv_zc_wc.getText().equals("下一步")) {//企业
+                    loginType="1";
+                    RegisterNet(loginType);
+                }
                 break;
             case R.id.tv_ydty:
-                if(isyt){
+                if (isyt) {
                     cb_ty.setChecked(true);
-                }else{
+                } else {
                     cb_ty.setChecked(false);
                 }
-                isyt=!isyt;
+                isyt = !isyt;
                 break;
         }
 
+    }
+
+    private void RegisterNet(String loginType) {
+        if (TextUtils.isEmpty(edtPhone.getText().toString())){
+            Toast.makeText(mContext, "手机号不能为空", Toast.LENGTH_SHORT).show();
+            return;
+        }else if (TextUtils.isEmpty(edtCode.getText().toString())){
+            Toast.makeText(mContext, "短信验证码不正确", Toast.LENGTH_SHORT).show();
+            return;
+        }else if (TextUtils.isEmpty(edtNewPass.getText().toString())){
+            Toast.makeText(mContext, "密码不能为空", Toast.LENGTH_SHORT).show();
+            return;
+        }else {
+            String md5 = MyUtils.getMD5("code=" + edtCode.getText().toString() + "mobile=" + edtPhone.getText().toString() + "user_type="+loginType + "b83a7df9d7de4dcfb47e12f63b9b118a");
+            Log.d("RegisterActivityMD5", md5+"------");
+            presenter.getUserInfo(md5,"1234",edtPhone.getText().toString(),"0");
+        }
+    }
+
+    @Override
+    public void getTokenInfo(TokenInfo userInfo) {
+        if (loginType.equals("0")){
+            Toast.makeText(mContext, "注册成功", Toast.LENGTH_SHORT).show();
+            CacheUtils.put(CacheConstants.TYPE_LOGIN,userInfo.token);
+            startActivity(new Intent(mContext, MainActivity.class));
+        }else {
+            Toast.makeText(mContext, "企业注册成功", Toast.LENGTH_SHORT).show();
+        }
+        Log.d("RegisterActivityToken", userInfo.token+"--------");
     }
 }

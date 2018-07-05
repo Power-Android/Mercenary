@@ -13,7 +13,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:replace="android:icon, android:label,android:theme">
-        <activity android:name=".MainActivity">
+        <activity android:name=".activity.SignInActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -31,6 +31,9 @@
                 android:resource="@xml/file_paths" />
         </provider>
 
+        <activity
+            android:name=".MainActivity"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".activity.SetupActivity"
             android:screenOrientation="portrait" />
@@ -148,9 +151,9 @@
         <activity android:name=".activity.WorkPubActivity" />
         <activity android:name=".activity.PostDetailActivity" />
         <activity android:name=".activity.PubListActivity"/>
-        <activity android:name=".activity.SignInActivity"
-            android:launchMode="singleTask"/>
-        <activity android:name=".activity.TestActivity"/>
+        <!--<activity android:name=".activity.SignInActivity"-->
+            <!--android:launchMode="singleTask"/>-->
+        <!--<activity android:name=".activity.TestActivity"/>-->
     </application>
 
 </manifest>

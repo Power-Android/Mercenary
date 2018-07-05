@@ -22,7 +22,7 @@ import com.power.mercenary.activity.LocationActivity;
 import com.power.mercenary.activity.PostDetailActivity;
 import com.power.mercenary.activity.QTTaskDetailsActivity;
 import com.power.mercenary.activity.TaskListActivity;
-import com.power.mercenary.activity.TestActivity;
+//import com.power.mercenary.activity.TestActivity;
 import com.power.mercenary.activity.WorkPubActivity;
 import com.power.mercenary.base.BaseFragment;
 import com.power.mercenary.bean.NineGridTestModel;
@@ -375,7 +375,7 @@ public class HomeFragment extends BaseFragment {
                 startActivity(new Intent(mContext,LocationActivity.class));
                 break;
             case R.id.search_tv://搜索
-                startActivity(new Intent(mContext,TestActivity.class));
+//                startActivity(new Intent(mContext,TestActivity.class));
                 break;
             case R.id.renwutj_ll://任务推荐
                 initRenwutj();

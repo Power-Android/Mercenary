@@ -147,7 +147,7 @@ public class SignInActivity extends BaseActivity implements View.OnClickListener
                 break;
             case R.id.tv_dl_wc:
                 SpUtils.putBoolean(SignInActivity.this,"isLogin",true);
-//                startActivity(new Intent(this, MainActivity.class));
+                startActivity(new Intent(this, MainActivity.class));
                 finish();
                 break;
         }
