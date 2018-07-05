@@ -24,16 +24,16 @@ public class LoginPresenter {
         this.activity = activity;
         this.callBack = callBack;
     }
-
     /**
      * 用户注册
      */
-    public void getUserInfo(String signature,String code,String mobile,String userType){
+    public void getUserInfo(String signature,String code,String mobile,String userType,String pwd){
         new HttpManager<ResponseBean<TokenInfo>>("Home/User/register", this)
                 .addParams("signature",signature)
                 .addParams("code",code)
                 .addParams("user_type",userType)
                 .addParams("mobile",mobile)
+                .addParams("pwd",pwd)
                 .postRequest(new DialogCallback<ResponseBean<TokenInfo>>(activity) {
                     @Override
                     public void onSuccess(Response<ResponseBean<TokenInfo>> response) {
@@ -44,7 +44,44 @@ public class LoginPresenter {
                 });
     }
 
+    /**
+     * 密码登录
+     */
+    public void getPassLoginInfo(String signature,String mobile,String pwd){
+        new HttpManager<ResponseBean<TokenInfo>>("Home/User/loginbypwd", this)
+                .addParams("signature",signature)
+                .addParams("mobile",mobile)
+                .addParams("pwd",pwd)
+                .postRequest(new DialogCallback<ResponseBean<TokenInfo>>(activity) {
+                    @Override
+                    public void onSuccess(Response<ResponseBean<TokenInfo>> response) {
+                        if (response.body().data != null) {
+                            callBack.getPassLoginInfo(response.body().data);
+                        }
+                    }
+                });
+    }
+    /**
+     * 验证码登录
+     */
+    public void getCodeLoginInfo(String signature,String mobile,String code){
+        new HttpManager<ResponseBean<TokenInfo>>("Home/User/loginbycode", this)
+                .addParams("signature",signature)
+                .addParams("mobile",mobile)
+                .addParams("code",code)
+                .postRequest(new DialogCallback<ResponseBean<TokenInfo>>(activity) {
+                    @Override
+                    public void onSuccess(Response<ResponseBean<TokenInfo>> response) {
+                        if (response.body().data != null) {
+                            callBack.getCodeLoginInfo(response.body().data);
+                        }
+                    }
+                });
+    }
+
     public interface TokenCallBack {
         void getTokenInfo(TokenInfo userInfo);
+        void getCodeLoginInfo(TokenInfo userInfo);
+        void getPassLoginInfo(TokenInfo userInfo);
     }
 }

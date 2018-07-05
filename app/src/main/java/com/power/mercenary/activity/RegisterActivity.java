@@ -23,6 +23,7 @@ import com.power.mercenary.data.CacheConstants;
 import com.power.mercenary.presenter.LoginPresenter;
 import com.power.mercenary.utils.CacheUtils;
 import com.power.mercenary.utils.MyUtils;
+import com.power.mercenary.utils.Urls;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -144,7 +145,6 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
         }
 
     }
-
     private void RegisterNet(String loginType) {
         if (TextUtils.isEmpty(edtPhone.getText().toString())){
             Toast.makeText(mContext, "手机号不能为空", Toast.LENGTH_SHORT).show();
@@ -156,9 +156,9 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
             Toast.makeText(mContext, "密码不能为空", Toast.LENGTH_SHORT).show();
             return;
         }else {
-            String md5 = MyUtils.getMD5("code=" + edtCode.getText().toString() + "mobile=" + edtPhone.getText().toString() + "user_type="+loginType + "b83a7df9d7de4dcfb47e12f63b9b118a");
+            String md5 = MyUtils.getMD5("code=" + edtCode.getText().toString() + "mobile=" + edtPhone.getText().toString()+"pwd="+edtNewPass.getText().toString() + "user_type="+loginType + Urls.SECRET);
             Log.d("RegisterActivityMD5", md5+"------");
-            presenter.getUserInfo(md5,"1234",edtPhone.getText().toString(),"0");
+            presenter.getUserInfo(md5,"1234",edtPhone.getText().toString(),"0",edtNewPass.getText().toString());
         }
     }
 
@@ -167,11 +167,22 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
     public void getTokenInfo(TokenInfo userInfo) {
         if (loginType.equals("0")){
             Toast.makeText(mContext, "注册成功", Toast.LENGTH_SHORT).show();
-            CacheUtils.put(CacheConstants.TYPE_LOGIN,userInfo.token);
-            startActivity(new Intent(mContext, MainActivity.class));
+            finish();
         }else {
             Toast.makeText(mContext, "企业注册成功", Toast.LENGTH_SHORT).show();
+            finish();
         }
         Log.d("RegisterActivityToken", userInfo.token+"--------");
     }
+
+    @Override
+    public void getCodeLoginInfo(TokenInfo userInfo) {
+
+    }
+
+    @Override
+    public void getPassLoginInfo(TokenInfo userInfo) {
+
+    }
+
 }

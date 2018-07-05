@@ -3,29 +3,44 @@ package com.power.mercenary.activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
+import android.text.TextUtils;
+import android.text.method.HideReturnsTransformationMethod;
+import android.text.method.PasswordTransformationMethod;
+import android.util.Log;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.power.mercenary.MainActivity;
 import com.power.mercenary.R;
 import com.power.mercenary.base.BaseActivity;
-import com.power.mercenary.base.BaseFragment;
-import com.power.mercenary.fragment.SignInMMFragment;
-import com.power.mercenary.fragment.SignInYZMFragment;
+import com.power.mercenary.bean.user.TokenInfo;
+import com.power.mercenary.data.CacheConstants;
+import com.power.mercenary.presenter.LoginPresenter;
+import com.power.mercenary.utils.CacheUtils;
+import com.power.mercenary.utils.CountDownUtils;
+import com.power.mercenary.utils.MyUtils;
 import com.power.mercenary.utils.SpUtils;
+import com.power.mercenary.utils.Urls;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+
+import static com.power.mercenary.R.id.et_sign_mm;
+import static com.power.mercenary.R.id.iv_dl_yj;
+import static com.power.mercenary.R.id.tv_hqyzm;
+import static com.power.mercenary.R.id.tv_mm_wjmm;
+import static com.power.mercenary.R.id.tv_yzm_mm;
 
 /**
  * Created by Administrator on 2018/3/29.
  */
 
-public class SignInActivity extends BaseActivity implements View.OnClickListener {
+public class SignInActivity extends BaseActivity implements View.OnClickListener, LoginPresenter.TokenCallBack {
 
 
     @BindView(R.id.renwutj_tv)
@@ -45,10 +60,6 @@ public class SignInActivity extends BaseActivity implements View.OnClickListener
     @BindView(R.id.tv_dl_wc)
     TextView tvDlWc;
 
-    private BaseFragment baseFragment;
-
-    private SignInYZMFragment signInYZMFragment;
-    private SignInMMFragment signInMMFragment;
     @BindView(R.id.left_back)
     ImageView left_back;
 
@@ -57,6 +68,32 @@ public class SignInActivity extends BaseActivity implements View.OnClickListener
 
     @BindView(R.id.tv_cjzh)
     TextView tv_cjzh;
+    @BindView(R.id.rl_title_bg)
+    RelativeLayout rlTitleBg;
+    @BindView(R.id.pass_login)
+    LinearLayout passLogin;
+    @BindView(R.id.code_login)
+    LinearLayout codeLogin;
+    @BindView(R.id.et_sign_mm)
+    EditText etSignMm;
+    @BindView(R.id.iv_dl_yj)
+    ImageView ivDlYj;
+    @BindView(R.id.tv_mm_wjmm)
+    TextView tvMmWjmm;
+    @BindView(R.id.edt_phone)
+    EditText edtPhone;
+    @BindView(R.id.edt_code)
+    EditText edtCode;
+    @BindView(R.id.tv_hqyzm)
+    TextView tvHqyzm;
+    @BindView(R.id.tv_yzm_mm)
+    TextView tvYzmMm;
+    @BindView(R.id.edt_pass_phone)
+    EditText edtPassPhone;
+    private boolean isVisible;
+    private CountDownUtils countDownUtils;
+    private String Tag = "";
+    private LoginPresenter presenter;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -69,64 +106,68 @@ public class SignInActivity extends BaseActivity implements View.OnClickListener
         left_back.setOnClickListener(this);
         tv_cjzh.setOnClickListener(this);
         tvDlWc.setOnClickListener(this);
+        presenter = new LoginPresenter(this, this);
         initRenwutj();
+        ivDlYj.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (isVisible) {
+                    etSignMm.setTransformationMethod(PasswordTransformationMethod.getInstance());
+                    ivDlYj.setImageResource(R.drawable.by_2x);
+                } else {//明文
+                    etSignMm.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
+                    ivDlYj.setImageResource(R.drawable.yj_2x);
+                }
+                isVisible = !isVisible;
+            }
+        });
 
+        tvMmWjmm.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(mContext, ForgetPasswordActivity.class);
+                startActivity(intent);
+
+            }
+        });
+        countDownUtils = new CountDownUtils(1000 * 60, 1000, tvHqyzm);
+        tvHqyzm.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                countDownUtils.start();
+            }
+        });
+        tvYzmMm.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(mContext, ForgetPasswordActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 
     //任务推荐Tab
     private void initRenwutj() {
+        codeLogin.setVisibility(View.VISIBLE);
+        passLogin.setVisibility(View.GONE);
+        Tag = "code_login";
         renwutjTv.setTextColor(getResources().getColor(R.color.colorPrimary));
         indicatorRenwutj.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
         tongchengTv.setTextColor(getResources().getColor(R.color.textColor));
         indicatorTongcheng.setBackgroundColor(getResources().getColor(R.color.concrete));
-        initRenwutjData();
     }
 
     //同城Tab
     private void initTongcheng() {
+        codeLogin.setVisibility(View.GONE);
+        passLogin.setVisibility(View.VISIBLE);
+        Tag = "pass_login";
         renwutjTv.setTextColor(getResources().getColor(R.color.textColor));
         indicatorRenwutj.setBackgroundColor(getResources().getColor(R.color.concrete));
         tongchengTv.setTextColor(getResources().getColor(R.color.colorPrimary));
         indicatorTongcheng.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
-        initTongchengData();
     }
 
-    private void initRenwutjData() {
-        if (signInYZMFragment == null) {
-            signInYZMFragment = new SignInYZMFragment();
-        }
-        addFragments(signInYZMFragment);
-    }
-
-    private void initTongchengData() {
-        if (signInMMFragment == null) {
-            signInMMFragment = new SignInMMFragment();
-        }
-        addFragments(signInMMFragment);
-    }
-
-
-    private void addFragments(BaseFragment f) {
-        // 第一步：得到fragment管理类
-        FragmentManager manager = getSupportFragmentManager();
-        // 第二步：开启一个事务
-        FragmentTransaction transaction = manager.beginTransaction();
-
-        if (baseFragment != null) {
-            //每次把前一个fragment给隐藏了
-            transaction.hide(baseFragment);
-        }
-        //isAdded:判断当前的fragment对象是否被加载过
-        if (!f.isAdded()) {
-            // 第三步：调用添加fragment的方法 第一个参数：容器的id 第二个参数：要放置的fragment的一个实例对象
-            transaction.add(R.id.fl_content_dl, f);
-        }
-        //显示当前的fragment
-        transaction.show(f);
-        // 第四步：提交
-        transaction.commit();
-        baseFragment = f;
-    }
 
     @Override
     public void onClick(View view) {
@@ -146,11 +187,58 @@ public class SignInActivity extends BaseActivity implements View.OnClickListener
                 startActivity(intent);
                 break;
             case R.id.tv_dl_wc:
-                SpUtils.putBoolean(SignInActivity.this,"isLogin",true);
-                startActivity(new Intent(this, MainActivity.class));
-                finish();
+                if (Tag.equals("code_login")) {//验证码登录
+                    if (TextUtils.isEmpty(edtPhone.getText().toString())) {
+                        Toast.makeText(mContext, "手机号不能为空", Toast.LENGTH_SHORT).show();
+                        return;
+                    } else if (TextUtils.isEmpty(edtCode.getText().toString())) {
+                        Toast.makeText(mContext, "短信验证码不正确", Toast.LENGTH_SHORT).show();
+                        return;
+                    } else {
+                        String md5 = MyUtils.getMD5("code=" + edtCode.getText().toString() + "mobile=" + edtPhone.getText().toString() + Urls.SECRET);
+                        presenter.getCodeLoginInfo(md5, edtPhone.getText().toString(), edtCode.getText().toString());
+                        Log.d("验证码登录", md5 + "------");
+                    }
+                } else if (Tag.equals("pass_login")) {//密码登录
+                    if (TextUtils.isEmpty(edtPassPhone.getText().toString())) {
+                        Toast.makeText(mContext, "手机号不能为空", Toast.LENGTH_SHORT).show();
+                        return;
+                    } else if (TextUtils.isEmpty(etSignMm.getText().toString())) {
+                        Toast.makeText(mContext, "请输入密码", Toast.LENGTH_SHORT).show();
+                        return;
+                    } else {
+                        String md5 = MyUtils.getMD5("mobile=" + edtPassPhone.getText().toString() +"pwd=" + etSignMm.getText().toString() +  Urls.SECRET);
+                        presenter.getPassLoginInfo(md5, edtPassPhone.getText().toString(), etSignMm.getText().toString());
+                        Log.d("密码登录", md5 + "------");
+                    }
+                }
+
+
                 break;
         }
 
     }
+
+
+    @Override
+    public void getTokenInfo(TokenInfo userInfo) {
+
+    }
+
+    @Override
+    public void getCodeLoginInfo(TokenInfo userInfo) {
+        startActivity(new Intent(this, MainActivity.class));
+        CacheUtils.put(CacheConstants.TYPE_LOGIN,userInfo.token);
+        finish();
+        Toast.makeText(this, "验证码登录成功", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void getPassLoginInfo(TokenInfo userInfo) {
+        startActivity(new Intent(this, MainActivity.class));
+        CacheUtils.put(CacheConstants.TYPE_LOGIN,userInfo.token);
+        finish();
+        Toast.makeText(this, "密码登录成功", Toast.LENGTH_SHORT).show();
+    }
+
 }
