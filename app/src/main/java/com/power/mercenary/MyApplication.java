@@ -145,5 +145,9 @@ public class MyApplication extends Application {
         }
         return false;
     }
+
+    public static String getUserToken(){
+        return "";
+    }
 }
 
