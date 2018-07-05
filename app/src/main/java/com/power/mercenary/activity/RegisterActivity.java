@@ -162,6 +162,7 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
         }
     }
 
+
     @Override
     public void getTokenInfo(TokenInfo userInfo) {
         if (loginType.equals("0")){
