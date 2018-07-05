@@ -7,6 +7,7 @@ import com.lzy.okgo.callback.AbsCallback;
 import com.lzy.okgo.request.base.Request;
 import com.power.mercenary.MyApplication;
 import com.power.mercenary.activity.RegisterActivity;
+import com.power.mercenary.utils.TUtils;
 
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
@@ -85,6 +86,9 @@ public abstract class JsonCallback<T> extends AbsCallback<T> {
                     Intent intent = new Intent(MyApplication.getGloableContext(), RegisterActivity.class);
                     intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     MyApplication.getGloableContext().startActivity(intent);
+                    break;
+                case 3:
+                    TUtils.showCustom(MyApplication.getGloableContext(), "该用户已经注册过了");
                     break;
             }
 
