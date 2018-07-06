@@ -4,6 +4,7 @@ import android.app.Application;
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.text.TextUtils;
 
 import com.lzy.okgo.OkGo;
 import com.lzy.okgo.cache.CacheEntity;
@@ -20,6 +21,8 @@ import com.orhanobut.logger.AndroidLogAdapter;
 import com.orhanobut.logger.FormatStrategy;
 import com.orhanobut.logger.Logger;
 import com.orhanobut.logger.PrettyFormatStrategy;
+import com.power.mercenary.bean.user.TokenInfo;
+import com.power.mercenary.data.CacheConstants;
 import com.power.mercenary.utils.CacheUtils;
 
 import java.util.concurrent.TimeUnit;
@@ -147,15 +150,27 @@ public class MyApplication extends Application {
     }
 
     public static String getUserToken(){
+        TokenInfo tokenInfo = CacheUtils.get(CacheConstants.TYPE_LOGIN);
+        if (tokenInfo != null) {
+            if (!TextUtils.isEmpty(tokenInfo.token)) {
+                return tokenInfo.token;
+            }
+        }
         return "";
     }
 
     public static boolean isLogin(){
+        TokenInfo tokenInfo = CacheUtils.get(CacheConstants.TYPE_LOGIN);
+        if (tokenInfo != null) {
+            if (!TextUtils.isEmpty(tokenInfo.token)) {
+                return true;
+            }
+        }
         return false;
     }
 
-    public static void LoginOut(){
-
+    public static void loginOut(){
+        CacheUtils.removeAll();
     }
 }
 

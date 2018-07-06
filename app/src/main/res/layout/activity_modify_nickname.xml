@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              android:background="@color/bg_color"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bg_color"
     android:orientation="vertical">
 
 
@@ -22,7 +22,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="修改昵称"
+            android:text="填写姓名"
             android:textColor="#fff"
             android:textSize="16sp"
             android:layout_centerInParent="true"/>
@@ -38,7 +38,6 @@
             android:layout_alignParentRight="true"/>
     </RelativeLayout>
 
-
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -51,7 +50,7 @@
             android:id="@+id/et_xg_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="请输入昵称"
+            android:hint="请输入姓名"
             android:inputType="number"
             android:maxLength="20"
             android:textSize="14sp"
@@ -63,7 +62,7 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="4-20个字符，可由中英文、数字组成"
+        android:text="为了不影响提现，请填写真实姓名"
         android:layout_margin="10dp"
         android:textSize="12sp"/>
 

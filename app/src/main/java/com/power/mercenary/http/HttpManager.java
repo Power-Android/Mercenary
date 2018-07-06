@@ -83,6 +83,15 @@ public class HttpManager<T>  {
         return this;
     }
 
+    public HttpManager<T> postTestRequest(JsonCallback<T> callback) {
+        Log.d("======>>", "http method post");
+        OkGo.<T>post(url)
+                .tag(tag)
+                .params(params)
+                .execute(callback);
+        return this;
+    }
+
     public HttpManager<T> addParams(String paramsKey, String paramsValue){
         params.put(paramsKey, paramsValue);
         return this;

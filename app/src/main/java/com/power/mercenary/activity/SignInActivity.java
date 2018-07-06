@@ -228,7 +228,7 @@ public class SignInActivity extends BaseActivity implements View.OnClickListener
     @Override
     public void getCodeLoginInfo(TokenInfo userInfo) {
         startActivity(new Intent(this, MainActivity.class));
-        CacheUtils.put(CacheConstants.TYPE_LOGIN,userInfo.token);
+        CacheUtils.put(CacheConstants.TYPE_LOGIN,userInfo);
         finish();
         Toast.makeText(this, "验证码登录成功", Toast.LENGTH_SHORT).show();
     }
@@ -236,7 +236,7 @@ public class SignInActivity extends BaseActivity implements View.OnClickListener
     @Override
     public void getPassLoginInfo(TokenInfo userInfo) {
         startActivity(new Intent(this, MainActivity.class));
-        CacheUtils.put(CacheConstants.TYPE_LOGIN,userInfo.token);
+        CacheUtils.put(CacheConstants.TYPE_LOGIN,userInfo);
         finish();
         Toast.makeText(this, "密码登录成功", Toast.LENGTH_SHORT).show();
     }

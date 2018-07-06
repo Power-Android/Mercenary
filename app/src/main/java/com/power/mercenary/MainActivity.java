@@ -153,6 +153,11 @@ public class MainActivity extends BaseActivity implements BaseQuickAdapter.OnIte
                 tvMine.setTextColor(getResources().getColor(R.color.textcolor_tab));
                 break;
             case R.id.ll_issue:
+                if (!MyApplication.isLogin()){
+                    startActivity(new Intent(this, SignInActivity.class));
+                    return;
+                }
+
                 list = new ArrayList<>();
                 list.add("跑腿");
                 list.add("生活");
@@ -163,7 +168,7 @@ public class MainActivity extends BaseActivity implements BaseQuickAdapter.OnIte
                 showIssueDialog();
                 break;
             case R.id.ll_message:
-                if (!SpUtils.getBoolean(this,"isLogin",false)){
+                if (!MyApplication.isLogin()){
                     startActivity(new Intent(this, SignInActivity.class));
                     return;
                 }
@@ -183,7 +188,7 @@ public class MainActivity extends BaseActivity implements BaseQuickAdapter.OnIte
                 tvMine.setTextColor(getResources().getColor(R.color.textcolor_tab));
                 break;
             case R.id.ll_mine:
-                if (!SpUtils.getBoolean(this,"isLogin",false)){
+                if (!MyApplication.isLogin()){
                     startActivity(new Intent(this, SignInActivity.class));
                     return;
                 }

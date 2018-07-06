@@ -25,7 +25,7 @@ public class UserPresenter {
     /**
      * 获取用户信息
      */
-    public void getUserInfo(){
+    public void getUserInfo() {
         new HttpManager<ResponseBean<UserInfo>>("Home/UserCenter/getinfo", this)
                 .addParams("token", MyApplication.getUserToken())
                 .postRequest(new DialogCallback<ResponseBean<UserInfo>>(activity) {

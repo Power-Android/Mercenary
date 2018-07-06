@@ -2,13 +2,16 @@ package com.power.mercenary.fragment;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.power.mercenary.R;
 import com.power.mercenary.activity.MyAchievementActivity;
 import com.power.mercenary.activity.MyCollection;
@@ -20,6 +23,16 @@ import com.power.mercenary.activity.ReleaseTaskActivity;
 import com.power.mercenary.activity.SetupActivity;
 import com.power.mercenary.activity.TaskStatisticsActivity;
 import com.power.mercenary.base.BaseFragment;
+import com.power.mercenary.bean.user.UserInfo;
+import com.power.mercenary.data.CacheConstants;
+import com.power.mercenary.data.EventConstants;
+import com.power.mercenary.event.EventUtils;
+import com.power.mercenary.presenter.UserPresenter;
+import com.power.mercenary.utils.CacheUtils;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -30,7 +43,7 @@ import butterknife.Unbinder;
  * Created by power on 2018/3/21.
  */
 
-public class MineFragment extends BaseFragment {
+public class MineFragment extends BaseFragment implements UserPresenter.UserCallBack {
 
 
     @BindView(R.id.tv_sz)
@@ -68,11 +81,23 @@ public class MineFragment extends BaseFragment {
     @BindView(R.id.ll_dpj)
     LinearLayout ll_dpj;
 
+    private UserPresenter userPresenter;
+
+    private ImageView icon;
+    private TextView name;
+
     @Override
     protected View initView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_mine, null);
 
         ButterKnife.bind(this, view);
+
+        icon = view.findViewById(R.id.frag_mine_icon);
+        name = view.findViewById(R.id.frag_mine_name);
+
+        userPresenter = new UserPresenter(getActivity(), this);
+        userPresenter.getUserInfo();
+
         tvSz.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -128,7 +153,6 @@ public class MineFragment extends BaseFragment {
                 startActivity(intent);
 
 
-
             }
         });
         tv_jsrw.setOnClickListener(new View.OnClickListener() {
@@ -136,7 +160,7 @@ public class MineFragment extends BaseFragment {
             public void onClick(View view) {
 
                 Intent intent = new Intent(getActivity(), TaskStatisticsActivity.class);
-                intent.putExtra("title","接收任务统计");
+                intent.putExtra("title", "接收任务统计");
                 startActivity(intent);
 
             }
@@ -145,7 +169,7 @@ public class MineFragment extends BaseFragment {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(getActivity(), TaskStatisticsActivity.class);
-                intent.putExtra("title","发布任务统计");
+                intent.putExtra("title", "发布任务统计");
                 startActivity(intent);
             }
         });
@@ -189,13 +213,13 @@ public class MineFragment extends BaseFragment {
             }
         });
 
+        EventBus.getDefault().register(this);
+
         return view;
     }
 
     @Override
     protected void initLazyData() {
-
-
 
     }
 
@@ -203,5 +227,30 @@ public class MineFragment extends BaseFragment {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
+        EventBus.getDefault().unregister(this);
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onRecevierEvent(EventUtils event) {
+        switch (event.getType()) {
+            case EventConstants.TYPE_USERINFO:
+                //刷新用户信息
+                userPresenter.getUserInfo();
+                break;
+        }
+    }
+
+    @Override
+    public void getUserInfo(UserInfo userInfo) {
+        CacheUtils.put(CacheConstants.USERINFO, userInfo);
+        if (!TextUtils.isEmpty(userInfo.getHead_img())) {
+            Glide.with(mContext)
+                    .load(userInfo.getHead_img())
+                    .into(icon);
+        }
+
+        if (!TextUtils.isEmpty(userInfo.getNick_name())) {
+            name.setText(userInfo.getNick_name());
+        }
     }
 }

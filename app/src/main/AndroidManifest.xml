@@ -62,6 +62,9 @@
             android:name=".activity.ModifyNameActivity"
             android:screenOrientation="portrait" />
         <activity
+            android:name=".activity.ModifyNicknameActivity"
+            android:screenOrientation="portrait" />
+        <activity
             android:name=".activity.MyFollowActivity"
             android:screenOrientation="portrait" />
         <activity

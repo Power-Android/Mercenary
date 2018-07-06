@@ -2,10 +2,12 @@ package com.power.mercenary.activity;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
@@ -16,6 +18,8 @@ import com.bigkoo.pickerview.OptionsPickerView;
 import com.bigkoo.pickerview.listener.CustomListener;
 import com.power.mercenary.R;
 import com.power.mercenary.base.BaseActivity;
+import com.power.mercenary.presenter.FeedBackPresenter;
+import com.power.mercenary.utils.TUtils;
 import com.power.mercenary.view.FKTypePop;
 
 import java.util.ArrayList;
@@ -28,7 +32,7 @@ import butterknife.ButterKnife;
  * Created by Administrator on 2018/3/23.
  */
 
-public class ProblemFeedbackActivity extends BaseActivity {
+public class ProblemFeedbackActivity extends BaseActivity implements FeedBackPresenter.FeedBackCallBack {
 
     @BindView(R.id.left_back)
     ImageView left_back;
@@ -41,14 +45,24 @@ public class ProblemFeedbackActivity extends BaseActivity {
 
     @BindView(R.id.fk_tv)
     TextView fkTv;
+    @BindView(R.id.act_feedBack_content)
+    EditText etContent;
+    @BindView(R.id.act_feedBack_name)
+    EditText etName;
+    @BindView(R.id.act_feedBack_phone)
+    EditText etPhone;
 
     private OptionsPickerView pvCustomOptions;
+
+    private FeedBackPresenter presenter;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_problem_feedback);
         ButterKnife.bind(this);
+
+        presenter = new FeedBackPresenter(this, this);
 
         title_text.setText("问题反馈");
 
@@ -76,6 +90,20 @@ public class ProblemFeedbackActivity extends BaseActivity {
             }
         });
 
+        findViewById(R.id.tv_wtfk_tcdl).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (TextUtils.isEmpty(etContent.getText().toString())) {
+                    TUtils.showCustom(ProblemFeedbackActivity.this, "请填写您的问题");
+                } else if (TextUtils.isEmpty(etName.getText().toString())) {
+                    TUtils.showCustom(ProblemFeedbackActivity.this, "请输入姓名");
+                } else if (TextUtils.isEmpty(etPhone.getText().toString())) {
+                    TUtils.showCustom(ProblemFeedbackActivity.this, "请输入手机号/邮箱/QQ");
+                } else {
+                    presenter.requestFeedBack(fkTv.getText().toString(), etContent.getText().toString(), etName.getText().toString(), etPhone.getText().toString());
+                }
+            }
+        });
     }
 
     private void initCustomOptionPicker(final List<String> data){
@@ -121,4 +149,8 @@ public class ProblemFeedbackActivity extends BaseActivity {
     }
 
 
+    @Override
+    public void requestFeedBack() {
+        finish();
+    }
 }

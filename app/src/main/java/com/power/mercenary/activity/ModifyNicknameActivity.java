@@ -24,45 +24,45 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 /**
- * Created by Administrator on 2018/3/23.
+ * admin  2018/7/5 wan
  */
+public class ModifyNicknameActivity extends BaseActivity {
 
-public class ModifyNameActivity extends BaseActivity {
 
     @BindView(R.id.left_back)
-    ImageView left_back;
+    ImageView back;
     @BindView(R.id.rigth_text)
-    TextView rigthText;
+    TextView save;
     @BindView(R.id.et_xg_name)
-    EditText etXgName;
+    EditText etName;
 
     private UserInfo userInfo;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_modify_name);
+        setContentView(R.layout.activity_modify_nickname);
+
         ButterKnife.bind(this);
 
         userInfo = CacheUtils.get(CacheConstants.USERINFO);
-
-        left_back.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                finish();
-
-            }
-        });
     }
 
-    @OnClick(R.id.rigth_text)
-    public void onViewClicked() {
-        if (!TextUtils.isEmpty(etXgName.getText().toString())) {
-            userInfo.setNick_name(etXgName.getText().toString());
-            EventBus.getDefault().post(new EventUtils(EventConstants.TYPE_SETT_REFRESH));
-            finish();
-        } else {
-            TUtils.showCustom(ModifyNameActivity.this, "请输入昵称");
+    @OnClick({R.id.left_back, R.id.rigth_text})
+    public void onViewClicked(View view) {
+        switch (view.getId()) {
+            case R.id.left_back:
+                finish();
+                break;
+            case R.id.rigth_text:
+                if (!TextUtils.isEmpty(etName.getText().toString())) {
+                    userInfo.setName(etName.getText().toString());
+                    EventBus.getDefault().post(new EventUtils(EventConstants.TYPE_SETT_REFRESH));
+                    finish();
+                } else {
+                    TUtils.showCustom(ModifyNicknameActivity.this, "请输入姓名");
+                }
+                break;
         }
     }
 }
