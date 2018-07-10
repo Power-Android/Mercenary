@@ -9,7 +9,7 @@ import com.power.mercenary.utils.Urls;
 import java.io.File;
 import java.util.List;
 
-public class HttpManager<T>  {
+public class HttpManager<T> {
 
     private HttpParams params;
 
@@ -24,7 +24,8 @@ public class HttpManager<T>  {
     }
 
     /**
-     *  get
+     * get
+     *
      * @param callback
      * @return
      */
@@ -38,7 +39,8 @@ public class HttpManager<T>  {
     }
 
     /**
-     *  post
+     * post
+     *
      * @param callback
      * @return
      */
@@ -52,7 +54,8 @@ public class HttpManager<T>  {
     }
 
     /**
-     *  上传多个文件
+     * 上传多个文件
+     *
      * @param paramsKey
      * @param paramsValue
      * @param callback
@@ -69,7 +72,8 @@ public class HttpManager<T>  {
     }
 
     /**
-     *  上传单个文件
+     * 上传单个文件
+     *
      * @param callback
      * @return
      */
@@ -92,23 +96,28 @@ public class HttpManager<T>  {
         return this;
     }
 
-    public HttpManager<T> addParams(String paramsKey, String paramsValue){
+    public HttpManager<T> addParams(String paramsKey, String paramsValue) {
         params.put(paramsKey, paramsValue);
         return this;
     }
 
-    public HttpManager<T> addParams(String paramsKey, int paramsValue){
+    public HttpManager<T> addParams(String paramsKey, int paramsValue) {
         params.put(paramsKey, paramsValue);
         return this;
     }
 
-    public HttpManager<T> addParams(String paramsKey, long paramsValue){
+    public HttpManager<T> addParams(String paramsKey, long paramsValue) {
         params.put(paramsKey, paramsValue);
         return this;
     }
 
-    public HttpManager<T> addParams(String paramsKey, File paramsValue){
+    public HttpManager<T> addParams(String paramsKey, File paramsValue) {
         params.put(paramsKey, paramsValue);
+        return this;
+    }
+
+    public HttpManager<T> addParams(String paramsKey, List<String> paramsValue) {
+        params.putUrlParams(paramsKey, paramsValue);
         return this;
     }
 }

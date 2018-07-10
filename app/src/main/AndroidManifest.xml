@@ -156,7 +156,7 @@
         <activity android:name=".activity.PubListActivity"/>
         <!--<activity android:name=".activity.SignInActivity"-->
             <!--android:launchMode="singleTask"/>-->
-        <!--<activity android:name=".activity.TestActivity"/>-->
+        <activity android:name=".activity.TestActivity"/>
     </application>
 
 </manifest>

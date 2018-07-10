@@ -17,6 +17,7 @@ import com.power.mercenary.bean.user.TokenInfo;
 import com.power.mercenary.data.CacheConstants;
 import com.power.mercenary.presenter.AccountPresenter;
 import com.power.mercenary.utils.CacheUtils;
+import com.power.mercenary.utils.TUtils;
 
 import org.w3c.dom.Text;
 
@@ -84,11 +85,11 @@ public class ModifyPasswordActivity extends BaseActivity implements AccountPrese
             @Override
             public void onClick(View v) {
                 if (TextUtils.isEmpty(phone.getText().toString())) {
-
+                    TUtils.showCustom(ModifyPasswordActivity.this, "请输入手机号");
                 } else if (TextUtils.isEmpty(code.getText().toString())) {
-
+                    TUtils.showCustom(ModifyPasswordActivity.this, "请输入验证码");
                 } else if (TextUtils.isEmpty(et_xg_mm.getText().toString())) {
-
+                    TUtils.showCustom(ModifyPasswordActivity.this, "请输入密码");
                 } else {
                     presenter.changePassword(phone.getText().toString(), et_xg_mm.getText().toString(), code.getText().toString());
                 }
@@ -98,8 +99,8 @@ public class ModifyPasswordActivity extends BaseActivity implements AccountPrese
 
     @Override
     public void changePassword(TokenInfo tokenInfo) {
-//        CacheUtils.put(CacheConstants.TYPE_LOGIN, tokenInfo);
-//        finish();
+        CacheUtils.put(CacheConstants.TYPE_LOGIN, tokenInfo);
+        finish();
     }
 
     @Override

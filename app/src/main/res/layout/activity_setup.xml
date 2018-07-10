@@ -99,7 +99,6 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_centerVertical="true"
-                            android:text="昵称"
                             android:textSize="12sp" />
 
                         <ImageView
@@ -144,7 +143,6 @@
                             android:id="@+id/act_setUp_name_tv"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="李青"
                             android:textSize="12sp" />
 
                         <ImageView
@@ -234,7 +232,6 @@
                             android:id="@+id/act_setUp_age_tv"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="23"
                             android:textSize="12sp" />
 
                         <ImageView
@@ -267,6 +264,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
                     android:src="@drawable/right_fh" />
             </RelativeLayout>
 
@@ -358,6 +356,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
                         android:src="@drawable/right_fh" />
 
                 </RelativeLayout>
@@ -384,6 +383,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
                         android:src="@drawable/right_fh" />
 
                 </RelativeLayout>
@@ -415,6 +415,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
                         android:src="@drawable/right_fh" />
 
                 </RelativeLayout>
@@ -441,6 +442,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
                         android:src="@drawable/right_fh" />
 
                 </RelativeLayout>
