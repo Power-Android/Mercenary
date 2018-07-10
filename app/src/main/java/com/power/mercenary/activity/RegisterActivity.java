@@ -1,8 +1,6 @@
 package com.power.mercenary.activity;
 
-import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.MainThread;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
 import android.util.Log;
@@ -15,13 +13,10 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.power.mercenary.MainActivity;
 import com.power.mercenary.R;
 import com.power.mercenary.base.BaseActivity;
 import com.power.mercenary.bean.user.TokenInfo;
-import com.power.mercenary.data.CacheConstants;
 import com.power.mercenary.presenter.LoginPresenter;
-import com.power.mercenary.utils.CacheUtils;
 import com.power.mercenary.utils.MyUtils;
 import com.power.mercenary.utils.Urls;
 
@@ -182,6 +177,11 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
 
     @Override
     public void getPassLoginInfo(TokenInfo userInfo) {
+
+    }
+
+    @Override
+    public void getForgetPassInfo(TokenInfo userInfo) {
 
     }
 

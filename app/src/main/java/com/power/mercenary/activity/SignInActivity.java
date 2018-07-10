@@ -241,4 +241,9 @@ public class SignInActivity extends BaseActivity implements View.OnClickListener
         Toast.makeText(this, "密码登录成功", Toast.LENGTH_SHORT).show();
     }
 
+    @Override
+    public void getForgetPassInfo(TokenInfo userInfo) {
+
+    }
+
 }
