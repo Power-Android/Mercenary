@@ -25,12 +25,18 @@ import com.power.mercenary.activity.PubShenghuoActivity;
 import com.power.mercenary.activity.SignInActivity;
 import com.power.mercenary.base.BaseActivity;
 import com.power.mercenary.base.BaseFragment;
+import com.power.mercenary.data.EventConstants;
+import com.power.mercenary.event.EventUtils;
 import com.power.mercenary.fragment.HomeFragment;
 import com.power.mercenary.fragment.MessageFragment;
 import com.power.mercenary.fragment.MineFragment;
 import com.power.mercenary.fragment.PubFragment;
 import com.power.mercenary.utils.SpUtils;
 import com.power.mercenary.view.BaseDialog;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -93,6 +99,8 @@ public class MainActivity extends BaseActivity implements BaseQuickAdapter.OnIte
         ButterKnife.bind(this);
         homeFragment = new HomeFragment();
         addFragments(homeFragment);
+
+        EventBus.getDefault().register(this);
     }
 
     private void addFragments(BaseFragment f) {
@@ -358,5 +366,33 @@ public class MainActivity extends BaseActivity implements BaseQuickAdapter.OnIte
             helper.setText(R.id.item_type_tv,item)
                     .addOnClickListener(R.id.item_type_tv);
         }
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onRecevierEvent(EventUtils event) {
+        switch (event.getType()) {
+            case EventConstants.JUPMP_TO_MAIN:
+                if (homeFragment == null){
+                    homeFragment = new HomeFragment();
+                }
+                addFragments(homeFragment);
+                ivHome.setImageResource(R.drawable.home_true);
+                ivPub.setImageResource(R.drawable.pub_false);
+                ivIssue.setImageResource(R.drawable.issue_bg);
+                ivMessage.setImageResource(R.drawable.message_false);
+                ivMine.setImageResource(R.drawable.mine_false);
+                tvHome.setTextColor(getResources().getColor(R.color.colorPrimary));
+                tvPub.setTextColor(getResources().getColor(R.color.textcolor_tab));
+                tvIssue.setTextColor(getResources().getColor(R.color.textcolor_tab));
+                tvMessage.setTextColor(getResources().getColor(R.color.textcolor_tab));
+                tvMine.setTextColor(getResources().getColor(R.color.textcolor_tab));
+                break;
+        }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
     }
 }

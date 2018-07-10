@@ -7,7 +7,12 @@ import com.lzy.okgo.callback.AbsCallback;
 import com.lzy.okgo.request.base.Request;
 import com.power.mercenary.MyApplication;
 import com.power.mercenary.activity.RegisterActivity;
+import com.power.mercenary.activity.SignInActivity;
+import com.power.mercenary.data.EventConstants;
+import com.power.mercenary.event.EventUtils;
 import com.power.mercenary.utils.TUtils;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
@@ -83,9 +88,11 @@ public abstract class JsonCallback<T> extends AbsCallback<T> {
 
             switch (((HttpException) response.getException()).getErrorBean().code) {
                 case 10010:
-                    Intent intent = new Intent(MyApplication.getGloableContext(), RegisterActivity.class);
+                    Intent intent = new Intent(MyApplication.getGloableContext(), SignInActivity.class);
                     intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     MyApplication.getGloableContext().startActivity(intent);
+                    MyApplication.loginOut();
+                    EventBus.getDefault().post(new EventUtils(EventConstants.JUPMP_TO_MAIN));
                     break;
                 case 1:
                 case 2:

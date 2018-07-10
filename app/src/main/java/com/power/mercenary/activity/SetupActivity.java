@@ -306,17 +306,11 @@ public class SetupActivity extends BaseActivity implements View.OnClickListener,
     @Override
     public void finish() {
         super.finish();
-        if (!TextUtils.equals(userInfo.getNick_name(), tvNickname.getText().toString()) ||
-                !TextUtils.equals(userInfo.getName(), tvName.getText().toString()) ||
-                !TextUtils.equals(userInfo.getAge(), tvAge.getText().toString()) ||
-                !TextUtils.equals(userInfo.getSex(), sex + "")) {
-
-            presenter.updataUserInfo(tvNickname.getText().toString(),
-                    tvName.getText().toString(),
-                    tvAge.getText().toString(),
-                    sex,
-                    userInfo.getMail());
-        }
+        presenter.updataUserInfo(tvNickname.getText().toString(),
+                tvName.getText().toString(),
+                tvAge.getText().toString(),
+                sex,
+                userInfo.getMail());
     }
 
     private PopupWindow.OnDismissListener onDismissListener = new PopupWindow.OnDismissListener() {
