@@ -3,9 +3,11 @@ package com.power.mercenary.presenter;
 import android.app.Activity;
 
 import com.lzy.okgo.model.Response;
+import com.power.mercenary.data.CacheConstants;
 import com.power.mercenary.http.DialogCallback;
 import com.power.mercenary.http.HttpManager;
 import com.power.mercenary.http.ResponseBean;
+import com.power.mercenary.utils.CacheUtils;
 
 import java.util.List;
 
@@ -43,11 +45,12 @@ public class PubTaskPresenter {
      * @param end_address      目的地址
      * @param other_request    其它要求
      */
-    public void publishTask(int task_type, String task_type_child, String task_name, List<String> task_tag, List<String> task_img, int pay_amount,
-                            int validity_time, String task_description, String task_purpose, String task_request, String itemname,
-                            int numbers, String transport, int delivery_time, String begin_address, String end_address, String other_request) {
+    public void publishTask(String task_type, String task_type_child, String task_name, String task_tag, String task_img, String pay_amount,
+                            String validity_time, String task_description, String task_purpose, String task_request, String itemname,
+                            String numbers, String transport, String delivery_time, String begin_address, String end_address, String other_request) {
 
         new HttpManager<ResponseBean>("Home/Task/addtask", this)
+                .addParams("token", CacheUtils.get(CacheConstants.TYPE_LOGIN)+"")
                 .addParams("task_type", task_type)
                 .addParams("task_type_child", task_type_child)
                 .addParams("task_name", task_name)
@@ -73,7 +76,18 @@ public class PubTaskPresenter {
                 });
     }
 
+    public void test( List<String> task_tag) {
+        new HttpManager<ResponseBean>("Home/Test/test", this)
+                .addParams("task_tag", task_tag)
+                .postRequest(new DialogCallback<ResponseBean>(activity) {
+                    @Override
+                    public void onSuccess(Response<ResponseBean> response) {
+                        callBack.testTask();
+                    }
+                });
+    }
     public interface PubTaskCallBack {
         void publishTask();
+        void testTask();
     }
 }

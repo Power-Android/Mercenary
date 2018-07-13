@@ -2,7 +2,6 @@ package com.power.mercenary.activity;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.text.InputType;
 import android.text.TextUtils;
 import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
@@ -14,12 +13,8 @@ import android.widget.TextView;
 import com.power.mercenary.R;
 import com.power.mercenary.base.BaseActivity;
 import com.power.mercenary.bean.user.TokenInfo;
-import com.power.mercenary.data.CacheConstants;
 import com.power.mercenary.presenter.AccountPresenter;
-import com.power.mercenary.utils.CacheUtils;
 import com.power.mercenary.utils.TUtils;
-
-import org.w3c.dom.Text;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -99,8 +94,8 @@ public class ModifyPasswordActivity extends BaseActivity implements AccountPrese
 
     @Override
     public void changePassword(TokenInfo tokenInfo) {
-        CacheUtils.put(CacheConstants.TYPE_LOGIN, tokenInfo);
-        finish();
+//        CacheUtils.put(CacheConstants.TYPE_LOGIN, tokenInfo);
+//        finish();
     }
 
     @Override

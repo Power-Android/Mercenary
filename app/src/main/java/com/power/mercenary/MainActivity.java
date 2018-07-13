@@ -16,10 +16,10 @@ import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
-import com.power.mercenary.activity.PubPaotuiActivity;
 import com.power.mercenary.activity.PubGerendingzhiActivity;
 import com.power.mercenary.activity.PubGongzuoActivity;
 import com.power.mercenary.activity.PubJiankangActivity;
+import com.power.mercenary.activity.PubPaotuiActivity;
 import com.power.mercenary.activity.PubQitaActivity;
 import com.power.mercenary.activity.PubShenghuoActivity;
 import com.power.mercenary.activity.SignInActivity;
@@ -31,7 +31,6 @@ import com.power.mercenary.fragment.HomeFragment;
 import com.power.mercenary.fragment.MessageFragment;
 import com.power.mercenary.fragment.MineFragment;
 import com.power.mercenary.fragment.PubFragment;
-import com.power.mercenary.utils.SpUtils;
 import com.power.mercenary.view.BaseDialog;
 
 import org.greenrobot.eventbus.EventBus;

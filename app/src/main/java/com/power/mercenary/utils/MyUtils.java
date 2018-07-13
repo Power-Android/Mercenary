@@ -15,6 +15,8 @@ import android.util.DisplayMetrics;
 import android.view.View;
 import android.view.ViewGroup;
 
+import org.json.JSONArray;
+
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.math.BigInteger;
@@ -56,6 +58,7 @@ public class MyUtils {
             }
         }
     }
+
 
     public static String getMD5(String str) {
         try {
