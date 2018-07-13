@@ -3,11 +3,10 @@ package com.power.mercenary.presenter;
 import android.app.Activity;
 
 import com.lzy.okgo.model.Response;
-import com.power.mercenary.data.CacheConstants;
+import com.power.mercenary.MyApplication;
 import com.power.mercenary.http.DialogCallback;
 import com.power.mercenary.http.HttpManager;
 import com.power.mercenary.http.ResponseBean;
-import com.power.mercenary.utils.CacheUtils;
 
 import java.util.List;
 
@@ -49,8 +48,8 @@ public class PubTaskPresenter {
                             String validity_time, String task_description, String task_purpose, String task_request, String itemname,
                             String numbers, String transport, String delivery_time, String begin_address, String end_address, String other_request) {
 
-        new HttpManager<ResponseBean>("Home/Task/addtask", this)
-                .addParams("token", CacheUtils.get(CacheConstants.TYPE_LOGIN)+"")
+        new HttpManager<ResponseBean<Void>>("Home/Task/addtask", this)
+                .addParams("token", MyApplication.getUserToken())
                 .addParams("task_type", task_type)
                 .addParams("task_type_child", task_type_child)
                 .addParams("task_name", task_name)
@@ -68,9 +67,9 @@ public class PubTaskPresenter {
                 .addParams("begin_address", begin_address)
                 .addParams("end_address", end_address)
                 .addParams("other_request", other_request)
-                .postRequest(new DialogCallback<ResponseBean>(activity) {
+                .postRequest(new DialogCallback<ResponseBean<Void>>(activity) {
                     @Override
-                    public void onSuccess(Response<ResponseBean> response) {
+                    public void onSuccess(Response<ResponseBean<Void>> response) {
                         callBack.publishTask();
                     }
                 });

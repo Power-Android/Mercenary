@@ -17,8 +17,6 @@ package com.power.mercenary.http;
 
 import com.google.gson.stream.JsonReader;
 import com.lzy.okgo.convert.Converter;
-import com.power.mercenary.MyApplication;
-import com.power.mercenary.utils.TUtils;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -125,7 +123,13 @@ public class JsonConvert<T> implements Converter<T> {
                 BaseResponseBean baseResponseBean = GsonConvert.fromJson(jsonReader, BaseResponseBean.class);
                 response.close();
                 //noinspection unchecked
-                return (T) baseResponseBean.toResponseBean();
+                int code = baseResponseBean.code;
+                String msg = baseResponseBean.msg;
+                if (code == 0 || code == 1) { //约定 正确返回码
+                    return (T)  baseResponseBean.toResponseBean();
+                } else {
+                    throw new HttpException("{\"code\":" + code + ",\"msg\":\"" + msg + "\"}"); //直接抛自定义异常  会出现在 callback的onError中
+                }
             } else {
                 // 泛型格式如下： new JsonCallback<ResponseBean<内层JavaBean>>(this)
                 ResponseBean responseBean = GsonConvert.fromJson(jsonReader, type);

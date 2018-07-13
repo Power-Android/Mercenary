@@ -54,7 +54,6 @@ public class UpdataPresenter {
      */
     public void updataUserInfo(String nick_name, String name, String age, int sex, String mail) {
         new HttpManager<ResponseBean>("Home/UserCenter/setinfo", this)
-                .addParams("token", MyApplication.getUserToken())
                 .addParams("nick_name", nick_name)
                 .addParams("name", name)
                 .addParams("age", age)
