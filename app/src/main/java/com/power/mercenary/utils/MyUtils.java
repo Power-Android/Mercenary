@@ -15,14 +15,13 @@ import android.util.DisplayMetrics;
 import android.view.View;
 import android.view.ViewGroup;
 
-import org.json.JSONArray;
-
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -58,7 +57,22 @@ public class MyUtils {
             }
         }
     }
-
+    public static String listToString(ArrayList<String> stringList){
+        if (stringList == null) {
+            return null;
+        }
+        StringBuilder result=new StringBuilder();
+        boolean flag=false;
+        for (String string : stringList) {
+            if (flag) {
+                result.append("|"); // 分隔符
+            }else {
+                flag=true;
+            }
+            result.append(string);
+        }
+        return result.toString();
+    }
 
     public static String getMD5(String str) {
         try {

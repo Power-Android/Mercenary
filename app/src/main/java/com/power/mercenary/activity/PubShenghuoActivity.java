@@ -5,8 +5,8 @@ import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
+import android.text.TextUtils;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.EditText;
@@ -20,6 +20,7 @@ import com.chad.library.adapter.base.BaseViewHolder;
 import com.power.mercenary.R;
 import com.power.mercenary.base.BaseActivity;
 import com.power.mercenary.presenter.PubTaskPresenter;
+import com.power.mercenary.utils.MyUtils;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -162,8 +163,6 @@ public class PubShenghuoActivity extends BaseActivity implements PubTaskPresente
             item_del_iv.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Log.d(TAG, "helper.getAdapterPosition():" + helper.getAdapterPosition() + "---------");
-                    Log.d(TAG, "requireList.size():" + requireList.size() + "---------");
                     requireList.remove(helper.getAdapterPosition());
                     requireAdapter.notifyDataSetChanged();
 
@@ -214,28 +213,28 @@ public class PubShenghuoActivity extends BaseActivity implements PubTaskPresente
             case R.id.title_content_right_tv:
 //                presenter.test(requireList);
 
-//                if (TextUtils.isEmpty(taskNameEt.getText().toString())) {
-//                    Toast.makeText(mContext, "请输入任务名称", Toast.LENGTH_SHORT).show();
-//                    return;
-//                } else if (TextUtils.isEmpty(taskMudiEt.getText().toString())) {
-//                    Toast.makeText(mContext, "请输入任务目的", Toast.LENGTH_SHORT).show();
-//                    return;
-//                } else if (requireList.size()<=0) {
-//                    Toast.makeText(mContext, "请输入任务要求", Toast.LENGTH_SHORT).show();
-//                    return;
-//                } else if (TextUtils.isEmpty(taskMoneyEt.getText().toString())) {
-//                    Toast.makeText(mContext, "请输入佣金金额", Toast.LENGTH_SHORT).show();
-//                    return;
-//                } else if (TextUtils.isEmpty(validityTimeEt.getText().toString())) {
-//                    Toast.makeText(mContext, "请输入任务有效期", Toast.LENGTH_SHORT).show();
-//                    return;
-//                } else if (biaoqianList.size()<=0) {
-//                    Toast.makeText(mContext, "请输入任务标签", Toast.LENGTH_SHORT).show();
-//                    return;
-//                }else if (TextUtils.isEmpty(taskDetailEt.getText().toString())) {
-//                    Toast.makeText(mContext, "请输入任务详情介绍", Toast.LENGTH_SHORT).show();
-//                    return;
-//                }
+                if (TextUtils.isEmpty(taskNameEt.getText().toString())) {
+                    Toast.makeText(mContext, "请输入任务名称", Toast.LENGTH_SHORT).show();
+                    return;
+                } else if (TextUtils.isEmpty(taskMudiEt.getText().toString())) {
+                    Toast.makeText(mContext, "请输入任务目的", Toast.LENGTH_SHORT).show();
+                    return;
+                } else if (requireList.size()==1&&requireList.get(0).equals("")) {
+                    Toast.makeText(mContext, "请输入任务要求", Toast.LENGTH_SHORT).show();
+                    return;
+                } else if (TextUtils.isEmpty(taskMoneyEt.getText().toString())) {
+                    Toast.makeText(mContext, "请输入佣金金额", Toast.LENGTH_SHORT).show();
+                    return;
+                } else if (TextUtils.isEmpty(validityTimeEt.getText().toString())) {
+                    Toast.makeText(mContext, "请输入任务有效期", Toast.LENGTH_SHORT).show();
+                    return;
+                } else if (biaoqianList.size()<=0) {
+                    Toast.makeText(mContext, "请输入任务标签", Toast.LENGTH_SHORT).show();
+                    return;
+                }else if (TextUtils.isEmpty(taskDetailEt.getText().toString())) {
+                    Toast.makeText(mContext, "请输入任务详情介绍", Toast.LENGTH_SHORT).show();
+                    return;
+                }
                 /**
                  * 发布任务
                  *
@@ -257,8 +256,8 @@ public class PubShenghuoActivity extends BaseActivity implements PubTaskPresente
                  * @param end_address      目的地址
                  * @param other_request    其它要求
                  */
-                String s = listToString(requireList);
-                String s1 = listToString(biaoqianList);
+                String s = MyUtils.listToString(requireList);
+                String s1 = MyUtils.listToString(biaoqianList);
 
                 presenter.publishTask("1", "1", taskNameEt.getText().toString(), s1, "", taskMoneyEt.getText().toString(),
                         validityTimeEt.getText().toString(), taskDetailEt.getText().toString(), taskMudiEt.getText().toString(), s,
@@ -299,20 +298,5 @@ public class PubShenghuoActivity extends BaseActivity implements PubTaskPresente
     public void publishTask() {
         Toast.makeText(mContext, "发布成功", Toast.LENGTH_SHORT).show();
     }
-    public String listToString(ArrayList<String> stringList){
-        if (stringList == null) {
-            return null;
-        }
-        StringBuilder result=new StringBuilder();
-        boolean flag=false;
-        for (String string : stringList) {
-            if (flag) {
-                result.append("|"); // 分隔符
-            }else {
-                flag=true;
-            }
-            result.append(string);
-        }
-        return result.toString();
-    }
+
 }

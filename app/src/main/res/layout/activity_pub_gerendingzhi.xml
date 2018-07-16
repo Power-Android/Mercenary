@@ -164,11 +164,12 @@
                     android:layout_marginLeft="15dp"
                     android:layout_marginRight="15dp"
                     android:layout_marginTop="15dp"
+                    android:layout_marginBottom="15dip"
                     android:gravity="start"
                     android:hint="请输入2-4个文字标签"
                     android:textColorHint="@color/hint_color"
                     android:textSize="14sp"
-                    android:minLines="4"/>
+                    android:maxLength="4"/>
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
@@ -176,6 +177,7 @@
                     android:layout_marginRight="15dp"
                     android:layout_marginLeft="15dp"/>
                 <RelativeLayout
+                    android:id="@+id/relative_table"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:padding="15dp">

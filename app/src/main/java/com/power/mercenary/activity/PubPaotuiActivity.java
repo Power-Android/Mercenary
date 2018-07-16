@@ -67,9 +67,14 @@ public class PubPaotuiActivity extends BaseActivity implements PubTaskPresenter.
     RecyclerView biaoqianRecycler;
     @BindView(R.id.validity_songda_et)
     EditText validitySongdaEt;
+    @BindView(R.id.relative_table)
+    RelativeLayout relativeTable;
     private PubTaskPresenter presenter;
     private List<String> mlist = new ArrayList<>();
-
+    private List<String> biaoqianList;
+    private BiaoqianAdapter biaoqianAdapter;
+    private ImageView img_del_table;
+    private String IsdelTable="";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -84,15 +89,12 @@ public class PubPaotuiActivity extends BaseActivity implements PubTaskPresenter.
         titleContentTv.setText("发布任务");
         titleContentRightTv.setVisibility(View.VISIBLE);
         titleContentRightTv.setText("发布");
-        List<String> biaoqianList = new ArrayList<>();
-        biaoqianList.add("");
-        biaoqianList.add("");
-        biaoqianList.add("");
+        biaoqianList = new ArrayList<>();
         biaoqianRecycler.setNestedScrollingEnabled(false);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(mContext);
         linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
         biaoqianRecycler.setLayoutManager(linearLayoutManager);
-        BiaoqianAdapter biaoqianAdapter = new BiaoqianAdapter(R.layout.item_tag_layout, biaoqianList);
+        biaoqianAdapter = new BiaoqianAdapter(R.layout.task_table_layout, biaoqianList);
         biaoqianRecycler.setAdapter(biaoqianAdapter);
     }
 
@@ -104,7 +106,25 @@ public class PubPaotuiActivity extends BaseActivity implements PubTaskPresenter.
         }
 
         @Override
-        protected void convert(BaseViewHolder helper, String item) {
+        protected void convert(final BaseViewHolder helper, String item) {
+            helper.setText(R.id.item_content_tv, item);
+            img_del_table = helper.getView(R.id.img_del_table);
+            if (IsdelTable.equals("1")){
+                img_del_table.setVisibility(View.VISIBLE);
+            }else {
+                img_del_table.setVisibility(View.GONE);
+            }
+            helper.setOnClickListener(R.id.img_del_table, new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    IsdelTable="2";
+                    biaoqianList.remove(helper.getAdapterPosition());
+                    biaoqianAdapter.notifyDataSetChanged();
+                    if (biaoqianList.size() <= 0) {
+                        relativeTable.setVisibility(View.GONE);
+                    }
+                }
+            });
 
         }
     }
@@ -160,8 +180,8 @@ public class PubPaotuiActivity extends BaseActivity implements PubTaskPresenter.
                 } else if (TextUtils.isEmpty(validityTimeEt.getText().toString())) {
                     Toast.makeText(mContext, "请输入有效期", Toast.LENGTH_SHORT).show();
                     return;
-                } else if (TextUtils.isEmpty(biaoqianEt.getText().toString())) {
-                    Toast.makeText(mContext, "请输入2-4个文字标签", Toast.LENGTH_SHORT).show();
+                } else if (biaoqianList.size()<=0) {
+                    Toast.makeText(mContext, "请输入任务标签", Toast.LENGTH_SHORT).show();
                     return;
                 }
                 presenter.publishTask("1", "1", taskNameEt.getText().toString(), "", "", moneyEt.getText().toString(),
@@ -182,10 +202,26 @@ public class PubPaotuiActivity extends BaseActivity implements PubTaskPresenter.
                 TUtils.showShort(mContext, "点击了---目的地址");
                 break;
             case R.id.add_biaoqian_tv:
-                TUtils.showShort(mContext, "点击了---添加标签");
+                if (biaoqianList.size() >= 5) {
+                    Toast.makeText(mContext, "最多可添加五个标签", Toast.LENGTH_SHORT).show();
+                    biaoqianEt.setText("");
+                    return;
+                }
+                if (biaoqianEt.getText().length() < 2) {
+                    Toast.makeText(mContext, "请输入2-4个文字标签", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                biaoqianList.add(biaoqianEt.getText().toString());
+                biaoqianEt.setText("");
+                if (biaoqianList.size() > 0) {
+                    relativeTable.setVisibility(View.VISIBLE);
+                }
+                biaoqianAdapter.notifyDataSetChanged();
                 break;
             case R.id.del_biaoqian_tv:
-                TUtils.showShort(mContext, "点击了---删除标签");
+                IsdelTable = "1";
+                img_del_table.setVisibility(View.VISIBLE);
+                biaoqianAdapter.notifyDataSetChanged();
                 break;
         }
     }
