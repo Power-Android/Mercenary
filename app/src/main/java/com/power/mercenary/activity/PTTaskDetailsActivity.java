@@ -346,49 +346,54 @@ public class PTTaskDetailsActivity extends BaseActivity implements View.OnClickL
                     break;
             }
 
-            switch (taskState) {
-                case "2":
-                    publishBtn.setText("任务中");
-                    publishBtn.setOnClickListener(null);
-                    tuijianTabLl.setVisibility(View.GONE);
-                    recycler_content.setVisibility(View.GONE);
-                    actTaskDetailsSMsg.setVisibility(View.VISIBLE);
-                    if (datas.getXuanding() != null) {
-                        Glide.with(this)
-                                .load(datas.getXuanding().getHead_img())
-                                .into(actTaskDetaiilsPrivateMsg);
+//            switch (taskState) {
+//                case "2":
+//                    publishBtn.setText("任务中");
+//                    publishBtn.setOnClickListener(null);
+//                    tuijianTabLl.setVisibility(View.GONE);
+//                    recycler_content.setVisibility(View.GONE);
+//                    actTaskDetailsSMsg.setVisibility(View.VISIBLE);
+//                    if (datas.getXuanding() != null) {
+//                        Glide.with(this)
+//                                .load(datas.getXuanding().getHead_img())
+//                                .into(actTaskDetaiilsPrivateMsg);
+//
+//                        actTaskDetaiilsPrivateName.setText(datas.getXuanding().getName());
+//                    }
+//                    break;
+//                case "3":
+//                    publishBtn.setText("审核中");
+//                    publishBtn.setOnClickListener(null);
+//                    tuijianTabLl.setVisibility(View.GONE);
+//                    recycler_content.setVisibility(View.GONE);
+//                    actTaskDetailsSMsg.setVisibility(View.VISIBLE);
+//                    if (datas.getXuanding() != null) {
+//                        Glide.with(this)
+//                                .load(datas.getXuanding().getHead_img())
+//                                .into(actTaskDetaiilsPrivateMsg);
+//
+//                        actTaskDetaiilsPrivateName.setText(datas.getXuanding().getName());
+//                    }
+//                    break;
+//                case "6":
+//                    publishBtn.setText("待评价");
+//                    publishBtn.setOnClickListener(null);
+//                    tuijianTabLl.setVisibility(View.GONE);
+//                    recycler_content.setVisibility(View.GONE);
+//                    actTaskDetailsSMsg.setVisibility(View.VISIBLE);
+//                    if (datas.getXuanding() != null) {
+//                        Glide.with(this)
+//                                .load(datas.getXuanding().getHead_img())
+//                                .into(actTaskDetaiilsPrivateMsg);
+//
+//                        actTaskDetaiilsPrivateName.setText(datas.getXuanding().getName());
+//                    }
+//                    break;
+//            }
 
-                        actTaskDetaiilsPrivateName.setText(datas.getXuanding().getName());
-                    }
-                    break;
-                case "3":
-                    publishBtn.setText("审核中");
-                    publishBtn.setOnClickListener(null);
-                    tuijianTabLl.setVisibility(View.GONE);
-                    recycler_content.setVisibility(View.GONE);
-                    actTaskDetailsSMsg.setVisibility(View.VISIBLE);
-                    if (datas.getXuanding() != null) {
-                        Glide.with(this)
-                                .load(datas.getXuanding().getHead_img())
-                                .into(actTaskDetaiilsPrivateMsg);
-
-                        actTaskDetaiilsPrivateName.setText(datas.getXuanding().getName());
-                    }
-                    break;
-                case "6":
-                    publishBtn.setText("待评价");
-                    publishBtn.setOnClickListener(null);
-                    tuijianTabLl.setVisibility(View.GONE);
-                    recycler_content.setVisibility(View.GONE);
-                    actTaskDetailsSMsg.setVisibility(View.VISIBLE);
-                    if (datas.getXuanding() != null) {
-                        Glide.with(this)
-                                .load(datas.getXuanding().getHead_img())
-                                .into(actTaskDetaiilsPrivateMsg);
-
-                        actTaskDetaiilsPrivateName.setText(datas.getXuanding().getName());
-                    }
-                    break;
+            if (datas.getApply().equals("1")) {
+                publishBtn.setText("已报名");
+                publishBtn.setOnClickListener(null);
             }
         }
     }
@@ -426,7 +431,8 @@ public class PTTaskDetailsActivity extends BaseActivity implements View.OnClickL
     @Override
     public void applyRequest() {
         presenter.getApplyList(taskId, page);
-        TUtils.showCustom(this, "报名成功");
+        publishBtn.setText("已报名");
+        publishBtn.setOnClickListener(null);
     }
 
     @Override
@@ -480,18 +486,18 @@ public class PTTaskDetailsActivity extends BaseActivity implements View.OnClickL
         if (state == 2) {
             //选定 弹个界面
             if (TextUtils.equals(MyApplication.getUserId(), publisherId)) {
-                    publishBtn.setText("任务中");
-                    publishBtn.setOnClickListener(null);
-                    tuijianTabLl.setVisibility(View.GONE);
-                    recycler_content.setVisibility(View.GONE);
-                    actTaskDetailsSMsg.setVisibility(View.VISIBLE);
-                    Glide.with(this)
-                            .load(avatar)
-                            .into(actTaskDetaiilsPrivateMsg);
+                publishBtn.setText("任务中");
+                publishBtn.setOnClickListener(null);
+                tuijianTabLl.setVisibility(View.GONE);
+                recycler_content.setVisibility(View.GONE);
+                actTaskDetailsSMsg.setVisibility(View.VISIBLE);
+                Glide.with(this)
+                        .load(avatar)
+                        .into(actTaskDetaiilsPrivateMsg);
 
-                    actTaskDetaiilsPrivateName.setText(name);
+                actTaskDetaiilsPrivateName.setText(name);
 
-                    presenter.changePeople(id, state, taskId);
+                presenter.changePeople(id, state, taskId);
             } else {
                 TUtils.showCustom(this, "只有发布者可以更改");
             }

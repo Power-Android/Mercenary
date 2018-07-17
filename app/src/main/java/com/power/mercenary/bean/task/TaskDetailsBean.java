@@ -60,6 +60,16 @@ public class TaskDetailsBean {
     private String other_request;
     private String name;
     private String head_img;
+
+    public String getApply() {
+        return apply;
+    }
+
+    public void setApply(String apply) {
+        this.apply = apply;
+    }
+
+    private String apply;
     private int collect;
     private XuandingBean xuanding;
 

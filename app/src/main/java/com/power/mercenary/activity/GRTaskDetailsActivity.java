@@ -317,7 +317,15 @@ public class GRTaskDetailsActivity extends BaseActivity implements View.OnClickL
 
             collectionState = datas.getCollect();
 
-            tvTaskAsk.setText(datas.getTask_request());
+            List<String> stringList = MercenaryUtils.stringToList(datas.getTask_request());
+
+            StringBuffer taskRequest = new StringBuffer();
+
+            for (int i = 0; i < stringList.size(); i++) {
+                taskRequest.append(stringList.get(i) + "\n");
+            }
+
+            tvTaskAsk.setText(taskRequest);
 
             TagAdapter tagAdapter = new TagAdapter(R.layout.item_tag_layout, MercenaryUtils.stringToList(datas.getTask_tag()));
             recycler_task_tag.setAdapter(tagAdapter);
@@ -335,49 +343,54 @@ public class GRTaskDetailsActivity extends BaseActivity implements View.OnClickL
 
             publisherId = datas.getPublisher_id();
 
-            switch (taskState) {
-                case "2":
-                    publishBtn.setText("任务中");
-                    publishBtn.setOnClickListener(null);
-                    tuijianTabLl.setVisibility(View.GONE);
-                    recycler_content.setVisibility(View.GONE);
-                    actTaskDetailsSMsg.setVisibility(View.VISIBLE);
-                    if (datas.getXuanding() != null) {
-                        Glide.with(this)
-                                .load(datas.getXuanding().getHead_img())
-                                .into(actTaskDetaiilsPrivateMsg);
+            //            switch (taskState) {
+//                case "2":
+//                    publishBtn.setText("任务中");
+//                    publishBtn.setOnClickListener(null);
+//                    tuijianTabLl.setVisibility(View.GONE);
+//                    recycler_content.setVisibility(View.GONE);
+//                    actTaskDetailsSMsg.setVisibility(View.VISIBLE);
+//                    if (datas.getXuanding() != null) {
+//                        Glide.with(this)
+//                                .load(datas.getXuanding().getHead_img())
+//                                .into(actTaskDetaiilsPrivateMsg);
+//
+//                        actTaskDetaiilsPrivateName.setText(datas.getXuanding().getName());
+//                    }
+//                    break;
+//                case "3":
+//                    publishBtn.setText("审核中");
+//                    publishBtn.setOnClickListener(null);
+//                    tuijianTabLl.setVisibility(View.GONE);
+//                    recycler_content.setVisibility(View.GONE);
+//                    actTaskDetailsSMsg.setVisibility(View.VISIBLE);
+//                    if (datas.getXuanding() != null) {
+//                        Glide.with(this)
+//                                .load(datas.getXuanding().getHead_img())
+//                                .into(actTaskDetaiilsPrivateMsg);
+//
+//                        actTaskDetaiilsPrivateName.setText(datas.getXuanding().getName());
+//                    }
+//                    break;
+//                case "6":
+//                    publishBtn.setText("待评价");
+//                    publishBtn.setOnClickListener(null);
+//                    tuijianTabLl.setVisibility(View.GONE);
+//                    recycler_content.setVisibility(View.GONE);
+//                    actTaskDetailsSMsg.setVisibility(View.VISIBLE);
+//                    if (datas.getXuanding() != null) {
+//                        Glide.with(this)
+//                                .load(datas.getXuanding().getHead_img())
+//                                .into(actTaskDetaiilsPrivateMsg);
+//
+//                        actTaskDetaiilsPrivateName.setText(datas.getXuanding().getName());
+//                    }
+//                    break;
+//            }
 
-                        actTaskDetaiilsPrivateName.setText(datas.getXuanding().getName());
-                    }
-                    break;
-                case "3":
-                    publishBtn.setText("审核中");
-                    publishBtn.setOnClickListener(null);
-                    tuijianTabLl.setVisibility(View.GONE);
-                    recycler_content.setVisibility(View.GONE);
-                    actTaskDetailsSMsg.setVisibility(View.VISIBLE);
-                    if (datas.getXuanding() != null) {
-                        Glide.with(this)
-                                .load(datas.getXuanding().getHead_img())
-                                .into(actTaskDetaiilsPrivateMsg);
-
-                        actTaskDetaiilsPrivateName.setText(datas.getXuanding().getName());
-                    }
-                    break;
-                case "6":
-                    publishBtn.setText("待评价");
-                    publishBtn.setOnClickListener(null);
-                    tuijianTabLl.setVisibility(View.GONE);
-                    recycler_content.setVisibility(View.GONE);
-                    actTaskDetailsSMsg.setVisibility(View.VISIBLE);
-                    if (datas.getXuanding() != null) {
-                        Glide.with(this)
-                                .load(datas.getXuanding().getHead_img())
-                                .into(actTaskDetaiilsPrivateMsg);
-
-                        actTaskDetaiilsPrivateName.setText(datas.getXuanding().getName());
-                    }
-                    break;
+            if (datas.getApply().equals("1")) {
+                publishBtn.setText("已报名");
+                publishBtn.setOnClickListener(null);
             }
 
             TaskImageAdapter imageAdapter = new TaskImageAdapter(R.layout.tp_item_view, MercenaryUtils.stringToList(datas.getTask_img()), this);
@@ -418,7 +431,8 @@ public class GRTaskDetailsActivity extends BaseActivity implements View.OnClickL
     @Override
     public void applyRequest() {
         presenter.getApplyList(taskId, page);
-        TUtils.showCustom(this, "报名成功");
+        publishBtn.setText("已报名");
+        publishBtn.setOnClickListener(null);
     }
 
     @Override
