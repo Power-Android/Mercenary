@@ -7,6 +7,7 @@ import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.EditText;
@@ -85,11 +86,17 @@ public class PubShenghuoActivity extends BaseActivity implements PubTaskPresente
     private HashMap<Integer, String> mHashMap = new HashMap<>();
     private ImageView img_del_table;
     private String IsdelTable="";
+    private String taskType;
+    private String childTaskType;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_shenghuo_pub);
         ButterKnife.bind(this);
+
+        taskType = getIntent().getStringExtra("TaskType");
+        childTaskType = getIntent().getStringExtra("ChildTaskType");
+        Log.d("PubShenghuoActivity",taskType+"--------"+ childTaskType+"------");
         initView();
         presenter = new PubTaskPresenter(this, this);
     }
@@ -259,7 +266,7 @@ public class PubShenghuoActivity extends BaseActivity implements PubTaskPresente
                 String s = MyUtils.listToString(requireList);
                 String s1 = MyUtils.listToString(biaoqianList);
 
-                presenter.publishTask("1", "1", taskNameEt.getText().toString(), s1, "", taskMoneyEt.getText().toString(),
+                presenter.publishTask(taskType,childTaskType, taskNameEt.getText().toString(), s1, "", taskMoneyEt.getText().toString(),
                         validityTimeEt.getText().toString(), taskDetailEt.getText().toString(), taskMudiEt.getText().toString(), s,
                         "", "", "", "1530961214",
                         "开始地址", "目的地址", "");

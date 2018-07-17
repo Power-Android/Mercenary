@@ -83,12 +83,16 @@ public class PubJiankangActivity extends BaseActivity implements PubTaskPresente
     private ImageView img_del_table;
     private String IsdelTable = "";
     private PubTaskPresenter presenter;
+    private String taskType;
+    private String childTaskType;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pub_jiankang);
         ButterKnife.bind(this);
+        taskType = getIntent().getStringExtra("TaskType");
+        childTaskType = getIntent().getStringExtra("ChildTaskType");
         initView();
         presenter = new PubTaskPresenter(this, this);
     }
@@ -259,7 +263,7 @@ public class PubJiankangActivity extends BaseActivity implements PubTaskPresente
                 String s = MyUtils.listToString(requireList);
                 String s1 = MyUtils.listToString(biaoqianList);
 
-                presenter.publishTask("1", "1", taskNameEt.getText().toString(), s1, "", taskMoneyEt.getText().toString(),
+                presenter.publishTask(taskType, childTaskType, taskNameEt.getText().toString(), s1, "", taskMoneyEt.getText().toString(),
                         "", taskDesEt.getText().toString(), "", s,
                         "", "", "", "",
                         "", "", taskQitaEt.getText().toString());

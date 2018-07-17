@@ -75,12 +75,18 @@ public class PubPaotuiActivity extends BaseActivity implements PubTaskPresenter.
     private BiaoqianAdapter biaoqianAdapter;
     private ImageView img_del_table;
     private String IsdelTable="";
+    private String taskType;
+    private String childTaskType;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_paotui_pub);
         ButterKnife.bind(this);
+        taskType = getIntent().getStringExtra("TaskType");
+        childTaskType = getIntent().getStringExtra("ChildTaskType");
         initView();
+
     }
 
     private void initView() {
@@ -184,7 +190,7 @@ public class PubPaotuiActivity extends BaseActivity implements PubTaskPresenter.
                     Toast.makeText(mContext, "请输入任务标签", Toast.LENGTH_SHORT).show();
                     return;
                 }
-                presenter.publishTask("1", "1", taskNameEt.getText().toString(), "", "", moneyEt.getText().toString(),
+                presenter.publishTask(taskType, childTaskType, taskNameEt.getText().toString(), "", "", moneyEt.getText().toString(),
                         validityTimeEt.getText().toString(), "", taskMudiEt.getText().toString(), "",
                         goodsNameEt.getText().toString(), numEt.getText().toString(), "", "1530961214",
                         "开始地址", "目的地址", biaoqianEt.getText().toString());

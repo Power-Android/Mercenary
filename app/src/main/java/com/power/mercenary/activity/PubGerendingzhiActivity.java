@@ -29,6 +29,7 @@ import com.power.mercenary.R;
 import com.power.mercenary.adapter.GridViewAddImgesAdpter;
 import com.power.mercenary.base.BaseActivity;
 import com.power.mercenary.presenter.PubTaskPresenter;
+import com.power.mercenary.utils.MyUtils;
 import com.power.mercenary.view.BaseDialog;
 import com.power.mercenary.view.MyGridView;
 import com.wevey.selector.dialog.DialogInterface;
@@ -95,12 +96,15 @@ public class PubGerendingzhiActivity extends BaseActivity implements PubTaskPres
     private PubTaskPresenter presenter;
     private ImageView img_del_table;
     private String IsdelTable = "";
-
+    private String taskType;
+    private String childTaskType;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pub_gerendingzhi);
         ButterKnife.bind(this);
+        taskType = getIntent().getStringExtra("TaskType");
+        childTaskType = getIntent().getStringExtra("ChildTaskType");
         initView();
         presenter = new PubTaskPresenter(this, this);
     }
@@ -386,11 +390,11 @@ public class PubGerendingzhiActivity extends BaseActivity implements PubTaskPres
                     fileList.add(file + "");
                 }
 
-                String s = listToString(requireList);
-                String s1 = listToString(biaoqianList);
-                String s2 = listToString(fileList);
+                String s = MyUtils.listToString(requireList);
+                String s1 = MyUtils.listToString(biaoqianList);
+                String s2 = MyUtils.listToString(fileList);
 
-                presenter.publishTask("1", "1", "", s1, s2, taskMoneyEt.getText().toString(),
+                presenter.publishTask(taskType, childTaskType, "", s1, s2, taskMoneyEt.getText().toString(),
                         "", taskDesEt.getText().toString(), "", s,
                         taskNameEt.getText().toString(), "", "", "",
                         "", "", "");
@@ -426,20 +430,4 @@ public class PubGerendingzhiActivity extends BaseActivity implements PubTaskPres
         }
     }
 
-    public String listToString(ArrayList<String> stringList) {
-        if (stringList == null) {
-            return null;
-        }
-        StringBuilder result = new StringBuilder();
-        boolean flag = false;
-        for (String string : stringList) {
-            if (flag) {
-                result.append("|"); // 分隔符
-            } else {
-                flag = true;
-            }
-            result.append(string);
-        }
-        return result.toString();
-    }
 }

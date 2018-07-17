@@ -75,11 +75,15 @@ public class PubGongzuoActivity extends BaseActivity implements PubTaskPresenter
     private PubTaskPresenter presenter;
     private ImageView img_del_table;
     private String IsdelTable = "";
+    private String taskType;
+    private String childTaskType;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pub_gongzuo);
         ButterKnife.bind(this);
+        taskType = getIntent().getStringExtra("TaskType");
+        childTaskType = getIntent().getStringExtra("ChildTaskType");
         initView();
         presenter = new PubTaskPresenter(this, this);
     }
@@ -246,7 +250,7 @@ public class PubGongzuoActivity extends BaseActivity implements PubTaskPresenter
                 String s = MyUtils.listToString(requireList);
                 String s1 = MyUtils.listToString(biaoqianList);
 
-                presenter.publishTask("1", "1", taskNameEt.getText().toString(), s1, "", taskMoneyEt.getText().toString(),
+                presenter.publishTask(taskType,childTaskType, taskNameEt.getText().toString(), s1, "", taskMoneyEt.getText().toString(),
                         "", taskDetailEt.getText().toString(), taskMudiEt.getText().toString(), s,
                         "", "", "", "",
                         "", "", "");

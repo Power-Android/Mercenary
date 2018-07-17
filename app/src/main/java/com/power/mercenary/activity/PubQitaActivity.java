@@ -80,12 +80,15 @@ public class PubQitaActivity extends BaseActivity implements PubTaskPresenter.Pu
     private ImageView img_del_table;
     private String IsdelTable="";
     private PubTaskPresenter presenter;
-
+    private String taskType;
+    private String childTaskType;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pub_qita);
         ButterKnife.bind(this);
+        taskType = getIntent().getStringExtra("TaskType");
+        childTaskType = getIntent().getStringExtra("ChildTaskType");
         initView();
         presenter = new PubTaskPresenter(this, this);
     }
@@ -255,7 +258,7 @@ public class PubQitaActivity extends BaseActivity implements PubTaskPresenter.Pu
                 String s = MyUtils.listToString(requireList);
                 String s1 = MyUtils.listToString(biaoqianList);
 
-                presenter.publishTask("1", "1", taskNameEt.getText().toString(), s1, "", taskMoneyEt.getText().toString(),
+                presenter.publishTask(taskType, childTaskType, taskNameEt.getText().toString(), s1, "", taskMoneyEt.getText().toString(),
                         validityTimeEt.getText().toString(), taskDetailEt.getText().toString(), taskMudiEt.getText().toString(), s,
                         "", "", "", "",
                         "", "", "");

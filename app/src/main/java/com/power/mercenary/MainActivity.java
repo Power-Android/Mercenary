@@ -89,7 +89,7 @@ public class MainActivity extends BaseActivity implements BaseQuickAdapter.OnIte
     private BaseDialog.Builder mBuilder;
     private List<String> list;
     private List<String> nextList = new ArrayList<>();
-    private int PAOTUI = 101, SHENGHUO = 102, GERENDINGZHI = 103, GONGZUO = 104,JIANKANG = 105;
+    private int PAOTUI = 101, SHENGHUO = 102, GERENDINGZHI = 103, GONGZUO = 104, JIANKANG = 105;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -128,7 +128,7 @@ public class MainActivity extends BaseActivity implements BaseQuickAdapter.OnIte
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.ll_home:
-                if (homeFragment == null){
+                if (homeFragment == null) {
                     homeFragment = new HomeFragment();
                 }
                 addFragments(homeFragment);
@@ -144,7 +144,7 @@ public class MainActivity extends BaseActivity implements BaseQuickAdapter.OnIte
                 tvMine.setTextColor(getResources().getColor(R.color.textcolor_tab));
                 break;
             case R.id.ll_pub:
-                if (pubFragment == null){
+                if (pubFragment == null) {
                     pubFragment = new PubFragment();
                 }
                 addFragments(pubFragment);
@@ -160,7 +160,7 @@ public class MainActivity extends BaseActivity implements BaseQuickAdapter.OnIte
                 tvMine.setTextColor(getResources().getColor(R.color.textcolor_tab));
                 break;
             case R.id.ll_issue:
-                if (!MyApplication.isLogin()){
+                if (!MyApplication.isLogin()) {
                     startActivity(new Intent(this, SignInActivity.class));
                     return;
                 }
@@ -175,11 +175,11 @@ public class MainActivity extends BaseActivity implements BaseQuickAdapter.OnIte
                 showIssueDialog();
                 break;
             case R.id.ll_message:
-                if (!MyApplication.isLogin()){
+                if (!MyApplication.isLogin()) {
                     startActivity(new Intent(this, SignInActivity.class));
                     return;
                 }
-                if (messageFragment == null){
+                if (messageFragment == null) {
                     messageFragment = new MessageFragment();
                 }
                 addFragments(messageFragment);
@@ -195,11 +195,11 @@ public class MainActivity extends BaseActivity implements BaseQuickAdapter.OnIte
                 tvMine.setTextColor(getResources().getColor(R.color.textcolor_tab));
                 break;
             case R.id.ll_mine:
-                if (!MyApplication.isLogin()){
+                if (!MyApplication.isLogin()) {
                     startActivity(new Intent(this, SignInActivity.class));
                     return;
                 }
-                if (mineFragment == null){
+                if (mineFragment == null) {
                     mineFragment = new MineFragment();
                 }
                 addFragments(mineFragment);
@@ -234,9 +234,9 @@ public class MainActivity extends BaseActivity implements BaseQuickAdapter.OnIte
                 .builder();
 
         RecyclerView issueRecycler = mDialog.getView(R.id.issue_recycler);
-        issueRecycler.setLayoutManager(new GridLayoutManager(this,3));
+        issueRecycler.setLayoutManager(new GridLayoutManager(this, 3));
         issueRecycler.setNestedScrollingEnabled(false);
-        IssueAdapter issueAdapter = new IssueAdapter(R.layout.item_issue_layout,list);
+        IssueAdapter issueAdapter = new IssueAdapter(R.layout.item_issue_layout, list);
         issueRecycler.setAdapter(issueAdapter);
         issueAdapter.setOnItemChildClickListener(this);
         mDialog.show();
@@ -245,12 +245,12 @@ public class MainActivity extends BaseActivity implements BaseQuickAdapter.OnIte
     @Override
     public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
         mDialog.dismiss();
-        switch (position){
+        switch (position) {
             case 0://跑腿
                 nextList.clear();
                 nextList.add("物品");
                 nextList.add("人员");
-                showNextIssueDialog(60,60,2,PAOTUI);
+                showNextIssueDialog(60, 60, 2, PAOTUI);
                 break;
             case 1://生活
                 nextList.clear();
@@ -259,13 +259,13 @@ public class MainActivity extends BaseActivity implements BaseQuickAdapter.OnIte
                 nextList.add("住");
                 nextList.add("行");
                 nextList.add("游");
-                showNextIssueDialog(20,20,3,SHENGHUO);
+                showNextIssueDialog(20, 20, 3, SHENGHUO);
                 break;
             case 2://个人定制
                 nextList.clear();
                 nextList.add("硬件");
                 nextList.add("软件");
-                showNextIssueDialog(60,60,2,GERENDINGZHI);
+                showNextIssueDialog(60, 60, 2, GERENDINGZHI);
                 break;
             case 3://工作
                 nextList.clear();
@@ -274,18 +274,21 @@ public class MainActivity extends BaseActivity implements BaseQuickAdapter.OnIte
                 nextList.add("工");
                 nextList.add("商");
                 nextList.add("律");
-                showNextIssueDialog(20,20,3,GONGZUO);
+                showNextIssueDialog(20, 20, 3, GONGZUO);
                 break;
             case 4://健康
                 nextList.clear();
                 nextList.add("心理");
                 nextList.add("健身");
                 nextList.add("减肥");
-                showNextIssueDialog(20,20,3,JIANKANG);
+                showNextIssueDialog(20, 20, 3, JIANKANG);
                 break;
             case 5://其他
                 mDialog.dismiss();
-                startActivity(new Intent(this,PubQitaActivity.class));
+                Intent intent = new Intent(MainActivity.this, PubQitaActivity.class);
+                intent.putExtra("TaskType", "6");
+                intent.putExtra("ChildTaskType", "1");
+                startActivity(intent);
                 break;
         }
     }
@@ -307,33 +310,82 @@ public class MainActivity extends BaseActivity implements BaseQuickAdapter.OnIte
                 .builder();
 
         RecyclerView issueNextRecycler = mDialog.getView(R.id.issue_recycler);
-        issueNextRecycler.setLayoutManager(new GridLayoutManager(this,spanCount));
+        issueNextRecycler.setLayoutManager(new GridLayoutManager(this, spanCount));
         issueNextRecycler.setNestedScrollingEnabled(false);
-        IssueNextAdapter issueNextAdapter = new IssueNextAdapter(R.layout.item_issue_layout,nextList);
+        IssueNextAdapter issueNextAdapter = new IssueNextAdapter(R.layout.item_issue_layout, nextList);
         issueNextRecycler.setAdapter(issueNextAdapter);
         issueNextAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
             @Override
             public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
-                switch (pubType){
+                switch (pubType) {
                     case 101://跑腿发布页面
                         mDialog.dismiss();
-                        startActivity(new Intent(MainActivity.this,PubPaotuiActivity.class));
+                        Intent intent = new Intent(MainActivity.this, PubPaotuiActivity.class);
+                        intent.putExtra("TaskType", "1");
+                        if (position == 0) {
+                            intent.putExtra("ChildTaskType", "1");
+                        } else if (position == 1) {
+                            intent.putExtra("ChildTaskType", "2");
+                        }
+                        startActivity(intent);
                         break;
-                    case 102://生活发布页面
+                    case 102://生活发布页
                         mDialog.dismiss();
-                        startActivity(new Intent(MainActivity.this,PubShenghuoActivity.class));
+                        Intent intent1 = new Intent(MainActivity.this, PubShenghuoActivity.class);
+                        intent1.putExtra("TaskType", "2");
+                        if (position == 0) {
+                            intent1.putExtra("ChildTaskType", "1");
+                        } else if (position == 1) {
+                            intent1.putExtra("ChildTaskType", "2");
+                        } else if (position == 2) {
+                            intent1.putExtra("ChildTaskType", "3");
+                        } else if (position == 3) {
+                            intent1.putExtra("ChildTaskType", "4");
+                        } else if (position == 4) {
+                            intent1.putExtra("ChildTaskType", "5");
+                        }
+                        startActivity(intent1);
                         break;
                     case 103://个人定制发布页面
                         mDialog.dismiss();
-                        startActivity(new Intent(MainActivity.this,PubGerendingzhiActivity.class));
+                        Intent intent2 = new Intent(MainActivity.this, PubGerendingzhiActivity.class);
+                        intent2.putExtra("TaskType", "3");
+                        if (position == 0) {
+                            intent2.putExtra("ChildTaskType", "1");
+                        } else if (position == 1) {
+                            intent2.putExtra("ChildTaskType", "2");
+                        }
+                        startActivity(intent2);
                         break;
                     case 104://工作发布页
                         mDialog.dismiss();
-                        startActivity(new Intent(MainActivity.this,PubGongzuoActivity.class));
+                        Intent intent3 = new Intent(MainActivity.this, PubGongzuoActivity.class);
+                        intent3.putExtra("TaskType", "4");
+                        if (position == 0) {
+                            intent3.putExtra("ChildTaskType", "1");
+                        } else if (position == 1) {
+                            intent3.putExtra("ChildTaskType", "2");
+                        } else if (position == 2) {
+                            intent3.putExtra("ChildTaskType", "3");
+                        } else if (position == 3) {
+                            intent3.putExtra("ChildTaskType", "4");
+                        } else if (position == 4) {
+                            intent3.putExtra("ChildTaskType", "5");
+                        }
+                        startActivity(intent3);
                         break;
                     case 105://健康发布页面
                         mDialog.dismiss();
-                        startActivity(new Intent(MainActivity.this,PubJiankangActivity.class));
+                        Intent intent4 = new Intent(MainActivity.this, PubJiankangActivity.class);
+                        intent4.putExtra("TaskType", "5");
+                        if (position == 0) {
+                            intent4.putExtra("ChildTaskType", "1");
+                        } else if (position == 1) {
+                            intent4.putExtra("ChildTaskType", "2");
+                        } else if (position == 2) {
+                            intent4.putExtra("ChildTaskType", "3");
+                        }
+                        startActivity(intent4);
                         break;
                 }
             }
@@ -341,7 +393,7 @@ public class MainActivity extends BaseActivity implements BaseQuickAdapter.OnIte
         mDialog.show();
     }
 
-    private class IssueAdapter extends BaseQuickAdapter<String,BaseViewHolder>{
+    private class IssueAdapter extends BaseQuickAdapter<String, BaseViewHolder> {
 
         public IssueAdapter(int layoutResId, @Nullable List<String> data) {
             super(layoutResId, data);
@@ -349,12 +401,12 @@ public class MainActivity extends BaseActivity implements BaseQuickAdapter.OnIte
 
         @Override
         protected void convert(BaseViewHolder helper, String item) {
-            helper.setText(R.id.item_type_tv,item)
+            helper.setText(R.id.item_type_tv, item)
                     .addOnClickListener(R.id.item_type_tv);
         }
     }
 
-    private class IssueNextAdapter extends BaseQuickAdapter<String,BaseViewHolder>{
+    private class IssueNextAdapter extends BaseQuickAdapter<String, BaseViewHolder> {
 
         public IssueNextAdapter(int layoutResId, @Nullable List<String> data) {
             super(layoutResId, data);
@@ -362,7 +414,7 @@ public class MainActivity extends BaseActivity implements BaseQuickAdapter.OnIte
 
         @Override
         protected void convert(BaseViewHolder helper, String item) {
-            helper.setText(R.id.item_type_tv,item)
+            helper.setText(R.id.item_type_tv, item)
                     .addOnClickListener(R.id.item_type_tv);
         }
     }
@@ -371,7 +423,7 @@ public class MainActivity extends BaseActivity implements BaseQuickAdapter.OnIte
     public void onRecevierEvent(EventUtils event) {
         switch (event.getType()) {
             case EventConstants.JUPMP_TO_MAIN:
-                if (homeFragment == null){
+                if (homeFragment == null) {
                     homeFragment = new HomeFragment();
                 }
                 addFragments(homeFragment);
