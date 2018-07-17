@@ -36,9 +36,7 @@ public class UpdataPresenter {
                 .postFileRequest(new DialogCallback<ResponseBean<UserImgInfo>>(activity) {
                     @Override
                     public void onSuccess(Response<ResponseBean<UserImgInfo>> response) {
-                        if (response.body().data != null) {
-                            callBack.updataUserImg(response.body().data);
-                        }
+                        callBack.updataUserImg(response.body().data);
                     }
                 });
     }
@@ -53,15 +51,16 @@ public class UpdataPresenter {
      * @param mail
      */
     public void updataUserInfo(String nick_name, String name, String age, int sex, String mail) {
-        new HttpManager<ResponseBean>("Home/UserCenter/setinfo", this)
+        new HttpManager<ResponseBean<Void>>("Home/UserCenter/setinfo", this)
+                .addParams("token", MyApplication.getUserToken())
                 .addParams("nick_name", nick_name)
                 .addParams("name", name)
                 .addParams("age", age)
                 .addParams("sex", sex)
                 .addParams("mail", mail)
-                .postRequest(new DialogCallback<ResponseBean>(activity) {
+                .postRequest(new DialogCallback<ResponseBean<Void>>(activity) {
                     @Override
-                    public void onSuccess(Response<ResponseBean> response) {
+                    public void onSuccess(Response<ResponseBean<Void>> response) {
                         callBack.updataSuccess();
                     }
                 });

@@ -5,6 +5,14 @@ package com.power.mercenary.bean.user;
  */
 public class UserInfo {
 
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
     /**
      * nick_name : 花花
      * name : 张三
@@ -26,6 +34,7 @@ public class UserInfo {
      * certificate : 2.jpg
      */
 
+    private String id;
     private String nick_name;
     private String name;
     private String age;

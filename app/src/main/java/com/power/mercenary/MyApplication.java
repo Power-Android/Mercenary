@@ -22,6 +22,7 @@ import com.orhanobut.logger.FormatStrategy;
 import com.orhanobut.logger.Logger;
 import com.orhanobut.logger.PrettyFormatStrategy;
 import com.power.mercenary.bean.user.TokenInfo;
+import com.power.mercenary.bean.user.UserInfo;
 import com.power.mercenary.data.CacheConstants;
 import com.power.mercenary.utils.CacheUtils;
 
@@ -154,6 +155,16 @@ public class MyApplication extends Application {
         if (tokenInfo != null) {
             if (!TextUtils.isEmpty(tokenInfo.token)) {
                 return tokenInfo.token;
+            }
+        }
+        return "";
+    }
+
+    public static String getUserId(){
+        UserInfo userInfo = CacheUtils.get(CacheConstants.USERINFO);
+        if (userInfo != null) {
+            if (!TextUtils.isEmpty(userInfo.getId())) {
+                return userInfo.getId();
             }
         }
         return "";

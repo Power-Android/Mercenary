@@ -34,9 +34,7 @@ public class TaskClassifyPresenter {
                 .postRequest(new DialogCallback<ResponseBean<List<TaskClassifyBean>>>(activity) {
                     @Override
                     public void onSuccess(Response<ResponseBean<List<TaskClassifyBean>>> response) {
-                        if (response.body().data != null) {
-                            callBack.getTaskClassify(response.body().data);
-                        }
+                        callBack.getTaskClassify(response.body().data);
                     }
                 });
     }
@@ -53,9 +51,7 @@ public class TaskClassifyPresenter {
                 .postRequest(new DialogCallback<ResponseBean<List<TaskChildClssifyBean>>>(activity) {
                     @Override
                     public void onSuccess(Response<ResponseBean<List<TaskChildClssifyBean>>> response) {
-                        if (response.body().data != null) {
-                            callBack.getTaskChildClassify(response.body().data);
-                        }
+                        callBack.getTaskChildClassify(response.body().data);
                     }
                 });
     }

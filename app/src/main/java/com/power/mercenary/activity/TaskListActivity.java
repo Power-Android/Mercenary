@@ -12,8 +12,14 @@ import android.widget.TextView;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.power.mercenary.R;
+import com.power.mercenary.adapter.TaskAdapter;
+import com.power.mercenary.adapter.task.TaskListAdapter;
 import com.power.mercenary.base.BaseActivity;
-import com.power.mercenary.fragment.HomeFragment;
+import com.power.mercenary.bean.task.TaskDetailsBean;
+import com.power.mercenary.bean.task.TaskClassifyListBean;
+import com.power.mercenary.bean.task.TaskListBean;
+import com.power.mercenary.presenter.TaskListPresenter;
+import com.power.mercenary.view.pullrecyclerview.WanRecyclerView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,14 +28,24 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class TaskListActivity extends BaseActivity {
+public class TaskListActivity extends BaseActivity implements TaskListPresenter.TaskListCallBack, TaskListAdapter.onItemClickListener, WanRecyclerView.PullRecyclerViewCallBack {
 
     @BindView(R.id.title_back_iv)
     ImageView titleBackIv;
     @BindView(R.id.title_content_tv)
     TextView titleContentTv;
-    @BindView(R.id.recyclerView)
-    RecyclerView recyclerView;
+    @BindView(R.id.act_taskList_recyclerView)
+    WanRecyclerView recyclerView;
+
+    private String type;
+
+    private TaskListPresenter presenter;
+
+    private TaskListAdapter adapter;
+
+    private List<TaskListBean> data;
+
+    private int page = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,79 +54,100 @@ public class TaskListActivity extends BaseActivity {
         ButterKnife.bind(this);
         titleBackIv.setVisibility(View.VISIBLE);
         titleContentTv.setText("任务列表");
+
+        type = getIntent().getStringExtra("type");
+
+        presenter = new TaskListPresenter(this, this);
+        presenter.getTaskList(page, type, null);
+
         initView();
     }
 
     private void initView() {
 
-        final String type = getIntent().getStringExtra("type");
-
-        List<String> taskList = new ArrayList<>();
-        taskList.add("");
-        taskList.add("");
-        taskList.add("");
-        taskList.add("");
-        taskList.add("");
-
-        recyclerView.setNestedScrollingEnabled(false);
-        recyclerView.setLayoutManager(new LinearLayoutManager(mContext));
-        TaskAdapter taskAdapter = new TaskAdapter(R.layout.item_tuijian_renwu,taskList);
-        recyclerView.setAdapter(taskAdapter);
-        taskAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
-            @Override
-            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-                switch (type){
-                    case "0"://跑腿详情页
-                        startActivity(new Intent(mContext,PTTaskDetailsActivity.class));
-                        break;
-                    case "1"://生活详情页
-                        startActivity(new Intent(mContext,SHTaskDetailsActivity.class));
-                        break;
-                    case "2"://个人详情页
-                        startActivity(new Intent(mContext,GRTaskDetailsActivity.class));
-                        break;
-                    case "3"://工作详情页
-                        startActivity(new Intent(mContext,GZTaskDetailsActivity.class));
-                        break;
-                    case "4"://身心详情页
-                        startActivity(new Intent(mContext,SXTaskDetailsActivity.class));
-                        break;
-                    case "5"://其他详情页
-                        startActivity(new Intent(mContext,QTTaskDetailsActivity.class));
-                        break;
-                }
-            }
-        });
+        recyclerView.setPullRecyclerViewListener(this);
+        recyclerView.setLinearLayout();
+        data = new ArrayList<>();
+        adapter = new TaskListAdapter(this, data);
+        recyclerView.setAdapter(adapter);
+        adapter.setOnItemClickListener(this);
     }
 
-    private class TaskAdapter extends BaseQuickAdapter<String,BaseViewHolder>{
-
-        public TaskAdapter(int layoutResId, @Nullable List<String> data) {
-            super(layoutResId, data);
+    @Override
+    public void getTaskList(List<TaskListBean> datas) {
+        if (datas != null) {
+            data.addAll(datas);
+            recyclerView.setHasMore(datas.size(), 10);
+        } else {
+            recyclerView.setHasMore(0, 10);
         }
+        adapter.notifyDataSetChanged();
+        recyclerView.setStateView(data.size());
+    }
 
-        @Override
-        protected void convert(BaseViewHolder helper, String item) {
-            TextView titleTv = helper.getView(R.id.item_title_tv);
-            TextView contentTv = helper.getView(R.id.item_content_tv);
-            RecyclerView tagRecyclerView = helper.getView(R.id.tag_recycler);
-            tagRecyclerView.setNestedScrollingEnabled(false);
-            LinearLayoutManager linearLayoutManager = new LinearLayoutManager(mContext);
-            linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
-            tagRecyclerView.setLayoutManager(linearLayoutManager);
-            List<String> tagList = new ArrayList<>();
-            tagList.add("");
-            tagList.add("");
-            tagList.add("");
-            TagAdapter tagAdapter = new TagAdapter(R.layout.item_tag_layout, tagList);
-            tagRecyclerView.setAdapter(tagAdapter);
+    @Override
+    public void getTaskDetails(TaskDetailsBean datas) {
+
+    }
+
+    @Override
+    public void getListFail() {
+        recyclerView.setHasMore(0, 10);
+    }
+
+    @Override
+    public void onTaskClickListener(String itemId) {
+        switch (type) {
+            case "1"://跑腿详情页
+                Intent pt = new Intent(mContext, PTTaskDetailsActivity.class);
+                pt.putExtra("taskId", itemId);
+                startActivity(pt);
+                break;
+            case "2"://生活详情页
+                Intent sh = new Intent(mContext, SHTaskDetailsActivity.class);
+                sh.putExtra("taskId", itemId);
+                startActivity(sh);
+                break;
+            case "3"://个人详情页
+                Intent gr = new Intent(mContext, GRTaskDetailsActivity.class);
+                gr.putExtra("taskId", itemId);
+                startActivity(gr);
+                break;
+            case "4"://工作详情页
+                Intent gz = new Intent(mContext, GZTaskDetailsActivity.class);
+                gz.putExtra("taskId", itemId);
+                startActivity(gz);
+                break;
+            case "5"://身心详情页
+                Intent sx = new Intent(mContext, SHTaskDetailsActivity.class);
+                sx.putExtra("taskId", itemId);
+                startActivity(sx);
+                break;
+            case "6"://其他详情页
+                Intent qt = new Intent(mContext, SHTaskDetailsActivity.class);
+                qt.putExtra("taskId", itemId);
+                startActivity(qt);
+                break;
         }
+    }
+
+    @Override
+    public void onRefresh() {
+        page = 1;
+        data.clear();
+        presenter.getTaskList(page, type, null);
+    }
+
+    @Override
+    public void onLoadMore() {
+        page ++;
+        presenter.getTaskList(page, type, null);
     }
 
     /**
      * 任务推荐标签Adapter
      */
-    public class TagAdapter extends BaseQuickAdapter<String,BaseViewHolder>{
+    public static class TagAdapter extends BaseQuickAdapter<String, BaseViewHolder> {
 
         public TagAdapter(int layoutResId, @Nullable List<String> data) {
             super(layoutResId, data);
@@ -119,6 +156,7 @@ public class TaskListActivity extends BaseActivity {
         @Override
         protected void convert(BaseViewHolder helper, String item) {
             TextView tagTv = helper.getView(R.id.item_content_tv);
+            tagTv.setText(item);
         }
     }
 

@@ -87,8 +87,8 @@ public class PTTaskZhonActivity extends BaseActivity implements View.OnClickList
 
         recycler_liu_yan.setLayoutManager(new LinearLayoutManager(mContext));
         recycler_liu_yan.setNestedScrollingEnabled(false);
-        MessageBoardAdapter changegameAdapter = new MessageBoardAdapter(R.layout.message_board_iten_view, mList);
-        recycler_liu_yan.setAdapter(changegameAdapter);
+//        MessageBoardAdapter changegameAdapter = new MessageBoardAdapter(R.layout.message_board_iten_view, mList);
+//        recycler_liu_yan.setAdapter(changegameAdapter);
         sharingPop = new SharingPop(PTTaskZhonActivity.this,R.layout.sharing_pop_item_view);
         sharingPop.setOnDismissListener(onDismissListener);
         initRefresh();

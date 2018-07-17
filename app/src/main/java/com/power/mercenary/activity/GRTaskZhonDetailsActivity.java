@@ -99,13 +99,13 @@ public class GRTaskZhonDetailsActivity extends BaseActivity implements View.OnCl
 
         recycler_img.setLayoutManager(new GridLayoutManager(mContext,3));
         recycler_img.setNestedScrollingEnabled(false);
-        TaskImageAdapter imageAdapter = new TaskImageAdapter(R.layout.tp_item_view, list_imgs);
+        TaskImageAdapter imageAdapter = new TaskImageAdapter(R.layout.tp_item_view, list_imgs, this);
         recycler_img.setAdapter(imageAdapter);
 
         recycler_liu_yan.setLayoutManager(new LinearLayoutManager(mContext));
         recycler_liu_yan.setNestedScrollingEnabled(false);
-        MessageBoardAdapter changegameAdapter = new MessageBoardAdapter(R.layout.message_board_iten_view, mList);
-        recycler_liu_yan.setAdapter(changegameAdapter);
+//        MessageBoardAdapter changegameAdapter = new MessageBoardAdapter(R.layout.message_board_iten_view, mList);
+//        recycler_liu_yan.setAdapter(changegameAdapter);
         sharingPop = new SharingPop(GRTaskZhonDetailsActivity.this,R.layout.sharing_pop_item_view);
         sharingPop.setOnDismissListener(onDismissListener);
         initRefresh();

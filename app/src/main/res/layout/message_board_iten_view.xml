@@ -11,9 +11,10 @@
         android:padding="10dp"
         android:orientation="horizontal">
 
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+        <com.power.mercenary.view.CircleImageView
+            android:id="@+id/item_msgDetails_view_icon"
+            android:layout_width="43dp"
+            android:layout_height="43dp"
             android:src="@drawable/moren_2x"/>
 
         <LinearLayout
@@ -23,12 +24,14 @@
             android:orientation="vertical">
 
             <TextView
+                android:id="@+id/item_msgDetails_view_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="逗逗"
                 android:textSize="12sp"/>
 
             <TextView
+                android:id="@+id/item_msgDetails_view_time"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="1分钟前"
@@ -37,6 +40,7 @@
                 android:textSize="12sp"/>
 
             <TextView
+                android:id="@+id/item_msgDetails_view_content"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="这个任务挺好的"

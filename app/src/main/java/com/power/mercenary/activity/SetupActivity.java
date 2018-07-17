@@ -348,12 +348,14 @@ public class SetupActivity extends BaseActivity implements View.OnClickListener,
 
     @Override
     public void updataUserImg(UserImgInfo imgInfo) {
-        userInfo.setHead_img(imgInfo.imgurl);
-        CacheUtils.put(CacheConstants.USERINFO, userInfo);
+        if (imgInfo != null) {
+            userInfo.setHead_img(imgInfo.imgurl);
+            CacheUtils.put(CacheConstants.USERINFO, userInfo);
 
-        Glide.with(mContext)
-                .load(imgInfo.imgurl)
-                .into(icon);
+            Glide.with(mContext)
+                    .load(imgInfo.imgurl)
+                    .into(icon);
+        }
     }
 
     @Override

@@ -31,9 +31,7 @@ public class UserPresenter {
                 .postRequest(new DialogCallback<ResponseBean<UserInfo>>(activity) {
                     @Override
                     public void onSuccess(Response<ResponseBean<UserInfo>> response) {
-                        if (response.body().data != null) {
-                            callBack.getUserInfo(response.body().data);
-                        }
+                        callBack.getUserInfo(response.body().data);
                     }
                 });
     }

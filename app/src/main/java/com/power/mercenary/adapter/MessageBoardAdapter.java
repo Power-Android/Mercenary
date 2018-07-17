@@ -5,16 +5,18 @@ import android.support.annotation.Nullable;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
+import com.power.mercenary.bean.task.MsgListBean;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Administrator on 2018/3/29.
  */
 
-public class MessageBoardAdapter extends BaseQuickAdapter<String, BaseViewHolder> {
+public class MessageBoardAdapter extends BaseQuickAdapter<MsgListBean, BaseViewHolder> {
 
-    public MessageBoardAdapter(@LayoutRes int layoutResId, @Nullable ArrayList<String> data) {
+    public MessageBoardAdapter(@LayoutRes int layoutResId, @Nullable List<MsgListBean> data) {
         super(layoutResId, data);
 
 
@@ -24,7 +26,7 @@ public class MessageBoardAdapter extends BaseQuickAdapter<String, BaseViewHolder
     }
 
     @Override
-    protected void convert(BaseViewHolder helper, String item) {
+    protected void convert(BaseViewHolder helper, MsgListBean item) {
 
     }
 }

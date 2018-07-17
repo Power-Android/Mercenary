@@ -45,9 +45,7 @@ public class AccountPresenter {
                 .postRequest(new DialogCallback<ResponseBean<TokenInfo>>(activity) {
                     @Override
                     public void onSuccess(Response<ResponseBean<TokenInfo>> response) {
-                        if (response.body().data != null) {
-                            callBack.changePassword(response.body().data);
-                        }
+                        callBack.changePassword(response.body().data);
                     }
                 });
     }
@@ -66,9 +64,7 @@ public class AccountPresenter {
                 .postRequest(new DialogCallback<ResponseBean<TokenInfo>>(activity) {
                     @Override
                     public void onSuccess(Response<ResponseBean<TokenInfo>> response) {
-                        if (response.body().data != null) {
-                            callBack.changePhone(response.body().data);
-                        }
+                        callBack.changePhone(response.body().data);
                     }
                 });
     }

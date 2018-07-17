@@ -116,7 +116,7 @@ public class JKTaskDetailsActivity extends BaseActivity implements View.OnClickL
 
         recycler_img.setLayoutManager(new GridLayoutManager(mContext,3));
         recycler_img.setNestedScrollingEnabled(false);
-        TaskImageAdapter imageAdapter = new TaskImageAdapter(R.layout.tp_item_view, list_imgs);
+        TaskImageAdapter imageAdapter = new TaskImageAdapter(R.layout.tp_item_view, list_imgs, this);
         recycler_img.setAdapter(imageAdapter);
         recycler_content.setLayoutManager(new LinearLayoutManager(mContext));
         recycler_content.setNestedScrollingEnabled(false);
@@ -124,8 +124,8 @@ public class JKTaskDetailsActivity extends BaseActivity implements View.OnClickL
 
         recycler_liu_yan.setLayoutManager(new LinearLayoutManager(mContext));
         recycler_liu_yan.setNestedScrollingEnabled(false);
-        MessageBoardAdapter changegameAdapter = new MessageBoardAdapter(R.layout.message_board_iten_view, mList);
-        recycler_liu_yan.setAdapter(changegameAdapter);
+//        MessageBoardAdapter changegameAdapter = new MessageBoardAdapter(R.layout.message_board_iten_view, mList);
+//        recycler_liu_yan.setAdapter(changegameAdapter);
         sharingPop = new SharingPop(JKTaskDetailsActivity.this,R.layout.sharing_pop_item_view);
         sharingPop.setOnDismissListener(onDismissListener);
         initRefresh();
@@ -202,14 +202,14 @@ public class JKTaskDetailsActivity extends BaseActivity implements View.OnClickL
     private void initRenwutjData() {
 
 
-        YBMRAdapter changegameAdapter = new YBMRAdapter(R.layout.ybmr_item_view, mList);
-        recycler_content.setAdapter(changegameAdapter);
+//        YBMRAdapter changegameAdapter = new YBMRAdapter(R.layout.ybmr_item_view, mList);
+//        recycler_content.setAdapter(changegameAdapter);
 
     }
 
     private void initTongchengData() {
-        DXRAdapter changegameAdapter = new DXRAdapter(R.layout.dxr_item_view, mList);
-        recycler_content.setAdapter(changegameAdapter);
+//        DXRAdapter changegameAdapter = new DXRAdapter(R.layout.dxr_item_view, mList);
+//        recycler_content.setAdapter(changegameAdapter);
     }
 
     @Override

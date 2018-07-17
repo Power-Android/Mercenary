@@ -15,12 +15,19 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.lzy.okgo.model.Response;
 import com.power.mercenary.MainActivity;
+import com.power.mercenary.MyApplication;
 import com.power.mercenary.R;
 import com.power.mercenary.base.BaseActivity;
 import com.power.mercenary.bean.user.TokenInfo;
+import com.power.mercenary.bean.user.UserInfo;
 import com.power.mercenary.data.CacheConstants;
+import com.power.mercenary.http.DialogCallback;
+import com.power.mercenary.http.HttpManager;
+import com.power.mercenary.http.ResponseBean;
 import com.power.mercenary.presenter.LoginPresenter;
+import com.power.mercenary.presenter.UserPresenter;
 import com.power.mercenary.utils.CacheUtils;
 import com.power.mercenary.utils.CountDownUtils;
 import com.power.mercenary.utils.MyUtils;
@@ -40,7 +47,7 @@ import static com.power.mercenary.R.id.tv_yzm_mm;
  * Created by Administrator on 2018/3/29.
  */
 
-public class SignInActivity extends BaseActivity implements View.OnClickListener, LoginPresenter.TokenCallBack {
+public class SignInActivity extends BaseActivity implements View.OnClickListener, LoginPresenter.TokenCallBack, UserPresenter.UserCallBack {
 
 
     @BindView(R.id.renwutj_tv)
@@ -94,12 +101,16 @@ public class SignInActivity extends BaseActivity implements View.OnClickListener
     private CountDownUtils countDownUtils;
     private String Tag = "";
     private LoginPresenter presenter;
+    private UserPresenter userPresenter;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_in);
         ButterKnife.bind(this);
+
+        userPresenter = new UserPresenter(this, this);
+
         title_text.setText("登录");
         renwutjLl.setOnClickListener(this);
         tongchengLl.setOnClickListener(this);
@@ -229,7 +240,15 @@ public class SignInActivity extends BaseActivity implements View.OnClickListener
     public void getCodeLoginInfo(TokenInfo userInfo) {
         startActivity(new Intent(this, MainActivity.class));
         CacheUtils.put(CacheConstants.TYPE_LOGIN,userInfo);
-        finish();
+        new HttpManager<ResponseBean<UserInfo>>("Home/UserCenter/getinfo", this)
+                .addParams("token", userInfo.token)
+                .postRequest(new DialogCallback<ResponseBean<UserInfo>>(this) {
+                    @Override
+                    public void onSuccess(Response<ResponseBean<UserInfo>> response) {
+                        CacheUtils.put(CacheConstants.USERINFO, response.body().data);
+                        finish();
+                    }
+                });
         Toast.makeText(this, "验证码登录成功", Toast.LENGTH_SHORT).show();
     }
 
@@ -237,7 +256,15 @@ public class SignInActivity extends BaseActivity implements View.OnClickListener
     public void getPassLoginInfo(TokenInfo userInfo) {
         startActivity(new Intent(this, MainActivity.class));
         CacheUtils.put(CacheConstants.TYPE_LOGIN,userInfo);
-        finish();
+        new HttpManager<ResponseBean<UserInfo>>("Home/UserCenter/getinfo", this)
+                .addParams("token", userInfo.token)
+                .postRequest(new DialogCallback<ResponseBean<UserInfo>>(this) {
+                    @Override
+                    public void onSuccess(Response<ResponseBean<UserInfo>> response) {
+                        CacheUtils.put(CacheConstants.USERINFO, response.body().data);
+                        finish();
+                    }
+                });
         Toast.makeText(this, "密码登录成功", Toast.LENGTH_SHORT).show();
     }
 
@@ -246,4 +273,8 @@ public class SignInActivity extends BaseActivity implements View.OnClickListener
 
     }
 
+    @Override
+    public void getUserInfo(UserInfo userInfo) {
+
+    }
 }

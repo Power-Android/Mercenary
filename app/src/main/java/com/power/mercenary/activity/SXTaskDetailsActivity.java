@@ -21,6 +21,13 @@ import com.power.mercenary.adapter.DXRAdapter;
 import com.power.mercenary.adapter.MessageBoardAdapter;
 import com.power.mercenary.adapter.YBMRAdapter;
 import com.power.mercenary.base.BaseActivity;
+import com.power.mercenary.bean.task.ApplyListBean;
+import com.power.mercenary.bean.task.MsgBean;
+import com.power.mercenary.bean.task.MsgListBean;
+import com.power.mercenary.bean.task.TaskDetailsBean;
+import com.power.mercenary.bean.task.TaskListBean;
+import com.power.mercenary.presenter.TaskDetailsPresenter;
+import com.power.mercenary.presenter.TaskListPresenter;
 import com.power.mercenary.view.SharingPop;
 
 import java.util.ArrayList;
@@ -29,7 +36,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class SXTaskDetailsActivity extends BaseActivity implements View.OnClickListener{
+public class SXTaskDetailsActivity extends BaseActivity implements View.OnClickListener, TaskDetailsPresenter.TaskDetailsCallBack {
 
     @BindView(R.id.recycler_task_tag)
     RecyclerView recycler_task_tag;
@@ -59,12 +66,21 @@ public class SXTaskDetailsActivity extends BaseActivity implements View.OnClickL
     private SharingPop sharingPop;
     @BindView(R.id.left_back)
     ImageView left_back;
+    private String taskId;
+    private TaskDetailsPresenter presenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sxtask_details);
         ButterKnife.bind(this);
+
+        taskId = getIntent().getStringExtra("taskId");
+
+        presenter = new TaskDetailsPresenter(this, this);
+        presenter.getTaskDetails(taskId);
+        presenter.getApplyList(taskId, 0);
+        presenter.getMsgList(taskId, 1);
 
         recycler_task_tag.setNestedScrollingEnabled(false);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(mContext);
@@ -90,8 +106,8 @@ public class SXTaskDetailsActivity extends BaseActivity implements View.OnClickL
 
         recycler_liu_yan.setLayoutManager(new LinearLayoutManager(mContext));
         recycler_liu_yan.setNestedScrollingEnabled(false);
-        MessageBoardAdapter changegameAdapter = new MessageBoardAdapter(R.layout.message_board_iten_view, mList);
-        recycler_liu_yan.setAdapter(changegameAdapter);
+//        MessageBoardAdapter changegameAdapter = new MessageBoardAdapter(R.layout.message_board_iten_view, mList);
+//        recycler_liu_yan.setAdapter(changegameAdapter);
         sharingPop = new SharingPop(SXTaskDetailsActivity.this,R.layout.sharing_pop_item_view);
         sharingPop.setOnDismissListener(onDismissListener);
         initRefresh();
@@ -168,14 +184,14 @@ public class SXTaskDetailsActivity extends BaseActivity implements View.OnClickL
     private void initRenwutjData() {
 
 
-        YBMRAdapter changegameAdapter = new YBMRAdapter(R.layout.ybmr_item_view, mList);
-        recycler_content.setAdapter(changegameAdapter);
+//        YBMRAdapter changegameAdapter = new YBMRAdapter(R.layout.ybmr_item_view, mList);
+//        recycler_content.setAdapter(changegameAdapter);
 
     }
 
     private void initTongchengData() {
-        DXRAdapter changegameAdapter = new DXRAdapter(R.layout.dxr_item_view, mList);
-        recycler_content.setAdapter(changegameAdapter);
+//        DXRAdapter changegameAdapter = new DXRAdapter(R.layout.dxr_item_view, mList);
+//        recycler_content.setAdapter(changegameAdapter);
     }
 
     @Override
@@ -196,6 +212,46 @@ public class SXTaskDetailsActivity extends BaseActivity implements View.OnClickL
                 finish();
                 break;
         }
+    }
+
+    @Override
+    public void getTaskDetails(TaskDetailsBean datas) {
+
+    }
+
+    @Override
+    public void publishMsg(MsgBean datas) {
+
+    }
+
+    @Override
+    public void getApplyList(List<ApplyListBean> datas) {
+
+    }
+
+    @Override
+    public void getMsgList(List<MsgListBean> datas) {
+
+    }
+
+    @Override
+    public void applyRequest() {
+
+    }
+
+    @Override
+    public void changePeople() {
+
+    }
+
+    @Override
+    public void changeCollection() {
+
+    }
+
+    @Override
+    public void getMsgListFail() {
+
     }
 
     /**

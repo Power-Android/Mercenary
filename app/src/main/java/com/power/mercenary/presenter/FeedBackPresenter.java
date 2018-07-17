@@ -29,15 +29,15 @@ public class FeedBackPresenter {
      * @param contact
      */
     public void requestFeedBack(String type, String content, String name, String contact){
-        new HttpManager<ResponseBean>("Home/UserCenter/feedback", this)
+        new HttpManager<ResponseBean<Void>>("Home/UserCenter/feedback", this)
                 .addParams("token", MyApplication.getUserToken())
                 .addParams("type", type)
                 .addParams("content", content)
                 .addParams("name", name)
                 .addParams("contact", contact)
-                .postRequest(new DialogCallback<ResponseBean>(activity) {
+                .postRequest(new DialogCallback<ResponseBean<Void>>(activity) {
                     @Override
-                    public void onSuccess(Response<ResponseBean> response) {
+                    public void onSuccess(Response<ResponseBean<Void>> response) {
                         callBack.requestFeedBack();
                     }
                 });

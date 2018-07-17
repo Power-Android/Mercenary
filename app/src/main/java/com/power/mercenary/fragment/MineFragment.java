@@ -242,15 +242,17 @@ public class MineFragment extends BaseFragment implements UserPresenter.UserCall
 
     @Override
     public void getUserInfo(UserInfo userInfo) {
-        CacheUtils.put(CacheConstants.USERINFO, userInfo);
-        if (!TextUtils.isEmpty(userInfo.getHead_img())) {
-            Glide.with(mContext)
-                    .load(userInfo.getHead_img())
-                    .into(icon);
-        }
+        if (userInfo != null) {
+            CacheUtils.put(CacheConstants.USERINFO, userInfo);
+            if (!TextUtils.isEmpty(userInfo.getHead_img())) {
+                Glide.with(mContext)
+                        .load(userInfo.getHead_img())
+                        .into(icon);
+            }
 
-        if (!TextUtils.isEmpty(userInfo.getNick_name())) {
-            name.setText(userInfo.getNick_name());
+            if (!TextUtils.isEmpty(userInfo.getNick_name())) {
+                name.setText(userInfo.getNick_name());
+            }
         }
     }
 }

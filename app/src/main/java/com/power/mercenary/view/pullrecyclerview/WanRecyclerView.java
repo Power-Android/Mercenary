@@ -9,6 +9,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -67,7 +68,9 @@ public class WanRecyclerView extends FrameLayout implements SpringView.OnFreshLi
 
         mSpringView.setListener(this);
         mSpringView.setType(SpringView.Type.FOLLOW);
-        mSpringView.setHeader(new DefaultHeader(context));
+        mSpringView.setHeader(new DefaultHeader(mContext));
+        mSpringView.setFooter(new DefaultFooter(mContext));
+        mSpringView.setEnableFooter(false);
     }
 
     public RecyclerView getRecyclerView() {
@@ -102,12 +105,12 @@ public class WanRecyclerView extends FrameLayout implements SpringView.OnFreshLi
 
     public void setStateView(int size) {
         if (size > 0) {
-            if (stateView.getVisibility() == GONE) {
-                stateView.setVisibility(VISIBLE);
-            }
-        } else {
             if (stateView.getVisibility() == VISIBLE) {
                 stateView.setVisibility(GONE);
+            }
+        } else {
+            if (stateView.getVisibility() == GONE) {
+                stateView.setVisibility(VISIBLE);
             }
         }
     }
@@ -126,17 +129,10 @@ public class WanRecyclerView extends FrameLayout implements SpringView.OnFreshLi
         if (MyApplication.isNetworkAvailable(mContext)) {
             isRefresh = true;
             callBack.onRefresh();
-
-
-            new Handler().postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    setPullLoadMoreCompleted();
-                }
-            }, 2000);
         } else {
             Toast.makeText(mContext, "网络没有连接", Toast.LENGTH_SHORT).show();
             setPullLoadMoreCompleted();
+            mSpringView.setEnableFooter(false);
         }
     }
 
@@ -147,16 +143,10 @@ public class WanRecyclerView extends FrameLayout implements SpringView.OnFreshLi
         if (MyApplication.isNetworkAvailable(mContext)) {
             isLoadMore = true;
             callBack.onLoadMore();
-
-            new Handler().postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    setPullLoadMoreCompleted();
-                }
-            }, 2000);
         } else {
             Toast.makeText(mContext, "网络没有连接", Toast.LENGTH_SHORT).show();
             setPullLoadMoreCompleted();
+            mSpringView.setEnableFooter(false);
         }
     }
 
@@ -173,6 +163,10 @@ public class WanRecyclerView extends FrameLayout implements SpringView.OnFreshLi
         }
     }
 
+    public void setNestedScrollingEnabled(boolean isScroll){
+        mRecyclerView.setNestedScrollingEnabled(false);
+    }
+
     public boolean isRefresh() {
         return isRefresh;
     }
@@ -182,10 +176,11 @@ public class WanRecyclerView extends FrameLayout implements SpringView.OnFreshLi
     }
 
     public void setHasMore(int size, int count) {
+        setPullLoadMoreCompleted();
         if (size == count) {
-            mSpringView.setFooter(new DefaultFooter(mContext));
+            mSpringView.setEnableFooter(true);
         } else {
-            mSpringView.setFooter(null);
+            mSpringView.setEnableFooter(false);
         }
     }
 
