@@ -22,6 +22,7 @@ import com.luck.picture.lib.compress.Luban;
 import com.luck.picture.lib.config.PictureConfig;
 import com.luck.picture.lib.config.PictureMimeType;
 import com.luck.picture.lib.entity.LocalMedia;
+import com.power.mercenary.MyApplication;
 import com.power.mercenary.R;
 import com.power.mercenary.base.BaseActivity;
 import com.power.mercenary.bean.user.UserImgInfo;
@@ -91,6 +92,8 @@ public class SetupActivity extends BaseActivity implements View.OnClickListener,
     TextView tvNickname;
     @BindView(R.id.act_setUp_name_tv)
     TextView tvName;
+    @BindView(R.id.tv_tcdl)
+    TextView logout;
     @BindView(R.id.act_setUp_icon)
     ImageView icon;
 
@@ -139,6 +142,13 @@ public class SetupActivity extends BaseActivity implements View.OnClickListener,
         initSelectAge(ageList);
 
         initData();
+
+        logout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                MyApplication.loginOut();
+            }
+        });
 
         EventBus.getDefault().register(this);
     }

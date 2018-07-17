@@ -9,6 +9,7 @@ import com.bumptech.glide.Glide;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.power.mercenary.R;
+import com.power.mercenary.view.SquareImageView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,7 +31,7 @@ public class TaskImageAdapter extends BaseQuickAdapter<String, BaseViewHolder> {
 
     @Override
     protected void convert(BaseViewHolder helper, String item) {
-        ImageView imageView = helper.getView(R.id.tp_item_view_iv);
+        SquareImageView imageView = helper.getView(R.id.tp_item_view_iv);
 
         Glide.with(context)
                 .load(item)

@@ -455,7 +455,7 @@ public class GZTaskDetailsActivity extends BaseActivity implements View.OnClickL
     public void selectedPeople(String id, int state, String avatar, String name, String userId) {
         if (state == 2) {
             //选定 弹个界面
-            if (!TextUtils.equals(userId, MyApplication.getUserId())) {
+            if (TextUtils.equals(MyApplication.getUserId(), publisherId)) {
                 publishBtn.setText("任务中");
                 publishBtn.setOnClickListener(null);
                 tuijianTabLl.setVisibility(View.GONE);
@@ -468,6 +468,8 @@ public class GZTaskDetailsActivity extends BaseActivity implements View.OnClickL
                 actTaskDetaiilsPrivateName.setText(name);
 
                 presenter.changePeople(id, state, taskId);
+            } else {
+                TUtils.showCustom(this, "只有发布者可以更改");
             }
         } else {
             presenter.changePeople(id, state, taskId);
