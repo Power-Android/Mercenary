@@ -317,7 +317,11 @@ public class GZTaskDetailsActivity extends BaseActivity implements View.OnClickL
             StringBuffer taskRequest = new StringBuffer();
 
             for (int i = 0; i < stringList.size(); i++) {
-                taskRequest.append(stringList.get(i) + "\n");
+                if (i != stringList.size() - 1) {
+                    taskRequest.append(stringList.get(i) + "\n");
+                } else {
+                    taskRequest.append(stringList.get(i));
+                }
             }
 
             tvTaskAsk.setText(taskRequest);
