@@ -88,7 +88,6 @@
                                 android:id="@+id/act_task_detaiils_name"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="李明"
                                 android:textSize="14sp"
                                 />
 
@@ -96,7 +95,6 @@
                                 android:id="@+id/act_task_detaiils_time"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="2017-11-01"
                                 android:layout_marginTop="5dp"
                                 android:textColor="#999"
                                 android:textSize="12sp"
@@ -106,7 +104,6 @@
                             android:id="@+id/act_task_detaiils_price"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="100.00"
                             android:textColor="#FFFFC910"/>
                     </LinearLayout>
 
@@ -129,7 +126,6 @@
                                 android:id="@+id/act_task_detaiils_title"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="任务名称"
                                 android:textSize="14sp"
                                 />
                         </RelativeLayout>
@@ -170,7 +166,6 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="4"
-                            android:text="30天"
                             android:textSize="14sp" />
 
                     </LinearLayout>
@@ -194,7 +189,6 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="4"
-                            android:text="描述任务目的"
                             android:textSize="14sp" />
 
                     </LinearLayout>
@@ -221,7 +215,6 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="4"
-                        android:text="描述任务要求"
                         android:textSize="14sp" />
                 </LinearLayout>
                 <LinearLayout
@@ -245,7 +238,6 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="4"
-                        android:text="挨打的撒大大大所多了；看；了；看了；看了；看看；来健康观后感看看就好即可很快就会看见好看"
                         android:textSize="14sp" />
                 </LinearLayout>
 
