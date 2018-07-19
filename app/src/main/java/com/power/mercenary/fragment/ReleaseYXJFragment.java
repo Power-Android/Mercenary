@@ -12,11 +12,16 @@ import com.liaoinstan.springview.container.DefaultFooter;
 import com.liaoinstan.springview.container.DefaultHeader;
 import com.liaoinstan.springview.widget.SpringView;
 import com.power.mercenary.R;
+import com.power.mercenary.adapter.ReleaseRWZAdapter;
 import com.power.mercenary.adapter.ReleaseWJDAdapter;
 import com.power.mercenary.adapter.ReleaseYXJAdapter;
 import com.power.mercenary.base.BaseFragment;
+import com.power.mercenary.bean.mytask.PublishTaskBean;
+import com.power.mercenary.presenter.publish.PublishPresenter;
+import com.power.mercenary.view.pullrecyclerview.WanRecyclerView;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -25,88 +30,93 @@ import butterknife.ButterKnife;
  * Created by Administrator on 2018/3/30.
  */
 
-public class ReleaseYXJFragment extends BaseFragment {
+public class ReleaseYXJFragment extends BaseFragment implements WanRecyclerView.PullRecyclerViewCallBack, PublishPresenter.PublishCallBack, ReleaseYXJAdapter.TaskBtnListener {
 
-    @BindView(R.id.springView_release)
-    SpringView springView_release;
+    List<PublishTaskBean> mList=new ArrayList<>();
 
-    @BindView(R.id.mRecycler_release)
-    RecyclerView mRecycler_release;
+    private PublishPresenter publishPresenter;
 
-    ArrayList<String> mList=new ArrayList<>();
+    private WanRecyclerView wanRecyclerView;
+
+    private ReleaseYXJAdapter adapter;
+
+    private int page = 1;
 
     @Override
     protected View initView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         View view = View.inflate(getActivity(), R.layout.fragment_release,null);
 
-        ButterKnife.bind(this,view);
+        wanRecyclerView = view.findViewById(R.id.frag_release_recyclerView);
+        wanRecyclerView.setLinearLayout();
+        wanRecyclerView.setPullRecyclerViewListener(this);
 
-        if (mList.size()<=0){
-            mList.add("");
-            mList.add("");
-            mList.add("");
-            mList.add("");
-            mList.add("");
-            mList.add("");
-            mList.add("");
-            mList.add("");
-            mList.add("");
-            mList.add("");
-            mList.add("");
-        }
-        mRecycler_release.setLayoutManager(new LinearLayoutManager(mContext));
-        mRecycler_release.setNestedScrollingEnabled(false);
-        ReleaseYXJAdapter changegameAdapter = new ReleaseYXJAdapter(R.layout.yxj_item_view, mList);
-        mRecycler_release.setAdapter(changegameAdapter);
+        adapter = new ReleaseYXJAdapter(getContext(), mList, "上架");
+        adapter.setTaskBtnListener(this);
+        wanRecyclerView.setAdapter(adapter);
 
-
-        initRefresh();
-
+        publishPresenter = new PublishPresenter(getActivity(), this);
 
         return view;
     }
 
     @Override
     protected void initLazyData() {
+        publishPresenter.getPublishTaskList(page, 4);
+    }
+
+    @Override
+    public void getPublishTaskList(List<PublishTaskBean> datas) {
+        if (datas != null) {
+            mList.addAll(datas);
+            wanRecyclerView.setHasMore(datas.size(), 10);
+        } else {
+            wanRecyclerView.setHasMore(0, 10);
+        }
+        adapter.notifyDataSetChanged();
+        wanRecyclerView.setStateView(mList.size());
+    }
+
+    @Override
+    public void getPublishTaskListFail() {
+        wanRecyclerView.setHasMore(0, 10);
+    }
+
+    @Override
+    public void putTaskRequestSuccess() {
 
     }
 
-    //下拉刷新
-    private void initRefresh() {
-        //DefaultHeader/Footer是SpringView已经实现的默认头/尾之一
-        //更多还有MeituanHeader、AliHeader、RotationHeader等如上图7种
-        springView_release.setType(SpringView.Type.FOLLOW);
-        springView_release.setHeader(new DefaultHeader(mContext));
-        springView_release.setFooter(new DefaultFooter(mContext));
-        springView_release.setListener(new SpringView.OnFreshListener() {
-            @Override
-            public void onRefresh() {
-//                Toast.makeText(mContext,"下拉刷新中",Toast.LENGTH_SHORT).show();
-                // list.clear();
-                // 网络请求;
-                // mStarFragmentPresenter.queryData();
-                //一分钟之后关闭刷新的方法
-                finishFreshAndLoad();
-            }
+    @Override
+    public void outTaskRequestSuccess() {
 
-            @Override
-            public void onLoadmore() {
-//                Toast.makeText(mContext,"玩命加载中...",Toast.LENGTH_SHORT).show();
-                finishFreshAndLoad();
-            }
-        });
     }
 
-    /**
-     * 关闭加载提示
-     */
-    private void finishFreshAndLoad() {
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                springView_release.onFinishFreshAndLoad();
-            }
-        }, 2000);
+    @Override
+    public void auditTaskRequestSuccess() {
+
+    }
+
+    @Override
+    public void appraiseRequestSuccess() {
+
+    }
+
+    @Override
+    public void onRefresh() {
+        page = 1;
+        mList.clear();
+        publishPresenter.getPublishTaskList(page, 4);
+    }
+
+    @Override
+    public void onLoadMore() {
+        page ++;
+        publishPresenter.getPublishTaskList(page, 4);
+    }
+
+    @Override
+    public void TaskOnClickListener(String id, int position) {
+
     }
 }

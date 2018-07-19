@@ -251,6 +251,7 @@ public class GRTaskDetailsActivity extends BaseActivity implements View.OnClickL
                 msgPage++;
 
                 if (msgListBeanList.size() < 10) {
+                    msgListBeanList.clear();
                     msgPage = 1;
                 }
 
@@ -397,7 +398,7 @@ public class GRTaskDetailsActivity extends BaseActivity implements View.OnClickL
                 publishBtn.setOnClickListener(null);
             }
 
-            TaskImageAdapter imageAdapter = new TaskImageAdapter(R.layout.tp_item_view, MercenaryUtils.stringToList(datas.getTask_img()), this);
+            TaskImageAdapter imageAdapter = new TaskImageAdapter(R.layout.tp_item_view, MercenaryUtils.string3ToList(datas.getTask_img()), this);
             ivRecyclerView.setAdapter(imageAdapter);
         }
     }

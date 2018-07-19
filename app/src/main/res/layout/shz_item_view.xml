@@ -23,6 +23,7 @@
             android:orientation="horizontal">
 
             <TextView
+                android:id="@+id/item_wjd_view_title"
                 android:layout_width="0dp"
                 android:layout_weight="1"
                 android:layout_height="wrap_content"
@@ -30,8 +31,8 @@
                 android:textSize="14sp"/>
 
             <TextView
-                android:layout_width="0dp"
-                android:layout_weight="1"
+                android:id="@+id/item_wjd_view_price"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="20.00"
                 android:gravity="right"
@@ -41,6 +42,7 @@
         </LinearLayout>
 
         <TextView
+            android:id="@+id/item_wjd_view_content"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="包同城搬运"
@@ -49,10 +51,10 @@
             android:textSize="14sp"/>
 
         <android.support.v7.widget.RecyclerView
-            android:id="@+id/rv_tag"
+            android:id="@+id/item_wjd_view_recyclerView"
             android:layout_marginTop="10dp"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"></android.support.v7.widget.RecyclerView>
+            android:layout_height="wrap_content"/>
 
     </LinearLayout>
 
@@ -71,6 +73,7 @@
 
 
             <TextView
+                android:id="@+id/item_wjd_view_btn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="12sp"

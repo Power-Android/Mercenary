@@ -6,6 +6,7 @@
     android:paddingLeft="10dp"
     android:paddingRight="10dp"
     android:paddingTop="15dp"
+    android:background="@color/white"
     android:orientation="vertical">
     <RelativeLayout
         android:layout_width="match_parent"
@@ -15,13 +16,11 @@
             android:id="@+id/item_title_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="简单的任务"
             android:textColor="@color/textColorDrak"/>
         <TextView
             android:id="@+id/item_money_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="￥0.01"
             android:textColor="@color/pro_content"
             android:layout_alignParentRight="true"/>
     </RelativeLayout>
@@ -31,7 +30,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingTop="10dp"
-        android:text="点击链接下载转发文章即可赚钱，点击链接转发文章即可赚钱，点击链接转发文章即可赚钱"
         android:singleLine="true"
         android:ellipsize="end"/>
     <android.support.v7.widget.RecyclerView

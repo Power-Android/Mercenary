@@ -13,6 +13,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.power.mercenary.R;
+import com.power.mercenary.activity.AcceptTaskActivity;
 import com.power.mercenary.activity.MyAchievementActivity;
 import com.power.mercenary.activity.MyCollection;
 import com.power.mercenary.activity.MyExtensionActivity;
@@ -80,6 +81,15 @@ public class MineFragment extends BaseFragment implements UserPresenter.UserCall
     LinearLayout ll_shz;
     @BindView(R.id.ll_dpj)
     LinearLayout ll_dpj;
+    @BindView(R.id.frag_mine_ybm)
+    LinearLayout fragMineYbm;
+    @BindView(R.id.frag_mine_rwz)
+    LinearLayout fragMineRwz;
+    @BindView(R.id.frag_mine_shz)
+    LinearLayout fragMineShz;
+    @BindView(R.id.frag_mine_ywc)
+    LinearLayout fragMineYwc;
+    Unbinder unbinder;
 
     private UserPresenter userPresenter;
 
@@ -160,7 +170,7 @@ public class MineFragment extends BaseFragment implements UserPresenter.UserCall
             public void onClick(View view) {
 
                 Intent intent = new Intent(getActivity(), TaskStatisticsActivity.class);
-                intent.putExtra("title", "接收任务统计");
+                intent.putExtra("state", 1);
                 startActivity(intent);
 
             }
@@ -169,7 +179,7 @@ public class MineFragment extends BaseFragment implements UserPresenter.UserCall
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(getActivity(), TaskStatisticsActivity.class);
-                intent.putExtra("title", "发布任务统计");
+                intent.putExtra("state", 2);
                 startActivity(intent);
             }
         });
@@ -186,6 +196,7 @@ public class MineFragment extends BaseFragment implements UserPresenter.UserCall
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(getActivity(), ReleaseTaskActivity.class);
+                intent.putExtra("position", 1);
                 startActivity(intent);
             }
         });
@@ -194,6 +205,7 @@ public class MineFragment extends BaseFragment implements UserPresenter.UserCall
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(getActivity(), ReleaseTaskActivity.class);
+                intent.putExtra("position", 2);
                 startActivity(intent);
             }
         });
@@ -201,6 +213,7 @@ public class MineFragment extends BaseFragment implements UserPresenter.UserCall
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(getActivity(), ReleaseTaskActivity.class);
+                intent.putExtra("position", 3);
                 startActivity(intent);
             }
         });
@@ -209,6 +222,7 @@ public class MineFragment extends BaseFragment implements UserPresenter.UserCall
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(getActivity(), ReleaseTaskActivity.class);
+                intent.putExtra("position", 4);
                 startActivity(intent);
             }
         });
@@ -228,6 +242,7 @@ public class MineFragment extends BaseFragment implements UserPresenter.UserCall
     public void onDestroyView() {
         super.onDestroyView();
         EventBus.getDefault().unregister(this);
+        unbinder.unbind();
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
@@ -253,6 +268,40 @@ public class MineFragment extends BaseFragment implements UserPresenter.UserCall
             if (!TextUtils.isEmpty(userInfo.getNick_name())) {
                 name.setText(userInfo.getNick_name());
             }
+        }
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        // TODO: inflate a fragment view
+        View rootView = super.onCreateView(inflater, container, savedInstanceState);
+        unbinder = ButterKnife.bind(this, rootView);
+        return rootView;
+    }
+
+    @OnClick({R.id.frag_mine_ybm, R.id.frag_mine_rwz, R.id.frag_mine_shz, R.id.frag_mine_ywc})
+    public void onViewClicked(View view) {
+        switch (view.getId()) {
+            case R.id.frag_mine_ybm:
+                Intent intent = new Intent(getActivity(), AcceptTaskActivity.class);
+                intent.putExtra("position", 1);
+                startActivity(intent);
+                break;
+            case R.id.frag_mine_rwz:
+                Intent intent1 = new Intent(getActivity(), AcceptTaskActivity.class);
+                intent1.putExtra("position", 2);
+                startActivity(intent1);
+                break;
+            case R.id.frag_mine_shz:
+                Intent intent2 = new Intent(getActivity(), AcceptTaskActivity.class);
+                intent2.putExtra("position", 3);
+                startActivity(intent2);
+                break;
+            case R.id.frag_mine_ywc:
+                Intent intent3 = new Intent(getActivity(), AcceptTaskActivity.class);
+                intent3.putExtra("position", 4);
+                startActivity(intent3);
+                break;
         }
     }
 }

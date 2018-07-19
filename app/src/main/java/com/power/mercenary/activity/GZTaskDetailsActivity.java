@@ -244,6 +244,7 @@ public class GZTaskDetailsActivity extends BaseActivity implements View.OnClickL
                 msgPage++;
 
                 if (msgListBeanList.size() < 10) {
+                    msgListBeanList.clear();
                     msgPage = 1;
                 }
 

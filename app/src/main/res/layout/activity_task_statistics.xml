@@ -7,27 +7,242 @@
 
     <include layout="@layout/title_view"/>
 
-    <GridView
-        android:id="@+id/gv_rwtj"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:numColumns="6"
-        ></GridView>
-
-    <com.liaoinstan.springview.widget.SpringView
-        android:id="@+id/springView"
-        android:layout_width="match_parent"
-        android:layout_marginTop="10dp"
-        android:layout_height="match_parent"
-
+        android:orientation="horizontal"
         >
-        <android.support.v7.widget.RecyclerView
-            android:background="#fff"
-            android:id="@+id/mRecycler"
-            android:layout_width="match_parent"
+
+        <LinearLayout
+            android:id="@+id/act_task_star_layout1"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:background="@color/white"
+            android:orientation="vertical"
+            android:gravity="center"
             android:layout_height="wrap_content">
-        </android.support.v7.widget.RecyclerView>
-    </com.liaoinstan.springview.widget.SpringView>
 
+            <TextView
+                android:id="@+id/act_task_star1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="一星"
+                android:textSize="14sp"
+                android:layout_marginTop="10dp"
+                android:textColor="@color/colorPrimary"
+                />
 
+            <TextView
+                android:id="@+id/act_task_starNum1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="0"
+                android:textSize="14sp"
+                android:layout_marginBottom="10dp"
+                android:layout_marginTop="10dp"
+                android:textColor="@color/colorPrimary"
+                />
+
+            <View
+                android:id="@+id/act_task_starView1"
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:background="@color/colorPrimary"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/act_task_star_layout2"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:background="@color/white"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/act_task_star2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="二星"
+                android:textSize="14sp"
+                android:layout_marginTop="10dp"
+                android:textColor="#666"
+                />
+
+            <TextView
+                android:id="@+id/act_task_starNum2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="0"
+                android:textSize="14sp"
+                android:layout_marginBottom="10dp"
+                android:layout_marginTop="10dp"
+                android:textColor="#666"
+                />
+
+            <View
+                android:id="@+id/act_task_starView2"
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:background="@color/colorPrimary"
+                android:visibility="invisible"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/act_task_star_layout3"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:background="@color/white"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/act_task_star3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="三星"
+                android:textSize="14sp"
+                android:layout_marginTop="10dp"
+                android:textColor="#666"
+                />
+
+            <TextView
+                android:id="@+id/act_task_starNum3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="0"
+                android:textSize="14sp"
+                android:layout_marginBottom="10dp"
+                android:layout_marginTop="10dp"
+                android:textColor="#666"
+                />
+
+            <View
+                android:id="@+id/act_task_starView3"
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:background="@color/colorPrimary"
+                android:visibility="invisible"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/act_task_star_layout4"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:background="@color/white"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/act_task_star4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="四星"
+                android:textSize="14sp"
+                android:layout_marginTop="10dp"
+                android:textColor="#666"
+                />
+
+            <TextView
+                android:id="@+id/act_task_starNum4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="0"
+                android:textSize="14sp"
+                android:layout_marginBottom="10dp"
+                android:layout_marginTop="10dp"
+                android:textColor="#666"
+                />
+
+            <View
+                android:id="@+id/act_task_starView4"
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:background="@color/colorPrimary"
+                android:visibility="invisible"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/act_task_star_layout5"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:background="@color/white"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/act_task_star5"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="五星"
+                android:textSize="14sp"
+                android:layout_marginTop="10dp"
+                android:textColor="#666"
+                />
+
+            <TextView
+                android:id="@+id/act_task_starNum5"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="0"
+                android:textSize="14sp"
+                android:layout_marginBottom="10dp"
+                android:layout_marginTop="10dp"
+                android:textColor="#666"
+                />
+
+            <View
+                android:id="@+id/act_task_starView5"
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:background="@color/colorPrimary"
+                android:visibility="invisible"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/act_task_star_layout"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:background="@color/white"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/act_task_star"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="总计"
+                android:textSize="14sp"
+                android:layout_marginTop="10dp"
+                android:textColor="#666"
+                />
+
+            <TextView
+                android:id="@+id/act_task_starNum"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="0"
+                android:textSize="14sp"
+                android:layout_marginBottom="10dp"
+                android:layout_marginTop="10dp"
+                android:textColor="#666"
+                />
+
+            <View
+                android:id="@+id/act_task_starView"
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:background="@color/colorPrimary"
+                android:visibility="invisible"/>
+        </LinearLayout>
+    </LinearLayout>
+
+    <com.power.mercenary.view.pullrecyclerview.WanRecyclerView
+        android:id="@+id/act_task_star_recyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
 </LinearLayout>

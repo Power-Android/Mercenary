@@ -157,6 +157,9 @@
         <!-- <activity android:name=".activity.SignInActivity" -->
         <!-- android:launchMode="singleTask"/> -->
         <activity android:name=".activity.MapAddressActivity"></activity>
+        <activity
+            android:name=".activity.AcceptTaskActivity"
+            android:screenOrientation="portrait" />
     </application>
 
 </manifest>

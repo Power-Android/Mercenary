@@ -10,11 +10,9 @@ import android.widget.TextView;
 
 import com.power.mercenary.R;
 import com.power.mercenary.adapter.MyAdapter;
-import com.power.mercenary.adapter.ReleaseRWZAdapter;
-import com.power.mercenary.adapter.ReleaseSHZAdapter;
-import com.power.mercenary.adapter.ReleaseWJDAdapter;
 import com.power.mercenary.base.BaseActivity;
 import com.power.mercenary.base.BaseFragment;
+import com.power.mercenary.fragment.AcceptTaskFragment;
 import com.power.mercenary.fragment.ReleaseDPJFragment;
 import com.power.mercenary.fragment.ReleaseQBFragment;
 import com.power.mercenary.fragment.ReleaseRWZFragment;
@@ -29,10 +27,9 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 /**
- * Created by Administrator on 2018/3/30.
+ * admin  2018/7/18 wan
  */
-
-public class ReleaseTaskActivity extends BaseActivity implements View.OnClickListener{
+public class AcceptTaskActivity extends BaseActivity implements View.OnClickListener {
 
 
     @BindView(R.id.left_back)
@@ -77,25 +74,15 @@ public class ReleaseTaskActivity extends BaseActivity implements View.OnClickLis
     @BindView(R.id.indicator_dpj)
     View indicator_dpj;
 
-    @BindView(R.id.yxj_ll)
-    LinearLayout yxj_ll;
-    @BindView(R.id.yxj_tv)
-    TextView yxj_tv;
-    @BindView(R.id.indicator_yxj)
-    View indicator_yxj;
-
-
     @BindView(R.id.vp_fbrw)
     ViewPager vp_fbrw;
 
 
-    ReleaseQBFragment releaseQBFragment;
-    ReleaseWJDFragment releaseWJDFragment;
-    ReleaseRWZFragment releaseRWZFragment;
-    ReleaseSHZFragment releaseSHZFragment;
-    ReleaseDPJFragment releaseDPJFragment;
-
-    ReleaseYXJFragment releaseYXJFragment;
+    AcceptTaskFragment fragment1;
+    AcceptTaskFragment fragment2;
+    AcceptTaskFragment fragment3;
+    AcceptTaskFragment fragment4;
+    AcceptTaskFragment fragment5;
 
     private List<BaseFragment> list;
 
@@ -103,43 +90,60 @@ public class ReleaseTaskActivity extends BaseActivity implements View.OnClickLis
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_release_task);
+        setContentView(R.layout.activity_accept_task);
         ButterKnife.bind(this);
 
-        title_text.setText("发布任务的管理");
+        title_text.setText("接受任务的管理");
 
         int position = getIntent().getIntExtra("position", 0);
 
         list = new ArrayList<>();
-        if(releaseQBFragment==null){
-            releaseQBFragment = new ReleaseQBFragment();
+
+        if (fragment1 == null) {
+            fragment1 = new AcceptTaskFragment();
+            Bundle bundle = new Bundle();
+            bundle.putInt("state", 0);
+            fragment1.setArguments(bundle);
         }
-        if(releaseWJDFragment==null){
-            releaseWJDFragment = new ReleaseWJDFragment();
+
+        if (fragment2 == null) {
+            fragment2 = new AcceptTaskFragment();
+            Bundle bundle = new Bundle();
+            bundle.putInt("state", 1);
+            fragment2.setArguments(bundle);
         }
-        if(releaseRWZFragment==null){
-            releaseRWZFragment = new ReleaseRWZFragment();
+
+        if (fragment3 == null) {
+            fragment3 = new AcceptTaskFragment();
+            Bundle bundle = new Bundle();
+            bundle.putInt("state", 2);
+            fragment3.setArguments(bundle);
         }
-        if(releaseSHZFragment==null){
-            releaseSHZFragment = new ReleaseSHZFragment();
+
+        if (fragment4 == null) {
+            fragment4 = new AcceptTaskFragment();
+            Bundle bundle = new Bundle();
+            bundle.putInt("state", 3);
+            fragment4.setArguments(bundle);
         }
-        if(releaseDPJFragment==null){
-            releaseDPJFragment = new ReleaseDPJFragment();
+
+        if (fragment5 == null) {
+            fragment5 = new AcceptTaskFragment();
+            Bundle bundle = new Bundle();
+            bundle.putInt("state", 6);
+            fragment5.setArguments(bundle);
         }
-        if(releaseYXJFragment==null){
-            releaseYXJFragment = new ReleaseYXJFragment();
-        }
-        list.add(releaseQBFragment);
-        list.add(releaseWJDFragment);
-        list.add(releaseRWZFragment);
-        list.add(releaseSHZFragment);
-        list.add(releaseDPJFragment);
-        list.add(releaseYXJFragment);
+
+        list.add(fragment1);
+        list.add(fragment2);
+        list.add(fragment3);
+        list.add(fragment4);
+        list.add(fragment5);
 
 
         myAdapter = new MyAdapter(getSupportFragmentManager(),list);
         vp_fbrw.setAdapter(myAdapter);
-        vp_fbrw.setOffscreenPageLimit(6);
+        vp_fbrw.setOffscreenPageLimit(5);
         initquanbu();
         vp_fbrw.setOnPageChangeListener(pageChangeListener);
         quan_ll.setOnClickListener(this);
@@ -147,7 +151,6 @@ public class ReleaseTaskActivity extends BaseActivity implements View.OnClickLis
         rwz_ll.setOnClickListener(this);
         shz_ll.setOnClickListener(this);
         dpj_ll.setOnClickListener(this);
-        yxj_ll.setOnClickListener(this);
 
         switch (position) {
             case 0:
@@ -164,9 +167,6 @@ public class ReleaseTaskActivity extends BaseActivity implements View.OnClickLis
                 break;
             case 4:
                 initDPJ();
-                break;
-            case 5:
-                initYXJ();
                 break;
         }
 
@@ -207,9 +207,6 @@ public class ReleaseTaskActivity extends BaseActivity implements View.OnClickLis
                 case 4:
                     initDPJ();
                     break;
-                case 5:
-                    initYXJ();
-                    break;
             }
 
         }
@@ -232,8 +229,6 @@ public class ReleaseTaskActivity extends BaseActivity implements View.OnClickLis
         indicator_shz.setBackgroundColor(getResources().getColor(R.color.concrete));
         dpj_tv.setTextColor(getResources().getColor(R.color.textColor));
         indicator_dpj.setBackgroundColor(getResources().getColor(R.color.concrete));
-        yxj_tv.setTextColor(getResources().getColor(R.color.textColor));
-        indicator_yxj.setBackgroundColor(getResources().getColor(R.color.concrete));
         initquanbuData();
     }
 
@@ -248,8 +243,6 @@ public class ReleaseTaskActivity extends BaseActivity implements View.OnClickLis
         indicator_shz.setBackgroundColor(getResources().getColor(R.color.concrete));
         dpj_tv.setTextColor(getResources().getColor(R.color.textColor));
         indicator_dpj.setBackgroundColor(getResources().getColor(R.color.concrete));
-        yxj_tv.setTextColor(getResources().getColor(R.color.textColor));
-        indicator_yxj.setBackgroundColor(getResources().getColor(R.color.concrete));
         initWJDData();
     }
 
@@ -264,8 +257,6 @@ public class ReleaseTaskActivity extends BaseActivity implements View.OnClickLis
         indicator_shz.setBackgroundColor(getResources().getColor(R.color.concrete));
         dpj_tv.setTextColor(getResources().getColor(R.color.textColor));
         indicator_dpj.setBackgroundColor(getResources().getColor(R.color.concrete));
-        yxj_tv.setTextColor(getResources().getColor(R.color.textColor));
-        indicator_yxj.setBackgroundColor(getResources().getColor(R.color.concrete));
         initRWZData();
     }
 
@@ -280,8 +271,6 @@ public class ReleaseTaskActivity extends BaseActivity implements View.OnClickLis
         indicator_shz.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
         dpj_tv.setTextColor(getResources().getColor(R.color.textColor));
         indicator_dpj.setBackgroundColor(getResources().getColor(R.color.concrete));
-        yxj_tv.setTextColor(getResources().getColor(R.color.textColor));
-        indicator_yxj.setBackgroundColor(getResources().getColor(R.color.concrete));
         initSHZData();
     }
 
@@ -296,30 +285,8 @@ public class ReleaseTaskActivity extends BaseActivity implements View.OnClickLis
         indicator_shz.setBackgroundColor(getResources().getColor(R.color.concrete));
         dpj_tv.setTextColor(getResources().getColor(R.color.colorPrimary));
         indicator_dpj.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
-        yxj_tv.setTextColor(getResources().getColor(R.color.textColor));
-        indicator_yxj.setBackgroundColor(getResources().getColor(R.color.concrete));
         initDPJData();
     }
-
-    private void initYXJ() {
-        quan_tv.setTextColor(getResources().getColor(R.color.textColor));
-        indicator_quan.setBackgroundColor(getResources().getColor(R.color.concrete));
-        wjd_tv.setTextColor(getResources().getColor(R.color.textColor));
-        indicator_wjd.setBackgroundColor(getResources().getColor(R.color.concrete));
-        rwz_tv.setTextColor(getResources().getColor(R.color.textColor));
-        indicator_rwz.setBackgroundColor(getResources().getColor(R.color.concrete));
-        shz_tv.setTextColor(getResources().getColor(R.color.textColor));
-        indicator_shz.setBackgroundColor(getResources().getColor(R.color.concrete));
-        dpj_tv.setTextColor(getResources().getColor(R.color.textColor));
-        indicator_dpj.setBackgroundColor(getResources().getColor(R.color.concrete));
-        yxj_tv.setTextColor(getResources().getColor(R.color.colorPrimary));
-        indicator_yxj.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
-        initYXJData();
-    }
-
-
-
-
 
     private void initquanbuData() {
         vp_fbrw.setCurrentItem(0);
@@ -364,9 +331,6 @@ public class ReleaseTaskActivity extends BaseActivity implements View.OnClickLis
                 break;
             case R.id.dpj_ll:
                 initDPJ();
-                break;
-            case R.id.yxj_ll:
-                initYXJ();
                 break;
         }
 

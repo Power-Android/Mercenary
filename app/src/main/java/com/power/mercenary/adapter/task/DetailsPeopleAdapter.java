@@ -10,6 +10,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.power.mercenary.R;
 import com.power.mercenary.bean.task.ApplyListBean;
+import com.power.mercenary.utils.Urls;
 import com.power.mercenary.view.CircleImageView;
 
 import java.util.List;
@@ -59,7 +60,7 @@ public class DetailsPeopleAdapter extends RecyclerView.Adapter {
             }
 
             Glide.with(context)
-                    .load(data.get(position).getApply_user_headimg())
+                    .load(Urls.BASEIMGURL + data.get(position).getApply_user_headimg())
                     .into(viewHolder.icon);
 
             viewHolder.name.setText(data.get(position).getApply_user_name());

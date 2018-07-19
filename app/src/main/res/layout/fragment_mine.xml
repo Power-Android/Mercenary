@@ -306,6 +306,7 @@
             android:paddingTop="10dp">
 
             <LinearLayout
+                android:id="@+id/frag_mine_ybm"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -328,6 +329,7 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/frag_mine_rwz"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -350,6 +352,7 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/frag_mine_shz"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -372,6 +375,7 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/frag_mine_ywc"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"

@@ -18,6 +18,16 @@ public class MercenaryUtils {
         return list;
     }
 
+    public static List<String> string3ToList(String strList){
+        String d[] = strList.split("\\|");
+        List<String> list = new ArrayList();
+
+        for (int i = 0; i < d.length; i++) {
+            list.add(Urls.BASEIMGURL + d[i]);
+        }
+        return list;
+    }
+
     public static List<String> string2ToList(String strList){
         String d[] = strList.split(",");
         List<String> list = new ArrayList();

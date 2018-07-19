@@ -1,51 +1,45 @@
-package com.power.mercenary.adapter;
+package com.power.mercenary.adapter.task;
 
 import android.content.Context;
-import android.support.annotation.LayoutRes;
-import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.PopupMenu;
 import android.widget.TextView;
 
-import com.chad.library.adapter.base.BaseQuickAdapter;
-import com.chad.library.adapter.base.BaseViewHolder;
 import com.power.mercenary.R;
 import com.power.mercenary.activity.TaskListActivity;
 import com.power.mercenary.bean.mytask.PublishTaskBean;
 import com.power.mercenary.utils.MercenaryUtils;
 
-import java.util.ArrayList;
+import org.w3c.dom.Text;
+
 import java.util.List;
 
 /**
- * Created by Administrator on 2018/3/30.
+ * admin  2018/7/18 wan
  */
-
-public class ReleaseYXJAdapter extends RecyclerView.Adapter {
+public class ReleaseWJDAdapter extends RecyclerView.Adapter {
     private Context context;
 
     private List<PublishTaskBean> data;
 
-    private String btnStr;
+    private TaskHandleListener listener;
 
-    private TaskBtnListener taskBtnListener;
-
-    public void setTaskBtnListener(TaskBtnListener taskBtnListener){
-        this.taskBtnListener = taskBtnListener;
+    public void setListener(TaskHandleListener listener){
+        this.listener = listener;
     }
 
-    public ReleaseYXJAdapter(Context context, List<PublishTaskBean> data, String btnStr) {
+    public ReleaseWJDAdapter(Context context, List<PublishTaskBean> data) {
         this.context = context;
         this.data = data;
-        this.btnStr = btnStr;
     }
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(context).inflate(R.layout.yxj_item_view, null);
+        View view = LayoutInflater.from(context).inflate(R.layout.wjd_item_view, null);
         return new WJDViewHolder(view);
     }
 
@@ -58,21 +52,32 @@ public class ReleaseYXJAdapter extends RecyclerView.Adapter {
 
             viewHolder.price.setText(data.get(position).getPay_amount());
 
-            viewHolder.btn.setText(btnStr);
-
             viewHolder.num.setText("浏览数：" + data.get(position).getView_num() + " 分享数：" + data.get(position).getShare_num());
-
-            viewHolder.btn.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    taskBtnListener.TaskOnClickListener(data.get(position).getId(), position);
-                }
-            });
 
             viewHolder.recyclerView.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false));
             TaskListActivity.TagAdapter tagAdapter = new TaskListActivity.TagAdapter(R.layout.item_tag_layout, MercenaryUtils.stringToList(data.get(position).getTask_tag()));
             viewHolder.recyclerView.setAdapter(tagAdapter);
 
+            viewHolder.chexiao.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    listener.chexiao(data.get(position).getId(), position);
+                }
+            });
+
+            viewHolder.xiugai.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    listener.xiugai(data.get(position).getId());
+                }
+            });
+
+            viewHolder.yaoqing.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    listener.yaoqing(data.get(position).getId());
+                }
+            });
         }
     }
 
@@ -91,7 +96,11 @@ public class ReleaseYXJAdapter extends RecyclerView.Adapter {
 
         TextView num;
 
-        TextView btn;
+        TextView xiugai;
+
+        TextView chexiao;
+
+        TextView yaoqing;
 
         public WJDViewHolder(View itemView) {
             super(itemView);
@@ -99,11 +108,15 @@ public class ReleaseYXJAdapter extends RecyclerView.Adapter {
             price = itemView.findViewById(R.id.item_wjd_view_price);
             recyclerView = itemView.findViewById(R.id.item_wjd_view_recyclerView);
             num = itemView.findViewById(R.id.item_wjd_view_num);
-            btn = itemView.findViewById(R.id.item_wjd_view_btn);
+            xiugai = itemView.findViewById(R.id.item_wjd_view_xiugai);
+            chexiao = itemView.findViewById(R.id.item_wjd_view_chexiao);
+            yaoqing = itemView.findViewById(R.id.item_wjd_view_yaoqing);
         }
     }
 
-    public interface TaskBtnListener {
-        void TaskOnClickListener(String id, int position);
+    public interface TaskHandleListener{
+        void xiugai(String id);
+        void chexiao(String id, int itemPosition);
+        void yaoqing(String id);
     }
 }

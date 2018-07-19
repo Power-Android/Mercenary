@@ -10,6 +10,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.power.mercenary.R;
 import com.power.mercenary.bean.task.MsgListBean;
+import com.power.mercenary.utils.Urls;
 import com.power.mercenary.view.CircleImageView;
 
 import java.util.List;
@@ -39,7 +40,7 @@ public class DetailsMsgAdapter extends RecyclerView.Adapter {
             MsgViewHolder viewHolder = (MsgViewHolder) holder;
 
             Glide.with(context)
-                    .load(data.get(position).getLeavemsg_user_headimg())
+                    .load(Urls.BASEIMGURL + data.get(position).getLeavemsg_user_headimg())
                     .into(viewHolder.icon);
 
             viewHolder.name.setText(data.get(position).getLeavemsg_user_name());
