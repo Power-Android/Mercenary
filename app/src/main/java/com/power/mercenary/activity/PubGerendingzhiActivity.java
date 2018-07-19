@@ -25,9 +25,13 @@ import com.luck.picture.lib.compress.Luban;
 import com.luck.picture.lib.config.PictureConfig;
 import com.luck.picture.lib.config.PictureMimeType;
 import com.luck.picture.lib.entity.LocalMedia;
+import com.lzy.okgo.model.Response;
 import com.power.mercenary.R;
 import com.power.mercenary.adapter.GridViewAddImgesAdpter;
 import com.power.mercenary.base.BaseActivity;
+import com.power.mercenary.bean.PicNumsBean;
+import com.power.mercenary.http.ResponseBean;
+import com.power.mercenary.presenter.PicNumsPresenter;
 import com.power.mercenary.presenter.PubTaskPresenter;
 import com.power.mercenary.utils.MyUtils;
 import com.power.mercenary.view.BaseDialog;
@@ -43,7 +47,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class PubGerendingzhiActivity extends BaseActivity implements PubTaskPresenter.PubTaskCallBack {
+public class PubGerendingzhiActivity extends BaseActivity implements PubTaskPresenter.PubTaskCallBack, PicNumsPresenter.PubTaskCallBack {
 
     @BindView(R.id.title_back_iv)
     ImageView titleBackIv;
@@ -87,7 +91,7 @@ public class PubGerendingzhiActivity extends BaseActivity implements PubTaskPres
     private BiaoqianAdapter biaoqianAdapter;
     private List<String> cameraList;
     private List<LocalMedia> selectList = new ArrayList<>();
-    private ArrayList<String> fileList = new ArrayList<>();
+    private ArrayList<File> fileList = new ArrayList<>();
     List<LocalMedia> list = new ArrayList<>();
     List<LocalMedia> listAll = new ArrayList<>();
     private GridViewAddImgesAdpter addImgesAdpter;
@@ -98,6 +102,9 @@ public class PubGerendingzhiActivity extends BaseActivity implements PubTaskPres
     private String IsdelTable = "";
     private String taskType;
     private String childTaskType;
+    private PicNumsPresenter picNumsPresenter;
+    private String imgurl;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -107,9 +114,31 @@ public class PubGerendingzhiActivity extends BaseActivity implements PubTaskPres
         childTaskType = getIntent().getStringExtra("ChildTaskType");
         initView();
         presenter = new PubTaskPresenter(this, this);
+        picNumsPresenter = new PicNumsPresenter(this,this);
     }
 
     private void initView() {
+        taskDesEt.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                if (taskDesEt.getText().toString().length()>=200){
+                    Toast.makeText(mContext, "最多可输入200字", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                desZishuTv.setText(taskDesEt.getText().toString().length()+"/200");
+            }
+        });
+
         titleBackIv.setVisibility(View.VISIBLE);
         titleContentTv.setText("发布任务");
         titleContentRightTv.setVisibility(View.VISIBLE);
@@ -149,13 +178,12 @@ public class PubGerendingzhiActivity extends BaseActivity implements PubTaskPres
     }
 
     @Override
-    public void publishTask() {
-        Toast.makeText(mContext, "发布成功", Toast.LENGTH_SHORT).show();
+    public void PicNums(Response<ResponseBean<PicNumsBean>> response) {
+        ResponseBean<PicNumsBean> body = response.body();
+        imgurl = body.data.getImgurl();
+        Log.d("PubGerendingzhiActivity", imgurl+"------");
     }
 
-    @Override
-    public void testTask() {
-    }
 
     private class RequireAdapter extends BaseQuickAdapter<String, BaseViewHolder> {
 
@@ -387,16 +415,19 @@ public class PubGerendingzhiActivity extends BaseActivity implements PubTaskPres
                  */
                 for (int i = 0; i < listAll.size(); i++) {
                     File file = new File(listAll.get(i).getPath());
-                    fileList.add(file + "");
+                    Log.d("PubGerendingzhiActivity", "file:" + file+"--------");
+                    fileList.add(file);
                 }
 
                 String s = MyUtils.listToString(requireList);
                 String s1 = MyUtils.listToString(biaoqianList);
-                String s2 = MyUtils.listToString(fileList);
+//                String s2 = MyUtils.listToString(fileList);
 
-                presenter.publishTask(taskType, childTaskType, "", s1, s2, taskMoneyEt.getText().toString(),
+                    picNumsPresenter.publishTask(fileList);//上传多张图片
+
+                presenter.publishTask(taskType, childTaskType, taskNameEt.getText().toString(), s1, imgurl, taskMoneyEt.getText().toString(),
                         "", taskDesEt.getText().toString(), "", s,
-                        taskNameEt.getText().toString(), "", "", "",
+                        "", "", "", "",
                         "", "", "");
                 break;
             case R.id.add_require_tv:
@@ -428,6 +459,14 @@ public class PubGerendingzhiActivity extends BaseActivity implements PubTaskPres
             case R.id.des_zishu_tv:
                 break;
         }
+    }
+    @Override
+    public void publishTask() {
+        Toast.makeText(mContext, "发布成功", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void testTask() {
     }
 
 }

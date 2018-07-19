@@ -66,6 +66,7 @@ public class HttpManager<T> {
         OkGo.<T>post(Urls.BASEURL + url)
                 .tag(tag)
                 .isMultipart(true) //使用 multipart/form-data 表单上传
+                .params(params)
                 .addFileParams(paramsKey, paramsValue)
                 .execute(callback);
         return this;

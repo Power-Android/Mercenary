@@ -94,6 +94,47 @@ public class PubQitaActivity extends BaseActivity implements PubTaskPresenter.Pu
     }
 
     private void initView() {
+        taskMudiEt.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                if (taskMudiEt.getText().toString().length()>=200){
+                    Toast.makeText(mContext, "最多可输入200字", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                mudiZishuTv.setText(taskMudiEt.getText().toString().length()+"/200");
+            }
+        });
+        taskDetailEt.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                if (taskDetailEt.getText().toString().length()>=200){
+                    Toast.makeText(mContext, "最多可输入200字", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                detailZishuTv.setText(taskDetailEt.getText().toString().length()+"/200");
+            }
+        });
+
         titleBackIv.setVisibility(View.VISIBLE);
         titleContentTv.setText("发布任务");
         titleContentRightTv.setVisibility(View.VISIBLE);

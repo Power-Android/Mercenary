@@ -24,6 +24,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -73,6 +74,25 @@ public class MyUtils {
         }
         return result.toString();
     }
+    /*
+    * 时间转时间戳
+    * */
+    public static String Timetodata(String time) {
+        SimpleDateFormat sdr = new SimpleDateFormat("yyyy年MM月dd日",
+                Locale.CHINA);
+        Date date;
+        String times = null;
+        try {
+            date = sdr.parse(time);
+            long l = date.getTime();
+            String stf = String.valueOf(l);
+            times = stf.substring(0, 10);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return times;
+    }
+
 
     public static String getMD5(String str) {
         try {

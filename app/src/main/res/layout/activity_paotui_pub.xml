@@ -87,6 +87,7 @@
                     android:text="数量"
                     android:textColor="@color/textColorDrak"/>
                 <EditText
+                    android:inputType="number"
                     android:id="@+id/num_et"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -116,6 +117,7 @@
                     android:text="佣金"
                     android:textColor="@color/textColorDrak"/>
                 <EditText
+                    android:inputType="number"
                     android:id="@+id/money_et"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -180,12 +182,12 @@
                     android:layout_height="wrap_content"
                     android:text="送达时间"
                     android:textColor="@color/textColorDrak"/>
-                <EditText
+                <TextView
                     android:id="@+id/validity_songda_et"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:background="@null"
-                    android:hint="请输入送达时间"
+                    android:hint="请选择送达时间"
                     android:textSize="14sp"
                     android:textColorHint="@color/hint_color"
                     android:textColor="@color/hint_color"
@@ -216,6 +218,7 @@
                     android:text="任务有效期"
                     android:textColor="@color/textColorDrak"/>
                 <EditText
+                    android:inputType="number"
                     android:id="@+id/validity_time_et"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -336,6 +339,7 @@
                     android:layout_marginRight="15dp"
                     android:layout_marginLeft="15dp"/>
                 <RelativeLayout
+
                     android:id="@+id/relative_table"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

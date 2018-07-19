@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
@@ -28,7 +29,6 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
 import butterknife.Unbinder;
 
 /**
@@ -49,7 +49,16 @@ public class PubFragment extends BaseFragment {
     @BindView(R.id.banner)
     Banner banner;
     Unbinder unbinder;
+    @BindView(R.id.title_back_iv)
+    ImageView titleBackIv;
+    @BindView(R.id.title_content_right_tv)
+    TextView titleContentRightTv;
+    @BindView(R.id.layout_hottuijian)
+    LinearLayout layoutHottuijian;
+    Unbinder unbinder1;
     private int scrollPosition;
+    private List<String> hotNameList = new ArrayList<>();
+    ;
 
     @Override
     protected View initView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -96,7 +105,7 @@ public class PubFragment extends BaseFragment {
 
         recyclerTitle.setLayoutManager(new LinearLayoutManager(mContext));
         recyclerTitle.setNestedScrollingEnabled(false);
-        final TitleAdapter titleAdapter = new TitleAdapter(R.layout.item_title_recycle,titleList);
+        final TitleAdapter titleAdapter = new TitleAdapter(R.layout.item_title_recycle, titleList);
         recyclerTitle.setAdapter(titleAdapter);
         titleList.get(0).setChecked(true);
         titleAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
@@ -107,16 +116,71 @@ public class PubFragment extends BaseFragment {
                 titleList.get(scrollPosition).setChecked(true);
                 titleAdapter.notifyDataSetChanged();
                 //TODO 刷新热门数据，更新流式布局文字
+                if (position == 0) {
+                    layoutHottuijian.setVisibility(View.GONE);
+                    fluidlayout.setVisibility(View.GONE);
+                }else if (position==1){
+                    hotNameList.clear();
+                    hotNameList.add("物品");
+                    hotNameList.add("人员");
+                    RefreshHot();
+                }else if (position==2){
+                    hotNameList.clear();
+                    hotNameList.add("衣");
+                    hotNameList.add("食");
+                    hotNameList.add("住");
+                    hotNameList.add("行");
+                    hotNameList.add("游");
+                    RefreshHot();
+                }else if (position==3){
+                    hotNameList.clear();
+                    hotNameList.add("硬件");
+                    hotNameList.add("软件");
+                    RefreshHot();
+                }else if (position==4){
+                    hotNameList.clear();
+                    hotNameList.add("仕");
+                    hotNameList.add("农");
+                    hotNameList.add("工");
+                    hotNameList.add("商");
+                    hotNameList.add("律");
+                    RefreshHot();
+                }else if (position==5){
+                    hotNameList.clear();
+                    hotNameList.add("心理");
+                    hotNameList.add("健康");
+                    hotNameList.add("减肥");
+                    RefreshHot();
+                }
             }
         });
 
+        List<Testbean> contentList = new ArrayList<>();
+        for (int i = 0; i < 4; i++) {
+            Testbean testbean = new Testbean();
+            testbean.setTitle("酒馆热门推荐");
+            testbean.setContent("酒馆热门推荐内容，七月七日晴，突然下起了大雪，覆盖你来的那条街。");
+            testbean.setNum("10" + i);
+            contentList.add(testbean);
+        }
+        recyclerContent.setNestedScrollingEnabled(false);
+        recyclerContent.setLayoutManager(new LinearLayoutManager(mContext));
+        ContentAdapter adapter = new ContentAdapter(R.layout.item_content_layout, contentList);
+        recyclerContent.setAdapter(adapter);
+        adapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+                TUtils.showShort(mContext, "点击了---item" + position);
+            }
+        });
+    }
+
+    private void RefreshHot() {
         fluidlayout.removeAllViews();
-        final List<String> hotNameList = new ArrayList<>();
-        hotNameList.add("健康");
-        hotNameList.add("农");
-        hotNameList.add("个人定制");
-        hotNameList.add("工作");
-        hotNameList.add("跑腿");
+
+        layoutHottuijian.setVisibility(View.VISIBLE);
+        fluidlayout.setVisibility(View.VISIBLE);
+
         for (int i = 0; i < hotNameList.size(); i++) {
             final TextView tv = (TextView) View.inflate(mContext, R.layout.fenlei_hot_item, null);
             tv.setText(hotNameList.get(i));
@@ -130,33 +194,22 @@ public class PubFragment extends BaseFragment {
             tv.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    TUtils.showShort(mContext,"点击了---" + hotNameList.get(finalI));
-                    startActivity(new Intent(mContext,PubListActivity.class));
+                    TUtils.showShort(mContext, "点击了---" + hotNameList.get(finalI));
+                    startActivity(new Intent(mContext, PubListActivity.class));
                 }
             });
         }
-
-        List<Testbean> contentList = new ArrayList<>();
-        for (int i = 0; i < 4; i++) {
-            Testbean testbean = new Testbean();
-            testbean.setTitle("酒馆热门推荐");
-            testbean.setContent("酒馆热门推荐内容，七月七日晴，突然下起了大雪，覆盖你来的那条街。");
-            testbean.setNum("10" + i);
-            contentList.add(testbean);
-        }
-        recyclerContent.setNestedScrollingEnabled(false);
-        recyclerContent.setLayoutManager(new LinearLayoutManager(mContext));
-        ContentAdapter adapter = new ContentAdapter(R.layout.item_content_layout,contentList);
-        recyclerContent.setAdapter(adapter);
-        adapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
-            @Override
-            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-                TUtils.showShort(mContext,"点击了---item"+position);
-            }
-        });
     }
 
-    private class ContentAdapter extends BaseQuickAdapter<Testbean,BaseViewHolder>{
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        // TODO: inflate a fragment view
+        View rootView = super.onCreateView(inflater, container, savedInstanceState);
+        unbinder1 = ButterKnife.bind(this, rootView);
+        return rootView;
+    }
+
+    private class ContentAdapter extends BaseQuickAdapter<Testbean, BaseViewHolder> {
 
         public ContentAdapter(int layoutResId, @Nullable List<Testbean> data) {
             super(layoutResId, data);
@@ -164,13 +217,13 @@ public class PubFragment extends BaseFragment {
 
         @Override
         protected void convert(BaseViewHolder helper, Testbean item) {
-            helper.setText(R.id.item_title_tv,item.getTitle())
-                    .setText(R.id.item_content_tv,item.getContent())
-                    .setText(R.id.item_num_tv,item.getNum());
+            helper.setText(R.id.item_title_tv, item.getTitle())
+                    .setText(R.id.item_content_tv, item.getContent())
+                    .setText(R.id.item_num_tv, item.getNum());
         }
     }
 
-    private class TitleAdapter extends BaseQuickAdapter<Testbean,BaseViewHolder>{
+    private class TitleAdapter extends BaseQuickAdapter<Testbean, BaseViewHolder> {
 
         public TitleAdapter(int layoutResId, @Nullable List<Testbean> data) {
             super(layoutResId, data);
@@ -178,7 +231,7 @@ public class PubFragment extends BaseFragment {
 
         @Override
         protected void convert(BaseViewHolder helper, Testbean item) {
-            helper.setText(R.id.tv_title,item.getTitle());
+            helper.setText(R.id.tv_title, item.getTitle());
             TextView tv = helper.getView(R.id.tv_title);
             if (item.isChecked()) {
                 helper.getView(R.id.title_left_view).setBackgroundResource(R.color.colorPrimary);

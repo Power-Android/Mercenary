@@ -39,6 +39,7 @@
                         app:indicator_margin="2dp"
                         app:indicator_width="4dp" />
                     <LinearLayout
+                        android:id="@+id/layout_hottuijian"
                         android:layout_width="wrap_content"
                         android:layout_gravity="center_horizontal"
                         android:layout_height="wrap_content">
