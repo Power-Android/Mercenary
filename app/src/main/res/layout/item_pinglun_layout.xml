@@ -7,7 +7,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="10dp">
-        <ImageView
+        <com.power.mercenary.view.CircleImageView
             android:id="@+id/item_pic_iv"
             android:layout_width="50dp"
             android:layout_height="50dp"
@@ -22,6 +22,7 @@
             android:layout_marginTop="18dp"
             android:layout_marginLeft="10dp"/>
         <TextView
+            android:id="@+id/tv_time"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="1分钟前"

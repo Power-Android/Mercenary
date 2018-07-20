@@ -15,12 +15,13 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:padding="15dp">
-        <ImageView
+        <com.power.mercenary.view.CircleImageView
+            android:id="@+id/item_image"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:src="@drawable/moren_2x"/>
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
             android:orientation="vertical">
@@ -67,6 +68,7 @@
                         android:layout_gravity="center_vertical"
                         android:src="@drawable/pl_iv"/>
                     <TextView
+                        android:id="@+id/tv_pinglun"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="top"

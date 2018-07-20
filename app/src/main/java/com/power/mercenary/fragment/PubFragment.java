@@ -15,7 +15,7 @@ import android.widget.TextView;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.power.mercenary.R;
-import com.power.mercenary.activity.PubListActivity;
+import com.power.mercenary.activity.WorkPubActivity;
 import com.power.mercenary.base.BaseFragment;
 import com.power.mercenary.bean.Testbean;
 import com.power.mercenary.utils.BannerUtils;
@@ -58,7 +58,8 @@ public class PubFragment extends BaseFragment {
     Unbinder unbinder1;
     private int scrollPosition;
     private List<String> hotNameList = new ArrayList<>();
-    ;
+    private String task_type="";
+    private String task_type_child="";
 
     @Override
     protected View initView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -120,11 +121,13 @@ public class PubFragment extends BaseFragment {
                     layoutHottuijian.setVisibility(View.GONE);
                     fluidlayout.setVisibility(View.GONE);
                 }else if (position==1){
+                    task_type="1";
                     hotNameList.clear();
                     hotNameList.add("物品");
                     hotNameList.add("人员");
                     RefreshHot();
                 }else if (position==2){
+                    task_type="2";
                     hotNameList.clear();
                     hotNameList.add("衣");
                     hotNameList.add("食");
@@ -133,11 +136,13 @@ public class PubFragment extends BaseFragment {
                     hotNameList.add("游");
                     RefreshHot();
                 }else if (position==3){
+                    task_type="3";
                     hotNameList.clear();
                     hotNameList.add("硬件");
                     hotNameList.add("软件");
                     RefreshHot();
                 }else if (position==4){
+                    task_type="4";
                     hotNameList.clear();
                     hotNameList.add("仕");
                     hotNameList.add("农");
@@ -146,6 +151,7 @@ public class PubFragment extends BaseFragment {
                     hotNameList.add("律");
                     RefreshHot();
                 }else if (position==5){
+                    task_type="5";
                     hotNameList.clear();
                     hotNameList.add("心理");
                     hotNameList.add("健康");
@@ -194,8 +200,16 @@ public class PubFragment extends BaseFragment {
             tv.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    TUtils.showShort(mContext, "点击了---" + hotNameList.get(finalI));
-                    startActivity(new Intent(mContext, PubListActivity.class));
+//                    startActivity(new Intent(mContext, PubListActivity.class));
+                    for (int i1 = 0; i1 < hotNameList.size(); i1++) {
+                        if (i1==finalI){
+                            task_type_child=(finalI+1)+"";
+                        }
+                    }
+                    Intent intent = new Intent(mContext, WorkPubActivity.class);
+                    intent.putExtra("task_type",task_type);
+                    intent.putExtra("task_type_child",task_type_child);
+                    startActivity(intent);
                 }
             });
         }

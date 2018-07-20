@@ -1,33 +1,33 @@
 package com.power.mercenary.activity;
 
-import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.text.Editable;
-import android.text.SpannableString;
-import android.text.Spanned;
 import android.text.TextUtils;
-import android.text.TextWatcher;
-import android.text.style.StyleSpan;
-import android.view.Gravity;
 import android.view.View;
-import android.view.WindowManager;
-import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.PopupWindow;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.power.mercenary.R;
 import com.power.mercenary.base.BaseActivity;
-import com.power.mercenary.utils.SoftKeyboardTool;
-import com.power.mercenary.utils.TUtils;
+import com.power.mercenary.bean.TieZiDetailsBean;
+import com.power.mercenary.bean.TieZiListBean;
+import com.power.mercenary.http.ResponseBean;
+import com.power.mercenary.presenter.TieZiListPresenter;
+import com.power.mercenary.utils.KeyboardUtils;
+import com.power.mercenary.utils.MyUtils;
+import com.power.mercenary.utils.SoftKeyboardStateHelper;
+import com.power.mercenary.utils.Urls;
 import com.power.mercenary.view.BaseSelectPopupWindow;
+import com.power.mercenary.view.CircleImageView;
 import com.power.mercenary.view.NineGridTestLayout;
 
 import java.util.ArrayList;
@@ -37,7 +37,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class PostDetailActivity extends BaseActivity {
+public class PostDetailActivity extends BaseActivity implements TieZiListPresenter.TaskListCallBack {
 
     @BindView(R.id.title_back_iv)
     ImageView titleBackIv;
@@ -57,17 +57,26 @@ public class PostDetailActivity extends BaseActivity {
     LinearLayout jumpDetailLl;
     @BindView(R.id.pl_recyclerview)
     RecyclerView plRecyclerview;
-    private String[] mUrls = new String[]{
-            "https://ss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=2043305675,3979419376&fm=200&gp=0.jpg",
-            "http://img5.imgtn.bdimg.com/it/u=266745161,658804068&fm=27&gp=0.jpg",
-            "http://img5.imgtn.bdimg.com/it/u=222615259,2947254622&fm=27&gp=0.jpg",
-            "http://img1.imgtn.bdimg.com/it/u=950771854,530317119&fm=27&gp=0.jpg",
-            "http://img2.imgtn.bdimg.com/it/u=2557022909,3736713361&fm=27&gp=0.jpg",
-            "http://img2.imgtn.bdimg.com/it/u=1830359176,654163576&fm=200&gp=0.jpg",
-    };
-    private List<String> urls = new ArrayList<>();
+    @BindView(R.id.title_content_right_tv)
+    TextView titleContentRightTv;
+    @BindView(R.id.img_details_head)
+    CircleImageView imgDetailsHead;
+    @BindView(R.id.tv_pinglun)
+    TextView tvPinglun;
+    @BindView(R.id.send)
+    TextView send;
+    @BindView(R.id.ed_pinglun)
+    EditText edPinglun;
+    @BindView(R.id.relative_keyboard)
+    RelativeLayout relativeKeyboard;
     private BaseSelectPopupWindow popWiw;// 昵称 编辑框
-
+    private String id;
+    private TieZiListPresenter presenter;
+    private List<String> mUrlList = new ArrayList<>();
+    private PinglunAdapter pinglunAdapter;
+    private ChatAdapter chatAdapter;
+    private boolean isPinglun = true;
+    private String liuyanid;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,122 +85,162 @@ public class PostDetailActivity extends BaseActivity {
         ButterKnife.bind(this);
         titleBackIv.setVisibility(View.VISIBLE);
         titleContentTv.setText("帖子详情");
-        initView();
+        id = getIntent().getStringExtra("id");
+        presenter = new TieZiListPresenter(this, this);
+        presenter.getTaskDetails(id);
+
+        SoftKeyboardStateHelper softKeyboardStateHelper = new SoftKeyboardStateHelper(findViewById(R.id.ed_pinglun));
+        softKeyboardStateHelper.addSoftKeyboardStateListener(new SoftKeyboardStateHelper.SoftKeyboardStateListener() {
+            @Override
+            public void onSoftKeyboardOpened(int keyboardHeightInPx) {
+                //键盘打开
+                if (isPinglun){
+                    edPinglun.setHint("请输入评论内容");
+                }else {
+                    edPinglun.setHint("请输入回复内容");
+                }
+            }
+            @Override
+            public void onSoftKeyboardClosed() {
+                //键盘关闭
+                isPinglun = true;
+                edPinglun.setText("");
+                edPinglun.setHint("请输入评论内容");
+
+            }
+        });
     }
 
-    private void initView() {
-        for (int i = 0; i < mUrls.length; i++) {
-            urls.add(mUrls[i]);
-        }
-        nineGridlayout.setIsShowAll(true);
-        nineGridlayout.setUrlList(urls);
 
-        List<String> plList = new ArrayList<>();
-        plList.add("");
-        plList.add("");
-        plList.add("");
+
+
+    private void initView(List<TieZiDetailsBean.LiuyanBean> liuyan) {
         plRecyclerview.setNestedScrollingEnabled(false);
         plRecyclerview.setLayoutManager(new LinearLayoutManager(mContext));
-        PinglunAdapter pinglunAdapter = new PinglunAdapter(R.layout.item_pinglun_layout,plList);
+        pinglunAdapter = new PinglunAdapter(R.layout.item_pinglun_layout, liuyan);
         plRecyclerview.setAdapter(pinglunAdapter);
     }
 
-    private class PinglunAdapter extends BaseQuickAdapter<String,BaseViewHolder>{
+    @OnClick({R.id.title_back_iv, R.id.send})
+    public void onViewClicked(View view) {
+        switch (view.getId()) {
+            case R.id.title_back_iv:
+                finish();
+                break;
+            case R.id.send:
+                if (TextUtils.isEmpty(edPinglun.getText().toString())) {
+                    if (isPinglun){
+                        Toast.makeText(mContext, "请输入评论内容", Toast.LENGTH_SHORT).show();
+                    }else {
+                        Toast.makeText(mContext, "请输入回复内容", Toast.LENGTH_SHORT).show();
+                    }
 
-        public PinglunAdapter(int layoutResId, @Nullable List<String> data) {
+                } else {
+                    if (isPinglun){
+                        presenter.getPubPinglun(id, edPinglun.getText().toString());
+                        KeyboardUtils.hideKeyboard(edPinglun);
+                    }else {
+                        presenter.getHuifu(liuyanid, edPinglun.getText().toString());
+                        KeyboardUtils.hideKeyboard(edPinglun);
+                    }
+
+                }
+                break;
+        }
+    }
+
+    private class PinglunAdapter extends BaseQuickAdapter<TieZiDetailsBean.LiuyanBean, BaseViewHolder> {
+
+        public PinglunAdapter(int layoutResId, @Nullable List<TieZiDetailsBean.LiuyanBean> data) {
             super(layoutResId, data);
         }
 
         @Override
-        protected void convert(BaseViewHolder helper, String item) {
-            List<String> chatList = new ArrayList<>();
-            chatList.add("");
-            chatList.add("");
-            chatList.add("");
+        protected void convert(BaseViewHolder helper, final TieZiDetailsBean.LiuyanBean item) {
+            Glide.with(mContext).load(Urls.BASEIMGURL + item.getLiuyan_user_headimg()).into((CircleImageView) helper.getView(R.id.item_pic_iv));
+            helper.setText(R.id.item_name_tv, item.getLiuyan_user_name());
+            helper.setText(R.id.tv_time, MyUtils.getDateToStringTime(item.getCreate_time()));
+            helper.setText(R.id.item_content_tv, item.getLiuyan_content());
+            List<TieZiDetailsBean.LiuyanBean.HuifuBean> huifu = item.getHuifu();
             RecyclerView chatRecyclerview = helper.getView(R.id.recycler_chat);
+            if (huifu.size()<=0){
+                chatRecyclerview.setVisibility(View.GONE);
+            }else {
+                chatRecyclerview.setVisibility(View.VISIBLE);
+            }
             chatRecyclerview.setNestedScrollingEnabled(false);
             chatRecyclerview.setLayoutManager(new LinearLayoutManager(mContext));
-            ChatAdapter chatAdapter = new ChatAdapter(R.layout.item_chat_layout,chatList);
+            chatAdapter = new ChatAdapter(R.layout.item_pinglun1_layout, item.getHuifu());
             chatRecyclerview.setAdapter(chatAdapter);
             helper.getView(R.id.pl_iv).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    showCommentPopWindow(view);
+                    edPinglun.setHint("请输入回复内容");
+                    liuyanid = item.getId();
+                    isPinglun=false;
+                    KeyboardUtils.showKeyboard(edPinglun);
+
                 }
             });
         }
     }
 
-    private class ChatAdapter extends BaseQuickAdapter<String,BaseViewHolder>{
+    private class ChatAdapter extends BaseQuickAdapter<TieZiDetailsBean.LiuyanBean.HuifuBean, BaseViewHolder> {
 
-        public ChatAdapter(int layoutResId, @Nullable List<String> data) {
+        public ChatAdapter(int layoutResId, @Nullable List<TieZiDetailsBean.LiuyanBean.HuifuBean> data) {
             super(layoutResId, data);
         }
 
         @Override
-        protected void convert(BaseViewHolder helper, String item) {
-            TextView tv_content = helper.getView(R.id.tv_content);
-            SpannableString spannableString = new SpannableString("小豆：的撒娇的卡萨京东设计");
-            StyleSpan styleSpan_B = new StyleSpan(Typeface.BOLD);
-            spannableString.setSpan(styleSpan_B, 0, 2, Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
-            tv_content.setText(spannableString);
+        protected void convert(BaseViewHolder helper, TieZiDetailsBean.LiuyanBean.HuifuBean item) {
+            helper.setText(R.id.tv_name, item.getHuifu_user_name() + ":");
+            helper.setText(R.id.tv_content, item.getHuifu_content());
         }
     }
+    @Override
+    public void getTaskList(List<TieZiListBean> datas) {
 
-    private void showCommentPopWindow(View view) {
-        if (popWiw == null) {
-            popWiw = new BaseSelectPopupWindow(mContext, R.layout.edit_data2);
-            // popWiw.setOpenKeyboard(true);
-            popWiw.setInputMethodMode(PopupWindow.INPUT_METHOD_NEEDED);
-            popWiw.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
-            popWiw.setShowTitle(false);
+    }
+
+    @Override
+    public void getTaskDetails(TieZiDetailsBean datas) {
+        Glide.with(mContext).load(Urls.BASEIMGURL + datas.getPost_user_headimg()).into(imgDetailsHead);
+        tvName.setText(datas.getPost_user_name());
+        tvTime.setText(MyUtils.getDateToStringTime(datas.getCreate_time()));
+        tvContent.setText(datas.getPost_content());
+        tvPinglun.setText(datas.getLiuyan().size() + "评论");
+        String post_img = datas.getPost_img();
+        String[] all = post_img.split(",");
+        mUrlList.clear();
+        for (int i = 0; i < all.length; i++) {
+            mUrlList.add(all[i]);
         }
-        popWiw.setFocusable(true);
-        //        InputMethodManager im = (InputMethodManager)
-        //                mContext.getSystemService(Context.INPUT_METHOD_SERVICE);
-        //        im.toggleSoftInput(0, InputMethodManager.HIDE_NOT_ALWAYS);
-        SoftKeyboardTool.showSoftKeyboard(view);
-        final EditText edt = (EditText) popWiw.getContentView().findViewById(R.id.edt_content);
-        final TextView tv_send = (TextView) popWiw.getContentView().findViewById(R.id.tv_send);
-        edt.setInputType(EditorInfo.TYPE_CLASS_TEXT);
-        edt.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before,
-                                      int count) {
-                if (TextUtils.isEmpty(edt.getText())) {
+        nineGridlayout.setIsShowAll(true);
+        nineGridlayout.setUrlList(mUrlList);
 
-                } else {
-
-                }
-            }
-
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count,
-                                          int after) {
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-
-            }
-        });
-        tv_send.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                if (!TextUtils.isEmpty(edt.getText().toString().trim())) {
-                    String content = edt.getText().toString().trim();
-                    popWiw.dismiss();
-                }
-            }
-        });
-        popWiw.showAtLocation(view, Gravity.BOTTOM
-                | Gravity.CENTER_HORIZONTAL, 0, 0);
+        initView(datas.getLiuyan());
     }
 
-    @OnClick(R.id.title_back_iv)
-    public void onViewClicked() {
-        finish();
+    @Override
+    public void getListFail() {
+
     }
+
+    @Override
+    public void getPubPinglun(ResponseBean datas) {
+        Toast.makeText(mContext, "评论成功", Toast.LENGTH_SHORT).show();
+        edPinglun.setText("");
+        presenter.getTaskDetails(id);
+
+    }
+
+    @Override
+    public void getHuifu(ResponseBean datas) {
+        Toast.makeText(mContext, "回复成功", Toast.LENGTH_SHORT).show();
+        isPinglun = true;
+        edPinglun.setText("");
+        presenter.getTaskDetails(id);
+
+    }
+
 }

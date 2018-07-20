@@ -6,6 +6,6 @@
     android:layout_height="wrap_content"
     android:layout_marginTop="5dp"
     android:lineSpacingExtra="2dp"
-    android:text=""
+    android:text="aaa"
     android:textColor="@color/textColor"
     />
