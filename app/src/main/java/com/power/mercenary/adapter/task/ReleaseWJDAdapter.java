@@ -6,6 +6,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.PopupMenu;
 import android.widget.TextView;
 
@@ -78,6 +79,13 @@ public class ReleaseWJDAdapter extends RecyclerView.Adapter {
                     listener.yaoqing(data.get(position).getId());
                 }
             });
+
+            viewHolder.mView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    listener.TaskOnClickViewListener(data.get(position).getId(), position, data.get(position).getTask_type(), data.get(position).getTask_status());
+                }
+            });
         }
     }
 
@@ -102,8 +110,11 @@ public class ReleaseWJDAdapter extends RecyclerView.Adapter {
 
         TextView yaoqing;
 
+        LinearLayout mView;
+
         public WJDViewHolder(View itemView) {
             super(itemView);
+            mView = itemView.findViewById(R.id.item_wjd_view_layout);
             title = itemView.findViewById(R.id.item_wjd_view_title);
             price = itemView.findViewById(R.id.item_wjd_view_price);
             recyclerView = itemView.findViewById(R.id.item_wjd_view_recyclerView);
@@ -118,5 +129,6 @@ public class ReleaseWJDAdapter extends RecyclerView.Adapter {
         void xiugai(String id);
         void chexiao(String id, int itemPosition);
         void yaoqing(String id);
+        void TaskOnClickViewListener(String id, int position, String taskType, String taskState);
     }
 }

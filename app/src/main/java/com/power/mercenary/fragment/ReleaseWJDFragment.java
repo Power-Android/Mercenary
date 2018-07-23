@@ -1,11 +1,20 @@
 package com.power.mercenary.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.power.mercenary.R;
+import com.power.mercenary.activity.GRTaskDetailsActivity;
+import com.power.mercenary.activity.GZTaskDetailsActivity;
+import com.power.mercenary.activity.PTTaskDetailsActivity;
+import com.power.mercenary.activity.SHTaskDetailsActivity;
+import com.power.mercenary.activity.details_audit_publish.GRPublishAuditActivity;
+import com.power.mercenary.activity.details_audit_publish.GZPublishAuditActivity;
+import com.power.mercenary.activity.details_audit_publish.PTPublishAuditActivity;
+import com.power.mercenary.activity.details_audit_publish.SHPublishAuditActivity;
 import com.power.mercenary.adapter.task.ReleaseWJDAdapter;
 import com.power.mercenary.base.BaseFragment;
 import com.power.mercenary.bean.mytask.PublishTaskBean;
@@ -74,17 +83,18 @@ public class ReleaseWJDFragment extends BaseFragment implements PublishPresenter
     }
 
     @Override
-    public void putTaskRequestSuccess() {
+    public void putTaskRequestSuccess(int position) {
 
     }
 
     @Override
-    public void outTaskRequestSuccess() {
-
+    public void outTaskRequestSuccess(int position) {
+        mList.remove(position);
+        adapter.notifyDataSetChanged();
     }
 
     @Override
-    public void auditTaskRequestSuccess() {
+    public void auditTaskRequestSuccess(int type, int position) {
 
     }
 
@@ -113,13 +123,42 @@ public class ReleaseWJDFragment extends BaseFragment implements PublishPresenter
 
     @Override
     public void chexiao(String id, int itemPosition) {
-        mList.remove(itemPosition);
-        adapter.notifyDataSetChanged();
-        publishPresenter.outTaskRequest(id);
+        publishPresenter.outTaskRequest(id, itemPosition);
     }
 
     @Override
     public void yaoqing(String id) {
 
+    }
+
+    @Override
+    public void TaskOnClickViewListener(String id, int position, String taskType, String taskState) {
+        switch (taskType) {
+            case "1":
+                Intent ptIntent = new Intent(getActivity(), PTTaskDetailsActivity.class);
+                ptIntent.putExtra("taskId", id);
+                startActivity(ptIntent);
+                break;
+
+            case "2":
+            case "5":
+            case "6":
+                Intent shIntent = new Intent(getActivity(), SHTaskDetailsActivity.class);
+                shIntent.putExtra("taskId", id);
+                startActivity(shIntent);
+                break;
+
+            case "3":
+                Intent grIntent = new Intent(getActivity(), GRTaskDetailsActivity.class);
+                grIntent.putExtra("taskId", id);
+                startActivity(grIntent);
+                break;
+
+            case "4":
+                Intent gzIntent = new Intent(getActivity(), GZTaskDetailsActivity.class);
+                gzIntent.putExtra("taskId", id);
+                startActivity(gzIntent);
+                break;
+        }
     }
 }

@@ -241,8 +241,11 @@
         </LinearLayout>
     </LinearLayout>
 
-    <com.power.mercenary.view.pullrecyclerview.WanRecyclerView
-        android:id="@+id/act_task_star_recyclerView"
+    <android.support.v4.view.ViewPager
+        android:id="@+id/act_task_star_vp"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="match_parent"
+        android:layout_marginTop="10dp"
+        />
+
 </LinearLayout>

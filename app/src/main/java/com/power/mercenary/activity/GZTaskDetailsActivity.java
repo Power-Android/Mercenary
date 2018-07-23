@@ -34,6 +34,7 @@ import com.power.mercenary.presenter.TaskDetailsPresenter;
 import com.power.mercenary.utils.MercenaryUtils;
 import com.power.mercenary.utils.MyUtils;
 import com.power.mercenary.utils.TUtils;
+import com.power.mercenary.utils.Urls;
 import com.power.mercenary.view.CircleImageView;
 import com.power.mercenary.view.MaxHeightRecyclerView;
 import com.power.mercenary.view.SharingPop;
@@ -298,7 +299,7 @@ public class GZTaskDetailsActivity extends BaseActivity implements View.OnClickL
     public void getTaskDetails(TaskDetailsBean datas) {
         if (datas != null) {
             Glide.with(this)
-                    .load(datas.getHead_img())
+                    .load(Urls.BASEIMGURL + datas.getHead_img())
                     .into(ivIcon);
 
             tvTitle.setText(datas.getTask_name());
@@ -481,7 +482,7 @@ public class GZTaskDetailsActivity extends BaseActivity implements View.OnClickL
                 recycler_content.setVisibility(View.GONE);
                 actTaskDetailsSMsg.setVisibility(View.VISIBLE);
                 Glide.with(this)
-                        .load(avatar)
+                        .load(Urls.BASEIMGURL + avatar)
                         .into(actTaskDetaiilsPrivateMsg);
 
                 actTaskDetaiilsPrivateName.setText(name);

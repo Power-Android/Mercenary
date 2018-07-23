@@ -23,6 +23,15 @@ public class AcceptTaskBean {
     private String task_tag;
     private String task_status;
     private String apply_status;
+    private String task_type;
+
+    public String getTask_type() {
+        return task_type;
+    }
+
+    public void setTask_type(String task_type) {
+        this.task_type = task_type;
+    }
 
     public String getId() {
         return id;

@@ -27,6 +27,8 @@ import com.power.mercenary.data.EventConstants;
 import com.power.mercenary.event.EventUtils;
 import com.power.mercenary.presenter.UpdataPresenter;
 import com.power.mercenary.utils.CacheUtils;
+import com.power.mercenary.utils.DataCleanManager;
+import com.power.mercenary.utils.Urls;
 import com.power.mercenary.view.AgePop;
 import com.power.mercenary.view.SelectorPop;
 
@@ -102,6 +104,10 @@ public class SetupActivity extends BaseActivity implements View.OnClickListener,
 
     private int sex;
 
+    private TextView tvCacheNum;
+
+    private RelativeLayout clearCache;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -110,6 +116,10 @@ public class SetupActivity extends BaseActivity implements View.OnClickListener,
         title_text.setText("设置");
         selectorPop = new SelectorPop(SetupActivity.this, R.layout.selector_pop_item_view);
         agePop = new AgePop(SetupActivity.this, R.layout.nianling_pop_item_view);
+
+        tvCacheNum = (TextView) findViewById(R.id.act_setUp_cacheNum);
+
+        clearCache = (RelativeLayout) findViewById(R.id.act_setUp_clearCache);
 
         presenter = new UpdataPresenter(this, this);
 
@@ -145,6 +155,25 @@ public class SetupActivity extends BaseActivity implements View.OnClickListener,
             }
         });
 
+        try {
+            tvCacheNum.setText(DataCleanManager.getTotalCacheSize(this));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        clearCache.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                DataCleanManager.clearAllCache(SetupActivity.this);
+
+                try {
+                    tvCacheNum.setText(DataCleanManager.getTotalCacheSize(SetupActivity.this));
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+
         EventBus.getDefault().register(this);
     }
 
@@ -156,7 +185,7 @@ public class SetupActivity extends BaseActivity implements View.OnClickListener,
 
         if (!TextUtils.isEmpty(userInfo.getHead_img())) {
             Glide.with(mContext)
-                    .load(userInfo.getHead_img())
+                    .load(Urls.BASEIMGURL + userInfo.getHead_img())
                     .into(icon);
         }
 
@@ -311,11 +340,13 @@ public class SetupActivity extends BaseActivity implements View.OnClickListener,
     @Override
     public void finish() {
         super.finish();
-        presenter.updataUserInfo(tvNickname.getText().toString(),
-                tvName.getText().toString(),
-                tvAge.getText().toString(),
-                sex,
-                userInfo.getMail());
+        if (!TextUtils.equals(sex + "", userInfo.getSex()) || !TextUtils.equals(tvAge.getText().toString(), userInfo.getAge())) {
+            presenter.updataUserInfo(tvNickname.getText().toString(),
+                    tvName.getText().toString(),
+                    tvAge.getText().toString(),
+                    sex,
+                    userInfo.getMail());
+        }
     }
 
     private PopupWindow.OnDismissListener onDismissListener = new PopupWindow.OnDismissListener() {
@@ -358,8 +389,11 @@ public class SetupActivity extends BaseActivity implements View.OnClickListener,
             CacheUtils.put(CacheConstants.USERINFO, userInfo);
 
             Glide.with(mContext)
-                    .load(imgInfo.imgurl)
+                    .load(Urls.BASEIMGURL + imgInfo.imgurl)
                     .into(icon);
+
+            EventBus.getDefault().
+                    post(new EventUtils(EventConstants.TYPE_USERINFO));
         }
     }
 

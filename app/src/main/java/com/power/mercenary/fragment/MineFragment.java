@@ -30,6 +30,7 @@ import com.power.mercenary.data.EventConstants;
 import com.power.mercenary.event.EventUtils;
 import com.power.mercenary.presenter.UserPresenter;
 import com.power.mercenary.utils.CacheUtils;
+import com.power.mercenary.utils.Urls;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -261,7 +262,7 @@ public class MineFragment extends BaseFragment implements UserPresenter.UserCall
             CacheUtils.put(CacheConstants.USERINFO, userInfo);
             if (!TextUtils.isEmpty(userInfo.getHead_img())) {
                 Glide.with(mContext)
-                        .load(userInfo.getHead_img())
+                        .load(Urls.BASEIMGURL + userInfo.getHead_img())
                         .into(icon);
             }
 

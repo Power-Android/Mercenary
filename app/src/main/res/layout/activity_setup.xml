@@ -279,6 +279,7 @@
                 android:paddingRight="10dp">
 
                 <RelativeLayout
+                    android:id="@+id/act_setUp_clearCache"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:paddingBottom="10dp"
@@ -291,6 +292,7 @@
                         android:textSize="12sp" />
 
                     <TextView
+                        android:id="@+id/act_setUp_cacheNum"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentRight="true"

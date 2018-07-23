@@ -22,5 +22,7 @@
     <color name="backgourd">#F5F5F5</color>
     <color name="yellow2">#F3BE5A</color>
 
+    <color name="tab_text_selected_color">#038eff</color>
+    <color name="tab_text_normal_color">#cccccc</color>
 </resources>
 

@@ -1,20 +1,21 @@
 package com.power.mercenary.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.liaoinstan.springview.container.DefaultFooter;
-import com.liaoinstan.springview.container.DefaultHeader;
-import com.liaoinstan.springview.widget.SpringView;
 import com.power.mercenary.R;
-import com.power.mercenary.adapter.ReleaseRWZAdapter;
+import com.power.mercenary.activity.details_appraise_publish.GRPublishAppraiseActivity;
+import com.power.mercenary.activity.details_appraise_publish.GZPublishAppraiseActivity;
+import com.power.mercenary.activity.details_appraise_publish.PTPublishAppraiseActivity;
+import com.power.mercenary.activity.details_appraise_publish.SHPublishAppraiseActivity;
+import com.power.mercenary.activity.details_audit_publish.GRPublishAuditActivity;
+import com.power.mercenary.activity.details_audit_publish.GZPublishAuditActivity;
+import com.power.mercenary.activity.details_audit_publish.PTPublishAuditActivity;
+import com.power.mercenary.activity.details_audit_publish.SHPublishAuditActivity;
 import com.power.mercenary.adapter.ReleaseSHZAdapter;
-import com.power.mercenary.adapter.ReleaseYXJAdapter;
 import com.power.mercenary.base.BaseFragment;
 import com.power.mercenary.bean.mytask.PublishTaskBean;
 import com.power.mercenary.presenter.publish.PublishPresenter;
@@ -23,9 +24,6 @@ import com.power.mercenary.view.pullrecyclerview.WanRecyclerView;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import butterknife.BindView;
-import butterknife.ButterKnife;
 
 /**
  * Created by Administrator on 2018/3/30.
@@ -84,17 +82,17 @@ public class ReleaseSHZFragment  extends BaseFragment implements WanRecyclerView
     }
 
     @Override
-    public void putTaskRequestSuccess() {
+    public void putTaskRequestSuccess(int position) {
 
     }
 
     @Override
-    public void outTaskRequestSuccess() {
+    public void outTaskRequestSuccess(int position) {
 
     }
 
     @Override
-    public void auditTaskRequestSuccess() {
+    public void auditTaskRequestSuccess(int type, int position) {
         TUtils.showCustom(getContext(), "审核成功");
     }
 
@@ -108,6 +106,7 @@ public class ReleaseSHZFragment  extends BaseFragment implements WanRecyclerView
         page = 1;
         mList.clear();
         publishPresenter.getPublishTaskList(page, 3);
+
     }
 
     @Override
@@ -118,6 +117,37 @@ public class ReleaseSHZFragment  extends BaseFragment implements WanRecyclerView
 
     @Override
     public void TaskOnClickListener(String id, int position) {
-        publishPresenter.auditTaskRequest(id, 1);
+        publishPresenter.auditTaskRequest(id, 1, position);
+    }
+
+    @Override
+    public void TaskOnClickViewListener(String id, int position, String taskType, String taskState) {
+        switch (taskType) {
+            case "1":
+                Intent ptIntent = new Intent(getActivity(), PTPublishAuditActivity.class);
+                ptIntent.putExtra("taskId", id);
+                startActivity(ptIntent);
+                break;
+
+            case "2":
+            case "5":
+            case "6":
+                Intent shIntent = new Intent(getActivity(), SHPublishAuditActivity.class);
+                shIntent.putExtra("taskId", id);
+                startActivity(shIntent);
+                break;
+
+            case "3":
+                Intent grIntent = new Intent(getActivity(), GRPublishAuditActivity.class);
+                grIntent.putExtra("taskId", id);
+                startActivity(grIntent);
+                break;
+
+            case "4":
+                Intent gzIntent = new Intent(getActivity(), GZPublishAuditActivity.class);
+                gzIntent.putExtra("taskId", id);
+                startActivity(gzIntent);
+                break;
+        }
     }
 }

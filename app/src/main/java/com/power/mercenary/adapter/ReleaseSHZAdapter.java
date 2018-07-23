@@ -8,6 +8,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
@@ -64,6 +65,13 @@ public class ReleaseSHZAdapter extends RecyclerView.Adapter {
                 }
             });
 
+            viewHolder.mView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    taskBtnListener.TaskOnClickViewListener(data.get(position).getId(), position, data.get(position).getTask_type(), data.get(position).getTask_status());
+                }
+            });
+
             viewHolder.recyclerView.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false));
             TaskListActivity.TagAdapter tagAdapter = new TaskListActivity.TagAdapter(R.layout.item_tag_layout, MercenaryUtils.stringToList(data.get(position).getTask_tag()));
             viewHolder.recyclerView.setAdapter(tagAdapter);
@@ -88,8 +96,11 @@ public class ReleaseSHZAdapter extends RecyclerView.Adapter {
 
         TextView btn;
 
+        LinearLayout mView;
+
         public WJDViewHolder(View itemView) {
             super(itemView);
+            mView = itemView.findViewById(R.id.item_shz_view_layout);
             title = itemView.findViewById(R.id.item_wjd_view_title);
             price = itemView.findViewById(R.id.item_wjd_view_price);
             recyclerView = itemView.findViewById(R.id.item_wjd_view_recyclerView);
@@ -100,6 +111,7 @@ public class ReleaseSHZAdapter extends RecyclerView.Adapter {
 
     public interface TaskBtnListener {
         void TaskOnClickListener(String id, int position);
+        void TaskOnClickViewListener(String id, int position, String taskType, String taskState);
     }
 
 }

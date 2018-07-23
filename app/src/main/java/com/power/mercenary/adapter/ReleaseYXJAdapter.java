@@ -8,6 +8,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
@@ -65,7 +66,19 @@ public class ReleaseYXJAdapter extends RecyclerView.Adapter {
             viewHolder.btn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    taskBtnListener.TaskOnClickListener(data.get(position).getId(), position);
+//                    if (btnStr.equals("评价")) {
+//                        taskBtnListener.TaskOnClickListener(data.get(position).getId(), position);
+//                    } else {
+                        taskBtnListener.TaskOnClick2Listener(data.get(position).getId(), position);
+//                    }
+
+                }
+            });
+
+            viewHolder.mView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    taskBtnListener.TaskOnClickListener(data.get(position).getId(), position, data.get(position).getTask_type(), data.get(position).getTask_status());
                 }
             });
 
@@ -93,8 +106,11 @@ public class ReleaseYXJAdapter extends RecyclerView.Adapter {
 
         TextView btn;
 
+        LinearLayout mView;
+
         public WJDViewHolder(View itemView) {
             super(itemView);
+            mView = itemView.findViewById(R.id.item_wjd_view_layout);
             title = itemView.findViewById(R.id.item_wjd_view_title);
             price = itemView.findViewById(R.id.item_wjd_view_price);
             recyclerView = itemView.findViewById(R.id.item_wjd_view_recyclerView);
@@ -104,6 +120,7 @@ public class ReleaseYXJAdapter extends RecyclerView.Adapter {
     }
 
     public interface TaskBtnListener {
-        void TaskOnClickListener(String id, int position);
+        void TaskOnClickListener(String id, int position, String taskType, String taskState);
+        void TaskOnClick2Listener(String id, int position);
     }
 }

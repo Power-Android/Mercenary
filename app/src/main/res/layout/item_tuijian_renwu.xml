@@ -7,7 +7,9 @@
     android:paddingRight="10dp"
     android:paddingTop="15dp"
     android:background="@color/white"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:id="@+id/item_layout_click"
+    >
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

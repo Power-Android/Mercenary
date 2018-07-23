@@ -1,20 +1,21 @@
 package com.power.mercenary.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.liaoinstan.springview.container.DefaultFooter;
-import com.liaoinstan.springview.container.DefaultHeader;
-import com.liaoinstan.springview.widget.SpringView;
 import com.power.mercenary.R;
-import com.power.mercenary.adapter.ReleaseDPJAdapter;
+import com.power.mercenary.activity.details_appraise_publish.GRPublishAppraiseActivity;
+import com.power.mercenary.activity.details_appraise_publish.GZPublishAppraiseActivity;
+import com.power.mercenary.activity.details_appraise_publish.PTPublishAppraiseActivity;
+import com.power.mercenary.activity.details_appraise_publish.SHPublishAppraiseActivity;
+import com.power.mercenary.activity.details_intask_publish.GRPublishInTaskActivity;
+import com.power.mercenary.activity.details_intask_publish.GZPublishInTaskActivity;
+import com.power.mercenary.activity.details_intask_publish.PTPublishInTaskActivity;
+import com.power.mercenary.activity.details_intask_publish.SHPublishInTaskActivity;
 import com.power.mercenary.adapter.ReleaseRWZAdapter;
-import com.power.mercenary.adapter.task.ReleaseWJDAdapter;
 import com.power.mercenary.base.BaseFragment;
 import com.power.mercenary.bean.mytask.PublishTaskBean;
 import com.power.mercenary.presenter.publish.PublishPresenter;
@@ -23,14 +24,11 @@ import com.power.mercenary.view.pullrecyclerview.WanRecyclerView;
 import java.util.ArrayList;
 import java.util.List;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
-
 /**
  * Created by Administrator on 2018/3/30.
  */
 
-public class ReleaseRWZFragment extends BaseFragment implements PublishPresenter.PublishCallBack, WanRecyclerView.PullRecyclerViewCallBack {
+public class ReleaseRWZFragment extends BaseFragment implements PublishPresenter.PublishCallBack, WanRecyclerView.PullRecyclerViewCallBack, ReleaseRWZAdapter.TaskBtnListener {
 
 
     List<PublishTaskBean> mList=new ArrayList<>();
@@ -54,6 +52,7 @@ public class ReleaseRWZFragment extends BaseFragment implements PublishPresenter
 
         adapter = new ReleaseRWZAdapter(getContext(), mList);
         wanRecyclerView.setAdapter(adapter);
+        adapter.setListener(this);
 
         publishPresenter = new PublishPresenter(getActivity(), this);
 
@@ -83,17 +82,17 @@ public class ReleaseRWZFragment extends BaseFragment implements PublishPresenter
     }
 
     @Override
-    public void putTaskRequestSuccess() {
+    public void putTaskRequestSuccess(int position) {
 
     }
 
     @Override
-    public void outTaskRequestSuccess() {
+    public void outTaskRequestSuccess(int position) {
 
     }
 
     @Override
-    public void auditTaskRequestSuccess() {
+    public void auditTaskRequestSuccess(int type, int position) {
 
     }
 
@@ -113,5 +112,36 @@ public class ReleaseRWZFragment extends BaseFragment implements PublishPresenter
     public void onLoadMore() {
         page ++;
         publishPresenter.getPublishTaskList(page, 2);
+    }
+
+    @Override
+    public void TaskOnClickViewListener(String id, int position, String taskType, String taskState) {
+        switch (taskType) {
+            case "1":
+                Intent ptIntent = new Intent(getActivity(), PTPublishInTaskActivity.class);
+                ptIntent.putExtra("taskId", id);
+                startActivity(ptIntent);
+                break;
+
+            case "2":
+            case "5":
+            case "6":
+                Intent shIntent = new Intent(getActivity(), SHPublishInTaskActivity.class);
+                shIntent.putExtra("taskId", id);
+                startActivity(shIntent);
+                break;
+
+            case "3":
+                Intent grIntent = new Intent(getActivity(), GRPublishInTaskActivity.class);
+                grIntent.putExtra("taskId", id);
+                startActivity(grIntent);
+                break;
+
+            case "4":
+                Intent gzIntent = new Intent(getActivity(), GZPublishInTaskActivity.class);
+                gzIntent.putExtra("taskId", id);
+                startActivity(gzIntent);
+                break;
+        }
     }
 }
