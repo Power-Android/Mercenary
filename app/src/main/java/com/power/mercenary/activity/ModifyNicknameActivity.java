@@ -10,10 +10,12 @@ import android.widget.TextView;
 
 import com.power.mercenary.R;
 import com.power.mercenary.base.BaseActivity;
+import com.power.mercenary.bean.user.UserImgInfo;
 import com.power.mercenary.bean.user.UserInfo;
 import com.power.mercenary.data.CacheConstants;
 import com.power.mercenary.data.EventConstants;
 import com.power.mercenary.event.EventUtils;
+import com.power.mercenary.presenter.UpdataPresenter;
 import com.power.mercenary.utils.CacheUtils;
 import com.power.mercenary.utils.TUtils;
 
@@ -26,7 +28,7 @@ import butterknife.OnClick;
 /**
  * admin  2018/7/5 wan
  */
-public class ModifyNicknameActivity extends BaseActivity {
+public class ModifyNicknameActivity extends BaseActivity implements UpdataPresenter.UpdataCallBack {
 
 
     @BindView(R.id.left_back)
@@ -37,6 +39,7 @@ public class ModifyNicknameActivity extends BaseActivity {
     EditText etName;
 
     private UserInfo userInfo;
+    private UpdataPresenter presenter;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -46,6 +49,8 @@ public class ModifyNicknameActivity extends BaseActivity {
         ButterKnife.bind(this);
 
         userInfo = CacheUtils.get(CacheConstants.USERINFO);
+
+        presenter = new UpdataPresenter(this, this);
     }
 
     @OnClick({R.id.left_back, R.id.rigth_text})
@@ -55,14 +60,30 @@ public class ModifyNicknameActivity extends BaseActivity {
                 finish();
                 break;
             case R.id.rigth_text:
-                if (!TextUtils.isEmpty(etName.getText().toString())) {
-                    userInfo.setName(etName.getText().toString());
-                    EventBus.getDefault().post(new EventUtils(EventConstants.TYPE_SETT_REFRESH));
-                    finish();
+                if (!TextUtils.isEmpty(etName.getText().toString()) ) {
+
+                    presenter.updataUserInfo(userInfo.getNick_name(),
+                            etName.getText().toString(),
+                            userInfo.getAge(),
+                            Integer.parseInt(userInfo.getSex()),
+                            userInfo.getMail());
                 } else {
                     TUtils.showCustom(ModifyNicknameActivity.this, "请输入姓名");
                 }
                 break;
         }
+    }
+
+    @Override
+    public void updataUserImg(UserImgInfo imgInfo) {
+
+    }
+
+    @Override
+    public void updataSuccess() {
+        userInfo.setName(etName.getText().toString());
+        EventBus.getDefault().post(new EventUtils(EventConstants.TYPE_USERINFO));
+        EventBus.getDefault().post(new EventUtils(EventConstants.TYPE_SETT_REFRESH));
+        finish();
     }
 }

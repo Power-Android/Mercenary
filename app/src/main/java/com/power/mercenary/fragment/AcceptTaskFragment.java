@@ -1,12 +1,29 @@
 package com.power.mercenary.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.power.mercenary.R;
-import com.power.mercenary.adapter.ReleaseSHZAdapter;
+import com.power.mercenary.activity.GRTaskDetailsActivity;
+import com.power.mercenary.activity.GZTaskDetailsActivity;
+import com.power.mercenary.activity.PTTaskDetailsActivity;
+import com.power.mercenary.activity.SHTaskDetailsActivity;
+import com.power.mercenary.activity.details_audit_accept.GRAcceptAuditActivity;
+import com.power.mercenary.activity.details_audit_accept.GZAcceptAuditActivity;
+import com.power.mercenary.activity.details_audit_accept.PTAcceptAuditActivity;
+import com.power.mercenary.activity.details_audit_accept.SHAcceptAuditActivity;
+import com.power.mercenary.activity.details_intask_accept.GRAcceptInTaskActivity;
+import com.power.mercenary.activity.details_intask_accept.GZAcceptInTaskActivity;
+import com.power.mercenary.activity.details_intask_accept.PTAcceptInTaskActivity;
+import com.power.mercenary.activity.details_intask_accept.SHAcceptInTaskActivity;
+import com.power.mercenary.activity.details_success_accept.GRAcceptSuccessActivity;
+import com.power.mercenary.activity.details_success_accept.GZAcceptSuccessActivity;
+import com.power.mercenary.activity.details_success_accept.PTAcceptSuccessActivity;
+import com.power.mercenary.activity.details_success_accept.SHAcceptSuccessActivity;
 import com.power.mercenary.adapter.task.AcceptTaskAdapter;
 import com.power.mercenary.base.BaseFragment;
 import com.power.mercenary.bean.mytask.AcceptTaskBean;
@@ -19,9 +36,9 @@ import java.util.List;
 /**
  * admin  2018/7/18 wan
  */
-public class AcceptTaskFragment extends BaseFragment implements WanRecyclerView.PullRecyclerViewCallBack, AcceptPresenter.AcceptCallBack {
+public class AcceptTaskFragment extends BaseFragment implements WanRecyclerView.PullRecyclerViewCallBack, AcceptPresenter.AcceptCallBack, AcceptTaskAdapter.OnItemClickListener {
 
-    private WanRecyclerView wanRecyclerView;
+    private WanRecyclerView mRecyclerView;
 
     private int page = 1;
 
@@ -42,12 +59,14 @@ public class AcceptTaskFragment extends BaseFragment implements WanRecyclerView.
 
         mList = new ArrayList<>();
 
-        wanRecyclerView = view.findViewById(R.id.frag_release_recyclerView);
-        wanRecyclerView.setLinearLayout();
-        wanRecyclerView.setPullRecyclerViewListener(this);
+        mRecyclerView = view.findViewById(R.id.frag_release_recyclerView);
+        mRecyclerView.setLinearLayout();
+        mRecyclerView.setPullRecyclerViewListener(this);
         adapter = new AcceptTaskAdapter(getContext(), mList);
 
-        wanRecyclerView.setAdapter(adapter);
+        adapter.setOnItemClickListener(this);
+
+        mRecyclerView.setAdapter(adapter);
 
         return view;
     }
@@ -74,16 +93,142 @@ public class AcceptTaskFragment extends BaseFragment implements WanRecyclerView.
     public void getAcceptTaskList(List<AcceptTaskBean> datas) {
         if (datas != null) {
             mList.addAll(datas);
-            wanRecyclerView.setHasMore(datas.size(), 10);
+            mRecyclerView.setHasMore(datas.size(), 10);
         } else {
-            wanRecyclerView.setHasMore(0, 10);
+            mRecyclerView.setHasMore(0, 10);
         }
         adapter.notifyDataSetChanged();
-        wanRecyclerView.setStateView(mList.size());
+        mRecyclerView.setStateView(mList.size());
     }
 
     @Override
     public void getAcceptTaskListFail() {
-        wanRecyclerView.setHasMore(0, 10);
+        mRecyclerView.setHasMore(0, 10);
+    }
+
+    @Override
+    public void onItemClickListener(String taskType, String taskId, String taskState) {
+        // 0 1 2 3 6
+
+//        if (TextUtils.equals(taskState, "1")) {
+//
+//
+//        }
+
+        if (TextUtils.equals(taskState, "2")) {
+            switch (taskType) {
+                case "1":
+                    Intent ptIntent = new Intent(getActivity(), PTAcceptInTaskActivity.class);
+                    ptIntent.putExtra("taskId", taskId);
+                    startActivity(ptIntent);
+                    break;
+
+                case "2":
+                case "5":
+                case "6":
+                    Intent shIntent = new Intent(getActivity(), SHAcceptInTaskActivity.class);
+                    shIntent.putExtra("taskId", taskId);
+                    startActivity(shIntent);
+                    break;
+
+                case "3":
+                    Intent grIntent = new Intent(getActivity(), GRAcceptInTaskActivity.class);
+                    grIntent.putExtra("taskId", taskId);
+                    startActivity(grIntent);
+                    break;
+
+                case "4":
+                    Intent gzIntent = new Intent(getActivity(), GZAcceptInTaskActivity.class);
+                    gzIntent.putExtra("taskId", taskId);
+                    startActivity(gzIntent);
+                    break;
+            }
+
+        } else if (TextUtils.equals(taskState, "3")) {
+            switch (taskType) {
+                case "1":
+                    Intent ptIntent = new Intent(getActivity(), PTAcceptAuditActivity.class);
+                    ptIntent.putExtra("taskId", taskId);
+                    startActivity(ptIntent);
+                    break;
+
+                case "2":
+                case "5":
+                case "6":
+                    Intent shIntent = new Intent(getActivity(), SHAcceptAuditActivity.class);
+                    shIntent.putExtra("taskId", taskId);
+                    startActivity(shIntent);
+                    break;
+
+                case "3":
+                    Intent grIntent = new Intent(getActivity(), GRAcceptAuditActivity.class);
+                    grIntent.putExtra("taskId", taskId);
+                    startActivity(grIntent);
+                    break;
+
+                case "4":
+                    Intent gzIntent = new Intent(getActivity(), GZAcceptAuditActivity.class);
+                    gzIntent.putExtra("taskId", taskId);
+                    startActivity(gzIntent);
+                    break;
+            }
+
+        } else if (TextUtils.equals(taskState, "6") || TextUtils.equals(taskState, "7")) {
+            switch (taskType) {
+                case "1":
+                    Intent ptIntent = new Intent(getActivity(), PTAcceptSuccessActivity.class);
+                    ptIntent.putExtra("taskId", taskId);
+                    startActivity(ptIntent);
+                    break;
+
+                case "2":
+                case "5":
+                case "6":
+                    Intent shIntent = new Intent(getActivity(), SHAcceptSuccessActivity.class);
+                    shIntent.putExtra("taskId", taskId);
+                    startActivity(shIntent);
+                    break;
+
+                case "3":
+                    Intent grIntent = new Intent(getActivity(), GRAcceptSuccessActivity.class);
+                    grIntent.putExtra("taskId", taskId);
+                    startActivity(grIntent);
+                    break;
+
+                case "4":
+                    Intent gzIntent = new Intent(getActivity(), GZAcceptSuccessActivity.class);
+                    gzIntent.putExtra("taskId", taskId);
+                    startActivity(gzIntent);
+                    break;
+            }
+        } else {
+            switch (taskType) {
+                case "1":
+                    Intent ptIntent = new Intent(getActivity(), PTTaskDetailsActivity.class);
+                    ptIntent.putExtra("taskId", taskId);
+                    startActivity(ptIntent);
+                    break;
+
+                case "2":
+                case "5":
+                case "6":
+                    Intent shIntent = new Intent(getActivity(), SHTaskDetailsActivity.class);
+                    shIntent.putExtra("taskId", taskId);
+                    startActivity(shIntent);
+                    break;
+
+                case "3":
+                    Intent grIntent = new Intent(getActivity(), GRTaskDetailsActivity.class);
+                    grIntent.putExtra("taskId", taskId);
+                    startActivity(grIntent);
+                    break;
+
+                case "4":
+                    Intent gzIntent = new Intent(getActivity(), GZTaskDetailsActivity.class);
+                    gzIntent.putExtra("taskId", taskId);
+                    startActivity(gzIntent);
+                    break;
+            }
+        }
     }
 }

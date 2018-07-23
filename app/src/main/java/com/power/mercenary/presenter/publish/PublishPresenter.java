@@ -1,7 +1,6 @@
 package com.power.mercenary.presenter.publish;
 
 import android.app.Activity;
-import android.app.ListActivity;
 
 import com.lzy.okgo.model.Response;
 import com.power.mercenary.MyApplication;
@@ -53,18 +52,42 @@ public class PublishPresenter {
     }
 
     /**
+     * 我发布的任务列表
+     *
+     * @param pageNum
+     */
+    public void getPublishTaskList(int pageNum) {
+        new HttpManager<ResponseBean<List<PublishTaskBean>>>("Home/MyTask/publish_list", this)
+                .addParams("token", MyApplication.getUserToken())
+                .addParams("pageNum", pageNum)
+                .addParams("pageSize", 10)
+                .postRequest(new JsonCallback<ResponseBean<List<PublishTaskBean>>>() {
+                    @Override
+                    public void onSuccess(Response<ResponseBean<List<PublishTaskBean>>> response) {
+                        callBack.getPublishTaskList(response.body().data);
+                    }
+
+                    @Override
+                    public void onError(Response<ResponseBean<List<PublishTaskBean>>> response) {
+                        super.onError(response);
+                        callBack.getPublishTaskListFail();
+                    }
+                });
+    }
+
+    /**
      * 上架任务
      *
      * @param id
      */
-    public void putTaskRequest(String id) {
+    public void putTaskRequest(String id, final int position) {
         new HttpManager<ResponseBean<Void>>("Home/MyTask/shangjia", this)
                 .addParams("token", MyApplication.getUserToken())
                 .addParams("id", id)
                 .postRequest(new DialogCallback<ResponseBean<Void>>(activity) {
                     @Override
                     public void onSuccess(Response<ResponseBean<Void>> response) {
-                        callBack.putTaskRequestSuccess();
+                        callBack.putTaskRequestSuccess(position);
                     }
                 });
     }
@@ -74,14 +97,14 @@ public class PublishPresenter {
      *
      * @param id
      */
-    public void outTaskRequest(String id) {
+    public void outTaskRequest(String id, final int position) {
         new HttpManager<ResponseBean<Void>>("Home/MyTask/xiajia", this)
                 .addParams("token", MyApplication.getUserToken())
                 .addParams("id", id)
                 .postRequest(new DialogCallback<ResponseBean<Void>>(activity) {
                     @Override
                     public void onSuccess(Response<ResponseBean<Void>> response) {
-                        callBack.outTaskRequestSuccess();
+                        callBack.outTaskRequestSuccess(position);
                     }
                 });
     }
@@ -92,7 +115,7 @@ public class PublishPresenter {
      * @param id
      * @param type 审核通过 1 审核不通过 2
      */
-    public void auditTaskRequest(String id, int type) {
+    public void auditTaskRequest(String id, final int type, final int position) {
         new HttpManager<ResponseBean<Void>>("Home/MyTask/shenhe", this)
                 .addParams("token", MyApplication.getUserToken())
                 .addParams("id", id)
@@ -100,7 +123,7 @@ public class PublishPresenter {
                 .postRequest(new DialogCallback<ResponseBean<Void>>(activity) {
                     @Override
                     public void onSuccess(Response<ResponseBean<Void>> response) {
-                        callBack.auditTaskRequestSuccess();
+                        callBack.auditTaskRequestSuccess(type, position);
                     }
                 });
     }
@@ -128,11 +151,11 @@ public class PublishPresenter {
 
         void getPublishTaskListFail();
 
-        void putTaskRequestSuccess();
+        void putTaskRequestSuccess(int position);
 
-        void outTaskRequestSuccess();
+        void outTaskRequestSuccess(int position);
 
-        void auditTaskRequestSuccess();
+        void auditTaskRequestSuccess(int type, int position);
 
         void appraiseRequestSuccess();
     }

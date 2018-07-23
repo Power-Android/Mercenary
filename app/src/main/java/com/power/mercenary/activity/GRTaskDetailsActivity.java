@@ -30,6 +30,7 @@ import com.power.mercenary.adapter.TaskImageAdapter;
 import com.power.mercenary.adapter.task.DetailsMsgAdapter;
 import com.power.mercenary.adapter.task.DetailsPeopleAdapter;
 import com.power.mercenary.base.BaseActivity;
+import com.power.mercenary.bean.NineGridTestModel;
 import com.power.mercenary.bean.task.ApplyListBean;
 import com.power.mercenary.bean.task.MsgBean;
 import com.power.mercenary.bean.task.MsgListBean;
@@ -38,8 +39,10 @@ import com.power.mercenary.presenter.TaskDetailsPresenter;
 import com.power.mercenary.utils.MercenaryUtils;
 import com.power.mercenary.utils.MyUtils;
 import com.power.mercenary.utils.TUtils;
+import com.power.mercenary.utils.Urls;
 import com.power.mercenary.view.CircleImageView;
 import com.power.mercenary.view.MaxHeightRecyclerView;
+import com.power.mercenary.view.NineGridTestLayout;
 import com.power.mercenary.view.SharingPop;
 
 import java.util.ArrayList;
@@ -136,7 +139,7 @@ public class GRTaskDetailsActivity extends BaseActivity implements View.OnClickL
 
     private TextView tvTaskAsk;
 
-    private RecyclerView ivRecyclerView;
+    private NineGridTestLayout ivRecyclerView;
 
     private String taskState;
     private String publisherId;
@@ -149,8 +152,7 @@ public class GRTaskDetailsActivity extends BaseActivity implements View.OnClickL
 
         tvTitle = (TextView) findViewById(R.id.act_task_detaiils_title);
 
-        ivRecyclerView = (RecyclerView) findViewById(R.id.recycler_img);
-        ivRecyclerView.setLayoutManager(new GridLayoutManager(this, 3));
+        ivRecyclerView = (NineGridTestLayout) findViewById(R.id.recycler_img);
 
         tvTaskAsk = (TextView) findViewById(R.id.act_gr_details_taskAsk);
 
@@ -305,7 +307,7 @@ public class GRTaskDetailsActivity extends BaseActivity implements View.OnClickL
     public void getTaskDetails(TaskDetailsBean datas) {
         if (datas != null) {
             Glide.with(this)
-                    .load(datas.getHead_img())
+                    .load(Urls.BASEIMGURL + datas.getHead_img())
                     .into(ivIcon);
 
             tvTitle.setText(datas.getTask_name());
@@ -398,8 +400,12 @@ public class GRTaskDetailsActivity extends BaseActivity implements View.OnClickL
                 publishBtn.setOnClickListener(null);
             }
 
-            TaskImageAdapter imageAdapter = new TaskImageAdapter(R.layout.tp_item_view, MercenaryUtils.string3ToList(datas.getTask_img()), this);
-            ivRecyclerView.setAdapter(imageAdapter);
+            NineGridTestModel model1 = new NineGridTestModel();
+            model1.urlList.addAll(MercenaryUtils.string3ToList(datas.getTask_img()));
+            for (int i = 0; i < model1.urlList.size(); i++) {
+                ivRecyclerView.setIsShowAll(model1.isShowAll);
+                ivRecyclerView.setUrlList(model1.urlList);
+            }
         }
     }
 
@@ -487,7 +493,7 @@ public class GRTaskDetailsActivity extends BaseActivity implements View.OnClickL
                 recycler_content.setVisibility(View.GONE);
                 actTaskDetailsSMsg.setVisibility(View.VISIBLE);
                 Glide.with(this)
-                        .load(avatar)
+                        .load(Urls.BASEIMGURL + avatar)
                         .into(actTaskDetaiilsPrivateMsg);
 
                 actTaskDetaiilsPrivateName.setText(name);

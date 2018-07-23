@@ -116,4 +116,16 @@
         <item name="android:windowIsFloating">true</item>
     </style>
 
+    <!--主页面底部tab的style-->
+    <style name="bottom_tab_style">
+        <item name="android:button">@null</item>
+        <item name="android:background">@color/transparent</item><!--不加这一行的话点击会有水波纹效果-->
+        <item name="android:gravity">center</item>
+        <item name="android:drawablePadding">3dp</item>
+        <item name="android:textSize">12sp</item>
+        <item name="android:textColor">@drawable/tab_text_selector</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">0dp</item>
+    </style>
 </resources>

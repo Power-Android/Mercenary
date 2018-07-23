@@ -1,19 +1,20 @@
 package com.power.mercenary.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.liaoinstan.springview.container.DefaultFooter;
-import com.liaoinstan.springview.container.DefaultHeader;
-import com.liaoinstan.springview.widget.SpringView;
 import com.power.mercenary.R;
-import com.power.mercenary.adapter.ReleaseRWZAdapter;
-import com.power.mercenary.adapter.ReleaseWJDAdapter;
+import com.power.mercenary.activity.details_out_publish.GRPublishOutActivity;
+import com.power.mercenary.activity.details_out_publish.GZPublishOutActivity;
+import com.power.mercenary.activity.details_out_publish.PTPublishOutActivity;
+import com.power.mercenary.activity.details_out_publish.SHPublishOutActivity;
+import com.power.mercenary.activity.details_success_accept.GRAcceptSuccessActivity;
+import com.power.mercenary.activity.details_success_accept.GZAcceptSuccessActivity;
+import com.power.mercenary.activity.details_success_accept.PTAcceptSuccessActivity;
+import com.power.mercenary.activity.details_success_accept.SHAcceptSuccessActivity;
 import com.power.mercenary.adapter.ReleaseYXJAdapter;
 import com.power.mercenary.base.BaseFragment;
 import com.power.mercenary.bean.mytask.PublishTaskBean;
@@ -22,9 +23,6 @@ import com.power.mercenary.view.pullrecyclerview.WanRecyclerView;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import butterknife.BindView;
-import butterknife.ButterKnife;
 
 /**
  * Created by Administrator on 2018/3/30.
@@ -83,17 +81,18 @@ public class ReleaseYXJFragment extends BaseFragment implements WanRecyclerView.
     }
 
     @Override
-    public void putTaskRequestSuccess() {
+    public void putTaskRequestSuccess(int position) {
+        mList.remove(position);
+        adapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void outTaskRequestSuccess(int position) {
 
     }
 
     @Override
-    public void outTaskRequestSuccess() {
-
-    }
-
-    @Override
-    public void auditTaskRequestSuccess() {
+    public void auditTaskRequestSuccess(int type, int position) {
 
     }
 
@@ -116,7 +115,38 @@ public class ReleaseYXJFragment extends BaseFragment implements WanRecyclerView.
     }
 
     @Override
-    public void TaskOnClickListener(String id, int position) {
+    public void TaskOnClickListener(String id, int position, String taskType, String taskState) {
+        switch (taskType) {
+            case "1":
+                Intent ptIntent = new Intent(getActivity(), PTPublishOutActivity.class);
+                ptIntent.putExtra("taskId", id);
+                startActivity(ptIntent);
+                break;
 
+            case "2":
+            case "5":
+            case "6":
+                Intent shIntent = new Intent(getActivity(), SHPublishOutActivity.class);
+                shIntent.putExtra("taskId", id);
+                startActivity(shIntent);
+                break;
+
+            case "3":
+                Intent grIntent = new Intent(getActivity(), GRPublishOutActivity.class);
+                grIntent.putExtra("taskId", id);
+                startActivity(grIntent);
+                break;
+
+            case "4":
+                Intent gzIntent = new Intent(getActivity(), GZPublishOutActivity.class);
+                gzIntent.putExtra("taskId", id);
+                startActivity(gzIntent);
+                break;
+        }
+    }
+
+    @Override
+    public void TaskOnClick2Listener(String id, int position) {
+        publishPresenter.putTaskRequest(id, position);
     }
 }

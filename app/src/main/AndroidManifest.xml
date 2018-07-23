@@ -160,6 +160,97 @@
         <activity
             android:name=".activity.AcceptTaskActivity"
             android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".activity.details_appraise_publish.GRPublishAppraiseActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.details_appraise_publish.GZPublishAppraiseActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.details_appraise_publish.PTPublishAppraiseActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.details_appraise_publish.SHPublishAppraiseActivity"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".activity.details_audit_accept.GRAcceptAuditActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.details_audit_accept.GZAcceptAuditActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.details_audit_accept.PTAcceptAuditActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.details_audit_accept.SHAcceptAuditActivity"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".activity.details_audit_publish.GRPublishAuditActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.details_audit_publish.GZPublishAuditActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.details_audit_publish.PTPublishAuditActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.details_audit_publish.SHPublishAuditActivity"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".activity.details_intask_accept.GRAcceptInTaskActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.details_intask_accept.GZAcceptInTaskActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.details_intask_accept.PTAcceptInTaskActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.details_intask_accept.SHAcceptInTaskActivity"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".activity.details_intask_publish.GRPublishInTaskActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.details_intask_publish.GZPublishInTaskActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.details_intask_publish.PTPublishInTaskActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.details_intask_publish.SHPublishInTaskActivity"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".activity.details_success_accept.GRAcceptSuccessActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.details_success_accept.GZAcceptSuccessActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.details_success_accept.PTAcceptSuccessActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.details_success_accept.SHAcceptSuccessActivity"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".activity.details_out_publish.GRPublishOutActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.details_out_publish.GZPublishOutActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.details_out_publish.PTPublishOutActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.details_out_publish.SHPublishOutActivity"
+            android:screenOrientation="portrait" />
     </application>
 
 </manifest>

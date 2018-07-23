@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.power.mercenary.R;
@@ -27,6 +28,12 @@ public class AcceptTaskAdapter extends RecyclerView.Adapter {
 
     private List<AcceptTaskBean> data;
 
+    private OnItemClickListener onItemClickListener;
+
+    public void setOnItemClickListener(OnItemClickListener onItemClickListener){
+        this.onItemClickListener = onItemClickListener;
+    }
+
     public AcceptTaskAdapter(Context context, List<AcceptTaskBean> data) {
         this.context = context;
         this.data = data;
@@ -39,7 +46,7 @@ public class AcceptTaskAdapter extends RecyclerView.Adapter {
     }
 
     @Override
-    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+    public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position) {
         if (holder instanceof AcceptViewHolder) {
             AcceptViewHolder viewHolder = (AcceptViewHolder) holder;
 
@@ -54,6 +61,13 @@ public class AcceptTaskAdapter extends RecyclerView.Adapter {
             } else {
                 viewHolder.imageView.setVisibility(View.GONE);
             }
+
+            viewHolder.mView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    onItemClickListener.onItemClickListener(data.get(position).getTask_type(), data.get(position).getId(), data.get(position).getTask_status());
+                }
+            });
 
             viewHolder.recyclerView.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false));
             TaskListActivity.TagAdapter tagAdapter = new TaskListActivity.TagAdapter(R.layout.item_tag_layout, MercenaryUtils.stringToList(data.get(position).getTask_tag()));
@@ -78,8 +92,13 @@ public class AcceptTaskAdapter extends RecyclerView.Adapter {
 
         ImageView imageView;
 
+        LinearLayout mView;
+
         public AcceptViewHolder(View itemView) {
             super(itemView);
+
+            mView = itemView.findViewById(R.id.item_view_accept_layout);
+
             title = itemView.findViewById(R.id.item_view_accept_title);
             price = itemView.findViewById(R.id.item_view_accept_price);
             content = itemView.findViewById(R.id.item_view_accept_content);
@@ -87,5 +106,9 @@ public class AcceptTaskAdapter extends RecyclerView.Adapter {
             imageView = itemView.findViewById(R.id.item_view_accept_success);
 
         }
+    }
+
+    public interface OnItemClickListener{
+        void onItemClickListener(String taskType, String taskId, String taskState);
     }
 }

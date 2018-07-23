@@ -8,6 +8,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
@@ -28,6 +29,12 @@ public class ReleaseRWZAdapter extends RecyclerView.Adapter {
     private Context context;
 
     private List<PublishTaskBean> data;
+
+    private TaskBtnListener listener;
+
+    public void setListener(TaskBtnListener listener){
+        this.listener = listener;
+    }
 
     public ReleaseRWZAdapter(Context context, List<PublishTaskBean> data) {
         this.context = context;
@@ -54,6 +61,13 @@ public class ReleaseRWZAdapter extends RecyclerView.Adapter {
             viewHolder.xiugai.setVisibility(View.GONE);
             viewHolder.chexiao.setVisibility(View.GONE);
             viewHolder.yaoqing.setVisibility(View.GONE);
+
+            viewHolder.mView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    listener.TaskOnClickViewListener(data.get(position).getId(), position, data.get(position).getTask_type(), data.get(position).getTask_status());
+                }
+            });
 
             viewHolder.recyclerView.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false));
             TaskListActivity.TagAdapter tagAdapter = new TaskListActivity.TagAdapter(R.layout.item_tag_layout, MercenaryUtils.stringToList(data.get(position).getTask_tag()));
@@ -83,8 +97,11 @@ public class ReleaseRWZAdapter extends RecyclerView.Adapter {
 
         TextView yaoqing;
 
+        LinearLayout mView;
+
         public WJDViewHolder(View itemView) {
             super(itemView);
+            mView = itemView.findViewById(R.id.item_wjd_view_layout);
             title = itemView.findViewById(R.id.item_wjd_view_title);
             price = itemView.findViewById(R.id.item_wjd_view_price);
             recyclerView = itemView.findViewById(R.id.item_wjd_view_recyclerView);
@@ -93,5 +110,9 @@ public class ReleaseRWZAdapter extends RecyclerView.Adapter {
             chexiao = itemView.findViewById(R.id.item_wjd_view_chexiao);
             yaoqing = itemView.findViewById(R.id.item_wjd_view_yaoqing);
         }
+    }
+
+    public interface TaskBtnListener {
+        void TaskOnClickViewListener(String id, int position, String taskType, String taskState);
     }
 }

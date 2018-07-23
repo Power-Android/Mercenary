@@ -6,6 +6,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.power.mercenary.R;
@@ -73,12 +74,12 @@ public class TaskListAdapter extends RecyclerView.Adapter {
         TextView priceTv;
         RecyclerView tagRecyclerView;
 
-        View mView;
+        LinearLayout mView;
 
         public TaskViewHolder(View itemView) {
             super(itemView);
 
-            mView = itemView;
+            mView = itemView.findViewById(R.id.item_layout_click);
 
             titleTv = itemView.findViewById(R.id.item_title_tv);
             contentTv = itemView.findViewById(R.id.item_content_tv);

@@ -413,8 +413,8 @@
             android:id="@+id/rl_wdsc"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingBottom="10dp"
-            android:paddingTop="10dp">
+            android:paddingBottom="13dp"
+            android:paddingTop="13dp">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -426,6 +426,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
                 android:src="@drawable/right_fh" />
         </RelativeLayout>
 
@@ -438,8 +439,8 @@
             android:id="@+id/rl_wdgz"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingBottom="10dp"
-            android:paddingTop="10dp">
+            android:paddingBottom="13dp"
+            android:paddingTop="13dp">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -450,6 +451,7 @@
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
                 android:layout_alignParentRight="true"
                 android:src="@drawable/right_fh" />
         </RelativeLayout>
@@ -463,8 +465,8 @@
             android:id="@+id/rl_wdtg"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingBottom="10dp"
-            android:paddingTop="10dp">
+            android:paddingBottom="13dp"
+            android:paddingTop="13dp">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -476,6 +478,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
                 android:src="@drawable/right_fh" />
         </RelativeLayout>
 
@@ -488,8 +491,8 @@
             android:id="@+id/rl_cj"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingBottom="10dp"
-            android:paddingTop="10dp">
+            android:paddingBottom="13dp"
+            android:paddingTop="13dp">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -501,6 +504,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
                 android:src="@drawable/right_fh" />
         </RelativeLayout>
 
@@ -513,8 +517,8 @@
             android:id="@+id/rl_wdzl"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingBottom="10dp"
-            android:paddingTop="10dp">
+            android:paddingBottom="13dp"
+            android:paddingTop="13dp">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -526,11 +530,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
                 android:src="@drawable/right_fh" />
         </RelativeLayout>
-
-
     </LinearLayout>
-
-
 </LinearLayout>

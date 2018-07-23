@@ -3,6 +3,8 @@ package com.power.mercenary.activity;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
+import android.support.v4.view.ViewPager;
 import android.view.View;
 import android.widget.GridView;
 import android.widget.ImageView;
@@ -10,9 +12,12 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.power.mercenary.R;
+import com.power.mercenary.adapter.frag.FragmentVPagerAdapter;
+import com.power.mercenary.adapter.task.TaskStatisticsAdapter;
 import com.power.mercenary.base.BaseActivity;
 import com.power.mercenary.bean.mytask.StatisticsListBean;
 import com.power.mercenary.bean.mytask.StatisticsNumBean;
+import com.power.mercenary.fragment.StatisticsFragment;
 import com.power.mercenary.presenter.StatisticsPresenter;
 import com.power.mercenary.view.pullrecyclerview.WanRecyclerView;
 
@@ -27,7 +32,7 @@ import butterknife.OnClick;
  * Created by Administrator on 2018/3/28.
  */
 
-public class TaskStatisticsActivity extends BaseActivity implements StatisticsPresenter.StatisticsCallBack, WanRecyclerView.PullRecyclerViewCallBack {
+public class TaskStatisticsActivity extends BaseActivity implements StatisticsPresenter.StatisticsCallBack {
 
     @BindView(R.id.left_back)
     ImageView left_back;
@@ -82,19 +87,29 @@ public class TaskStatisticsActivity extends BaseActivity implements StatisticsPr
     View actTaskStarView;
     @BindView(R.id.act_task_star_layout)
     LinearLayout actTaskStarLayout;
-    @BindView(R.id.act_task_star_recyclerView)
-    WanRecyclerView recyclerView;
+
     private StatisticsPresenter presenter;
     private int state;
     private int page = 1;
 
-    private List<StatisticsListBean> mList;
+    private List<Fragment> mList;
+
+    private StatisticsFragment fragment1;
+    private StatisticsFragment fragment2;
+    private StatisticsFragment fragment3;
+    private StatisticsFragment fragment4;
+    private StatisticsFragment fragment5;
+    private StatisticsFragment fragment6;
+
+    private ViewPager vp;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_task_statistics);
         ButterKnife.bind(this);
+
+        vp = (ViewPager) findViewById(R.id.act_task_star_vp);
 
         state = getIntent().getIntExtra("state", 0);
 
@@ -112,12 +127,128 @@ public class TaskStatisticsActivity extends BaseActivity implements StatisticsPr
         }
 
         mList = new ArrayList<>();
-        recyclerView.setLinearLayout();
-        recyclerView.setPullRecyclerViewListener(this);
 
+        if (fragment1 == null) {
+            fragment1 = new StatisticsFragment();
+            Bundle bundle = new Bundle();
+            bundle.putInt("frag", 1);
+            bundle.putInt("state", state);
+            fragment1.setArguments(bundle);
+        }
+
+        if (fragment2 == null) {
+            fragment2 = new StatisticsFragment();
+            Bundle bundle = new Bundle();
+            bundle.putInt("frag", 2);
+            bundle.putInt("state", state);
+            fragment2.setArguments(bundle);
+        }
+
+        if (fragment3 == null) {
+            fragment3 = new StatisticsFragment();
+            Bundle bundle = new Bundle();
+            bundle.putInt("frag", 3);
+            bundle.putInt("state", state);
+            fragment3.setArguments(bundle);
+        }
+
+        if (fragment4 == null) {
+            fragment4 = new StatisticsFragment();
+            Bundle bundle = new Bundle();
+            bundle.putInt("frag", 4);
+            bundle.putInt("state", state);
+            fragment4.setArguments(bundle);
+        }
+
+        if (fragment5 == null) {
+            fragment5 = new StatisticsFragment();
+            Bundle bundle = new Bundle();
+            bundle.putInt("frag", 5);
+            bundle.putInt("state", state);
+            fragment5.setArguments(bundle);
+        }
+
+        if (fragment6 == null) {
+            fragment6 = new StatisticsFragment();
+            Bundle bundle = new Bundle();
+            bundle.putInt("frag", 6);
+            bundle.putInt("state", state);
+            fragment6.setArguments(bundle);
+        }
+
+        mList.add(fragment1);
+        mList.add(fragment2);
+        mList.add(fragment3);
+        mList.add(fragment4);
+        mList.add(fragment5);
+        mList.add(fragment6);
+
+        FragmentVPagerAdapter fragmentVPagerAdapter = new FragmentVPagerAdapter(getSupportFragmentManager(), mList);
+        vp.setAdapter(fragmentVPagerAdapter);
+        vp.setOffscreenPageLimit(6);
+
+        vp.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                switch (position) {
+                    case 0:
+                        show();
+                        actTaskStar1.setTextColor(Color.parseColor("#038eff"));
+                        actTaskStarNum1.setTextColor(Color.parseColor("#038eff"));
+                        actTaskStarView1.setVisibility(View.VISIBLE);
+                        break;
+                    case 1:
+                        show();
+                        actTaskStar2.setTextColor(Color.parseColor("#038eff"));
+                        actTaskStarNum2.setTextColor(Color.parseColor("#038eff"));
+                        actTaskStarView2.setVisibility(View.VISIBLE);
+                        break;
+                    case 2:
+                        show();
+                        actTaskStar3.setTextColor(Color.parseColor("#038eff"));
+                        actTaskStarNum3.setTextColor(Color.parseColor("#038eff"));
+                        actTaskStarView3.setVisibility(View.VISIBLE);
+                        break;
+                    case 3:
+                        show();
+                        actTaskStar4.setTextColor(Color.parseColor("#038eff"));
+                        actTaskStarNum4.setTextColor(Color.parseColor("#038eff"));
+                        actTaskStarView4.setVisibility(View.VISIBLE);
+                        break;
+                    case 4:
+                        show();
+                        actTaskStar5.setTextColor(Color.parseColor("#038eff"));
+                        actTaskStarNum5.setTextColor(Color.parseColor("#038eff"));
+                        actTaskStarView5.setVisibility(View.VISIBLE);
+                        break;
+                    case 5:
+                        show();
+                        actTaskStar.setTextColor(Color.parseColor("#038eff"));
+                        actTaskStarNum.setTextColor(Color.parseColor("#038eff"));
+                        actTaskStarView.setVisibility(View.VISIBLE);
+                        break;
+                }
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
 //        RenWuAdapter changegameAdapter = new RenWuAdapter(R.layout.renwu_item_view, mList);
 
 
+        left_back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
     }
 
     @OnClick({R.id.act_task_star_layout1, R.id.act_task_star_layout2, R.id.act_task_star_layout3, R.id.act_task_star_layout4, R.id.act_task_star_layout5, R.id.act_task_star_layout})
@@ -128,66 +259,42 @@ public class TaskStatisticsActivity extends BaseActivity implements StatisticsPr
                 actTaskStar1.setTextColor(Color.parseColor("#038eff"));
                 actTaskStarNum1.setTextColor(Color.parseColor("#038eff"));
                 actTaskStarView1.setVisibility(View.VISIBLE);
-                if (state == 1) {
-                    presenter.getTaskStatisticsAcceptList(page, 1);
-                } else {
-                    presenter.getTaskStatisticsPublishList(page, 1);
-                }
+                vp.setCurrentItem(0);
                 break;
             case R.id.act_task_star_layout2:
                 show();
                 actTaskStar2.setTextColor(Color.parseColor("#038eff"));
                 actTaskStarNum2.setTextColor(Color.parseColor("#038eff"));
                 actTaskStarView2.setVisibility(View.VISIBLE);
-                if (state == 1) {
-                    presenter.getTaskStatisticsAcceptList(page, 2);
-                } else {
-                    presenter.getTaskStatisticsPublishList(page, 2);
-                }
+                vp.setCurrentItem(1);
                 break;
             case R.id.act_task_star_layout3:
                 show();
                 actTaskStar3.setTextColor(Color.parseColor("#038eff"));
                 actTaskStarNum3.setTextColor(Color.parseColor("#038eff"));
                 actTaskStarView3.setVisibility(View.VISIBLE);
-                if (state == 1) {
-                    presenter.getTaskStatisticsAcceptList(page, 3);
-                } else {
-                    presenter.getTaskStatisticsPublishList(page, 3);
-                }
+                vp.setCurrentItem(2);
                 break;
             case R.id.act_task_star_layout4:
                 show();
                 actTaskStar4.setTextColor(Color.parseColor("#038eff"));
                 actTaskStarNum4.setTextColor(Color.parseColor("#038eff"));
                 actTaskStarView4.setVisibility(View.VISIBLE);
-                if (state == 1) {
-                    presenter.getTaskStatisticsAcceptList(page, 4);
-                } else {
-                    presenter.getTaskStatisticsPublishList(page, 4);
-                }
+                vp.setCurrentItem(3);
                 break;
             case R.id.act_task_star_layout5:
                 show();
                 actTaskStar5.setTextColor(Color.parseColor("#038eff"));
                 actTaskStarNum5.setTextColor(Color.parseColor("#038eff"));
                 actTaskStarView5.setVisibility(View.VISIBLE);
-                if (state == 1) {
-                    presenter.getTaskStatisticsAcceptList(page, 5);
-                } else {
-                    presenter.getTaskStatisticsPublishList(page, 5);
-                }
+                vp.setCurrentItem(4);
                 break;
             case R.id.act_task_star_layout:
                 show();
                 actTaskStar.setTextColor(Color.parseColor("#038eff"));
                 actTaskStarNum.setTextColor(Color.parseColor("#038eff"));
                 actTaskStarView.setVisibility(View.VISIBLE);
-                if (state == 1) {
-                    presenter.getTaskStatisticsAcceptList(page, 6);
-                } else {
-                    presenter.getTaskStatisticsPublishList(page, 6);
-                }
+                vp.setCurrentItem(5);
                 break;
         }
     }
@@ -244,16 +351,6 @@ public class TaskStatisticsActivity extends BaseActivity implements StatisticsPr
 
     @Override
     public void getTaskStatisticsAcceptList(List<StatisticsListBean> data) {
-
-    }
-
-    @Override
-    public void onRefresh() {
-
-    }
-
-    @Override
-    public void onLoadMore() {
 
     }
 }

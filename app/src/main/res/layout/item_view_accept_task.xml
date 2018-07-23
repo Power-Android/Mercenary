@@ -6,7 +6,9 @@
     android:paddingLeft="10dp"
     android:background="@color/white"
     android:paddingRight="10dp"
-    android:paddingTop="15dp">
+    android:paddingTop="15dp"
+    android:id="@+id/item_view_accept_layout"
+    >
 
     <RelativeLayout
         android:layout_width="match_parent"

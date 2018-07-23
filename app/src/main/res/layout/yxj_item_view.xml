@@ -1,21 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:layout_width="match_parent"
-              android:orientation="vertical"
-              android:background="@color/white"
-              android:layout_height="wrap_content">
+    android:id="@+id/item_wjd_view_layout"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white"
+    android:orientation="vertical">
 
 
     <View
         android:layout_width="match_parent"
         android:layout_height="10dp"
-        android:background="@color/bg_color"/>
+        android:background="@color/bg_color" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="10dp"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:padding="10dp">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -25,68 +26,64 @@
             <TextView
                 android:id="@+id/item_wjd_view_title"
                 android:layout_width="0dp"
-                android:layout_weight="1"
                 android:layout_height="wrap_content"
+                android:layout_weight="1"
                 android:text="抓娃娃机"
-                android:textSize="14sp"/>
+                android:textSize="14sp" />
 
             <TextView
                 android:id="@+id/item_wjd_view_price"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="20.00"
                 android:gravity="right"
+                android:text="20.00"
                 android:textColor="#FFFFC910"
-                android:textSize="18sp"/>
+                android:textSize="18sp" />
 
         </LinearLayout>
 
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/item_wjd_view_recyclerView"
-            android:layout_marginTop="10dp"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp" />
 
     </LinearLayout>
 
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="@color/bg_color"/>
+        android:background="@color/bg_color" />
 
 
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="10dp">
 
-        <RelativeLayout
-            android:layout_width="match_parent"
+        <TextView
+            android:id="@+id/item_wjd_view_num"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:padding="10dp">
-
-            <TextView
-                android:id="@+id/item_wjd_view_num"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="12sp"
-                android:layout_centerVertical="true"
-                android:text="浏览数：100 分享数：100"/>
+            android:layout_centerVertical="true"
+            android:text="浏览数：100 分享数：100"
+            android:textSize="12sp" />
 
 
-            <TextView
-                android:id="@+id/item_wjd_view_btn"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="12sp"
-                android:layout_alignParentRight="true"
-                android:padding="5dp"
-                android:layout_centerVertical="true"
-                android:background="@drawable/shape_hk_jx"
-                android:text="上架"/>
+        <TextView
+            android:id="@+id/item_wjd_view_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:background="@drawable/shape_hk_jx"
+            android:padding="5dp"
+            android:text="上架"
+            android:textSize="12sp" />
 
 
-        </RelativeLayout>
-
-
-
+    </RelativeLayout>
 
 
 </LinearLayout>

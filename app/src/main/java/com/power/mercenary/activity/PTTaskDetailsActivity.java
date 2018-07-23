@@ -494,7 +494,7 @@ public class PTTaskDetailsActivity extends BaseActivity implements View.OnClickL
                 recycler_content.setVisibility(View.GONE);
                 actTaskDetailsSMsg.setVisibility(View.VISIBLE);
                 Glide.with(this)
-                        .load(avatar)
+                        .load(Urls.BASEIMGURL + avatar)
                         .into(actTaskDetaiilsPrivateMsg);
 
                 actTaskDetaiilsPrivateName.setText(name);

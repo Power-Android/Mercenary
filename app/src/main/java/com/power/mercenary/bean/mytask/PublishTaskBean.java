@@ -22,7 +22,17 @@ public class PublishTaskBean {
     private String task_description;
     private String task_tag;
     private String task_status;
+    private String task_type;
     private String view_num;
+
+    public String getTask_type() {
+        return task_type;
+    }
+
+    public void setTask_type(String task_type) {
+        this.task_type = task_type;
+    }
+
     private String share_num;
 
     public String getId() {
