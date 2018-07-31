@@ -17,17 +17,29 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
+import com.power.mercenary.MyApplication;
 import com.power.mercenary.R;
+import com.power.mercenary.activity.GRTaskDetailsActivity;
+import com.power.mercenary.activity.GZTaskDetailsActivity;
 import com.power.mercenary.activity.LocationActivity;
+import com.power.mercenary.activity.PTTaskDetailsActivity;
 import com.power.mercenary.activity.PostDetailActivity;
 import com.power.mercenary.activity.QTTaskDetailsActivity;
+import com.power.mercenary.activity.SHTaskDetailsActivity;
+import com.power.mercenary.activity.SignInActivity;
 import com.power.mercenary.activity.TaskListActivity;
 //import com.power.mercenary.activity.TestActivity;
+import com.power.mercenary.activity.TestActivity;
 import com.power.mercenary.activity.WorkPubActivity;
 import com.power.mercenary.base.BaseFragment;
+import com.power.mercenary.bean.BannerBean;
+import com.power.mercenary.bean.MainTaskBean;
 import com.power.mercenary.bean.NineGridTestModel;
 import com.power.mercenary.bean.Testbean;
+import com.power.mercenary.presenter.MainPresenter;
+import com.power.mercenary.presenter.TaskListPresenter;
 import com.power.mercenary.utils.BannerUtils;
+import com.power.mercenary.utils.MercenaryUtils;
 import com.power.mercenary.utils.TUtils;
 import com.power.mercenary.view.MyPageIndicator;
 import com.power.mercenary.view.NineGridTestLayout;
@@ -47,7 +59,7 @@ import butterknife.Unbinder;
  * Created by power on 2018/3/21.
  */
 
-public class HomeFragment extends BaseFragment {
+public class HomeFragment extends BaseFragment implements MainPresenter.MainCallBack {
     @BindView(R.id.location_tv)
     TextView locationTv;
     @BindView(R.id.search_tv)
@@ -82,6 +94,10 @@ public class HomeFragment extends BaseFragment {
     Unbinder unbinder1;
     private int width;
 
+    private MainPresenter mainPresenter;
+    private List<MainTaskBean.TuijianBean> tuijianList;
+    private TuijianAdapter tuijianAdapter;
+
     private List<NineGridTestModel> mList = new ArrayList<>();
     private String[] mUrls = new String[]{"https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=202447557,2967022603&fm=27&gp=0.jpg",
             "https://ss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=104961686,3757525983&fm=27&gp=0.jpg",
@@ -94,11 +110,17 @@ public class HomeFragment extends BaseFragment {
             "http://img2.imgtn.bdimg.com/it/u=1830359176,654163576&fm=200&gp=0.jpg",
             "http://img4.imgtn.bdimg.com/it/u=4193964417,1586871857&fm=27&gp=0.jpg",
     };
+    private MainTaskBean taskBean;
+
+    private List<BannerBean> bannerBeans;
 
     @Override
     protected View initView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_home, null);
         unbinder = ButterKnife.bind(this, view);
+
+        mainPresenter = new MainPresenter(getActivity(), this);
+        mainPresenter.getTaskList();
         initData();
         return view;
     }
@@ -114,11 +136,12 @@ public class HomeFragment extends BaseFragment {
         baaaneList.add(R.drawable.test_banner);
         baaaneList.add(R.drawable.test_banner);
         baaaneList.add(R.drawable.test_banner);
-        BannerUtils.startBanner(banner, baaaneList);
+
         banner.setOnBannerListener(new OnBannerListener() {
             @Override
             public void OnBannerClick(int position) {
-                TUtils.showShort(mContext, "点击了Banner" + position);
+                TUtils.showShort(mContext, bannerBeans.get(position).getUrl());
+
             }
         });
         //----------------------------结束---------------------------------------------
@@ -159,18 +182,42 @@ public class HomeFragment extends BaseFragment {
         pageGridView.setPageIndicator(pageindicator);
         //----------------------------结束----------------------------------------------
         //----------------------------推荐----------------------------------------------
-        initRenwutj();
+
         tuijianRecycler.setNestedScrollingEnabled(false);
         tuijianRecycler.setLayoutManager(new LinearLayoutManager(mContext));
-        List<String> tuijianList = new ArrayList<>();
-        tuijianList.add("");
-        tuijianList.add("");
-        TuijianAdapter tuijianAdapter = new TuijianAdapter(R.layout.item_tuijian_renwu,tuijianList);
+        tuijianList = new ArrayList<>();
+        tuijianAdapter = new TuijianAdapter(R.layout.item_tuijian_renwu, tuijianList);
         tuijianRecycler.setAdapter(tuijianAdapter);
         tuijianAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-                startActivity(new Intent(mContext, QTTaskDetailsActivity.class));
+                switch (tuijianList.get(position).getTask_type()) {
+                    case "1":
+                        Intent ptIntent = new Intent(getActivity(), PTTaskDetailsActivity.class);
+                        ptIntent.putExtra("taskId", tuijianList.get(position).getId());
+                        startActivity(ptIntent);
+                        break;
+
+                    case "2":
+                    case "5":
+                    case "6":
+                        Intent shIntent = new Intent(getActivity(), SHTaskDetailsActivity.class);
+                        shIntent.putExtra("taskId", tuijianList.get(position).getId());
+                        startActivity(shIntent);
+                        break;
+
+                    case "3":
+                        Intent grIntent = new Intent(getActivity(), GRTaskDetailsActivity.class);
+                        grIntent.putExtra("taskId", tuijianList.get(position).getId());
+                        startActivity(grIntent);
+                        break;
+
+                    case "4":
+                        Intent gzIntent = new Intent(getActivity(), GZTaskDetailsActivity.class);
+                        gzIntent.putExtra("taskId", tuijianList.get(position).getId());
+                        startActivity(gzIntent);
+                        break;
+                }
             }
         });
         //----------------------------结束-----------------------------------------------
@@ -206,6 +253,26 @@ public class HomeFragment extends BaseFragment {
         MyAdapter myAdapter = new MyAdapter(R.layout.item_circle_friend, mList);
         postRecycler.setAdapter(myAdapter);
         //-------------------------------结束-------——--------------------------------------------
+
+        initRenwutj();
+    }
+
+    @Override
+    public void getTaskList(MainTaskBean taskBean) {
+        this.taskBean = taskBean;
+        initRenwutjData();
+    }
+
+    @Override
+    public void getBannerList(List<BannerBean> datas) {
+        bannerBeans = datas;
+        List<String> bannerList = new ArrayList<>();
+        if (datas != null) {
+            for (int i = 0; i < datas.size(); i++) {
+                bannerList.add(datas.get(i).getPic());
+            }
+        }
+        BannerUtils.startBanner(banner, bannerList);
     }
 
     private class MyAdapter extends BaseQuickAdapter<NineGridTestModel, BaseViewHolder> {
@@ -222,7 +289,7 @@ public class HomeFragment extends BaseFragment {
             helper.getView(R.id.jump_detail_ll).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    startActivity(new Intent(mContext,PostDetailActivity.class));
+                    startActivity(new Intent(mContext, PostDetailActivity.class));
                 }
             });
         }
@@ -247,36 +314,41 @@ public class HomeFragment extends BaseFragment {
     }
 
     private void initRenwutjData() {
-
+        if (taskBean != null && taskBean.getTuijian() != null) {
+            tuijianList.addAll(taskBean.getTuijian());
+        }
+        tuijianAdapter.notifyDataSetChanged();
     }
 
     private void initTongchengData() {
-
+        if (taskBean != null && taskBean.getSame_city() != null) {
+            tuijianList.addAll(taskBean.getSame_city());
+        }
+        tuijianAdapter.notifyDataSetChanged();
     }
 
     /**
      * 任务推荐Adapter
      */
-    public class TuijianAdapter extends BaseQuickAdapter<String,BaseViewHolder>{
+    public class TuijianAdapter extends BaseQuickAdapter<MainTaskBean.TuijianBean, BaseViewHolder> {
 
-        public TuijianAdapter(int layoutResId, @Nullable List<String> data) {
+        public TuijianAdapter(int layoutResId, @Nullable List<MainTaskBean.TuijianBean> data) {
             super(layoutResId, data);
         }
 
         @Override
-        protected void convert(BaseViewHolder helper, String item) {
+        protected void convert(BaseViewHolder helper, MainTaskBean.TuijianBean item) {
             TextView titleTv = helper.getView(R.id.item_title_tv);
             TextView contentTv = helper.getView(R.id.item_content_tv);
             RecyclerView tagRecyclerView = helper.getView(R.id.tag_recycler);
+            titleTv.setText(item.getTask_name());
+            contentTv.setText(item.getTask_description());
+
             tagRecyclerView.setNestedScrollingEnabled(false);
             LinearLayoutManager linearLayoutManager = new LinearLayoutManager(mContext);
             linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
             tagRecyclerView.setLayoutManager(linearLayoutManager);
-            List<String> tagList = new ArrayList<>();
-            tagList.add("");
-            tagList.add("");
-            tagList.add("");
-            TagAdapter tagAdapter = new TagAdapter(R.layout.item_tag_layout, tagList);
+            TagAdapter tagAdapter = new TagAdapter(R.layout.item_tag_layout, MercenaryUtils.stringToList(item.getTask_tag()));
             tagRecyclerView.setAdapter(tagAdapter);
         }
     }
@@ -284,7 +356,7 @@ public class HomeFragment extends BaseFragment {
     /**
      * 任务推荐标签Adapter
      */
-    public class TagAdapter extends BaseQuickAdapter<String,BaseViewHolder>{
+    public class TagAdapter extends BaseQuickAdapter<String, BaseViewHolder> {
 
         public TagAdapter(int layoutResId, @Nullable List<String> data) {
             super(layoutResId, data);
@@ -293,6 +365,7 @@ public class HomeFragment extends BaseFragment {
         @Override
         protected void convert(BaseViewHolder helper, String item) {
             TextView tagTv = helper.getView(R.id.item_content_tv);
+            tagTv.setText(item);
         }
     }
 
@@ -327,8 +400,14 @@ public class HomeFragment extends BaseFragment {
         @Override
         public void onItemClick(PageGridView pageGridView, int position) {
 //            TUtils.showShort(mContext, "点击了---" + mData.get(position).getTitle());
-            Intent intent = new Intent(mContext,TaskListActivity.class);
-            intent.putExtra("type",position+"");
+
+            if (!MyApplication.isLogin()) {
+                startActivity(new Intent(mContext, SignInActivity.class));
+                return;
+            }
+
+            Intent intent = new Intent(mContext, TaskListActivity.class);
+            intent.putExtra("type", (position + 1) + "");
             startActivity(intent);
         }
 
@@ -368,23 +447,25 @@ public class HomeFragment extends BaseFragment {
         unbinder.unbind();
     }
 
-    @OnClick({R.id.location_tv, R.id.search_tv,R.id.renwutj_ll, R.id.tongcheng_ll, R.id.post_rl})
+    @OnClick({R.id.location_tv, R.id.search_tv, R.id.renwutj_ll, R.id.tongcheng_ll, R.id.post_rl})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.location_tv://定位
-                startActivity(new Intent(mContext,LocationActivity.class));
+                startActivity(new Intent(mContext, LocationActivity.class));
                 break;
             case R.id.search_tv://搜索
-//                startActivity(new Intent(mContext,TestActivity.class));
+                startActivity(new Intent(mContext, TestActivity.class));
                 break;
             case R.id.renwutj_ll://任务推荐
+                tuijianList.clear();
                 initRenwutj();
                 break;
             case R.id.tongcheng_ll://同城
+                tuijianList.clear();
                 initTongcheng();
                 break;
             case R.id.post_rl://热门帖子
-                startActivity(new Intent(mContext,WorkPubActivity.class));
+                startActivity(new Intent(mContext, WorkPubActivity.class));
                 break;
         }
     }
