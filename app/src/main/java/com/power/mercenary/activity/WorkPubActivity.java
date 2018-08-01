@@ -82,6 +82,8 @@ public class WorkPubActivity extends BaseActivity implements TieZiListPresenter.
             case R.id.title_back_iv:
                 finish();
                 break;
+
+
             case R.id.iv_photo:
                 Intent intent = new Intent(mContext,PostActivity.class);
                 intent.putExtra("task_type_child",task_type_child);
