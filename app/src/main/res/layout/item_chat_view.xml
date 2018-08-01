@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/item_chat_lt"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/item_chat_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginBottom="7dp"
+        android:layout_marginTop="7dp"
+        android:paddingLeft="5dp"
+        android:paddingRight="5dp"
+        android:text="13:33"
+        android:textColor="#999999"
+        android:textSize="13sp" />
+
+    <LinearLayout
+        android:id="@+id/item_chat_qipao1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="7dp"
+        android:layout_marginTop="7dp"
+        android:orientation="horizontal">
+
+        <com.power.mercenary.view.CircleImageView
+            android:id="@+id/item_chat_text_left"
+            android:layout_width="42dp"
+            android:layout_height="42dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="6dp"
+            android:background="@drawable/perch_avatar"
+            android:scaleType="centerCrop" />
+
+        <RelativeLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="1">
+
+            <TextView
+                android:id="@+id/item_chat_content_left"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="4dp"
+                android:background="@drawable/chat_bubble_left"
+                android:paddingBottom="8dp"
+                android:paddingLeft="12dp"
+                android:paddingRight="8dp"
+                android:paddingTop="8dp"
+                android:textColor="#444444"
+                android:textSize="15sp" />
+        </RelativeLayout>
+
+        <View
+            android:layout_width="42dp"
+            android:layout_height="42dp"
+            android:layout_marginLeft="6dp"
+            android:layout_marginRight="15dp"
+            android:visibility="invisible" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/item_chat_qipao2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="7dp"
+        android:layout_marginTop="7dp"
+        android:orientation="horizontal">
+
+        <View
+            android:layout_width="42dp"
+            android:layout_height="42dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="6dp"
+            android:visibility="invisible" />
+
+        <RelativeLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="1">
+
+            <TextView
+                android:id="@+id/item_chat_content_right"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_marginLeft="4dp"
+                android:background="@drawable/chat_bubble_right"
+                android:paddingBottom="8dp"
+                android:paddingLeft="8dp"
+                android:paddingRight="12dp"
+                android:paddingTop="8dp"
+                android:textColor="#444444"
+                android:textSize="15sp" />
+        </RelativeLayout>
+
+        <com.power.mercenary.view.CircleImageView
+            android:id="@+id/item_chat_text_right"
+            android:layout_width="42dp"
+            android:layout_height="42dp"
+            android:layout_marginLeft="6dp"
+            android:layout_marginRight="15dp"
+            android:background="@drawable/perch_avatar"
+            android:scaleType="centerCrop" />
+    </LinearLayout>
+</LinearLayout>

@@ -10,6 +10,16 @@ import com.mcxtzhang.indexlib.IndexBar.bean.BaseIndexPinyinBean;
 public class CityBean extends BaseIndexPinyinBean {
 
     private String city;//城市名字
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    private String id;//城市名字
     private boolean isTop;//是否是最上面的 不需要被转化成拼音的
 
     public CityBean() {

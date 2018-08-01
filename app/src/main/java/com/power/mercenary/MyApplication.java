@@ -5,6 +5,7 @@ import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.text.TextUtils;
+import android.util.Log;
 
 import com.baidu.mapapi.SDKInitializer;
 import com.lzy.okgo.OkGo;
@@ -25,10 +26,20 @@ import com.orhanobut.logger.PrettyFormatStrategy;
 import com.power.mercenary.bean.user.TokenInfo;
 import com.power.mercenary.bean.user.UserInfo;
 import com.power.mercenary.data.CacheConstants;
+import com.power.mercenary.data.EventConstants;
+import com.power.mercenary.event.EventUtils;
 import com.power.mercenary.utils.CacheUtils;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
+
+import io.rong.imlib.RongIMClient;
+import io.rong.imlib.model.Conversation;
+import io.rong.imlib.model.Message;
+import io.rong.imlib.model.MessageContent;
+import io.rong.message.TextMessage;
 import okhttp3.OkHttpClient;
 
 /**
@@ -49,6 +60,66 @@ public class MyApplication extends Application {
         //imageLoader
         ImageLoaderConfiguration configuration = ImageLoaderConfiguration.createDefault(this);
         ImageLoader.getInstance().init(configuration);
+        initRongClound();
+    }
+
+    private void initRongClound() {
+        RongIMClient.init(this);
+
+        RongIMClient.connect("f/ww2Ik4llNclhzWLoA9bpAFSQEI2fLhbzT8mI6rYYdkd5Ste+SswczhksR3CtoaIdbEgDdlKaK9g3180WAa4A==", new RongIMClient.ConnectCallback() {
+            @Override
+            public void onTokenIncorrect() {
+
+            }
+
+            @Override
+            public void onSuccess(String s) {
+                Log.v("======>>", "RongClound connect! id:" + s);
+            }
+
+            @Override
+            public void onError(RongIMClient.ErrorCode errorCode) {
+
+            }
+        });
+
+        RongIMClient.setOnReceiveMessageListener(new RongIMClient.OnReceiveMessageListener() {
+            @Override
+            public boolean onReceived(Message message, int i) {
+                MessageContent content = message.getContent();
+
+                if (content instanceof TextMessage) {
+                    TextMessage textMessage = (TextMessage) content;
+
+                    //int   消息id
+                    CacheUtils.put(CacheConstants.MESSAGEID, message.getMessageId());
+
+                    if (CacheUtils.get(CacheConstants.IS_IN_CHAT) != null) {
+                        String  isChat = CacheUtils.get(CacheConstants.IS_IN_CHAT);
+                        if (TextUtils.equals(isChat, message.getSenderUserId())) {
+                            EventBus.getDefault().post(new EventUtils(EventConstants.TYPE_MESSAGE_IN_SHOW, message));
+                        } else {
+                            EventBus.getDefault().post(new EventUtils(EventConstants.TYPE_MESSAGE_SHOW, message));
+                        }
+                    } else {
+                        EventBus.getDefault().post(new EventUtils(EventConstants.TYPE_MESSAGE_SHOW, message));
+                    }
+
+                    Log.v("======>>", "getTargetId: " + message.getTargetId() +
+                            "\ngetConversationType().getName(): " + message.getConversationType().getName() +
+                            "\ngetMessageId: " + message.getMessageId() +
+                            "\ngetSentTime: " + message.getSentTime() +
+                            "\ngetSenderUserId: " + message.getSenderUserId() +
+                            "\ngetContent: " + textMessage.getContent() +
+                            "\n未读数:" + i);
+
+                    EventBus.getDefault().post(new EventUtils(EventConstants.TYPE_REFRESH_MESSAGE, textMessage.getContent() + "  id :" + message.getTargetId()));
+
+                    return true;
+                }
+                return false;
+            }
+        });
     }
 
     @Override
@@ -184,6 +255,19 @@ public class MyApplication extends Application {
 
     public static void loginOut(){
         CacheUtils.removeAll();
+
+        RongIMClient.getInstance().clearConversations(new RongIMClient.ResultCallback() {
+            @Override
+            public void onSuccess(Object o) {
+
+            }
+
+            @Override
+            public void onError(RongIMClient.ErrorCode errorCode) {
+
+            }
+        }, Conversation.ConversationType.PRIVATE);
+        RongIMClient.getInstance().logout();
     }
 }
 

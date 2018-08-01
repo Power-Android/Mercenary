@@ -13,6 +13,7 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
@@ -437,6 +438,10 @@ public class MainActivity extends BaseActivity implements BaseQuickAdapter.OnIte
                 tvIssue.setTextColor(getResources().getColor(R.color.textcolor_tab));
                 tvMessage.setTextColor(getResources().getColor(R.color.textcolor_tab));
                 tvMine.setTextColor(getResources().getColor(R.color.textcolor_tab));
+                break;
+
+            case EventConstants.TYPE_REFRESH_MESSAGE:
+                Toast.makeText(MainActivity.this, (String)event.getData(), Toast.LENGTH_SHORT).show();
                 break;
         }
     }

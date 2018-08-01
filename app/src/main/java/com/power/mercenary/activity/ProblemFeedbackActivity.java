@@ -67,13 +67,13 @@ public class ProblemFeedbackActivity extends BaseActivity implements FeedBackPre
         title_text.setText("问题反馈");
 
         final List<String> feedbackList = new ArrayList<>();
+        feedbackList.add("产品体验");
+        feedbackList.add("产品功能");
+        feedbackList.add("任务发布");
+        feedbackList.add("任务接收");
+        feedbackList.add("保证金");
         feedbackList.add("任务类型");
-        feedbackList.add("任务类型");
-        feedbackList.add("任务类型");
-        feedbackList.add("任务类型");
-        feedbackList.add("任务类型");
-        feedbackList.add("任务类型");
-        feedbackList.add("任务类型");
+        feedbackList.add("其他");
 
         left_back.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -93,7 +93,9 @@ public class ProblemFeedbackActivity extends BaseActivity implements FeedBackPre
         findViewById(R.id.tv_wtfk_tcdl).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (TextUtils.isEmpty(etContent.getText().toString())) {
+                if (TextUtils.equals("反馈类型", fkTv.getText().toString())) {
+                    TUtils.showCustom(ProblemFeedbackActivity.this, "请选择反馈类型");
+                } else if (TextUtils.isEmpty(etContent.getText().toString())) {
                     TUtils.showCustom(ProblemFeedbackActivity.this, "请填写您的问题");
                 } else if (TextUtils.isEmpty(etName.getText().toString())) {
                     TUtils.showCustom(ProblemFeedbackActivity.this, "请输入姓名");
@@ -151,6 +153,7 @@ public class ProblemFeedbackActivity extends BaseActivity implements FeedBackPre
 
     @Override
     public void requestFeedBack() {
+        TUtils.showCustom(this, "反馈成功");
         finish();
     }
 }

@@ -42,6 +42,7 @@ public class TaskListActivity extends BaseActivity implements TaskListPresenter.
     private List<TaskListBean> data;
 
     private int page = 1;
+    private String taskChild;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,8 +54,10 @@ public class TaskListActivity extends BaseActivity implements TaskListPresenter.
 
         type = getIntent().getStringExtra("type");
 
+        taskChild = getIntent().getStringExtra("child");
+
         presenter = new TaskListPresenter(this, this);
-        presenter.getTaskList(page, type, null);
+        presenter.getTaskList(page, type, taskChild);
 
         initView();
     }

@@ -1,14 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:layout_width="match_parent"
-              android:background="@color/white"
-              android:orientation="vertical"
-              android:padding="10dp"
-
-              android:layout_height="wrap_content">
-
-
-
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white"
+    android:orientation="vertical"
+    android:padding="10dp"
+    android:id="@+id/item_messagePrivate_layout"
+    >
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -16,69 +14,56 @@
         android:gravity="center_vertical"
         android:orientation="horizontal">
 
-
-
-        <ImageView
+        <com.power.mercenary.view.CircleImageView
+            android:id="@+id/item_messagePrivate_icon"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/moren_2x"/>
+            android:background="@drawable/moren_2x" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
             android:orientation="vertical">
+
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
 
                 <TextView
+                    android:id="@+id/item_messagePrivate_title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="任务消息"
                     android:layout_centerVertical="true"
-                    android:textSize="14sp"
-                    />
-
+                    android:text="任务消息"
+                    android:textSize="14sp" />
 
                 <TextView
+                    android:id="@+id/item_messagePrivate_time"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="昨天"
-                    android:textSize="12sp"
-                    android:textColor="#999"
-                    android:layout_centerVertical="true"
                     android:layout_alignParentRight="true"
-                    />
+                    android:layout_centerVertical="true"
+                    android:text="昨天"
+                    android:textColor="#999"
+                    android:textSize="12sp" />
             </RelativeLayout>
 
             <TextView
+                android:id="@+id/item_messagePrivate_content"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:layout_marginTop="10dp"
                 android:text="有新的通知"
                 android:textColor="#999"
-                android:layout_marginTop="10dp"
-                android:textSize="12sp"
-                android:layout_marginBottom="10dp"
-                />
+                android:textSize="12sp" />
         </LinearLayout>
-
-
-
-
     </LinearLayout>
-
-
-
-
-
-
-
 
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="@color/bg_color"/>
-
+        android:background="@color/bg_color" />
 </LinearLayout>

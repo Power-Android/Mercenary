@@ -143,20 +143,10 @@
     </LinearLayout>
 
 
-    <com.liaoinstan.springview.widget.SpringView
-        android:id="@+id/springView_msg"
+    <android.support.v4.view.ViewPager
+        android:id="@+id/frag_message_viewPager"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginTop="10dp"
-
-        >
-        <android.support.v7.widget.RecyclerView
-            android:background="#fff"
-            android:id="@+id/mRecycler_msg"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-        </android.support.v7.widget.RecyclerView>
-    </com.liaoinstan.springview.widget.SpringView>
+        android:layout_height="match_parent"/>
 
 
 

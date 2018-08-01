@@ -65,6 +65,7 @@ public class WanRecyclerView extends FrameLayout implements SpringView.OnFreshLi
         stateView = mView.findViewById(R.id.view_state);
 
         mRecyclerView.setOnTouchListener(new TouchRecyclerView());
+        mSpringView.setOnTouchListener(new TouchRecyclerView());
 
         mSpringView.setListener(this);
         mSpringView.setType(SpringView.Type.FOLLOW);

@@ -114,13 +114,6 @@ public class ReleaseQBAdapter extends RecyclerView.Adapter {
                     break;
             }
 
-            viewHolder.wjdXg.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    onClickListener.onClickXGListener(datas.get(position).getId(), position);
-                }
-            });
-
             viewHolder.wjdCx.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -182,7 +175,6 @@ public class ReleaseQBAdapter extends RecyclerView.Adapter {
 
         RelativeLayout wjdLayout;
         TextView wjdNum;
-        TextView wjdXg;
         TextView wjdCx;
         TextView wjdYq;
 
@@ -210,7 +202,6 @@ public class ReleaseQBAdapter extends RecyclerView.Adapter {
             recyclerView = itemView.findViewById(R.id.item_wjd_view_recyclerView);
             wjdLayout = itemView.findViewById(R.id.item_release_task_wjd_layout);
             wjdNum = itemView.findViewById(R.id.item_release_task_wjd_num);
-            wjdXg = itemView.findViewById(R.id.item_release_task_wjd_xg);
             wjdCx = itemView.findViewById(R.id.item_release_task_wjd_cx);
             wjdYq = itemView.findViewById(R.id.item_release_task_wjd_yq);
             shzLayout = itemView.findViewById(R.id.item_release_task_shz_layout);
