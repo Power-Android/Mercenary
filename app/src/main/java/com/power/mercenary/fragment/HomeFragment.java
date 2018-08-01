@@ -33,12 +33,17 @@ import com.power.mercenary.activity.TestActivity;
 import com.power.mercenary.activity.WorkPubActivity;
 import com.power.mercenary.base.BaseFragment;
 import com.power.mercenary.bean.BannerBean;
+import com.power.mercenary.bean.CitySelectBean;
 import com.power.mercenary.bean.MainTaskBean;
 import com.power.mercenary.bean.NineGridTestModel;
 import com.power.mercenary.bean.Testbean;
+import com.power.mercenary.data.CacheConstants;
+import com.power.mercenary.data.EventConstants;
+import com.power.mercenary.event.EventUtils;
 import com.power.mercenary.presenter.MainPresenter;
 import com.power.mercenary.presenter.TaskListPresenter;
 import com.power.mercenary.utils.BannerUtils;
+import com.power.mercenary.utils.CacheUtils;
 import com.power.mercenary.utils.MercenaryUtils;
 import com.power.mercenary.utils.TUtils;
 import com.power.mercenary.view.MyPageIndicator;
@@ -47,6 +52,10 @@ import com.power.mercenary.view.PageGridView;
 import com.youth.banner.Banner;
 import com.youth.banner.listener.OnBannerListener;
 
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -54,6 +63,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
+import io.rong.imlib.model.Message;
 
 /**
  * Created by power on 2018/3/21.
@@ -122,7 +132,18 @@ public class HomeFragment extends BaseFragment implements MainPresenter.MainCall
         mainPresenter = new MainPresenter(getActivity(), this);
         mainPresenter.getTaskList();
         initData();
+        EventBus.getDefault().register(this);
         return view;
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onRecevierEvent(EventUtils event) {
+        switch (event.getType()) {
+            case EventConstants.TYPE_CITY_SELECT:
+                CitySelectBean selectBean = (CitySelectBean) event.getData();
+                locationTv.setText(selectBean.cityName);
+                break;
+        }
     }
 
     @Override
@@ -444,6 +465,7 @@ public class HomeFragment extends BaseFragment implements MainPresenter.MainCall
     @Override
     public void onDestroyView() {
         super.onDestroyView();
+        EventBus.getDefault().unregister(this);
         unbinder.unbind();
     }
 
