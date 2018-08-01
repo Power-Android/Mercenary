@@ -76,7 +76,7 @@ public class PubFragment extends BaseFragment {
         baaaneList.add(R.drawable.test_banner);
         baaaneList.add(R.drawable.test_banner);
         baaaneList.add(R.drawable.test_banner);
-        BannerUtils.startBanner(banner, baaaneList);
+//        BannerUtils.startBanner(banner, baaaneList);
         banner.setOnBannerListener(new OnBannerListener() {
             @Override
             public void OnBannerClick(int position) {
