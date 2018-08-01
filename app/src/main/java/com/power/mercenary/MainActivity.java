@@ -46,6 +46,8 @@ import butterknife.OnClick;
 
 public class MainActivity extends BaseActivity implements BaseQuickAdapter.OnItemChildClickListener {
 
+
+
     @BindView(R.id.fl_content)
     FrameLayout flContent;
     @BindView(R.id.iv_home)
