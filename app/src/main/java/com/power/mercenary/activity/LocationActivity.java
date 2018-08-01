@@ -13,6 +13,10 @@ import android.widget.AbsListView;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.baidu.location.BDLocation;
+import com.baidu.location.BDLocationListener;
+import com.baidu.location.LocationClient;
+import com.baidu.location.LocationClientOption;
 import com.mcxtzhang.indexlib.IndexBar.widget.IndexBar;
 import com.mcxtzhang.indexlib.suspension.SuspensionDecoration;
 import com.power.mercenary.R;
@@ -62,7 +66,7 @@ public class LocationActivity extends BaseActivity implements LocationPresenter.
 
     private boolean isPerform = false;
 
-//    private LocationClient mLocClient;
+    private LocationClient mLocClient;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -145,7 +149,7 @@ public class LocationActivity extends BaseActivity implements LocationPresenter.
                 .setNeedRealIndex(true)//设置需要真实的索引
                 .setmLayoutManager(mManager);//设置RecyclerView的LayoutManager
 
-//        initLocation();
+        initLocation();
 
         cityList.clear();
         presenter = new LocationPresenter(this, this);
@@ -189,29 +193,30 @@ public class LocationActivity extends BaseActivity implements LocationPresenter.
         });
     }
 
-//    private void initLocation() {
-//        mLocClient = new LocationClient(this);
-//        LocationClientOption option = new LocationClientOption();
-//        option.setLocationMode(LocationClientOption.LocationMode.Hight_Accuracy);// 设置定位模式
-//        option.setNeedDeviceDirect(true);// 设置返回结果包含手机的方向
-//        option.setOpenGps(true);
-//        option.setAddrType("all");// 返回的定位结果包含地址信息
-//        option.setCoorType("bd09ll");// 返回的定位结果是百度经纬度,默认值gcj02
-//        option.setIsNeedAddress(true);// 返回的定位结果包含地址信息
-//        option.setIsNeedLocationPoiList(true);
-//        mLocClient.setLocOption(option);
-//        mLocClient.start();
-//        mLocClient.registerLocationListener(new BDLocationListener() {
-//            @Override
-//            public void onReceiveLocation(BDLocation bdLocation) {
-//                double longitude = bdLocation.getLongitude();
-//                double latitude = bdLocation.getLatitude();
-//                String country = bdLocation.getCountry();
-//                title.setText("当前定位城市-" + bdLocation.getCity());
-//                locationTv.setText(bdLocation.getCity());
-//            }
-//        });
-//    }
+    private void initLocation() {
+        mLocClient = new LocationClient(this);
+        LocationClientOption option = new LocationClientOption();
+        option.setLocationMode(LocationClientOption.LocationMode.Hight_Accuracy);// 设置定位模式
+        option.setNeedDeviceDirect(true);// 设置返回结果包含手机的方向
+        option.setOpenGps(true);
+        option.setAddrType("all");// 返回的定位结果包含地址信息
+        option.setCoorType("bd09ll");// 返回的定位结果是百度经纬度,默认值gcj02
+        option.setIsNeedAddress(true);// 返回的定位结果包含地址信息
+        option.setIsNeedLocationPoiList(true);
+        mLocClient.setLocOption(option);
+        mLocClient.start();
+        mLocClient.registerLocationListener(new BDLocationListener() {
+            @Override
+            public void onReceiveLocation(BDLocation bdLocation) {
+                double longitude = bdLocation.getLongitude();
+                double latitude = bdLocation.getLatitude();
+                String country = bdLocation.getCountry();
+                String city = bdLocation.getCity();
+                title.setText("当前定位城市-" + city.replace("市", ""));
+                locationTv.setText(city.replace("市", ""));
+            }
+        });
+    }
 
     /**
      * 组织数据源
