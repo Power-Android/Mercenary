@@ -15,10 +15,14 @@ import android.widget.TextView;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.power.mercenary.R;
+import com.power.mercenary.activity.PostDetailActivity;
 import com.power.mercenary.activity.WorkPubActivity;
 import com.power.mercenary.base.BaseFragment;
 import com.power.mercenary.bean.Testbean;
-import com.power.mercenary.utils.BannerUtils;
+import com.power.mercenary.bean.TieZiDetailsBean;
+import com.power.mercenary.bean.TieZiListBean;
+import com.power.mercenary.http.ResponseBean;
+import com.power.mercenary.presenter.TieZiListPresenter;
 import com.power.mercenary.utils.TUtils;
 import com.power.mercenary.view.FluidLayout;
 import com.youth.banner.Banner;
@@ -35,7 +39,7 @@ import butterknife.Unbinder;
  * Created by power on 2018/3/21.
  */
 
-public class PubFragment extends BaseFragment {
+public class PubFragment extends BaseFragment implements TieZiListPresenter.TaskListCallBack {
     @BindView(R.id.title_content_tv)
     TextView titleContentTv;
     @BindView(R.id.recycler_title)
@@ -58,13 +62,16 @@ public class PubFragment extends BaseFragment {
     Unbinder unbinder1;
     private int scrollPosition;
     private List<String> hotNameList = new ArrayList<>();
-    private String task_type="";
-    private String task_type_child="";
+    private String task_type = "0";
+    private String task_type_child = "";
+    private TieZiListPresenter presenter;
 
     @Override
     protected View initView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_pub, null);
         unbinder = ButterKnife.bind(this, view);
+        presenter = new TieZiListPresenter(getActivity(), this);
+        presenter.getTaskList(1, task_type, "0");
         initData();
         return view;
     }
@@ -118,16 +125,20 @@ public class PubFragment extends BaseFragment {
                 titleAdapter.notifyDataSetChanged();
                 //TODO 刷新热门数据，更新流式布局文字
                 if (position == 0) {
+                    presenter.getTaskList(1, "0", "0");
+                    hotNameList.clear();
                     layoutHottuijian.setVisibility(View.GONE);
-                    fluidlayout.setVisibility(View.GONE);
-                }else if (position==1){
-                    task_type="1";
+                    RefreshHot();
+                } else if (position == 1) {
+                    task_type = "1";
+                    presenter.getTaskList(1, task_type, "0");
                     hotNameList.clear();
                     hotNameList.add("物品");
                     hotNameList.add("人员");
                     RefreshHot();
-                }else if (position==2){
-                    task_type="2";
+                } else if (position == 2) {
+                    task_type = "2";
+                    presenter.getTaskList(1, task_type, "0");
                     hotNameList.clear();
                     hotNameList.add("衣");
                     hotNameList.add("食");
@@ -135,14 +146,16 @@ public class PubFragment extends BaseFragment {
                     hotNameList.add("行");
                     hotNameList.add("游");
                     RefreshHot();
-                }else if (position==3){
-                    task_type="3";
+                } else if (position == 3) {
+                    task_type = "3";
+                    presenter.getTaskList(1, task_type, "0");
                     hotNameList.clear();
                     hotNameList.add("硬件");
                     hotNameList.add("软件");
                     RefreshHot();
-                }else if (position==4){
-                    task_type="4";
+                } else if (position == 4) {
+                    task_type = "4";
+                    presenter.getTaskList(1, task_type, "0");
                     hotNameList.clear();
                     hotNameList.add("仕");
                     hotNameList.add("农");
@@ -150,8 +163,9 @@ public class PubFragment extends BaseFragment {
                     hotNameList.add("商");
                     hotNameList.add("律");
                     RefreshHot();
-                }else if (position==5){
-                    task_type="5";
+                } else if (position == 5) {
+                    task_type = "5";
+                    presenter.getTaskList(1, task_type, "0");
                     hotNameList.clear();
                     hotNameList.add("心理");
                     hotNameList.add("健康");
@@ -161,24 +175,7 @@ public class PubFragment extends BaseFragment {
             }
         });
 
-        List<Testbean> contentList = new ArrayList<>();
-        for (int i = 0; i < 4; i++) {
-            Testbean testbean = new Testbean();
-            testbean.setTitle("酒馆热门推荐");
-            testbean.setContent("酒馆热门推荐内容，七月七日晴，突然下起了大雪，覆盖你来的那条街。");
-            testbean.setNum("10" + i);
-            contentList.add(testbean);
-        }
-        recyclerContent.setNestedScrollingEnabled(false);
-        recyclerContent.setLayoutManager(new LinearLayoutManager(mContext));
-        ContentAdapter adapter = new ContentAdapter(R.layout.item_content_layout, contentList);
-        recyclerContent.setAdapter(adapter);
-        adapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
-            @Override
-            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-                TUtils.showShort(mContext, "点击了---item" + position);
-            }
-        });
+
     }
 
     private void RefreshHot() {
@@ -202,13 +199,13 @@ public class PubFragment extends BaseFragment {
                 public void onClick(View view) {
 //                    startActivity(new Intent(mContext, PubListActivity.class));
                     for (int i1 = 0; i1 < hotNameList.size(); i1++) {
-                        if (i1==finalI){
-                            task_type_child=(finalI+1)+"";
+                        if (i1 == finalI) {
+                            task_type_child = (finalI + 1) + "";
                         }
                     }
                     Intent intent = new Intent(mContext, WorkPubActivity.class);
-                    intent.putExtra("task_type",task_type);
-                    intent.putExtra("task_type_child",task_type_child);
+                    intent.putExtra("task_type", task_type);
+                    intent.putExtra("task_type_child", task_type_child);
                     startActivity(intent);
                 }
             });
@@ -223,17 +220,58 @@ public class PubFragment extends BaseFragment {
         return rootView;
     }
 
-    private class ContentAdapter extends BaseQuickAdapter<Testbean, BaseViewHolder> {
+    @Override
+    public void getTaskList(final List<TieZiListBean> datas) {
+        recyclerContent.setNestedScrollingEnabled(false);
+        recyclerContent.setLayoutManager(new LinearLayoutManager(mContext));
+        ContentAdapter adapter = new ContentAdapter(R.layout.item_content_layout, datas);
+        recyclerContent.setAdapter(adapter);
+        adapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+                Intent intent = new Intent(mContext,PostDetailActivity.class);
+                intent.putExtra("id",datas.get(position).getId()+"");
+                startActivityForResult(intent,1);
+            }
+        });
+    }
 
-        public ContentAdapter(int layoutResId, @Nullable List<Testbean> data) {
+    @Override
+    public void getTaskDetails(TieZiDetailsBean datas) {
+
+    }
+
+    @Override
+    public void getListFail() {
+
+    }
+
+    @Override
+    public void getPubPinglun(ResponseBean datas) {
+
+    }
+
+    @Override
+    public void getHuifu(ResponseBean datas) {
+
+    }
+
+    @Override
+    public void getPost(ResponseBean datas) {
+
+    }
+
+    private class ContentAdapter extends BaseQuickAdapter<TieZiListBean, BaseViewHolder> {
+
+        public ContentAdapter(int layoutResId, @Nullable List<TieZiListBean> data) {
             super(layoutResId, data);
         }
 
         @Override
-        protected void convert(BaseViewHolder helper, Testbean item) {
-            helper.setText(R.id.item_title_tv, item.getTitle())
-                    .setText(R.id.item_content_tv, item.getContent())
-                    .setText(R.id.item_num_tv, item.getNum());
+        protected void convert(BaseViewHolder helper, TieZiListBean item) {
+            helper.setText(R.id.item_title_tv, "热门推荐")
+                    .setText(R.id.item_content_tv, item.getPost_content())
+                    .setText(R.id.item_num_tv, item.getCount());
         }
     }
 

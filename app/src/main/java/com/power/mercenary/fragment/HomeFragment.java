@@ -19,7 +19,6 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
-import com.power.mercenary.MainActivity;
 import com.power.mercenary.MyApplication;
 import com.power.mercenary.R;
 import com.power.mercenary.activity.GRTaskDetailsActivity;
@@ -27,18 +26,9 @@ import com.power.mercenary.activity.GZTaskDetailsActivity;
 import com.power.mercenary.activity.LocationActivity;
 import com.power.mercenary.activity.PTTaskDetailsActivity;
 import com.power.mercenary.activity.PostDetailActivity;
-import com.power.mercenary.activity.PubGerendingzhiActivity;
-import com.power.mercenary.activity.PubGongzuoActivity;
-import com.power.mercenary.activity.PubJiankangActivity;
-import com.power.mercenary.activity.PubPaotuiActivity;
-import com.power.mercenary.activity.PubQitaActivity;
-import com.power.mercenary.activity.PubShenghuoActivity;
-import com.power.mercenary.activity.QTTaskDetailsActivity;
 import com.power.mercenary.activity.SHTaskDetailsActivity;
 import com.power.mercenary.activity.SignInActivity;
 import com.power.mercenary.activity.TaskListActivity;
-//import com.power.mercenary.activity.TestActivity;
-import com.power.mercenary.activity.TestActivity;
 import com.power.mercenary.activity.WorkPubActivity;
 import com.power.mercenary.base.BaseFragment;
 import com.power.mercenary.bean.BannerBean;
@@ -46,13 +36,10 @@ import com.power.mercenary.bean.CitySelectBean;
 import com.power.mercenary.bean.MainTaskBean;
 import com.power.mercenary.bean.NineGridTestModel;
 import com.power.mercenary.bean.Testbean;
-import com.power.mercenary.data.CacheConstants;
 import com.power.mercenary.data.EventConstants;
 import com.power.mercenary.event.EventUtils;
 import com.power.mercenary.presenter.MainPresenter;
-import com.power.mercenary.presenter.TaskListPresenter;
 import com.power.mercenary.utils.BannerUtils;
-import com.power.mercenary.utils.CacheUtils;
 import com.power.mercenary.utils.MercenaryUtils;
 import com.power.mercenary.utils.TUtils;
 import com.power.mercenary.view.BaseDialog;
@@ -73,7 +60,9 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
-import io.rong.imlib.model.Message;
+
+//import com.power.mercenary.activity.TestActivity;
+//import com.power.mercenary.activity.TestActivity;
 
 /**
  * Created by power on 2018/3/21.
@@ -644,7 +633,7 @@ public class HomeFragment extends BaseFragment implements MainPresenter.MainCall
                 startActivity(new Intent(mContext, LocationActivity.class));
                 break;
             case R.id.search_tv://搜索
-                startActivity(new Intent(mContext, TestActivity.class));
+//                startActivity(new Intent(mContext, TestActivity.class));
                 break;
             case R.id.renwutj_ll://任务推荐
                 tuijianList.clear();
