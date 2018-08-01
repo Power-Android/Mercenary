@@ -5,24 +5,22 @@ import android.support.annotation.Nullable;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
+import com.power.mercenary.CollectionPeopleBean;
 
-import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Administrator on 2018/3/26.
  */
 
-public class MyFollowAdapter extends BaseQuickAdapter<String, BaseViewHolder> {
+public class MyFollowAdapter extends BaseQuickAdapter<CollectionPeopleBean, BaseViewHolder> {
 
-    public MyFollowAdapter(@LayoutRes int layoutResId, @Nullable ArrayList<String> data) {
+    public MyFollowAdapter(@LayoutRes int layoutResId, @Nullable List<CollectionPeopleBean> data) {
         super(layoutResId, data);
-
-
 
     }
 
     @Override
-    protected void convert(BaseViewHolder helper, String item) {
-
+    protected void convert(BaseViewHolder helper, CollectionPeopleBean item) {
     }
 }

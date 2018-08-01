@@ -25,12 +25,10 @@ import com.luck.picture.lib.compress.Luban;
 import com.luck.picture.lib.config.PictureConfig;
 import com.luck.picture.lib.config.PictureMimeType;
 import com.luck.picture.lib.entity.LocalMedia;
-import com.lzy.okgo.model.Response;
 import com.power.mercenary.R;
 import com.power.mercenary.adapter.GridViewAddImgesAdpter;
 import com.power.mercenary.base.BaseActivity;
 import com.power.mercenary.bean.PicNumsBean;
-import com.power.mercenary.http.ResponseBean;
 import com.power.mercenary.presenter.PicNumsPresenter;
 import com.power.mercenary.presenter.PubTaskPresenter;
 import com.power.mercenary.utils.MyUtils;
@@ -104,7 +102,7 @@ public class PubGerendingzhiActivity extends BaseActivity implements PubTaskPres
     private String childTaskType;
     private PicNumsPresenter picNumsPresenter;
     private String imgurl;
-
+    private ArrayList<String> mpostUrl =new ArrayList<>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -178,10 +176,12 @@ public class PubGerendingzhiActivity extends BaseActivity implements PubTaskPres
     }
 
     @Override
-    public void PicNums(Response<ResponseBean<PicNumsBean>> response) {
-        ResponseBean<PicNumsBean> body = response.body();
-        imgurl = body.data.getImgurl();
-        Log.d("PubGerendingzhiActivity", imgurl+"------");
+    public void PicNums(List<PicNumsBean> response) {
+        List<PicNumsBean> body = response;
+        for (int i = 0; i < body.size(); i++) {
+            mpostUrl.add(body.get(i).getPost());
+        }
+         imgurl = MyUtils.listToString(mpostUrl);
     }
 
 
@@ -425,7 +425,7 @@ public class PubGerendingzhiActivity extends BaseActivity implements PubTaskPres
 
                     picNumsPresenter.publishTask(fileList);//上传多张图片
 
-                presenter.publishTask(taskType, childTaskType, taskNameEt.getText().toString(), s1, imgurl, taskMoneyEt.getText().toString(),
+                presenter.publishTask("",taskType, childTaskType, taskNameEt.getText().toString(), s1, imgurl, taskMoneyEt.getText().toString(),
                         "", taskDesEt.getText().toString(), "", s,
                         "", "", "", "",
                         "", "", "");

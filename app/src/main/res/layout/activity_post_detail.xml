@@ -1,44 +1,52 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context="com.power.mercenary.activity.PostDetailActivity">
-    <include layout="@layout/item_title_layout"/>
+
+    <include layout="@layout/item_title_layout" />
+
     <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="0dip"
         android:layout_weight="1">
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
             android:orientation="vertical">
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
+                android:layout_marginTop="5dp"
                 android:background="@color/white"
-                android:padding="10dp"
-                android:layout_marginTop="5dp">
+                android:orientation="horizontal"
+                android:padding="10dp">
+
                 <com.power.mercenary.view.CircleImageView
                     android:id="@+id/img_details_head"
                     android:layout_width="50dp"
-                    android:layout_height="50dp"
-                    android:src="@drawable/moren_2x"/>
+                    android:layout_height="50dp" />
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
                     android:orientation="vertical">
+
                     <TextView
                         android:id="@+id/tv_name"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="掌声送给社会人"
-                        android:textColor="@color/textColorDrak"/>
+                        android:textColor="@color/textColorDrak" />
+
                     <TextView
                         android:id="@+id/tv_time"
                         android:layout_width="wrap_content"
@@ -46,39 +54,45 @@
                         android:layout_marginTop="5dp"
                         android:text="2018.2.13"
                         android:textColor="@color/textColor"
-                        android:textSize="12sp"/>
+                        android:textSize="12sp" />
+
                     <TextView
                         android:id="@+id/tv_content"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="5dp"
                         android:text="俺是房间卡快放假了大家发垃圾肯定是妇女节会带来非常快了解到今年初房间内的斯诺克"
-                        android:textColor="@color/textColorDrak"/>
+                        android:textColor="@color/textColorDrak" />
+
                     <com.power.mercenary.view.NineGridTestLayout
                         android:id="@+id/nine_gridlayout"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        app:sapcing="4dp"
-                        android:layout_marginTop="5dp"/>
+                        android:layout_marginTop="5dp"
+                        app:sapcing="4dp" />
                 </LinearLayout>
             </LinearLayout>
+
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
                 android:background="@color/white">
+
                 <LinearLayout
                     android:id="@+id/jump_detail_ll"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:padding="10dp"
-                    android:layout_marginLeft="15dp">
+                    android:layout_marginLeft="15dp"
+                    android:padding="10dp">
+
                     <ImageView
                         android:id="@+id/iv_pinglun"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
-                        android:src="@drawable/pinglun_yellow_iv"/>
+                        android:src="@drawable/pinglun_yellow_iv" />
+
                     <TextView
                         android:id="@+id/tv_pinglun"
                         android:layout_width="wrap_content"
@@ -87,56 +101,60 @@
                         android:layout_marginLeft="10dp"
                         android:text="评论10000"
                         android:textColor="@color/textColor"
-                        android:textSize="13sp"/>
+                        android:textSize="13sp" />
                 </LinearLayout>
             </RelativeLayout>
+
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:background="@color/bg_color"/>
+                android:background="@color/bg_color" />
+
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/pl_recyclerview"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/white"/>
+                android:background="@color/white" />
         </LinearLayout>
     </android.support.v4.widget.NestedScrollView>
+
     <RelativeLayout
         android:id="@+id/relative_keyboard"
-        android:background="#fff"
-        android:layout_alignParentBottom="true"
         android:layout_width="match_parent"
-        android:layout_height="45dp">
+        android:layout_height="45dp"
+        android:layout_alignParentBottom="true"
+        android:background="#fff">
+
         <TextView
-            android:layout_marginLeft="10dip"
             android:id="@+id/send"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="发表"
-            android:textSize="16sp"
-            android:layout_centerVertical="true"
             android:layout_alignParentRight="true"
-            android:layout_marginRight="10dp"
-            />
-        <LinearLayout
-            android:layout_marginRight="55dip"
-            android:focusable="true"
-            android:focusableInTouchMode="true"
-            android:background="@drawable/ed_shape"
-            android:layout_marginLeft="10dp"
             android:layout_centerVertical="true"
+            android:layout_marginLeft="10dip"
+            android:layout_marginRight="10dp"
+            android:text="发表"
+            android:textSize="16sp" />
+
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="30dp">
+            android:layout_height="30dp"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="55dip"
+            android:background="@drawable/ed_shape"
+            android:focusable="true"
+            android:focusableInTouchMode="true">
+
             <EditText
-                android:layout_marginLeft="10dp"
-                android:layout_gravity="center_vertical"
                 android:id="@+id/ed_pinglun"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="10dp"
                 android:background="@null"
                 android:hint="请输入评论内容"
-                android:textSize="14sp"
-                />
+                android:textSize="14sp" />
 
         </LinearLayout>
 

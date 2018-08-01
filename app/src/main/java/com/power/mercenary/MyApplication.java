@@ -6,6 +6,7 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.text.TextUtils;
 
+import com.baidu.mapapi.SDKInitializer;
 import com.lzy.okgo.OkGo;
 import com.lzy.okgo.cache.CacheEntity;
 import com.lzy.okgo.cache.CacheMode;
@@ -42,6 +43,7 @@ public class MyApplication extends Application {
         super.onCreate();
         application = this;
         CacheUtils.init(this);
+        SDKInitializer.initialize(this);
         setLogger();
         setOkGo();//OkGo----第三方网络框架
         //imageLoader

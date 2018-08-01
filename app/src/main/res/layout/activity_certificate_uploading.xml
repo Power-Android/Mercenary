@@ -25,30 +25,43 @@
             android:text="上传证书"
             android:layout_centerVertical="true"
             />
+<RelativeLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="180dp"
+        android:background="#FFEDEDED"
+        android:gravity="center"
+        android:layout_margin="10dp"
+        android:layout_marginTop="10dp"
+        android:orientation="vertical">
 
+        <ImageView
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:src="@drawable/sctp_2x"/>
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="180dp"
-            android:background="#FFEDEDED"
-            android:gravity="center"
-            android:layout_margin="10dp"
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="12sp"
             android:layout_marginTop="10dp"
-            android:orientation="vertical">
+            android:text="请上传证书"/>
 
-            <ImageView
-                android:layout_width="60dp"
-                android:layout_height="60dp"
-                android:src="@drawable/sctp_2x"/>
+    </LinearLayout>
+    <ImageView
+        android:id="@+id/img_Id_Card"
+        android:visibility="gone"
+        android:layout_width="match_parent"
+        android:layout_height="180dp"
+        android:background="#FFEDEDED"
+        android:gravity="center"
+        android:layout_margin="10dp"
+        android:layout_marginTop="10dp"
+        android:orientation="vertical" />
+</RelativeLayout>
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="12sp"
-                android:layout_marginTop="10dp"
-                android:text="请上传证书"/>
-
-        </LinearLayout>
 
 
     </LinearLayout>

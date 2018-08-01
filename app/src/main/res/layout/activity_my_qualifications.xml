@@ -44,6 +44,7 @@
                 android:orientation="horizontal">
 
                 <TextView
+                    android:id="@+id/tv_hangye_name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textSize="12sp"
@@ -89,6 +90,7 @@
                 android:orientation="horizontal">
 
                 <TextView
+                    android:id="@+id/tv_years"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textSize="12sp"
@@ -135,6 +137,7 @@
                 android:orientation="horizontal">
 
                 <TextView
+                    android:id="@+id/tv_techang_name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textSize="12sp"
@@ -184,6 +187,7 @@
             android:orientation="horizontal">
 
             <TextView
+                android:id="@+id/tv_jieshao"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="12sp"
@@ -236,6 +240,7 @@
                 android:orientation="horizontal">
 
                 <TextView
+                    android:id="@+id/tv_shiming"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textSize="12sp"
@@ -281,6 +286,7 @@
                 android:orientation="horizontal">
 
                 <TextView
+                    android:id="@+id/tv_zhengshu"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textSize="12sp"
@@ -326,6 +332,7 @@
                 android:orientation="horizontal">
 
                 <TextView
+                    android:id="@+id/tv_register_data"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textSize="12sp"

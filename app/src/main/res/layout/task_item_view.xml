@@ -13,6 +13,7 @@
         >
 
         <TextView
+            android:id="@+id/tv_collction_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="搬家"
@@ -21,6 +22,7 @@
             />
 
         <TextView
+            android:id="@+id/tv_collction_price"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="0.01"
@@ -34,6 +36,7 @@
 
     </RelativeLayout>
     <TextView
+        android:id="@+id/tv_collction_table"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="包同城搬运"

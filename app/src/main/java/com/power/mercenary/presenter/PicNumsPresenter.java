@@ -39,20 +39,21 @@ public class PicNumsPresenter {
 
         for (int i = 0; i < file.size(); i++) {
             params.put("image" + i, file.get(i));
+//            Log.d("PostActivity", file.get(i)+"---------");
         }
 
-        OkGo.<ResponseBean<PicNumsBean>>post(Urls.BASEURL + "Home/Task/imgupload")
+        OkGo.<ResponseBean<List<PicNumsBean>>>post(Urls.BASEURL + "Home/Task/imgupload")
                 .tag(this)
                 .isMultipart(true) //使用 multipart/form-data 表单上传
                 .params(params)
-                .execute(new JsonCallback<ResponseBean<PicNumsBean>>() {
+                .execute(new JsonCallback<ResponseBean<List<PicNumsBean>>>() {
                     @Override
-                    public void onSuccess(Response<ResponseBean<PicNumsBean>> response) {
-                        callBack.PicNums(response);
+                    public void onSuccess(Response<ResponseBean<List<PicNumsBean>>> response) {
+                        callBack.PicNums(response.body().data);
                     }
                 });
     }
     public interface PubTaskCallBack {
-        void PicNums(Response<ResponseBean<PicNumsBean>> response);
+        void PicNums(List<PicNumsBean> response);
     }
 }

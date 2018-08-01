@@ -251,6 +251,15 @@
         <activity
             android:name=".activity.details_out_publish.SHPublishOutActivity"
             android:screenOrientation="portrait" />
+        <activity android:name=".activity.PostActivity"></activity>
+        <activity android:name=".activity.MapSearchActivity"></activity>
+
+        <!-- 百度地图开始 -->
+        <meta-data
+            android:name="com.baidu.lbsapi.API_KEY"
+            android:value="ll4x3TgUDXsdkghFMqDXqCMpubFBllYq" />
+        <!-- 百度地图结束 -->
+
     </application>
 
 </manifest>

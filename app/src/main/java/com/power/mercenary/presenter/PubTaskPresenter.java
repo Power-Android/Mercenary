@@ -26,6 +26,7 @@ public class PubTaskPresenter {
     /**
      * 发布任务
      *
+     * @param task_city        发布任务城市
      * @param task_type        任务分类对应id
      * @param task_type_child  子任务分类对应id
      * @param task_name        任务名称 如果是个人定制类任务表示是定制物品名称
@@ -44,12 +45,13 @@ public class PubTaskPresenter {
      * @param end_address      目的地址
      * @param other_request    其它要求
      */
-    public void publishTask(String task_type, String task_type_child, String task_name, String task_tag, String task_img, String pay_amount,
+    public void publishTask(String task_city,String task_type, String task_type_child, String task_name, String task_tag, String task_img, String pay_amount,
                             String validity_time, String task_description, String task_purpose, String task_request, String itemname,
                             String numbers, String transport, String delivery_time, String begin_address, String end_address, String other_request) {
 
         new HttpManager<ResponseBean<Void>>("Home/Task/addtask", this)
                 .addParams("token", MyApplication.getUserToken())
+                .addParams("task_city", task_city)
                 .addParams("task_type", task_type)
                 .addParams("task_type_child", task_type_child)
                 .addParams("task_name", task_name)

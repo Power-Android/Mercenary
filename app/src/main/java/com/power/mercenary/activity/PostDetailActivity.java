@@ -1,5 +1,6 @@
 package com.power.mercenary.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
@@ -121,10 +122,20 @@ public class PostDetailActivity extends BaseActivity implements TieZiListPresent
         plRecyclerview.setAdapter(pinglunAdapter);
     }
 
+    @Override
+    public void onBackPressed() {
+//        super.onBackPressed();
+        Intent intent =getIntent();
+        setResult(2,intent);
+        finish();
+    }
+
     @OnClick({R.id.title_back_iv, R.id.send})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.title_back_iv:
+                Intent intent =getIntent();
+                setResult(2,intent);
                 finish();
                 break;
             case R.id.send:
@@ -210,10 +221,10 @@ public class PostDetailActivity extends BaseActivity implements TieZiListPresent
         tvContent.setText(datas.getPost_content());
         tvPinglun.setText(datas.getLiuyan().size() + "评论");
         String post_img = datas.getPost_img();
-        String[] all = post_img.split(",");
+        String[] all=post_img.split("\\|");
         mUrlList.clear();
         for (int i = 0; i < all.length; i++) {
-            mUrlList.add(all[i]);
+            mUrlList.add(Urls.BASEIMGURL+all[i]);
         }
         nineGridlayout.setIsShowAll(true);
         nineGridlayout.setUrlList(mUrlList);
@@ -231,7 +242,6 @@ public class PostDetailActivity extends BaseActivity implements TieZiListPresent
         Toast.makeText(mContext, "评论成功", Toast.LENGTH_SHORT).show();
         edPinglun.setText("");
         presenter.getTaskDetails(id);
-
     }
 
     @Override
@@ -240,6 +250,11 @@ public class PostDetailActivity extends BaseActivity implements TieZiListPresent
         isPinglun = true;
         edPinglun.setText("");
         presenter.getTaskDetails(id);
+        chatAdapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void getPost(ResponseBean datas) {
 
     }
 

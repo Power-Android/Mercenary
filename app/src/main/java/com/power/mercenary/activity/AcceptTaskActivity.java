@@ -39,6 +39,9 @@ public class AcceptTaskActivity extends BaseActivity implements View.OnClickList
     TextView title_text;
 
 
+
+
+
     @BindView(R.id.quan_ll)
     LinearLayout quan_ll;
     @BindView(R.id.quan_tv)

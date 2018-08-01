@@ -174,10 +174,10 @@
                     android:layout_centerVertical="true"
                     android:layout_marginRight="5dp"/>
             </RelativeLayout>
-            <android.support.v7.widget.RecyclerView
+            <com.power.mercenary.view.pullrecyclerview.WanRecyclerView
                 android:id="@+id/post_recycler"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="1000dip" />
 
         </LinearLayout>
     </android.support.v4.widget.NestedScrollView>

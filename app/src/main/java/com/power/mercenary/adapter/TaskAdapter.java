@@ -9,7 +9,7 @@ import android.widget.TextView;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.power.mercenary.R;
-import com.power.mercenary.fragment.HomeFragment;
+import com.power.mercenary.bean.CollectionBean;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,12 +18,12 @@ import java.util.List;
  * Created by Administrator on 2018/3/27.
  */
 
-public class TaskAdapter extends BaseQuickAdapter<String, BaseViewHolder> {
+public class TaskAdapter extends BaseQuickAdapter<CollectionBean, BaseViewHolder> {
 
 
 
 
-public TaskAdapter(@LayoutRes int layoutResId, @Nullable ArrayList<String> data) {
+public TaskAdapter(@LayoutRes int layoutResId, @Nullable List<CollectionBean> data) {
         super(layoutResId, data);
 
 
@@ -31,7 +31,12 @@ public TaskAdapter(@LayoutRes int layoutResId, @Nullable ArrayList<String> data)
         }
 
 @Override
-protected void convert(BaseViewHolder helper, String item) {
+protected void convert(BaseViewHolder helper, CollectionBean item) {
+        helper.setText(R.id.tv_collction_name,item.getTask_name());
+        helper.setText(R.id.tv_collction_price,item.getPay_amount());
+        helper.setText(R.id.tv_collction_table,item.getTask_description());
+
+        String[] all=item.getTask_tag().split("\\|");
 
         RecyclerView mRecycler_item = helper.getView(R.id.mRecycler_item);
         mRecycler_item.setNestedScrollingEnabled(false);
@@ -39,9 +44,9 @@ protected void convert(BaseViewHolder helper, String item) {
         linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
         mRecycler_item.setLayoutManager(linearLayoutManager);
         List<String> tagList = new ArrayList<>();
-        tagList.add("");
-        tagList.add("");
-        tagList.add("");
+        for (int i = 0; i < all.length; i++) {
+                tagList.add(all[i]);
+        }
         TagAdapter tagAdapter = new TagAdapter(R.layout.item_tag_layout, tagList);
         mRecycler_item.setAdapter(tagAdapter);
 
@@ -60,6 +65,7 @@ protected void convert(BaseViewHolder helper, String item) {
                 @Override
                 protected void convert(BaseViewHolder helper, String item) {
                         TextView tagTv = helper.getView(R.id.item_content_tv);
+                        tagTv.setText(item);
                 }
         }
 

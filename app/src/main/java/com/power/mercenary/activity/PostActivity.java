@@ -2,88 +2,101 @@ package com.power.mercenary.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.bumptech.glide.Glide;
 import com.luck.picture.lib.PictureSelector;
 import com.luck.picture.lib.compress.Luban;
 import com.luck.picture.lib.config.PictureConfig;
 import com.luck.picture.lib.config.PictureMimeType;
 import com.luck.picture.lib.entity.LocalMedia;
 import com.power.mercenary.R;
+import com.power.mercenary.adapter.GridViewAddImgesAdpter;
 import com.power.mercenary.base.BaseActivity;
-import com.power.mercenary.bean.MyZiLiBean;
-import com.power.mercenary.bean.user.UserImgInfo;
+import com.power.mercenary.bean.PicNumsBean;
+import com.power.mercenary.bean.TieZiDetailsBean;
+import com.power.mercenary.bean.TieZiListBean;
 import com.power.mercenary.http.ResponseBean;
-import com.power.mercenary.presenter.MyZiLiPresenter;
-import com.power.mercenary.presenter.UpdataPresenter;
+import com.power.mercenary.presenter.PicNumsPresenter;
+import com.power.mercenary.presenter.TieZiListPresenter;
+import com.power.mercenary.utils.MyUtils;
+import com.power.mercenary.view.MyGridView;
 import com.wevey.selector.dialog.DialogInterface;
 import com.wevey.selector.dialog.NormalSelectionDialog;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import id.zelory.compressor.Compressor;
-import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.functions.Consumer;
-import io.reactivex.schedulers.Schedulers;
 
-/**
- * Created by Administrator on 2018/3/28.
- */
+public class PostActivity extends BaseActivity implements PicNumsPresenter.PubTaskCallBack, TieZiListPresenter.TaskListCallBack {
 
-public class CertificateUploadingActivity extends BaseActivity implements UpdataPresenter.UpdataCallBack, MyZiLiPresenter.Collection {
-
-    @BindView(R.id.left_back)
-    ImageView left_back;
-
-    @BindView(R.id.title_text)
-    TextView title_text;
-
-    @BindView(R.id.tv_zs_sc)
-    TextView tv_zs_sc;
-    @BindView(R.id.img_Id_Card)
-    ImageView imgIdCard;
+    @BindView(R.id.title_back_iv)
+    ImageView titleBackIv;
+    @BindView(R.id.title_content_tv)
+    TextView titleContentTv;
+    @BindView(R.id.title_content_right_tv)
+    TextView titleContentRightTv;
+    @BindView(R.id.mygridview)
+    MyGridView mygridview;
+    @BindView(R.id.activity_post)
+    LinearLayout activityPost;
+    @BindView(R.id.edt_post_content)
+    EditText edtPostContent;
+    private GridViewAddImgesAdpter addImgesAdpter;
+    List<LocalMedia> list = new ArrayList<>();
     private List<String> cameraList;
     private List<LocalMedia> selectList = new ArrayList<>();
-    private MyZiLiPresenter myZiLiPresenter;
-    private UpdataPresenter presenter;
+    List<LocalMedia> listAll = new ArrayList<>();
+    private PicNumsPresenter picNumsPresenter;
+    private ArrayList<File> fileList = new ArrayList<>();
+    private String imgurl;
+    private TieZiListPresenter presenter;
+    private String task_type_child;
+    private String task_type;
+    private ArrayList<String> mpostUrl =new ArrayList<>();
+
     @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_certificate_uploading);
+        setContentView(R.layout.activity_post);
         ButterKnife.bind(this);
-        presenter = new UpdataPresenter(this,this);
-        myZiLiPresenter = new MyZiLiPresenter(this,this);
-        title_text.setText("证书上传");
+        task_type_child = getIntent().getStringExtra("task_type_child");
+        task_type = getIntent().getStringExtra("task_type");
+        picNumsPresenter = new PicNumsPresenter(this, this);
+        presenter = new TieZiListPresenter(this, this);
+        initView();
+    }
 
+    private void initView() {
+        titleBackIv.setVisibility(View.VISIBLE);
+        titleContentTv.setText("发帖子");
+        titleContentRightTv.setVisibility(View.VISIBLE);
+        titleContentRightTv.setText("发表");
 
-        left_back.setOnClickListener(new View.OnClickListener() {
+        addImgesAdpter = new GridViewAddImgesAdpter(list, this);
+        mygridview.setAdapter(addImgesAdpter);
+        mygridview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onClick(View view) {
-                finish();
-            }
-        });
-
-        tv_zs_sc.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 cameraList = new ArrayList<>();
                 cameraList.add("从相册中选择");
                 cameraList.add("拍照");
                 showCamera();
-
             }
         });
-
     }
+
     private void showCamera() {
         new NormalSelectionDialog.Builder(this).setlTitleVisible(false)   //设置是否显示标题
                 .setItemHeight(55)  //设置item的高度
@@ -115,13 +128,13 @@ public class CertificateUploadingActivity extends BaseActivity implements Updata
 
     private void requestPhoto() {
         // 进入相册 以下是例子：不需要的api可以不写
-        PictureSelector.create(CertificateUploadingActivity.this)
+        PictureSelector.create(PostActivity.this)
                 .openGallery(PictureMimeType.ofImage())// 全部.PictureMimeType.ofAll()、图片.ofImage()、视频.ofVideo()、音频.ofAudio()
                 .theme(R.style.picture_default_style1)// 主题样式设置 具体参考 values/styles   用法：R.style.picture.white.style
-                .maxSelectNum(1)// 最大图片选择数量
+                .maxSelectNum(9)// 最大图片选择数量
                 .minSelectNum(1)// 最小选择数量
                 .imageSpanCount(4)// 每行显示个数
-                .selectionMode(PictureConfig.SINGLE)// 多选 or 单选 PictureConfig.SINGLE
+                .selectionMode(PictureConfig.MULTIPLE)// 多选 or 单选 PictureConfig.SINGLE
                 .previewImage(true)// 是否可预览图片
                 .previewVideo(false)// 是否可预览视频
                 .enablePreviewAudio(false) // 是否可播放音频
@@ -159,7 +172,7 @@ public class CertificateUploadingActivity extends BaseActivity implements Updata
     }
 
     private void requestCamera() {
-        PictureSelector.create(CertificateUploadingActivity.this)
+        PictureSelector.create(PostActivity.this)
                 .openCamera(PictureMimeType.ofImage())// 单独拍照，也可录像或也可音频 看你传入的类型是图片or视频
                 .theme(R.style.picture_default_style)// 主题样式设置 具体参考 values/styles
                 .glideOverride(200, 200)// glide 加载宽高，越小图片列表越流畅，但会影响列表图片浏览的清晰度
@@ -177,58 +190,97 @@ public class CertificateUploadingActivity extends BaseActivity implements Updata
                 case PictureConfig.CHOOSE_REQUEST:
                     // 图片选择结果回调
                     selectList = PictureSelector.obtainMultipleResult(data);
-                    Glide.with(mContext).load(selectList.get(0).getPath()).into(imgIdCard);
-                    if (selectList.size()<=0){
-                        Toast.makeText(mContext, "请上传证件照", Toast.LENGTH_SHORT).show();
-                        return;
-                    }
-
-                    new Compressor(this)
-                            .compressToFileAsFlowable(new File(selectList.get(0).getPath()))
-                            .subscribeOn(Schedulers.io())
-                            .observeOn(AndroidSchedulers.mainThread())
-                            .subscribe(new Consumer<File>() {
-                                @Override
-                                public void accept(File file) {
-                                    presenter.updataUserImg(file);
-                                }
-                            }, new Consumer<Throwable>() {
-                                @Override
-                                public void accept(Throwable throwable) {
-                                    throwable.printStackTrace();
-                                }
-                            });
+                    listAll.addAll(selectList);
+                    selectList.clear();
+                    addImgesAdpter.setList(listAll);
+                    addImgesAdpter.notifyDataSetChanged();
                     break;
             }
         }
     }
 
     @Override
-    public void updataUserImg(UserImgInfo imgInfo) {
-        String imgurl = imgInfo.imgurl;
-        myZiLiPresenter.setmZiLi("","","","",imgurl);
-    }
-
-    @Override
-    public void updataSuccess() {
-
-    }
-
-    @Override
-    public void getmZiLi(MyZiLiBean response) {
-
-    }
-
-    @Override
-    public void setmZiLi(ResponseBean response) {
-        Toast.makeText(mContext, "证书上传成功", Toast.LENGTH_SHORT).show();
-        Intent intent = getIntent();
-        setResult(1,intent);
+    public void onBackPressed() {
+//        super.onBackPressed();
+        Intent intent =getIntent();
+        setResult(2,intent);
         finish();
     }
 
-    @Override
-    public void setIdCard(ResponseBean response) {
+    @OnClick({R.id.title_back_iv, R.id.title_content_right_tv})
+    public void onViewClicked(View view) {
+        switch (view.getId()) {
+            case R.id.title_back_iv:
+                Intent intent =getIntent();
+                setResult(2,intent);
+                finish();
+                break;
+            case R.id.title_content_right_tv:
+                if (!edtPostContent.getText().toString().equals("")){
+                    for (int i = 0; i < listAll.size(); i++) {
+                        try {
+                            fileList.add(new Compressor(mContext)
+                                    .setMaxWidth(640)
+                                    .setMaxHeight(480)
+                                    .setQuality(75)
+                                    .compressToFile(new File(listAll.get(i).getPath())));
 
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    }
+
+                    picNumsPresenter.publishTask(fileList);//上传多张图片
+
+                }else {
+                    Toast.makeText(mContext, "请输入要发表的内容", Toast.LENGTH_SHORT).show();
+                }
+
+
+                break;
+        }
+    }
+
+    @Override
+    public void PicNums(List<PicNumsBean> response) {
+        List<PicNumsBean> body = response;
+        for (int i = 0; i < body.size(); i++) {
+            mpostUrl.add(body.get(i).getPost());
+        }
+        String s = MyUtils.listToString(mpostUrl);
+        presenter.getPost(task_type, task_type_child,edtPostContent.getText().toString(),s);
+    }
+
+    @Override
+    public void getTaskList(List<TieZiListBean> datas) {
+
+    }
+
+    @Override
+    public void getTaskDetails(TieZiDetailsBean datas) {
+
+    }
+
+    @Override
+    public void getListFail() {
+
+    }
+
+    @Override
+    public void getPubPinglun(ResponseBean datas) {
+
+    }
+
+    @Override
+    public void getHuifu(ResponseBean datas) {
+
+    }
+
+    @Override
+    public void getPost(ResponseBean datas) {
+        Toast.makeText(mContext, "发布成功", Toast.LENGTH_SHORT).show();
+        Intent intent =getIntent();
+        setResult(2,intent);
+        finish();
     }
 }
