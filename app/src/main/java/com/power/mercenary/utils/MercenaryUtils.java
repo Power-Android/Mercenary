@@ -1,5 +1,7 @@
 package com.power.mercenary.utils;
 
+import android.text.TextUtils;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -9,6 +11,9 @@ import java.util.List;
 public class MercenaryUtils {
 
     public static List<String> stringToList(String strList){
+        if (TextUtils.isEmpty(strList))
+            return null;
+
         String d[] = strList.split("\\|");
         List<String> list = new ArrayList();
 
@@ -19,6 +24,9 @@ public class MercenaryUtils {
     }
 
     public static List<String> string3ToList(String strList){
+        if (TextUtils.isEmpty(strList))
+            return null;
+
         String d[] = strList.split("\\|");
         List<String> list = new ArrayList();
 
@@ -29,6 +37,9 @@ public class MercenaryUtils {
     }
 
     public static List<String> string2ToList(String strList){
+        if (TextUtils.isEmpty(strList))
+            return null;
+
         String d[] = strList.split(",");
         List<String> list = new ArrayList();
 

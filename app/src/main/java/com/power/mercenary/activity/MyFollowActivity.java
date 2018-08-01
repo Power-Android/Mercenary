@@ -3,7 +3,6 @@ package com.power.mercenary.activity;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
-import android.support.v4.view.ViewPager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -14,7 +13,6 @@ import com.liaoinstan.springview.container.DefaultFooter;
 import com.liaoinstan.springview.container.DefaultHeader;
 import com.liaoinstan.springview.widget.SpringView;
 import com.power.mercenary.R;
-import com.power.mercenary.adapter.MyFollowAdapter;
 import com.power.mercenary.base.BaseActivity;
 
 import java.util.ArrayList;
@@ -66,8 +64,8 @@ public class MyFollowActivity extends BaseActivity {
         }
         mRecycler.setLayoutManager(new LinearLayoutManager(mContext));
         mRecycler.setNestedScrollingEnabled(false);
-        MyFollowAdapter changegameAdapter = new MyFollowAdapter(R.layout.myfollow_item_view, mList);
-        mRecycler.setAdapter(changegameAdapter);
+//        MyFollowAdapter changegameAdapter = new MyFollowAdapter(R.layout.myfollow_item_view, mList);
+//        mRecycler.setAdapter(changegameAdapter);
 
 
         initRefresh();

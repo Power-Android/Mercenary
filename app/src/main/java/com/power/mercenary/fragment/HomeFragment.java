@@ -4,8 +4,10 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.Nullable;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,6 +19,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
+import com.power.mercenary.MainActivity;
 import com.power.mercenary.MyApplication;
 import com.power.mercenary.R;
 import com.power.mercenary.activity.GRTaskDetailsActivity;
@@ -24,6 +27,12 @@ import com.power.mercenary.activity.GZTaskDetailsActivity;
 import com.power.mercenary.activity.LocationActivity;
 import com.power.mercenary.activity.PTTaskDetailsActivity;
 import com.power.mercenary.activity.PostDetailActivity;
+import com.power.mercenary.activity.PubGerendingzhiActivity;
+import com.power.mercenary.activity.PubGongzuoActivity;
+import com.power.mercenary.activity.PubJiankangActivity;
+import com.power.mercenary.activity.PubPaotuiActivity;
+import com.power.mercenary.activity.PubQitaActivity;
+import com.power.mercenary.activity.PubShenghuoActivity;
 import com.power.mercenary.activity.QTTaskDetailsActivity;
 import com.power.mercenary.activity.SHTaskDetailsActivity;
 import com.power.mercenary.activity.SignInActivity;
@@ -33,19 +42,29 @@ import com.power.mercenary.activity.TestActivity;
 import com.power.mercenary.activity.WorkPubActivity;
 import com.power.mercenary.base.BaseFragment;
 import com.power.mercenary.bean.BannerBean;
+import com.power.mercenary.bean.CitySelectBean;
 import com.power.mercenary.bean.MainTaskBean;
 import com.power.mercenary.bean.NineGridTestModel;
 import com.power.mercenary.bean.Testbean;
+import com.power.mercenary.data.CacheConstants;
+import com.power.mercenary.data.EventConstants;
+import com.power.mercenary.event.EventUtils;
 import com.power.mercenary.presenter.MainPresenter;
 import com.power.mercenary.presenter.TaskListPresenter;
 import com.power.mercenary.utils.BannerUtils;
+import com.power.mercenary.utils.CacheUtils;
 import com.power.mercenary.utils.MercenaryUtils;
 import com.power.mercenary.utils.TUtils;
+import com.power.mercenary.view.BaseDialog;
 import com.power.mercenary.view.MyPageIndicator;
 import com.power.mercenary.view.NineGridTestLayout;
 import com.power.mercenary.view.PageGridView;
 import com.youth.banner.Banner;
 import com.youth.banner.listener.OnBannerListener;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -54,6 +73,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
+import io.rong.imlib.model.Message;
 
 /**
  * Created by power on 2018/3/21.
@@ -94,6 +114,9 @@ public class HomeFragment extends BaseFragment implements MainPresenter.MainCall
     Unbinder unbinder1;
     private int width;
 
+    private BaseDialog mDialog;
+    private BaseDialog.Builder mBuilder;
+
     private MainPresenter mainPresenter;
     private List<MainTaskBean.TuijianBean> tuijianList;
     private TuijianAdapter tuijianAdapter;
@@ -114,6 +137,10 @@ public class HomeFragment extends BaseFragment implements MainPresenter.MainCall
 
     private List<BannerBean> bannerBeans;
 
+    private List<String> nextList = new ArrayList<>();
+
+    private int PAOTUI = 101, SHENGHUO = 102, GERENDINGZHI = 103, GONGZUO = 104, JIANKANG = 105;
+
     @Override
     protected View initView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_home, null);
@@ -122,7 +149,18 @@ public class HomeFragment extends BaseFragment implements MainPresenter.MainCall
         mainPresenter = new MainPresenter(getActivity(), this);
         mainPresenter.getTaskList();
         initData();
+        EventBus.getDefault().register(this);
         return view;
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onRecevierEvent(EventUtils event) {
+        switch (event.getType()) {
+            case EventConstants.TYPE_CITY_SELECT:
+                CitySelectBean selectBean = (CitySelectBean) event.getData();
+                locationTv.setText(selectBean.cityName);
+                break;
+        }
     }
 
     @Override
@@ -406,9 +444,51 @@ public class HomeFragment extends BaseFragment implements MainPresenter.MainCall
                 return;
             }
 
-            Intent intent = new Intent(mContext, TaskListActivity.class);
-            intent.putExtra("type", (position + 1) + "");
-            startActivity(intent);
+            switch (position) {
+                case 0://跑腿
+                    nextList.clear();
+                    nextList.add("物品");
+                    nextList.add("人员");
+                    showNextIssueDialog(60, 60, 2, PAOTUI);
+                    break;
+                case 1://生活
+                    nextList.clear();
+                    nextList.add("衣");
+                    nextList.add("食");
+                    nextList.add("住");
+                    nextList.add("行");
+                    nextList.add("游");
+                    showNextIssueDialog(20, 20, 3, SHENGHUO);
+                    break;
+                case 2://个人定制
+                    nextList.clear();
+                    nextList.add("硬件");
+                    nextList.add("软件");
+                    showNextIssueDialog(60, 60, 2, GERENDINGZHI);
+                    break;
+                case 3://工作
+                    nextList.clear();
+                    nextList.add("仕");
+                    nextList.add("农");
+                    nextList.add("工");
+                    nextList.add("商");
+                    nextList.add("律");
+                    showNextIssueDialog(20, 20, 3, GONGZUO);
+                    break;
+                case 4://健康
+                    nextList.clear();
+                    nextList.add("心理");
+                    nextList.add("健身");
+                    nextList.add("减肥");
+                    showNextIssueDialog(20, 20, 3, JIANKANG);
+                    break;
+                case 5://其他
+                    mDialog.dismiss();
+                    Intent intent = new Intent(mContext, TaskListActivity.class);
+                    intent.putExtra("type", "6");
+                    startActivity(intent);
+                    break;
+            }
         }
 
         @Override
@@ -424,6 +504,115 @@ public class HomeFragment extends BaseFragment implements MainPresenter.MainCall
         @Override
         public Object getEmpty() {
             return new Testbean();
+        }
+    }
+
+    private void showNextIssueDialog(int left, int right, int spanCount, final int pubType) {
+        mBuilder = new BaseDialog.Builder(mContext);
+        mDialog = mBuilder.setViewId(R.layout.dialog_issue)
+                //设置dialogpadding
+                .setPaddingdp(left, 0, right, 40)
+                //设置显示位置
+                .setGravity(Gravity.BOTTOM)
+                //设置动画
+                .setAnimation(R.style.Bottom_Top_aniamtion)
+                //设置dialog的宽高
+                .setWidthHeightpx(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT)
+                //设置触摸dialog外围是否关闭
+                .isOnTouchCanceled(true)
+                //设置监听事件
+                .builder();
+
+        RecyclerView issueNextRecycler = mDialog.getView(R.id.issue_recycler);
+        issueNextRecycler.setLayoutManager(new GridLayoutManager(mContext, spanCount));
+        issueNextRecycler.setNestedScrollingEnabled(false);
+        IssueNextAdapter issueNextAdapter = new IssueNextAdapter(R.layout.item_issue_layout, nextList);
+        issueNextRecycler.setAdapter(issueNextAdapter);
+        issueNextAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
+            @Override
+            public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
+                Intent intent = new Intent(mContext, TaskListActivity.class);
+                switch (pubType) {
+                    case 101://跑腿
+                        mDialog.dismiss();
+                        intent.putExtra("type", "1");
+                        if (position == 0) {
+                            intent.putExtra("child", "1");
+                        } else if (position == 1) {
+                            intent.putExtra("child", "2");
+                        }
+                        startActivity(intent);
+                        break;
+                    case 102://生活
+                        mDialog.dismiss();
+                        intent.putExtra("type", "2");
+                        if (position == 0) {
+                            intent.putExtra("child", "1");
+                        } else if (position == 1) {
+                            intent.putExtra("child", "2");
+                        } else if (position == 2) {
+                            intent.putExtra("child", "3");
+                        } else if (position == 3) {
+                            intent.putExtra("child", "4");
+                        } else if (position == 4) {
+                            intent.putExtra("child", "5");
+                        }
+                        startActivity(intent);
+                        break;
+                    case 103://个人定制
+                        mDialog.dismiss();
+                        intent.putExtra("type", "3");
+                        if (position == 0) {
+                            intent.putExtra("child", "1");
+                        } else if (position == 1) {
+                            intent.putExtra("child", "2");
+                        }
+                        startActivity(intent);
+                        break;
+                    case 104://工作
+                        mDialog.dismiss();
+                        intent.putExtra("type", "4");
+                        if (position == 0) {
+                            intent.putExtra("child", "1");
+                        } else if (position == 1) {
+                            intent.putExtra("child", "2");
+                        } else if (position == 2) {
+                            intent.putExtra("child", "3");
+                        } else if (position == 3) {
+                            intent.putExtra("child", "4");
+                        } else if (position == 4) {
+                            intent.putExtra("child", "5");
+                        }
+                        startActivity(intent);
+                        break;
+                    case 105://健康
+                        mDialog.dismiss();
+                        intent.putExtra("type", "5");
+                        if (position == 0) {
+                            intent.putExtra("child", "1");
+                        } else if (position == 1) {
+                            intent.putExtra("child", "2");
+                        } else if (position == 2) {
+                            intent.putExtra("child", "3");
+                        }
+                        startActivity(intent);
+                        break;
+                }
+            }
+        });
+        mDialog.show();
+    }
+
+    private class IssueNextAdapter extends BaseQuickAdapter<String, BaseViewHolder> {
+
+        public IssueNextAdapter(int layoutResId, @Nullable List<String> data) {
+            super(layoutResId, data);
+        }
+
+        @Override
+        protected void convert(BaseViewHolder helper, String item) {
+            helper.setText(R.id.item_type_tv, item)
+                    .addOnClickListener(R.id.item_type_tv);
         }
     }
 
@@ -444,6 +633,7 @@ public class HomeFragment extends BaseFragment implements MainPresenter.MainCall
     @Override
     public void onDestroyView() {
         super.onDestroyView();
+        EventBus.getDefault().unregister(this);
         unbinder.unbind();
     }
 

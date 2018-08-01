@@ -21,6 +21,7 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.liaoinstan.springview.container.DefaultFooter;
 import com.liaoinstan.springview.widget.SpringView;
+import com.lzy.okgo.model.Response;
 import com.power.mercenary.MyApplication;
 import com.power.mercenary.R;
 import com.power.mercenary.activity.SignInActivity;
@@ -31,6 +32,9 @@ import com.power.mercenary.bean.task.ApplyListBean;
 import com.power.mercenary.bean.task.MsgBean;
 import com.power.mercenary.bean.task.MsgListBean;
 import com.power.mercenary.bean.task.TaskDetailsBean;
+import com.power.mercenary.http.DialogCallback;
+import com.power.mercenary.http.HttpManager;
+import com.power.mercenary.http.ResponseBean;
 import com.power.mercenary.presenter.TaskDetailsPresenter;
 import com.power.mercenary.utils.MercenaryUtils;
 import com.power.mercenary.utils.MyUtils;
@@ -293,11 +297,15 @@ public class PTAcceptInTaskActivity extends BaseActivity implements View.OnClick
                     return;
                 }
 
-                if (!TextUtils.equals(MyApplication.getUserId(), publisherId)) {
-                    presenter.applyRequest(taskId, "", "");
-                } else {
-                    TUtils.showCustom(this, "发布者自己不能报名");
-                }
+                new HttpManager<ResponseBean<Void>>("Home/MyTask/tijiao", this)
+                        .addParams("token", MyApplication.getUserToken())
+                        .addParams("id", taskId)
+                        .postRequest(new DialogCallback<ResponseBean<Void>>(this) {
+                            @Override
+                            public void onSuccess(Response<ResponseBean<Void>> response) {
+                                TUtils.showCustom(PTAcceptInTaskActivity.this, "提交成功");
+                            }
+                        });
                 break;
         }
     }

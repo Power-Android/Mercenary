@@ -108,7 +108,31 @@ public class TieZiListPresenter {
                     }
                 });
     }
-
+    /**
+     * 酒馆详情-发帖
+     *
+     *参数名	必选	类型	说明
+     *
+     *token	是	string	用户token
+     *task_type	是	int	类型id
+     *task_type_child	否	int	子类型id
+     *post_content	是	string	帖子内容
+     *post_img	否	string	帖子图片
+     */
+    public void getPost(String task_type,String task_type_child,String post_content,String post_img) {
+        new HttpManager<ResponseBean>("Home/Drunkery/post_add", this)
+                .addParams("token", MyApplication.getUserToken())
+                .addParams("task_type", task_type)
+                .addParams("task_type_child", task_type_child)
+                .addParams("post_content", post_content)
+                .addParams("post_img", post_img)
+                .postRequest(new DialogCallback<ResponseBean>(activity) {
+                    @Override
+                    public void onSuccess(Response<ResponseBean> response) {
+                        callBack.getPost(response.body());
+                    }
+                });
+    }
 
     public interface TaskListCallBack {
         void getTaskList(List<TieZiListBean> datas);
@@ -120,5 +144,8 @@ public class TieZiListPresenter {
         void getPubPinglun(ResponseBean datas);
 
         void getHuifu(ResponseBean datas);
+
+        void getPost(ResponseBean datas);
+
     }
 }

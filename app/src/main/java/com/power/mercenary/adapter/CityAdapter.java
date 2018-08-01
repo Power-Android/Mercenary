@@ -2,6 +2,7 @@ package com.power.mercenary.adapter;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,6 +23,12 @@ public class CityAdapter extends RecyclerView.Adapter<CityAdapter.ViewHolder> {
     protected Context mContext;
     protected List<CityBean> mDatas;
     protected LayoutInflater mInflater;
+
+    private OnItemClickListener onItemClickListener;
+
+    public void setOnItemClickListener(OnItemClickListener onItemClickListener){
+        this.onItemClickListener = onItemClickListener;
+    }
 
     public CityAdapter(Context mContext, List<CityBean> mDatas) {
         this.mContext = mContext;
@@ -52,7 +59,7 @@ public class CityAdapter extends RecyclerView.Adapter<CityAdapter.ViewHolder> {
         holder.content.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(mContext, cityBean.getCity(), Toast.LENGTH_SHORT).show();
+                onItemClickListener.onItemClickListener(cityBean.getCity(), cityBean.getId());
             }
         });
     }
@@ -71,5 +78,9 @@ public class CityAdapter extends RecyclerView.Adapter<CityAdapter.ViewHolder> {
             tvCity = (TextView) itemView.findViewById(R.id.tvName);
             content = itemView.findViewById(R.id.content);
         }
+    }
+
+    public interface OnItemClickListener{
+        void onItemClickListener(String cityName, String cityId);
     }
 }

@@ -9,7 +9,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.power.mercenary.R;
-import com.power.mercenary.adapter.MyFollowAdapter;
 import com.power.mercenary.adapter.WCCAdapter;
 import com.power.mercenary.adapter.YWCAdapter;
 import com.power.mercenary.base.BaseActivity;

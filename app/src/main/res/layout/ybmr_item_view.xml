@@ -27,13 +27,12 @@
                 android:id="@+id/item_ybmr_view_icon"
                 android:layout_width="43dp"
                 android:layout_height="43dp"
-                android:src="@drawable/moren_2x"/>
+                android:background="@drawable/moren_2x"/>
 
             <TextView
                 android:id="@+id/item_ybmr_view_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="小路"
                 android:singleLine="true"
                 android:layout_marginRight="10dp"
                 android:ellipsize="end"

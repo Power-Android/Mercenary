@@ -1,5 +1,6 @@
 package com.power.mercenary.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
@@ -22,9 +23,14 @@ import com.chad.library.adapter.base.BaseViewHolder;
 import com.power.mercenary.MyApplication;
 import com.power.mercenary.R;
 import com.power.mercenary.base.BaseActivity;
+import com.power.mercenary.data.EventRefreshContants;
 import com.power.mercenary.presenter.PubTaskPresenter;
 import com.power.mercenary.utils.MyUtils;
 import com.power.mercenary.utils.TUtils;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,6 +38,8 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+
+import static com.power.mercenary.R.id.start_address_tv;
 
 public class PubPaotuiActivity extends BaseActivity implements PubTaskPresenter.PubTaskCallBack {
 
@@ -57,7 +65,7 @@ public class PubPaotuiActivity extends BaseActivity implements PubTaskPresenter.
     RelativeLayout transportTimeRl;
     @BindView(R.id.validity_time_et)
     EditText validityTimeEt;
-    @BindView(R.id.start_address_tv)
+    @BindView(start_address_tv)
     TextView startAddressTv;
     @BindView(R.id.del_start_address_tv)
     TextView delStartAddressTv;
@@ -92,6 +100,7 @@ public class PubPaotuiActivity extends BaseActivity implements PubTaskPresenter.
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_paotui_pub);
         ButterKnife.bind(this);
+        EventBus.getDefault().register(this);
         taskType = getIntent().getStringExtra("TaskType");
         childTaskType = getIntent().getStringExtra("ChildTaskType");
         initView();
@@ -196,6 +205,8 @@ public class PubPaotuiActivity extends BaseActivity implements PubTaskPresenter.
                     public void customLayout(View v) {
                         final TextView tvSubmit = (TextView) v.findViewById(R.id.tv_finish);
                         final TextView tvCancle = (TextView) v.findViewById(R.id.tv_cancle);
+                        final TextView tv_content = (TextView) v.findViewById(R.id.tv_content);
+                        tv_content.setText("");
 
                         tvSubmit.setOnClickListener(new View.OnClickListener() {
                             @Override
@@ -224,7 +235,7 @@ public class PubPaotuiActivity extends BaseActivity implements PubTaskPresenter.
         pvCustomOptions.setNPicker(data,data1,data2);//添加数据
 
     }
-    @OnClick({R.id.title_back_iv, R.id.title_content_right_tv, R.id.transport_time_rl, R.id.start_address_tv,
+    @OnClick({R.id.title_back_iv, R.id.title_content_right_tv, R.id.transport_time_rl, start_address_tv,
             R.id.del_start_address_tv, R.id.end_address_tv, R.id.add_biaoqian_tv, R.id.del_biaoqian_tv})
     public void onViewClicked(View view) {
         switch (view.getId()) {
@@ -275,26 +286,29 @@ public class PubPaotuiActivity extends BaseActivity implements PubTaskPresenter.
                 } else if (TextUtils.isEmpty(validityTimeEt.getText().toString())) {
                     Toast.makeText(mContext, "请输入有效期", Toast.LENGTH_SHORT).show();
                     return;
-                } else if (biaoqianList.size()<=0) {
+                }else if (TextUtils.isEmpty(startAddressTv.getText().toString())||startAddressTv.getText().toString().equals("请选择取货地址")){
+                    Toast.makeText(mContext, "请选择取货地址", Toast.LENGTH_SHORT).show();
+
+                }else if (biaoqianList.size()<=0) {
                     Toast.makeText(mContext, "请输入任务标签", Toast.LENGTH_SHORT).show();
                     return;
                 }
                 String s1 = MyUtils.listToString(biaoqianList);
-                presenter.publishTask(taskType, childTaskType, taskNameEt.getText().toString(), s1, "", moneyEt.getText().toString(),
+                presenter.publishTask("",taskType, childTaskType, taskNameEt.getText().toString(), s1, "", moneyEt.getText().toString(),
                         validityTimeEt.getText().toString(), "", taskMudiEt.getText().toString(), "",
                         goodsNameEt.getText().toString(), numEt.getText().toString(), "", MyUtils.Timetodata(validitySongdaEt.getText().toString()),
                         "开始地址", "目的地址", biaoqianEt.getText().toString());
                 break;
             case R.id.transport_time_rl:
-
                 initSelectAge(yearList,monthList,dayList);
                 pvCustomOptions.show();
                 break;
-            case R.id.start_address_tv:
-                TUtils.showShort(mContext, "点击了---开始地址");
+            case start_address_tv:
+                Intent intent = new Intent(mContext,MapAddressActivity.class);
+                startActivity(intent);
                 break;
             case R.id.del_start_address_tv:
-                TUtils.showShort(mContext, "点击了---删除开始地址");
+                startAddressTv.setText("请选择取货地址");
                 break;
             case R.id.end_address_tv:
                 TUtils.showShort(mContext, "点击了---目的地址");
@@ -323,11 +337,15 @@ public class PubPaotuiActivity extends BaseActivity implements PubTaskPresenter.
                 break;
         }
     }
-
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void getEvent(EventRefreshContants eventBean) {
+        if (eventBean.getmAddress()!=null){
+            startAddressTv.setText(eventBean.getmAddress()+"");
+        }
+    }
     @Override
     public void publishTask() {
         Toast.makeText(mContext, "发布成功", Toast.LENGTH_SHORT).show();
-        Log.d("PubPaotuiActivity", "发布成功+--------");
     }
 
     @Override
@@ -335,4 +353,9 @@ public class PubPaotuiActivity extends BaseActivity implements PubTaskPresenter.
 
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
+    }
 }

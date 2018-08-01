@@ -58,7 +58,6 @@ public class ReleaseRWZAdapter extends RecyclerView.Adapter {
 
             viewHolder.num.setText("浏览数：" + data.get(position).getView_num() + " 分享数：" + data.get(position).getShare_num());
 
-            viewHolder.xiugai.setVisibility(View.GONE);
             viewHolder.chexiao.setVisibility(View.GONE);
             viewHolder.yaoqing.setVisibility(View.GONE);
 
@@ -91,8 +90,6 @@ public class ReleaseRWZAdapter extends RecyclerView.Adapter {
 
         TextView num;
 
-        TextView xiugai;
-
         TextView chexiao;
 
         TextView yaoqing;
@@ -106,7 +103,6 @@ public class ReleaseRWZAdapter extends RecyclerView.Adapter {
             price = itemView.findViewById(R.id.item_wjd_view_price);
             recyclerView = itemView.findViewById(R.id.item_wjd_view_recyclerView);
             num = itemView.findViewById(R.id.item_wjd_view_num);
-            xiugai = itemView.findViewById(R.id.item_wjd_view_xiugai);
             chexiao = itemView.findViewById(R.id.item_wjd_view_chexiao);
             yaoqing = itemView.findViewById(R.id.item_wjd_view_yaoqing);
         }

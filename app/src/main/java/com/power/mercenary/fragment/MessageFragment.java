@@ -2,6 +2,8 @@ package com.power.mercenary.fragment;
 
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.v4.app.Fragment;
+import android.support.v4.view.ViewPager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -18,9 +20,11 @@ import com.power.mercenary.R;
 import com.power.mercenary.adapter.MsgAdapter;
 import com.power.mercenary.adapter.MyFollowAdapter;
 import com.power.mercenary.adapter.SiliaoAdapter;
+import com.power.mercenary.adapter.frag.FragmentVPagerAdapter;
 import com.power.mercenary.base.BaseFragment;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -53,28 +57,25 @@ public class MessageFragment extends BaseFragment implements View.OnClickListene
     LinearLayout tuijianTabLl;
 
     @BindView(R.id.jiuguan_tv)
-            TextView jiuguan_tv;
+    TextView jiuguan_tv;
 
     @BindView(R.id.indicator_jiuguan)
-            View indicator_jiuguan;
+    View indicator_jiuguan;
     @BindView(R.id.siliao_tv)
-            TextView siliao_tv;
+    TextView siliao_tv;
     @BindView(R.id.indicator_siliao)
-            View indicator_siliao;
+    View indicator_siliao;
 
     @BindView(R.id.jiuguan_ll)
-            LinearLayout jiuguan_ll;
+    LinearLayout jiuguan_ll;
     @BindView(R.id.siliao_ll)
-            LinearLayout siliao_ll;
+    LinearLayout siliao_ll;
 
-    MsgAdapter adapter;
-    ArrayList<String> mList=new ArrayList<>();
+    private FragmentVPagerAdapter vPagerAdapter;
 
-    @BindView(R.id.mRecycler_msg)
-    RecyclerView mRecycler_msg;
+    private List<Fragment> fragments;
 
-    @BindView(R.id.springView_msg)
-    SpringView springView_msg;
+    private ViewPager viewPager;
 
     @Override
     protected View initView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -83,66 +84,58 @@ public class MessageFragment extends BaseFragment implements View.OnClickListene
         ButterKnife.bind(MessageFragment.this,view);
         left_back.setVisibility(View.INVISIBLE);
         title_text.setText("消息");
+
+        viewPager = view.findViewById(R.id.frag_message_viewPager);
+
+        fragments = new ArrayList<>();
+        fragments.add(new MessageTaskFragment());
+        fragments.add(new MessageSystemFragment());
+        fragments.add(new MessageTavernFragment());
+        fragments.add(new MessagePrivateFragment());
+
+        vPagerAdapter = new FragmentVPagerAdapter(getChildFragmentManager(), fragments);
+        viewPager.setAdapter(vPagerAdapter);
+
+        viewPager.setOffscreenPageLimit(4);
+
+        viewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                switch (position) {
+                    case 2://酒馆
+                        initJiuguan();
+                        break;
+                    case 3://私聊
+                        initSiliao();
+                        break;
+                    case 0://任务推荐
+                        initRenwutj();
+                        break;
+                    case 1://同城
+                        initTongcheng();
+                        break;
+                }
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
+
         initRenwutj();
-        if (mList.size()<=0){
-            mList.add("");
-            mList.add("");
-            mList.add("");
-            mList.add("");
-            mList.add("");
-            mList.add("");
-            mList.add("");
-            mList.add("");
-            mList.add("");
-            mList.add("");
-            mList.add("");
-        }
-        mRecycler_msg.setLayoutManager(new LinearLayoutManager(mContext));
-        mRecycler_msg.setNestedScrollingEnabled(false);
+
         jiuguan_ll.setOnClickListener(this);
         siliao_ll.setOnClickListener(this);
         renwutjLl.setOnClickListener(this);
         tongchengLl.setOnClickListener(this);
-        initRefresh();
+
         return view;
-    }
-
-    //下拉刷新
-    private void initRefresh() {
-        //DefaultHeader/Footer是SpringView已经实现的默认头/尾之一
-        //更多还有MeituanHeader、AliHeader、RotationHeader等如上图7种
-        springView_msg.setType(SpringView.Type.FOLLOW);
-        springView_msg.setHeader(new DefaultHeader(mContext));
-        springView_msg.setFooter(new DefaultFooter(mContext));
-        springView_msg.setListener(new SpringView.OnFreshListener() {
-            @Override
-            public void onRefresh() {
-//                Toast.makeText(mContext,"下拉刷新中",Toast.LENGTH_SHORT).show();
-                // list.clear();
-                // 网络请求;
-                // mStarFragmentPresenter.queryData();
-                //一分钟之后关闭刷新的方法
-                finishFreshAndLoad();
-            }
-
-            @Override
-            public void onLoadmore() {
-//                Toast.makeText(mContext,"玩命加载中...",Toast.LENGTH_SHORT).show();
-                finishFreshAndLoad();
-            }
-        });
-    }
-
-    /**
-     * 关闭加载提示
-     */
-    private void finishFreshAndLoad() {
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                springView_msg.onFinishFreshAndLoad();
-            }
-        }, 2000);
     }
 
     //任务推荐Tab
@@ -155,7 +148,7 @@ public class MessageFragment extends BaseFragment implements View.OnClickListene
         indicator_jiuguan.setBackgroundColor(getResources().getColor(R.color.concrete));
         siliao_tv.setTextColor(getResources().getColor(R.color.textColor));
         indicator_siliao.setBackgroundColor(getResources().getColor(R.color.concrete));
-        initRenwutjData();
+        viewPager.setCurrentItem(0);
     }
 
     //同城Tab
@@ -168,7 +161,7 @@ public class MessageFragment extends BaseFragment implements View.OnClickListene
         indicator_jiuguan.setBackgroundColor(getResources().getColor(R.color.concrete));
         siliao_tv.setTextColor(getResources().getColor(R.color.textColor));
         indicator_siliao.setBackgroundColor(getResources().getColor(R.color.concrete));
-        initTongchengData();
+        viewPager.setCurrentItem(1);
     }
 
     private void initJiuguan() {
@@ -180,7 +173,7 @@ public class MessageFragment extends BaseFragment implements View.OnClickListene
         indicator_jiuguan.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
         siliao_tv.setTextColor(getResources().getColor(R.color.textColor));
         indicator_siliao.setBackgroundColor(getResources().getColor(R.color.concrete));
-        initJiuguanData();
+        viewPager.setCurrentItem(2);
     }
 
     private void initSiliao() {
@@ -192,40 +185,13 @@ public class MessageFragment extends BaseFragment implements View.OnClickListene
         indicator_jiuguan.setBackgroundColor(getResources().getColor(R.color.concrete));
         siliao_tv.setTextColor(getResources().getColor(R.color.colorPrimary));
         indicator_siliao.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
-        initSiliaoData();
-    }
-
-    private void initRenwutjData() {
-        MsgAdapter changegameAdapter = new MsgAdapter(R.layout.msg_item_view, mList);
-        mRecycler_msg.setAdapter(changegameAdapter);
-    }
-
-    private void initTongchengData() {
-        MsgAdapter changegameAdapter = new MsgAdapter(R.layout.msg_item_view, mList);
-        mRecycler_msg.setAdapter(changegameAdapter);
-    }
-
-    private  void initJiuguanData(){
-
-        MsgAdapter changegameAdapter = new MsgAdapter(R.layout.msg_item_view, mList);
-        mRecycler_msg.setAdapter(changegameAdapter);
-
-
-    }
-
-    private void initSiliaoData(){
-
-
-        SiliaoAdapter changegameAdapter = new SiliaoAdapter(R.layout.siliao_msg_item_view, mList);
-        mRecycler_msg.setAdapter(changegameAdapter);
-
+        viewPager.setCurrentItem(3);
     }
 
     @Override
     protected void initLazyData() {
 
     }
-
 
     @Override
     public void onClick(View view) {
@@ -245,3 +211,29 @@ public class MessageFragment extends BaseFragment implements View.OnClickListene
         }
     }
 }
+
+//    private void initRenwutjData() {
+//        MsgAdapter changegameAdapter = new MsgAdapter(R.layout.msg_item_view, mList);
+//        mRecycler_msg.setAdapter(changegameAdapter);
+//    }
+//
+//    private void initTongchengData() {
+//        MsgAdapter changegameAdapter = new MsgAdapter(R.layout.msg_item_view, mList);
+//        mRecycler_msg.setAdapter(changegameAdapter);
+//    }
+//
+//    private  void initJiuguanData(){
+//
+//        MsgAdapter changegameAdapter = new MsgAdapter(R.layout.msg_item_view, mList);
+//        mRecycler_msg.setAdapter(changegameAdapter);
+//
+//
+//    }
+//
+//    private void initSiliaoData(){
+//
+//
+//        SiliaoAdapter changegameAdapter = new SiliaoAdapter(R.layout.siliao_msg_item_view, mList);
+//        mRecycler_msg.setAdapter(changegameAdapter);
+//
+//    }

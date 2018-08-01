@@ -7,19 +7,17 @@ package com.power.mercenary.bean;
 public class PicNumsBean {
 
     /**
-     * code : 0
-     * data : {"imgurl":"http://yb.dashuibei.com/Uploads/img/19/1531885404069.jpg,http://yb.dashuibei.com/Uploads/img/19/1531885404069.jpg,http://yb.dashuibei.com/Uploads/img/19/1531885404069.jpg"}
-     * msg : success
+     * post : /Uploads/img/19/15323280706131.png
      */
 
+    private String post;
 
-        private String imgurl;
+    public String getPost() {
+        return post;
+    }
 
-        public String getImgurl() {
-            return imgurl;
-        }
+    public void setPost(String post) {
+        this.post = post;
+    }
 
-        public void setImgurl(String imgurl) {
-            this.imgurl = imgurl;
-        }
 }

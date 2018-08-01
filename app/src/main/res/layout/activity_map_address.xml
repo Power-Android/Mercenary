@@ -6,17 +6,46 @@
     android:orientation="vertical" >
 
     <RelativeLayout
-        android:layout_width="fill_parent"
-        android:layout_height="48dp"
-        android:background="@color/blue" >
-
-        <TextView
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:background="@color/colorPrimary">
+        <ImageView
+            android:id="@+id/title_back_iv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:text="选择地址"
+            android:layout_centerVertical="true"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:src="@drawable/title_back_iv"
+            />
+        <EditText
+            android:id="@+id/search_tv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/location_tv"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="40dp"
+            android:layout_marginRight="50dp"
+            android:background="@drawable/bg_search"
+            android:drawableLeft="@drawable/ss_iv"
+            android:drawablePadding="10dp"
+            android:textSize="14sp"
+            android:layout_marginBottom="10dp"
+            android:hint="请输入要搜索的地址"/>
+        <TextView
+            android:text="搜索"
+            android:id="@+id/title_content_right_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="14sp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
             android:textColor="@color/white"
-            android:textSize="18sp" />
+            />
     </RelativeLayout>
 
     <RelativeLayout
@@ -24,26 +53,18 @@
         android:layout_height="fill_parent"
         android:layout_weight="1" >
 
-        <!--<com.baidu.mapapi.map.MapView-->
-            <!--android:id="@+id/bmapView"-->
-            <!--android:layout_width="fill_parent"-->
-            <!--android:layout_height="fill_parent"-->
-            <!--android:clickable="true" />-->
+        <com.baidu.mapapi.map.MapView
+            android:id="@+id/bmapView"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:clickable="true" />
 
-        <ImageView
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:layout_centerHorizontal="true"
-            android:layout_centerVertical="true"
-            android:src="@drawable/ic_camera" />
     </RelativeLayout>
 
-    <ListView
-        android:id="@+id/iv_item"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:layout_weight="1"
-        android:fadingEdge="none" >
-    </ListView>
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/map_list_recycler"
+        android:layout_width="match_parent"
+        android:layout_height="300dip"
+        ></android.support.v7.widget.RecyclerView>
 
 </LinearLayout>

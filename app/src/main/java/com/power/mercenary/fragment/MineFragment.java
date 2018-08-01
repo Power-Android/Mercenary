@@ -17,7 +17,6 @@ import com.power.mercenary.activity.AcceptTaskActivity;
 import com.power.mercenary.activity.MyAchievementActivity;
 import com.power.mercenary.activity.MyCollection;
 import com.power.mercenary.activity.MyExtensionActivity;
-import com.power.mercenary.activity.MyFollowActivity;
 import com.power.mercenary.activity.MyQualificationsActivity;
 import com.power.mercenary.activity.MyValueActivity;
 import com.power.mercenary.activity.ReleaseTaskActivity;
@@ -127,13 +126,13 @@ public class MineFragment extends BaseFragment implements UserPresenter.UserCall
             }
         });
 
-        rl_wdgz.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(getActivity(), MyFollowActivity.class);
-                startActivity(intent);
-            }
-        });
+//        rl_wdgz.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                Intent intent = new Intent(getActivity(), MyFollowActivity.class);
+//                startActivity(intent);
+//            }
+//        });
 
         rl_wdsc.setOnClickListener(new View.OnClickListener() {
             @Override

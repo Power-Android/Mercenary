@@ -6,6 +6,8 @@ import android.graphics.Bitmap;
 import android.util.AttributeSet;
 import android.view.View;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.nostra13.universalimageloader.core.assist.FailReason;
 import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
 import com.power.mercenary.activity.HomePostPicActivity;
@@ -73,8 +75,11 @@ public class NineGridTestLayout extends NineGridLayout {
     }
 
     @Override
-    protected void displayImage(RatioImageView imageView, String url) {
-        ImageLoaderUtil.getImageLoader(mContext).displayImage(url, imageView, ImageLoaderUtil.getPhotoImageOption());
+    protected void displayImage(RatioImageView imageView, String url,int mSingleWidth,int mSingleHight) {
+        RequestOptions requestOptions = new RequestOptions();
+        requestOptions.override(mSingleWidth,mSingleHight);
+        Glide.with(mContext).load(url).apply(requestOptions).into(imageView);
+//        ImageLoaderUtil.getImageLoader(mContext).displayImage(url, imageView, ImageLoaderUtil.getPhotoImageOption());
     }
 
     @Override

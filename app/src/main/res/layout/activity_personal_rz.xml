@@ -29,6 +29,7 @@
             android:layout_centerInParent="true"/>
 
         <TextView
+            android:id="@+id/tv_commit"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="提交"
@@ -45,46 +46,33 @@
         android:id="@+id/ll_sfzh"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingTop="10dp"
-        android:paddingBottom="10dp"
         android:paddingLeft="10dp"
         android:paddingRight="10dp"
-        android:layout_marginTop="10dp"
+        android:paddingTop="10dip"
+        android:paddingBottom="10dip"
         android:layout_marginBottom="10dp"
         android:background="@color/white"
         android:orientation="horizontal">
 
         <TextView
             android:layout_width="0dp"
-            android:layout_weight="2"
+            android:layout_weight="1"
             android:layout_height="wrap_content"
             android:textSize="12sp"
             android:text="身份证号"
-            android:layout_centerVertical="true"
             />
 
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="wrap_content"
-            android:gravity="center_vertical|right"
-            android:orientation="horizontal">
-
-            <TextView
+            <EditText
+                android:paddingRight="15dip"
+                android:background="@null"
+                android:id="@+id/edt_idcard_number"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="12sp"
-                android:text="未输入"
+                android:hint="请输入身份证号码"
                 android:layout_centerVertical="true"
                 />
 
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:src="@drawable/right_fh"/>
-
-        </LinearLayout>
     </LinearLayout>
 
 
@@ -103,29 +91,42 @@
             android:layout_centerVertical="true"
             />
 
+     <RelativeLayout
+         android:layout_width="match_parent"
+         android:layout_height="wrap_content">
+         <LinearLayout
+             android:id="@+id/layout_up"
+             android:layout_width="match_parent"
+             android:layout_height="180dp"
+             android:background="#FFEDEDED"
+             android:gravity="center"
+             android:layout_margin="10dp"
+             android:layout_marginTop="10dp"
+             android:orientation="vertical">
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="180dp"
-            android:background="#FFEDEDED"
-            android:gravity="center"
-            android:layout_margin="10dp"
-            android:layout_marginTop="10dp"
-            android:orientation="vertical">
+             <ImageView
+                 android:layout_width="60dp"
+                 android:layout_height="60dp"
+                 android:src="@drawable/sctp_2x"/>
 
-            <ImageView
-                android:layout_width="60dp"
-                android:layout_height="60dp"
-                android:src="@drawable/sctp_2x"/>
+             <TextView
+                 android:layout_width="wrap_content"
+                 android:layout_height="wrap_content"
+                 android:textSize="12sp"
+                 android:layout_marginTop="10dp"
+                 android:text="请上传身份证正面照"/>
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="12sp"
-                android:layout_marginTop="10dp"
-                android:text="请上传身份证正面照"/>
+         </LinearLayout>
+         <ImageView
+             android:scaleType="fitXY"
+             android:id="@+id/img_Id_Card"
+             android:layout_width="match_parent"
+             android:layout_height="180dp"
+             android:gravity="center"
+             android:layout_margin="10dp"
+             android:layout_marginTop="10dp" />
+     </RelativeLayout>
 
-        </LinearLayout>
 
 
     </LinearLayout>
@@ -141,12 +142,10 @@
         android:textSize="16sp"
         android:gravity="center"
         android:layout_marginTop="30dp"
-        android:layout_marginBottom="30dp"
-        android:paddingTop="15dp"
+        android:paddingTop="10dp"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
-        android:paddingBottom="15dp"/>
-
+        android:paddingBottom="10dp"/>
 
 
 </LinearLayout>

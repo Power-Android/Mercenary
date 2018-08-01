@@ -75,7 +75,7 @@
                             android:id="@+id/act_task_detaiils_icon"
                             android:layout_width="43dp"
                             android:layout_height="43dp"
-                            android:src="@drawable/moren_2x"/>
+                            android:background="@drawable/moren_2x"/>
 
                         <LinearLayout
                             android:layout_width="0dp"
@@ -332,7 +332,7 @@
                             android:id="@+id/act_task_detaiils_privateMsg"
                             android:layout_width="43dp"
                             android:layout_height="43dp"
-                            android:src="@drawable/moren_2x"
+                            android:background="@drawable/moren_2x"
                             />
 
                         <TextView

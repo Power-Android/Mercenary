@@ -3,8 +3,6 @@ package com.power.mercenary.activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -12,11 +10,9 @@ import android.widget.TextView;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.power.mercenary.R;
-import com.power.mercenary.adapter.TaskAdapter;
 import com.power.mercenary.adapter.task.TaskListAdapter;
 import com.power.mercenary.base.BaseActivity;
 import com.power.mercenary.bean.task.TaskDetailsBean;
-import com.power.mercenary.bean.task.TaskClassifyListBean;
 import com.power.mercenary.bean.task.TaskListBean;
 import com.power.mercenary.presenter.TaskListPresenter;
 import com.power.mercenary.view.pullrecyclerview.WanRecyclerView;
@@ -46,6 +42,7 @@ public class TaskListActivity extends BaseActivity implements TaskListPresenter.
     private List<TaskListBean> data;
 
     private int page = 1;
+    private String taskChild;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,8 +54,10 @@ public class TaskListActivity extends BaseActivity implements TaskListPresenter.
 
         type = getIntent().getStringExtra("type");
 
+        taskChild = getIntent().getStringExtra("child");
+
         presenter = new TaskListPresenter(this, this);
-        presenter.getTaskList(page, type, null);
+        presenter.getTaskList(page, type, taskChild);
 
         initView();
     }
@@ -71,6 +70,7 @@ public class TaskListActivity extends BaseActivity implements TaskListPresenter.
         adapter = new TaskListAdapter(this, data);
         recyclerView.setAdapter(adapter);
         adapter.setOnItemClickListener(this);
+
     }
 
     @Override

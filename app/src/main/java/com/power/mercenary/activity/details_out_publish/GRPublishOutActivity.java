@@ -405,10 +405,12 @@ public class GRPublishOutActivity extends BaseActivity implements View.OnClickLi
 //            }
 
             NineGridTestModel model1 = new NineGridTestModel();
-            model1.urlList.addAll(MercenaryUtils.string3ToList(datas.getTask_img()));
-            for (int i = 0; i < model1.urlList.size(); i++) {
-                ivRecyclerView.setIsShowAll(model1.isShowAll);
-                ivRecyclerView.setUrlList(model1.urlList);
+            if (MercenaryUtils.string3ToList(datas.getTask_img()) != null) {
+                model1.urlList.addAll(MercenaryUtils.string3ToList(datas.getTask_img()));
+                for (int i = 0; i < model1.urlList.size(); i++) {
+                    ivRecyclerView.setIsShowAll(model1.isShowAll);
+                    ivRecyclerView.setUrlList(model1.urlList);
+                }
             }
         }
     }

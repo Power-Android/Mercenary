@@ -19,6 +19,7 @@
         android:drawablePadding="10dp"
         android:layout_marginLeft="30dp"
         android:layout_marginTop="10dp"
+        android:singleLine="true"
         android:layout_marginBottom="10dp"
         android:background="@drawable/bg_search"/>
     <LinearLayout
@@ -38,7 +39,6 @@
             android:id="@+id/location_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="北京"
             android:drawableLeft="@drawable/location_bule_iv"
             android:layout_marginLeft="20dp"
             android:drawablePadding="10dp"/>

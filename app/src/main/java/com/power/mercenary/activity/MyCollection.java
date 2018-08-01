@@ -81,13 +81,11 @@ private List<BaseFragment> vplist;
             @Override
             public void onPageSelected(int position) {
 
-
                 if(position==0){
                     initRenwutj();
                 }else if(position==1){
                     initTongcheng();
                 }
-
             }
 
             @Override
