@@ -21,10 +21,10 @@
             </intent-filter>
         </activity>
 
-        <service android:name="cn.jpush.android.service.PushService"
+        <service
+            android:name="cn.jpush.android.service.PushService"
             android:process=":multiprocess"
-            tools:node="replace" >
-        </service>
+            tools:node="replace"></service>
 
         <receiver
             android:name=".push.MPushReceiver"
@@ -37,6 +37,7 @@
                 <action android:name="cn.jpush.android.intent.NOTIFICATION_OPENED" />
                 <action android:name="cn.jpush.android.intent.NOTIFICATION_CLICK_ACTION" />
                 <action android:name="cn.jpush.android.intent.CONNECTION" />
+
                 <category android:name="com.power.mercenary" />
             </intent-filter>
         </receiver>
@@ -176,11 +177,10 @@
         <activity android:name=".activity.PubListActivity" />
         <!-- <activity android:name=".activity.SignInActivity" -->
         <!-- android:launchMode="singleTask"/> -->
-        <activity android:name=".activity.MapAddressActivity"></activity>
+        <activity android:name=".activity.MapAddressActivity" />
         <activity
             android:name=".activity.AcceptTaskActivity"
             android:screenOrientation="portrait" />
-
         <activity
             android:name=".activity.details_appraise_publish.GRPublishAppraiseActivity"
             android:screenOrientation="portrait" />
@@ -193,7 +193,6 @@
         <activity
             android:name=".activity.details_appraise_publish.SHPublishAppraiseActivity"
             android:screenOrientation="portrait" />
-
         <activity
             android:name=".activity.details_audit_accept.GRAcceptAuditActivity"
             android:screenOrientation="portrait" />
@@ -206,7 +205,6 @@
         <activity
             android:name=".activity.details_audit_accept.SHAcceptAuditActivity"
             android:screenOrientation="portrait" />
-
         <activity
             android:name=".activity.details_audit_publish.GRPublishAuditActivity"
             android:screenOrientation="portrait" />
@@ -219,7 +217,6 @@
         <activity
             android:name=".activity.details_audit_publish.SHPublishAuditActivity"
             android:screenOrientation="portrait" />
-
         <activity
             android:name=".activity.details_intask_accept.GRAcceptInTaskActivity"
             android:screenOrientation="portrait" />
@@ -232,7 +229,6 @@
         <activity
             android:name=".activity.details_intask_accept.SHAcceptInTaskActivity"
             android:screenOrientation="portrait" />
-
         <activity
             android:name=".activity.details_intask_publish.GRPublishInTaskActivity"
             android:screenOrientation="portrait" />
@@ -245,7 +241,6 @@
         <activity
             android:name=".activity.details_intask_publish.SHPublishInTaskActivity"
             android:screenOrientation="portrait" />
-
         <activity
             android:name=".activity.details_success_accept.GRAcceptSuccessActivity"
             android:screenOrientation="portrait" />
@@ -258,7 +253,6 @@
         <activity
             android:name=".activity.details_success_accept.SHAcceptSuccessActivity"
             android:screenOrientation="portrait" />
-
         <activity
             android:name=".activity.details_out_publish.GRPublishOutActivity"
             android:screenOrientation="portrait" />
@@ -271,7 +265,6 @@
         <activity
             android:name=".activity.details_out_publish.SHPublishOutActivity"
             android:screenOrientation="portrait" />
-
         <activity
             android:name=".activity.chat.ChatActivity"
             android:screenOrientation="portrait"
@@ -280,18 +273,16 @@
             android:name=".activity.chat.ChatDetailsActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden" />
-
         <activity
             android:name=".activity.chat.ChatSearchActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden" />
-
         <activity
             android:name=".activity.chat.ChatPushActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden" />
-        <activity android:name=".activity.PostActivity"></activity>
-        <activity android:name=".activity.MapSearchActivity"></activity>
+        <activity android:name=".activity.PostActivity" />
+        <activity android:name=".activity.MapSearchActivity" />
 
         <!-- 百度地图开始 -->
         <meta-data
@@ -299,6 +290,7 @@
             android:value="ll4x3TgUDXsdkghFMqDXqCMpubFBllYq" />
         <!-- 百度地图结束 -->
 
+        <activity android:name=".activity.HomeSearchActivity"></activity>
     </application>
 
 </manifest>

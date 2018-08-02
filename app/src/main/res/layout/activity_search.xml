@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:background="@color/white"
+    android:windowSoftInputMode="adjustPan"
+    android:layout_height="match_parent">
+    <LinearLayout
+        android:id="@+id/activity_search"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+    >
+        <RelativeLayout
+            android:background="@color/colorPrimary"
+            android:layout_width="match_parent"
+            android:layout_height="50dip"
+            >
+            <EditText
+                android:imeOptions="actionSearch"
+                android:singleLine="true"
+                android:id="@+id/search_tv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@+id/location_tv"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="50dp"
+                android:background="@drawable/bg_search"
+                android:drawableLeft="@drawable/ss_iv"
+                android:drawablePadding="10dp"
+                android:textSize="14sp"
+                android:layout_marginBottom="10dp"
+                android:hint="请输入关键词"/>
+            <TextView
+                android:layout_marginLeft="15dp"
+                android:id="@+id/tv_back"
+                android:layout_width="50dip"
+                android:layout_height="match_parent"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:textColor="#fff"
+                android:gravity="center"
+                android:textSize="16sp"
+                android:text="取消"/>
+        </RelativeLayout>
+        <LinearLayout
+            android:id="@+id/all_search_layout"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+
+        <RelativeLayout
+            android:id="@+id/relative_hot"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="15dp">
+            <TextView
+                android:textColor="#333"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="热门搜索"
+                android:textSize="15sp"/>
+        </RelativeLayout>
+        <com.power.mercenary.view.FluidLayout
+            android:paddingLeft="10dip"
+            android:id="@+id/fluidlayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+        <RelativeLayout
+            android:id="@+id/relative_lishi"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="15dp">
+            <TextView
+                android:textColor="#333"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="历史搜索"
+                android:textSize="15sp"/>
+            <ImageView
+                android:id="@+id/iv_delete"
+                android:layout_width="20dip"
+                android:layout_height="20dip"
+                android:layout_alignParentRight="true"
+                android:src="@drawable/search_del"/>
+        </RelativeLayout>
+
+        <TextView
+            android:visibility="gone"
+            android:layout_marginTop="10dip"
+            android:id="@+id/tv_wujilu"
+            android:paddingLeft="15dip"
+            android:gravity="center"
+            android:text="暂无历史搜索记录"
+            android:textColor="#333"
+            android:layout_width="match_parent"
+            android:layout_height="30dip" />
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recycler_lishi"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="10dp"></android.support.v7.widget.RecyclerView>
+
+    </LinearLayout>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/task_recycler"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+        </android.support.v7.widget.RecyclerView>
+        <TextView
+            android:id="@+id/tv_no_task"
+            android:visibility="gone"
+            android:gravity="center"
+            android:text="暂无搜索内容"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+        </RelativeLayout>
+    </LinearLayout>
+</LinearLayout>

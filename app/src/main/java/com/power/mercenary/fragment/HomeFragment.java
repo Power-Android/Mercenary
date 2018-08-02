@@ -23,6 +23,7 @@ import com.power.mercenary.MyApplication;
 import com.power.mercenary.R;
 import com.power.mercenary.activity.GRTaskDetailsActivity;
 import com.power.mercenary.activity.GZTaskDetailsActivity;
+import com.power.mercenary.activity.HomeSearchActivity;
 import com.power.mercenary.activity.LocationActivity;
 import com.power.mercenary.activity.PTTaskDetailsActivity;
 import com.power.mercenary.activity.PostDetailActivity;
@@ -33,15 +34,20 @@ import com.power.mercenary.activity.WorkPubActivity;
 import com.power.mercenary.base.BaseFragment;
 import com.power.mercenary.bean.BannerBean;
 import com.power.mercenary.bean.CitySelectBean;
+import com.power.mercenary.bean.HomHotBean;
+import com.power.mercenary.bean.HotSearchBean;
 import com.power.mercenary.bean.MainTaskBean;
 import com.power.mercenary.bean.NineGridTestModel;
 import com.power.mercenary.bean.Testbean;
 import com.power.mercenary.data.EventConstants;
 import com.power.mercenary.event.EventUtils;
+import com.power.mercenary.presenter.HomeSearchPresenter;
 import com.power.mercenary.presenter.MainPresenter;
 import com.power.mercenary.utils.BannerUtils;
 import com.power.mercenary.utils.MercenaryUtils;
+import com.power.mercenary.utils.MyUtils;
 import com.power.mercenary.utils.TUtils;
+import com.power.mercenary.utils.Urls;
 import com.power.mercenary.view.BaseDialog;
 import com.power.mercenary.view.MyPageIndicator;
 import com.power.mercenary.view.NineGridTestLayout;
@@ -68,7 +74,7 @@ import butterknife.Unbinder;
  * Created by power on 2018/3/21.
  */
 
-public class HomeFragment extends BaseFragment implements MainPresenter.MainCallBack {
+public class HomeFragment extends BaseFragment implements MainPresenter.MainCallBack, HomeSearchPresenter.HomeCallBack {
     @BindView(R.id.location_tv)
     TextView locationTv;
     @BindView(R.id.search_tv)
@@ -111,6 +117,8 @@ public class HomeFragment extends BaseFragment implements MainPresenter.MainCall
     private TuijianAdapter tuijianAdapter;
 
     private List<NineGridTestModel> mList = new ArrayList<>();
+    private List<String> mUrlList = new ArrayList<>();
+
     private String[] mUrls = new String[]{"https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=202447557,2967022603&fm=27&gp=0.jpg",
             "https://ss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=104961686,3757525983&fm=27&gp=0.jpg",
             "https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=569334953,1638673400&fm=27&gp=0.jpg",
@@ -129,12 +137,14 @@ public class HomeFragment extends BaseFragment implements MainPresenter.MainCall
     private List<String> nextList = new ArrayList<>();
 
     private int PAOTUI = 101, SHENGHUO = 102, GERENDINGZHI = 103, GONGZUO = 104, JIANKANG = 105;
+    private HomeSearchPresenter presenter;
 
     @Override
     protected View initView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_home, null);
         unbinder = ButterKnife.bind(this, view);
-
+        presenter = new HomeSearchPresenter(getActivity(),this);
+        presenter.getHotInfo(1);
         mainPresenter = new MainPresenter(getActivity(), this);
         mainPresenter.getTaskList();
         initData();
@@ -249,36 +259,33 @@ public class HomeFragment extends BaseFragment implements MainPresenter.MainCall
         });
         //----------------------------结束-----------------------------------------------
         //----------------------------热门帖子--------------------------------------------
-        NineGridTestModel model1 = new NineGridTestModel();
-        model1.urlList.add(mUrls[0]);
-        mList.add(model1);
+//        NineGridTestModel model1 = new NineGridTestModel();
+//        model1.urlList.add(mUrls[0]);
+//        mList.add(model1);
+//
+//        NineGridTestModel model2 = new NineGridTestModel();
+//        model2.urlList.add(mUrls[0]);
+//        model2.urlList.add(mUrls[1]);
+//        mList.add(model2);
+//
+//        NineGridTestModel model6 = new NineGridTestModel();
+//        for (int i = 0; i < 9; i++) {
+//            model6.urlList.add(mUrls[i]);
+//        }
+//        mList.add(model6);
+//
+//        NineGridTestModel model7 = new NineGridTestModel();
+//        for (int i = 3; i < 7; i++) {
+//            model7.urlList.add(mUrls[i]);
+//        }
+//        mList.add(model7);
+//
+//        NineGridTestModel model8 = new NineGridTestModel();
+//        for (int i = 3; i < 6; i++) {
+//            model8.urlList.add(mUrls[i]);
+//        }
+//        mList.add(model8);
 
-        NineGridTestModel model2 = new NineGridTestModel();
-        model2.urlList.add(mUrls[0]);
-        model2.urlList.add(mUrls[1]);
-        mList.add(model2);
-
-        NineGridTestModel model6 = new NineGridTestModel();
-        for (int i = 0; i < 9; i++) {
-            model6.urlList.add(mUrls[i]);
-        }
-        mList.add(model6);
-
-        NineGridTestModel model7 = new NineGridTestModel();
-        for (int i = 3; i < 7; i++) {
-            model7.urlList.add(mUrls[i]);
-        }
-        mList.add(model7);
-
-        NineGridTestModel model8 = new NineGridTestModel();
-        for (int i = 3; i < 6; i++) {
-            model8.urlList.add(mUrls[i]);
-        }
-        mList.add(model8);
-        postRecycler.setNestedScrollingEnabled(false);
-        postRecycler.setLayoutManager(new LinearLayoutManager(mContext));
-        MyAdapter myAdapter = new MyAdapter(R.layout.item_circle_friend, mList);
-        postRecycler.setAdapter(myAdapter);
         //-------------------------------结束-------——--------------------------------------------
 
         initRenwutj();
@@ -302,21 +309,56 @@ public class HomeFragment extends BaseFragment implements MainPresenter.MainCall
         BannerUtils.startBanner(banner, bannerList);
     }
 
-    private class MyAdapter extends BaseQuickAdapter<NineGridTestModel, BaseViewHolder> {
+    @Override
+    public void getHotInfo(List<HomHotBean> hotInfo) {
+        postRecycler.setNestedScrollingEnabled(false);
+        postRecycler.setLayoutManager(new LinearLayoutManager(mContext));
+        MyAdapter myAdapter = new MyAdapter(R.layout.item_circle_friend, hotInfo);
+        postRecycler.setAdapter(myAdapter);
+    }
 
-        public MyAdapter(@LayoutRes int layoutResId, @Nullable List<NineGridTestModel> data) {
+    @Override
+    public void getHotSearchInfo(List<HotSearchBean> hotInfo) {
+
+    }
+
+    @Override
+    public void getTaskInfo(List<MainTaskBean.TuijianBean> hotInfo) {
+
+    }
+
+    private class MyAdapter extends BaseQuickAdapter<HomHotBean, BaseViewHolder> {
+
+        public MyAdapter(@LayoutRes int layoutResId, @Nullable List<HomHotBean> data) {
             super(layoutResId, data);
         }
 
         @Override
-        protected void convert(final BaseViewHolder helper, NineGridTestModel item) {
+        protected void convert(final BaseViewHolder helper, final HomHotBean item) {
+            helper.setText(R.id.tv_name,item.getPost_user_name());
+            helper.setText(R.id.tv_time, MyUtils.getDateToStringTime(item.getCreate_time()));
+            helper.setText(R.id.tv_content,item.getPost_content());
+            helper.setText(R.id.tv_pinglun,item.getCount());
+            Glide.with(mContext).load(Urls.BASEIMGURL+item.getPost_user_headimg()).into((ImageView) helper.getView(R.id.item_image));
+
             NineGridTestLayout nineGridlayout = helper.getView(R.id.nine_gridlayout);
-            nineGridlayout.setIsShowAll(mList.get(helper.getAdapterPosition()).isShowAll);
-            nineGridlayout.setUrlList(mList.get(helper.getAdapterPosition()).urlList);
+            nineGridlayout.setIsShowAll(item.isShowAll);
+            String post_img = item.getPost_img();
+
+            String[] all=post_img.split("\\|");
+
+            mUrlList.clear();
+            for (int i = 0; i < all.length; i++) {
+                mUrlList.add(Urls.BASEIMGURL+all[i]);
+            }
+            item.setUrlList(mUrlList);
+            nineGridlayout.setUrlList(item.getUrlList());
             helper.getView(R.id.jump_detail_ll).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    startActivity(new Intent(mContext, PostDetailActivity.class));
+                    Intent intent = new Intent(mContext,PostDetailActivity.class);
+                    intent.putExtra("id",item.getId()+"");
+                    startActivityForResult(intent,1);
                 }
             });
         }
@@ -633,7 +675,7 @@ public class HomeFragment extends BaseFragment implements MainPresenter.MainCall
                 startActivity(new Intent(mContext, LocationActivity.class));
                 break;
             case R.id.search_tv://搜索
-//                startActivity(new Intent(mContext, TestActivity.class));
+                startActivity(new Intent(mContext, HomeSearchActivity.class));
                 break;
             case R.id.renwutj_ll://任务推荐
                 tuijianList.clear();
