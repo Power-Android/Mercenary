@@ -44,6 +44,9 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import io.rong.imlib.model.Message;
+import io.rong.imlib.model.MessageContent;
+import io.rong.message.TextMessage;
 
 public class MainActivity extends BaseActivity implements BaseQuickAdapter.OnItemChildClickListener {
 
@@ -442,9 +445,15 @@ public class MainActivity extends BaseActivity implements BaseQuickAdapter.OnIte
                 tvMine.setTextColor(getResources().getColor(R.color.textcolor_tab));
                 break;
 
-            case EventConstants.TYPE_REFRESH_MESSAGE:
-                Toast.makeText(MainActivity.this, (String)event.getData(), Toast.LENGTH_SHORT).show();
-                break;
+//            case EventConstants.TYPE_REFRESH_MESSAGE:
+//                Message message = (Message) event.getData();
+//                MessageContent content = message.getContent();
+//                if (content instanceof TextMessage) {
+//                    TextMessage textMessage = (TextMessage) content;
+//
+//                    EventBus.getDefault().post(new EventUtils(EventConstants.TYPE_MESSAGE_SHOW));
+//                }
+//                break;
         }
     }
 

@@ -1,24 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/item_messagePrivate_layout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@color/white"
-    android:orientation="vertical"
-    android:padding="10dp"
-    android:id="@+id/item_messagePrivate_layout"
-    >
+    android:orientation="vertical">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center_vertical"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:padding="10dp">
 
-        <com.power.mercenary.view.CircleImageView
-            android:id="@+id/item_messagePrivate_icon"
+        <RelativeLayout
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@drawable/moren_2x" />
+            android:layout_height="wrap_content">
+
+            <com.power.mercenary.view.CircleImageView
+                android:id="@+id/item_messagePrivate_icon"
+                android:layout_width="45dp"
+                android:layout_height="45dp"
+                android:background="@drawable/moren_2x"
+                android:scaleType="centerCrop"/>
+
+            <View
+                android:id="@+id/item_messagePrivate_hint"
+                android:layout_width="10dp"
+                android:layout_height="10dp"
+                android:background="@drawable/message_hint"
+                android:layout_alignRight="@id/item_messagePrivate_icon"
+                android:visibility="gone"/>
+
+        </RelativeLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -36,7 +50,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
-                    android:text="任务消息"
                     android:textSize="14sp" />
 
                 <TextView
@@ -45,7 +58,6 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
-                    android:text="昨天"
                     android:textColor="#999"
                     android:textSize="12sp" />
             </RelativeLayout>
@@ -56,8 +68,10 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="10dp"
                 android:layout_marginTop="10dp"
-                android:text="有新的通知"
+                android:ellipsize="end"
+                android:singleLine="true"
                 android:textColor="#999"
+
                 android:textSize="12sp" />
         </LinearLayout>
     </LinearLayout>

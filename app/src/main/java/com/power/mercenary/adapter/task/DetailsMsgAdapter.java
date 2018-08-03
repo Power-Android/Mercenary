@@ -9,6 +9,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.power.mercenary.R;
+import com.power.mercenary.activity.PersonalDataActivity;
 import com.power.mercenary.bean.task.MsgListBean;
 import com.power.mercenary.utils.Urls;
 import com.power.mercenary.view.CircleImageView;
@@ -35,7 +36,7 @@ public class DetailsMsgAdapter extends RecyclerView.Adapter {
     }
 
     @Override
-    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+    public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position) {
         if (holder instanceof MsgViewHolder) {
             MsgViewHolder viewHolder = (MsgViewHolder) holder;
 
@@ -49,6 +50,12 @@ public class DetailsMsgAdapter extends RecyclerView.Adapter {
 
             viewHolder.content.setText(data.get(position).getLeavemsg_content());
 
+            viewHolder.icon.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    PersonalDataActivity.invoke(context, data.get(position).getLeavemsg_user_id());
+                }
+            });
         }
     }
 

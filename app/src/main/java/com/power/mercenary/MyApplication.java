@@ -95,15 +95,13 @@ public class MyApplication extends Application {
                     CacheUtils.put(CacheConstants.MESSAGEID, message.getMessageId());
 
                     if (CacheUtils.get(CacheConstants.IS_IN_CHAT) != null) {
-                        String  isChat = CacheUtils.get(CacheConstants.IS_IN_CHAT);
+                        String isChat = CacheUtils.get(CacheConstants.IS_IN_CHAT);
                         if (TextUtils.equals(isChat, message.getSenderUserId())) {
                             EventBus.getDefault().post(new EventUtils(EventConstants.TYPE_MESSAGE_IN_SHOW, message));
-                        } else {
-                            EventBus.getDefault().post(new EventUtils(EventConstants.TYPE_MESSAGE_SHOW, message));
                         }
-                    } else {
-                        EventBus.getDefault().post(new EventUtils(EventConstants.TYPE_MESSAGE_SHOW, message));
                     }
+
+                    EventBus.getDefault().post(new EventUtils(EventConstants.TYPE_MESSAGE_SHOW, message));
 
                     Log.v("======>>", "getTargetId: " + message.getTargetId() +
                             "\ngetConversationType().getName(): " + message.getConversationType().getName() +
@@ -113,7 +111,7 @@ public class MyApplication extends Application {
                             "\ngetContent: " + textMessage.getContent() +
                             "\n未读数:" + i);
 
-                    EventBus.getDefault().post(new EventUtils(EventConstants.TYPE_REFRESH_MESSAGE, textMessage.getContent() + "  id :" + message.getTargetId()));
+//                    EventBus.getDefault().post(new EventUtils(EventConstants.TYPE_REFRESH_MESSAGE, message));
 
                     return true;
                 }
@@ -208,6 +206,7 @@ public class MyApplication extends Application {
 
     /**
      * 网络是否可用
+     *
      * @param context
      * @return true 可用 false 不可用
      */
@@ -223,17 +222,17 @@ public class MyApplication extends Application {
         return false;
     }
 
-    public static String getUserToken(){
+    public static String getUserToken() {
         TokenInfo tokenInfo = CacheUtils.get(CacheConstants.TYPE_LOGIN);
         if (tokenInfo != null) {
             if (!TextUtils.isEmpty(tokenInfo.token)) {
                 return tokenInfo.token;
             }
         }
-        return "";
+        return "44e7605001af6fc0881d55e670cb9833a28f55ab";
     }
 
-    public static String getUserId(){
+    public static String getUserId() {
         UserInfo userInfo = CacheUtils.get(CacheConstants.USERINFO);
         if (userInfo != null) {
             if (!TextUtils.isEmpty(userInfo.getId())) {
@@ -243,7 +242,7 @@ public class MyApplication extends Application {
         return "";
     }
 
-    public static boolean isLogin(){
+    public static boolean isLogin() {
         TokenInfo tokenInfo = CacheUtils.get(CacheConstants.TYPE_LOGIN);
         if (tokenInfo != null) {
             if (!TextUtils.isEmpty(tokenInfo.token)) {
@@ -253,7 +252,7 @@ public class MyApplication extends Application {
         return false;
     }
 
-    public static void loginOut(){
+    public static void loginOut() {
         CacheUtils.removeAll();
 
         RongIMClient.getInstance().clearConversations(new RongIMClient.ResultCallback() {

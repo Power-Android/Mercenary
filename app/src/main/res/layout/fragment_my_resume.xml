@@ -37,10 +37,10 @@
 
 
                     <TextView
+                        android:id="@+id/frag_hangye"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="4"
-                        android:text="房屋装潢"
                         android:textSize="12sp"/>
 
 
@@ -62,10 +62,10 @@
 
 
                     <TextView
+                        android:id="@+id/frag_techang"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="4"
-                        android:text="房屋设计"
                         android:textSize="12sp"/>
 
 
@@ -87,10 +87,10 @@
 
 
                     <TextView
+                        android:id="@+id/frag_nianxian"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="4"
-                        android:text="12年"
                         android:textSize="12sp"/>
                 </LinearLayout>
             </LinearLayout>
@@ -118,10 +118,10 @@
 
 
                 <TextView
+                    android:id="@+id/frag_my_show"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:padding="10dp"
-                    android:text="1工作经验丰富，从事设计工作中积极发展个人新区爱好1工作经验丰富，从事设计工作中积极发展个人新区爱好1工作经验丰富，从事设计工作中积极发展个人新区爱好1工作经验丰富，从事设计工作中积极发展个人新区爱好"
                     android:textSize="12sp"/>
             </LinearLayout>
 
@@ -147,10 +147,12 @@
 
 
                 <ImageView
+                    android:id="@+id/frag_my_shu"
                     android:layout_width="match_parent"
-                    android:layout_height="120dp"
+                    android:layout_height="wrap_content"
                     android:layout_margin="10dp"
-                    android:background="#335555"
+                    android:background="@drawable/show_icon"
+                    android:scaleType="fitXY"
                     />
 
 

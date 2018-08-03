@@ -170,7 +170,12 @@ public class ChatDetailsActivity extends BaseActivity {
                 break;
 
             case EventConstants.TYPE_REFRESH_ITEM_SUCESS:
-                showQueryAllDialog();
+                int size = (int) event.getData();
+                if (size < 40) {
+                    EventBus.getDefault().post(new EventUtils(EventConstants.TYPE_REFRESH_ITEM, 0));
+                } else {
+                    showQueryAllDialog();
+                }
                 break;
         }
     }

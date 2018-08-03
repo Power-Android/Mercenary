@@ -196,6 +196,8 @@ public class ChatActivity extends BaseActivity implements SpringView.OnFreshList
      */
     private void sendMessAge(final String content, String targetId) {
 
+        chatPresenter.addMessage(userId, content);
+
         TextMessage message = TextMessage.obtain(content);
 
         RongIMClient.getInstance().sendMessage(Conversation.ConversationType.PRIVATE, targetId, message, null, null, new IRongCallback.ISendMessageCallback() {
@@ -243,6 +245,8 @@ public class ChatActivity extends BaseActivity implements SpringView.OnFreshList
                 TUtils.showCustom(ChatActivity.this, "发送失败：" + info);
             }
         });
+
+        EventBus.getDefault().post(new EventUtils(EventConstants.TYPE_MESSAGE_SHOW, message));
     }
 
     @Override
@@ -267,19 +271,19 @@ public class ChatActivity extends BaseActivity implements SpringView.OnFreshList
             @Override
             public void onSuccess(List<Message> messages) {
                 Log.v("======>>", "getRemoteHistoryMessages" + messages.size());
-                if (messages != null && messages.size() > 0) {
+
                     Collections.reverse(messages);
                     historyTime = messages.get(0).getSentTime();
                     mList.addAll(messages);
                     msgAdapter.notifyDataSetChanged();
                     listView.setSelection(msgAdapter.getAdapterListSize());
-                    getHistoryList();
+
                     Log.v("======>>", "RemotehistoryMessages -- Remotemessages.size" + messages.size());
                     Log.v("======>>", "RemotehistoryMessages -- Remotemessages.get(0).getMessageId" + messages.get(0).getMessageId());
                     Log.v("======>>", "RemotehistoryMessages -- messages.get(messages.size() - 1).getMessageId" + messages.get(messages.size() - 1).getMessageId());
-                } else {
-                    EventBus.getDefault().post(new EventUtils(EventConstants.TYPE_REFRESH_ITEM_SUCESS));
-                }
+
+                    EventBus.getDefault().post(new EventUtils(EventConstants.TYPE_REFRESH_ITEM_SUCESS, messages.size()));
+
             }
 
             @Override
