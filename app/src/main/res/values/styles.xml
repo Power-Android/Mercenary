@@ -80,6 +80,8 @@
         <item name="picture.folder_checked_dot">@drawable/orange_oval</item>
     </style>
 
+    <style name="Theme.UMDefault" parent="android:style/Theme.NoTitleBar"></style>
+
     <style name="StyleProgressBarMini" parent="@android:style/Widget.ProgressBar.Horizontal">
         <item name="android:indeterminateOnly">false</item>
         <item name="android:progressDrawable">@drawable/progress_color</item>

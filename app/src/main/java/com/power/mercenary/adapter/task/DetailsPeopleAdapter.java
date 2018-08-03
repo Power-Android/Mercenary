@@ -9,6 +9,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.power.mercenary.R;
+import com.power.mercenary.activity.chat.ChatActivity;
 import com.power.mercenary.bean.task.ApplyListBean;
 import com.power.mercenary.utils.Urls;
 import com.power.mercenary.view.CircleImageView;
@@ -68,7 +69,8 @@ public class DetailsPeopleAdapter extends RecyclerView.Adapter {
             viewHolder.icon.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    detailsPepCallBack.queryInformation(data.get(position).getApply_user_id());
+//                    detailsPepCallBack.queryInformation(data.get(position).getApply_user_id());
+                    ChatActivity.invoke(context, data.get(position).getApply_user_id(), data.get(position).getApply_user_headimg(), data.get(position).getApply_user_name());
                 }
             });
 

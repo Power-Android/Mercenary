@@ -214,7 +214,6 @@ public class ChatActivity extends BaseActivity implements SpringView.OnFreshList
                 msgAdapter.notifyDataSetChanged();
                 maxCount++;
                 CacheUtils.put(CacheConstants.MESSAGEID, maxCount);
-                TUtils.showCustom(ChatActivity.this, "发送成功");
                 Log.v("======>>", "send user id" + message.getSenderUserId() + " user id " + message.getTargetId());
             }
 
@@ -256,6 +255,12 @@ public class ChatActivity extends BaseActivity implements SpringView.OnFreshList
             public void onSuccess(List<Message> messages) {
                 Log.v("======>>", "getRemoteHistoryMessages" + messages.size());
                 mSpringView.onFinishFreshAndLoad();
+
+                Collections.reverse(messages);
+                historyTime = messages.get(0).getSentTime();
+                mList.addAll(0, messages);
+                msgAdapter.notifyDataSetChanged();
+                listView.setSelection(0);
             }
 
             @Override

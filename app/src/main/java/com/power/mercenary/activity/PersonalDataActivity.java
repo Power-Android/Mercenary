@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.power.mercenary.R;
+import com.power.mercenary.activity.chat.ChatActivity;
 import com.power.mercenary.adapter.MsgAdapter;
 import com.power.mercenary.adapter.MyAdapter;
 import com.power.mercenary.base.BaseActivity;
@@ -105,6 +106,7 @@ public class PersonalDataActivity extends BaseActivity implements View.OnClickLi
     private LinearLayout privateChat;
 
     private int isFollow;
+    private PersonalBean data;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -208,7 +210,7 @@ public class PersonalDataActivity extends BaseActivity implements View.OnClickLi
         privateChat.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                ChatActivity.invoke(PersonalDataActivity.this, data.getId(), data.getHead_img(), data.getName());
             }
         });
     }
@@ -316,6 +318,9 @@ public class PersonalDataActivity extends BaseActivity implements View.OnClickLi
     @Override
     public void getPersonalData(PersonalBean data) {
         if (data != null) {
+
+            this.data = data;
+
             name.setText(data.getName());
 
             Glide.with(this)

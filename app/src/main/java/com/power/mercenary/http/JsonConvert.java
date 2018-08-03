@@ -125,7 +125,7 @@ public class JsonConvert<T> implements Converter<T> {
                 //noinspection unchecked
                 int code = baseResponseBean.code;
                 String msg = baseResponseBean.msg;
-                if (code == 0) { //约定 正确返回码
+                if (code == 0 || code == 101) { //约定 正确返回码
                     return (T)  baseResponseBean.toResponseBean();
                 } else {
                     throw new HttpException("{\"code\":" + code + ",\"msg\":\"" + msg + "\"}"); //直接抛自定义异常  会出现在 callback的onError中

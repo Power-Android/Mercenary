@@ -24,6 +24,7 @@
             android:orientation="horizontal">
 
             <LinearLayout
+                android:id="@+id/dialog_share_wx"
                 android:layout_width="0dp"
                 android:layout_weight="1"
                 android:layout_height="wrap_content"
@@ -44,6 +45,7 @@
 
 
             <LinearLayout
+                android:id="@+id/dialog_share_pyq"
                 android:layout_width="0dp"
                 android:layout_weight="1"
                 android:layout_height="wrap_content"
@@ -65,6 +67,7 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/dialog_share_qq"
                 android:layout_width="0dp"
                 android:layout_weight="1"
                 android:layout_height="wrap_content"
@@ -84,6 +87,7 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/dialog_share_qzone"
                 android:layout_width="0dp"
                 android:layout_weight="1"
                 android:layout_height="wrap_content"
@@ -117,6 +121,7 @@
             android:orientation="horizontal">
 
             <LinearLayout
+                android:id="@+id/dialog_share_wb"
                 android:layout_width="0dp"
                 android:layout_weight="1"
                 android:layout_height="wrap_content"
@@ -145,6 +150,7 @@
 
 
         <TextView
+            android:id="@+id/dialog_share_cancel"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="取消"

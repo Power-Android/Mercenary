@@ -37,7 +37,7 @@ public class AcceptPresenter {
                 .addParams("pageNum", pageNum)
                 .addParams("pageSize", 10)
                 .addParams("task_status", task_status)
-                .postRequest(new JsonCallback<ResponseBean<List<AcceptTaskBean>>>() {
+                .postRequest(new DialogCallback<ResponseBean<List<AcceptTaskBean>>>(activity) {
                     @Override
                     public void onSuccess(Response<ResponseBean<List<AcceptTaskBean>>> response) {
                         callBack.getAcceptTaskList(response.body().data);
