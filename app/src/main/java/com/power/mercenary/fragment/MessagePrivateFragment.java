@@ -6,15 +6,27 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.bumptech.glide.Glide;
+import com.lzy.okgo.model.Response;
 import com.power.mercenary.MyApplication;
 import com.power.mercenary.R;
 import com.power.mercenary.activity.chat.ChatActivity;
 import com.power.mercenary.adapter.message.MessagePrivateAdapter;
 import com.power.mercenary.base.BaseFragment;
 import com.power.mercenary.bean.MsgPrivateBean;
+import com.power.mercenary.bean.PersonalBean;
+import com.power.mercenary.bean.user.UserInfo;
+import com.power.mercenary.data.CacheConstants;
 import com.power.mercenary.data.EventConstants;
 import com.power.mercenary.event.EventUtils;
+import com.power.mercenary.http.DialogCallback;
+import com.power.mercenary.http.HttpManager;
+import com.power.mercenary.http.JsonCallback;
+import com.power.mercenary.http.ResponseBean;
 import com.power.mercenary.presenter.MessagePresenter;
+import com.power.mercenary.utils.CacheUtils;
+import com.power.mercenary.utils.TUtils;
+import com.power.mercenary.utils.Urls;
 import com.power.mercenary.view.pullrecyclerview.WanRecyclerView;
 
 import org.greenrobot.eventbus.EventBus;
@@ -23,6 +35,10 @@ import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import io.rong.imlib.model.Message;
+import io.rong.imlib.model.MessageContent;
+import io.rong.message.TextMessage;
 
 /**
  * admin  2018/7/23 wan
@@ -38,6 +54,8 @@ public class MessagePrivateFragment extends BaseFragment implements WanRecyclerV
     private List<MsgPrivateBean> lists;
 
     private int page = 1;
+
+    private boolean isRefresh = false;
 
     @Override
     protected View initView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -68,8 +86,8 @@ public class MessagePrivateFragment extends BaseFragment implements WanRecyclerV
     @Override
     public void onRefresh() {
         page = 1;
-        lists.clear();
-        adapter.notifyDataSetChanged();
+//        lists.clear();
+//        adapter.notifyDataSetChanged();
         presenter.getMessagePrivateList(page);
     }
 
@@ -99,11 +117,102 @@ public class MessagePrivateFragment extends BaseFragment implements WanRecyclerV
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onRecevierEvent(EventUtils event) {
         switch (event.getType()) {
+//            case EventConstants.TYPE_MESSAGE_SHOW_MINE:
+//                Message message = (Message) event.getData();
+//                MessageContent messageContent = message.getContent();
+//                MsgPrivateBean privateBean = null;
+//                if (messageContent instanceof TextMessage) {
+//                    TextMessage textContent = (TextMessage) messageContent;
+//                    for (int i = 0; i < lists.size(); i++) {
+//                        if (TextUtils.equals(lists.get(i).getTouserid(), message.getTargetId())) {
+//                            String header = lists.get(i).getFromuserhead_img();
+//                            String name = lists.get(i).getFromuser_name();
+//                            String uid = lists.get(i).getFromuserid();
+//                            lists.get(i).setFromuserid(lists.get(i).getTouserid());
+//                            lists.get(i).setFromuser_name(lists.get(i).getTouser_name());
+//                            lists.get(i).setFromuserhead_img(lists.get(i).getTouserhead_img());
+//                            lists.get(i).setTouserid(uid);
+//                            lists.get(i).setTouser_name(name);
+//                            lists.get(i).setTouserhead_img(header);
+//                            lists.get(i).setContent(textContent.getContent());
+//                            lists.get(i).setRead_status("1");
+//                            lists.get(i).setMsgtime(System.currentTimeMillis());
+//                            privateBean = lists.get(i);
+//                            lists.remove(i);
+//                        } else if (TextUtils.equals(lists.get(i).getFromuserid(), message.getTargetId())) {
+//                            lists.get(i).setContent(textContent.getContent());
+//                            lists.get(i).setRead_status("1");
+//                            privateBean = lists.get(i);
+//                            lists.remove(i);
+//                        }
+//                    }
+//                }
+//                lists.add(0, privateBean);
+//                adapter.notifyDataSetChanged();
+//                break;
+
+//            case EventConstants.TYPE_MESSAGE_SHOW_NULL:
+//                String id = (String) event.getData();
+//                for (int i = 0; i < lists.size(); i++) {
+//                    if (TextUtils.equals(lists.get(i).getFromuserid(), id) || TextUtils.equals(lists.get(i).getTouserid(), id)) {
+//                        lists.get(i).setContent("");
+//                    }
+//                }
+//                adapter.notifyDataSetChanged();
+//                break;
             case EventConstants.TYPE_MESSAGE_SHOW:
-                page = 1;
-                lists.clear();
-                adapter.notifyDataSetChanged();
-                presenter.getMessagePrivateList(page);
+//                Message msg = (Message) event.getData();
+//                MessageContent content = msg.getContent();
+//                MsgPrivateBean msgPrivateBean = null;
+//                if (content instanceof TextMessage) {
+//                    TextMessage textMessage = (TextMessage) content;
+//                    for (int i = 0; i < lists.size(); i++) {
+//                        if (TextUtils.equals(lists.get(i).getTouserid(), msg.getTargetId())) {
+//                            String header = lists.get(i).getFromuserhead_img();
+//                            String name = lists.get(i).getFromuser_name();
+//                            String uid = lists.get(i).getFromuserid();
+//                            lists.get(i).setFromuserid(lists.get(i).getTouserid());
+//                            lists.get(i).setFromuser_name(lists.get(i).getTouser_name());
+//                            lists.get(i).setFromuserhead_img(lists.get(i).getTouserhead_img());
+//                            lists.get(i).setTouserid(uid);
+//                            lists.get(i).setTouser_name(name);
+//                            lists.get(i).setTouserhead_img(header);
+//                            lists.get(i).setContent(textMessage.getContent());
+//                            lists.get(i).setRead_status("0");
+//                            lists.get(i).setMsgtime(System.currentTimeMillis());
+//                            msgPrivateBean = lists.get(i);
+//                            lists.remove(i);
+//                            lists.add(0, msgPrivateBean);
+//                            adapter.notifyDataSetChanged();
+//                            return;
+//                        } else if (TextUtils.equals(lists.get(i).getFromuserid(), msg.getTargetId())) {
+//                            lists.get(i).setContent(textMessage.getContent());
+//                            lists.get(i).setRead_status("0");
+//                            msgPrivateBean = lists.get(i);
+//                            lists.remove(i);
+//                            lists.add(0, msgPrivateBean);
+//                            adapter.notifyDataSetChanged();
+//                            return;
+//                        }
+//                    }
+//                    if (!isRefresh) {
+//                        page = 1;
+//                        lists.clear();
+//                        presenter.getMessagePrivateList(page);
+//                        isRefresh = true;
+//                    }
+//                }
+//                break;
+            case EventConstants.TYPE_MESSAGE_SHOW_NULL:
+            case EventConstants.TYPE_MESSAGE_SHOW_MINE:
+            case EventConstants.TYPE_MESSAGE_SHOW_RESRESH:
+                if (!isRefresh) {
+                    page = 1;
+//                    lists.clear();
+//                    adapter.notifyDataSetChanged();
+                    presenter.getMessagePrivateList(page);
+                    isRefresh = true;
+                }
                 break;
         }
     }
@@ -111,18 +220,53 @@ public class MessagePrivateFragment extends BaseFragment implements WanRecyclerV
     @Override
     public void getMessagePrivateList(List<MsgPrivateBean> data) {
         if (data != null) {
+//            if (lists.size() == 0) {
+            lists.clear();
             lists.addAll(data);
+            adapter.notifyDataSetChanged();
             mRecyclerView.setHasMore(data.size(), 20);
+//            }
+//            else {
+//                int index = 0;
+//
+//                for (int i = 0; i < data.size(); i++) {
+//                    int isFind = 1;
+////                    if (!TextUtils.equals(data.get(i).getFromuserid(), MyApplication.getUserId())) {
+//                    for (int j = 0; j < lists.size(); j++) {
+//                        if (TextUtils.equals(data.get(i).getFromuserid(), lists.get(j).getTouserid()) || TextUtils.equals(data.get(i).getFromuserid(), lists.get(j).getFromuserid())) {
+//                            if (!TextUtils.equals(data.get(i).getContent(), lists.get(j).getContent())) {
+//                                lists.remove(j);
+//                                lists.add(index, data.get(i));
+//                                index++;
+//                                adapter.notifyDataSetChanged();
+//                                break;
+//                            }
+//                        }
+//                        isFind++;
+//                    }
+//
+//                    if (isFind == lists.size()) {
+//                        lists.add(index, data.get(i));
+//                        index++;
+//                        adapter.notifyDataSetChanged();
+//                    }
+////                    }
+//                }
+//                mRecyclerView.setHasMore(data.size(), 20);
+//            }
         } else {
+            lists.clear();
+            adapter.notifyDataSetChanged();
             mRecyclerView.setHasMore(0, 20);
         }
-        adapter.notifyDataSetChanged();
         mRecyclerView.setStateView(lists.size());
+        isRefresh = false;
     }
 
     @Override
     public void getMessagePrivateListFail() {
         mRecyclerView.setHasMore(0, 20);
+        isRefresh = false;
     }
 
     @Override

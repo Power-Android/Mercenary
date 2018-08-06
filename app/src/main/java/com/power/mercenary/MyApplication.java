@@ -241,7 +241,7 @@ public class MyApplication extends Application {
                 return tokenInfo.token;
             }
         }
-        return "44e7605001af6fc0881d55e670cb9833a28f55ab";
+        return "";
     }
 
     public static String getUserId() {

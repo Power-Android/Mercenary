@@ -33,7 +33,7 @@ public class MessagePresenter {
                 .addParams("token", MyApplication.getUserToken())
                 .addParams("rows", "20")
                 .addParams("page", page)
-                .postRequest(new DialogCallback<ResponseBean<List<MsgPrivateBean>>>(activity) {
+                .postRequest(new JsonCallback<ResponseBean<List<MsgPrivateBean>>>() {
                     @Override
                     public void onSuccess(Response<ResponseBean<List<MsgPrivateBean>>> response) {
                         callBack.getMessagePrivateList(response.body().data);

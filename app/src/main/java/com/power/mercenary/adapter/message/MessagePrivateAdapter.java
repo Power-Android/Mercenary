@@ -60,10 +60,11 @@ public class MessagePrivateAdapter extends RecyclerView.Adapter {
 
             if (TextUtils.equals(datas.get(position).getFromuserid(), MyApplication.getUserId())) {
                 Glide.with(context)
-                        .load(Urls.BASEIMGURL + datas.get(position).getTouser_name())
+                        .load(Urls.BASEIMGURL + datas.get(position).getTouserhead_img())
                         .into(viewHolder.icon);
 
                 viewHolder.title.setText(datas.get(position).getTouser_name());
+                viewHolder.mHint.setVisibility(View.GONE);
             } else {
                 Glide.with(context)
                         .load(Urls.BASEIMGURL + datas.get(position).getFromuserhead_img())

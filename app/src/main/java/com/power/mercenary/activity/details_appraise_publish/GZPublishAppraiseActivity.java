@@ -25,6 +25,7 @@ import com.liaoinstan.springview.widget.SpringView;
 import com.lzy.okgo.model.Response;
 import com.power.mercenary.MyApplication;
 import com.power.mercenary.R;
+import com.power.mercenary.activity.PersonalDataActivity;
 import com.power.mercenary.activity.SignInActivity;
 import com.power.mercenary.activity.WebActivity;
 import com.power.mercenary.activity.chat.ChatActivity;
@@ -211,6 +212,13 @@ public class GZPublishAppraiseActivity extends BaseActivity implements View.OnCl
 
         publishBtn.setOnClickListener(this);
         actTaskDetaiilsPrivateBtn.setOnClickListener(this);
+
+        ivIcon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                PersonalDataActivity.invoke(GZPublishAppraiseActivity.this, taskDetailsBean.getPublisher_id());
+            }
+        });
     }
 
     private PopupWindow.OnDismissListener onDismissListener = new PopupWindow.OnDismissListener() {
@@ -443,7 +451,7 @@ public class GZPublishAppraiseActivity extends BaseActivity implements View.OnCl
 
             if (datas.getXuanding() != null) {
                 Glide.with(this)
-                        .load(datas.getXuanding().getHead_img())
+                        .load(Urls.BASEIMGURL + datas.getXuanding().getHead_img())
                         .into(actTaskDetaiilsPrivateMsg);
 
                 actTaskDetaiilsPrivateName.setText(datas.getXuanding().getName());

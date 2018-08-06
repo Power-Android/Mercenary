@@ -24,9 +24,11 @@ import com.liaoinstan.springview.widget.SpringView;
 import com.lzy.okgo.model.Response;
 import com.power.mercenary.MyApplication;
 import com.power.mercenary.R;
+import com.power.mercenary.activity.PersonalDataActivity;
 import com.power.mercenary.activity.SignInActivity;
 import com.power.mercenary.activity.WebActivity;
 import com.power.mercenary.activity.chat.ChatActivity;
+import com.power.mercenary.activity.details_appraise_publish.GRPublishAppraiseActivity;
 import com.power.mercenary.adapter.task.DetailsMsgAdapter;
 import com.power.mercenary.adapter.task.DetailsPeopleAdapter;
 import com.power.mercenary.base.BaseActivity;
@@ -212,6 +214,13 @@ public class GRAcceptAuditActivity extends BaseActivity implements View.OnClickL
         actTaskDetailsSMsg.setVisibility(View.VISIBLE);
 
         actTaskDetaiilsPrivateBtn.setOnClickListener(this);
+
+        ivIcon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                PersonalDataActivity.invoke(GRAcceptAuditActivity.this, taskDetailsBean.getPublisher_id());
+            }
+        });
     }
 
     private PopupWindow.OnDismissListener onDismissListener = new PopupWindow.OnDismissListener() {
@@ -418,7 +427,7 @@ public class GRAcceptAuditActivity extends BaseActivity implements View.OnClickL
 
             if (datas.getXuanding() != null) {
                 Glide.with(this)
-                        .load(datas.getXuanding().getHead_img())
+                        .load(Urls.BASEIMGURL + datas.getXuanding().getHead_img())
                         .into(actTaskDetaiilsPrivateMsg);
 
                 actTaskDetaiilsPrivateName.setText(datas.getXuanding().getName());

@@ -24,6 +24,7 @@ import com.liaoinstan.springview.widget.SpringView;
 import com.lzy.okgo.model.Response;
 import com.power.mercenary.MyApplication;
 import com.power.mercenary.R;
+import com.power.mercenary.activity.PersonalDataActivity;
 import com.power.mercenary.activity.SignInActivity;
 import com.power.mercenary.activity.WebActivity;
 import com.power.mercenary.activity.chat.ChatActivity;
@@ -208,6 +209,13 @@ public class GZPublishOutActivity extends BaseActivity implements View.OnClickLi
 
         publishBtn.setOnClickListener(this);
         actTaskDetaiilsPrivateBtn.setOnClickListener(this);
+
+        ivIcon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                PersonalDataActivity.invoke(GZPublishOutActivity.this, taskDetailsBean.getPublisher_id());
+            }
+        });
     }
 
     private PopupWindow.OnDismissListener onDismissListener = new PopupWindow.OnDismissListener() {

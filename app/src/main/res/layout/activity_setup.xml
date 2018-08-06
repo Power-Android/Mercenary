@@ -26,8 +26,8 @@
                 android:layout_marginTop="10dp"
                 android:background="@color/white"
                 android:orientation="vertical"
-                android:paddingLeft="10dp"
-                android:paddingRight="10dp">
+                android:paddingLeft="15dp"
+                android:paddingRight="15dp">
 
                 <RelativeLayout
                     android:layout_width="match_parent"
@@ -41,7 +41,7 @@
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
                         android:text="头像"
-                        android:textSize="12sp" />
+                        android:textSize="13sp" />
 
                     <LinearLayout
                         android:id="@+id/ll_txsc"
@@ -55,8 +55,8 @@
                             android:id="@+id/act_setUp_icon"
                             android:layout_width="50dp"
                             android:layout_height="50dp"
-                            android:scaleType="centerCrop"
-                            android:background="@drawable/perch_avatar" />
+                            android:background="@drawable/perch_avatar"
+                            android:scaleType="centerCrop" />
 
                         <ImageView
                             android:layout_width="wrap_content"
@@ -85,7 +85,7 @@
                         android:layout_centerVertical="true"
                         android:layout_weight="2"
                         android:text="昵称"
-                        android:textSize="12sp" />
+                        android:textSize="13sp" />
 
                     <LinearLayout
                         android:layout_width="0dp"
@@ -99,7 +99,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_centerVertical="true"
-                            android:textSize="12sp" />
+                            android:textSize="13sp" />
 
                         <ImageView
                             android:layout_width="wrap_content"
@@ -129,7 +129,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="姓名"
-                        android:textSize="12sp" />
+                        android:textSize="13sp" />
 
                     <LinearLayout
                         android:layout_width="0dp"
@@ -143,7 +143,7 @@
                             android:id="@+id/act_setUp_name_tv"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:textSize="12sp" />
+                            android:textSize="13sp" />
 
                         <ImageView
                             android:layout_width="wrap_content"
@@ -173,7 +173,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="姓别"
-                        android:textSize="12sp" />
+                        android:textSize="13sp" />
 
                     <LinearLayout
                         android:layout_width="0dp"
@@ -188,17 +188,14 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="男"
-                            android:textSize="12sp" />
+                            android:textSize="13sp" />
 
                         <ImageView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="10dp"
                             android:src="@drawable/right_fh" />
-
                     </LinearLayout>
-
-
                 </LinearLayout>
 
                 <View
@@ -218,7 +215,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="年龄"
-                        android:textSize="12sp" />
+                        android:textSize="13sp" />
 
                     <LinearLayout
                         android:layout_width="0dp"
@@ -232,7 +229,7 @@
                             android:id="@+id/act_setUp_age_tv"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:textSize="12sp" />
+                            android:textSize="13sp" />
 
                         <ImageView
                             android:layout_width="wrap_content"
@@ -252,13 +249,16 @@
                 android:layout_marginBottom="10dp"
                 android:layout_marginTop="10dp"
                 android:background="@color/white"
-                android:padding="10dp">
+                android:paddingBottom="10dp"
+                android:paddingLeft="15dp"
+                android:paddingRight="15dp"
+                android:paddingTop="10dp">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="账号与安全"
-                    android:textSize="12sp" />
+                    android:textSize="13sp" />
 
                 <ImageView
                     android:layout_width="wrap_content"
@@ -275,8 +275,8 @@
                 android:layout_marginBottom="10dp"
                 android:background="@color/white"
                 android:orientation="vertical"
-                android:paddingLeft="10dp"
-                android:paddingRight="10dp">
+                android:paddingLeft="15dp"
+                android:paddingRight="15dp">
 
                 <RelativeLayout
                     android:id="@+id/act_setUp_clearCache"
@@ -289,7 +289,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="清除缓存"
-                        android:textSize="12sp" />
+                        android:textSize="13sp" />
 
                     <TextView
                         android:id="@+id/act_setUp_cacheNum"
@@ -297,7 +297,7 @@
                         android:layout_height="wrap_content"
                         android:layout_alignParentRight="true"
                         android:text="0M"
-                        android:textSize="12sp" />
+                        android:textSize="13sp" />
 
                 </RelativeLayout>
 
@@ -318,7 +318,7 @@
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
                         android:text="接收消息"
-                        android:textSize="12sp" />
+                        android:textSize="13sp" />
 
                     <com.power.mercenary.view.SwitchButton
                         android:id="@+id/sb_check"
@@ -338,8 +338,8 @@
                 android:layout_marginBottom="10dp"
                 android:background="@color/white"
                 android:orientation="vertical"
-                android:paddingLeft="10dp"
-                android:paddingRight="10dp">
+                android:paddingLeft="15dp"
+                android:paddingRight="15dp">
 
                 <RelativeLayout
                     android:id="@+id/rl_bz"
@@ -352,7 +352,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="帮助"
-                        android:textSize="12sp" />
+                        android:textSize="13sp" />
 
                     <ImageView
                         android:layout_width="wrap_content"
@@ -379,7 +379,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="问题反馈"
-                        android:textSize="12sp" />
+                        android:textSize="13sp" />
 
                     <ImageView
                         android:layout_width="wrap_content"
@@ -398,8 +398,8 @@
                 android:layout_marginBottom="10dp"
                 android:background="@color/white"
                 android:orientation="vertical"
-                android:paddingLeft="10dp"
-                android:paddingRight="10dp">
+                android:paddingLeft="15dp"
+                android:paddingRight="15dp">
 
                 <RelativeLayout
                     android:layout_width="match_parent"
@@ -411,7 +411,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="检查更新"
-                        android:textSize="12sp" />
+                        android:textSize="13sp" />
 
                     <ImageView
                         android:layout_width="wrap_content"
@@ -438,7 +438,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="关于我们"
-                        android:textSize="12sp" />
+                        android:textSize="13sp" />
 
                     <ImageView
                         android:layout_width="wrap_content"

@@ -205,6 +205,13 @@ public class GRTaskDetailsActivity extends BaseActivity implements View.OnClickL
 
         publishBtn.setOnClickListener(this);
         actTaskDetaiilsPrivateBtn.setOnClickListener(this);
+
+        ivIcon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                PersonalDataActivity.invoke(GRTaskDetailsActivity.this, taskDetailsBean.getPublisher_id());
+            }
+        });
     }
 
     private PopupWindow.OnDismissListener onDismissListener = new PopupWindow.OnDismissListener() {

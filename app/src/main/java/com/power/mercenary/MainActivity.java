@@ -32,6 +32,7 @@ import com.power.mercenary.fragment.HomeFragment;
 import com.power.mercenary.fragment.MessageFragment;
 import com.power.mercenary.fragment.MineFragment;
 import com.power.mercenary.fragment.PubFragment;
+import com.power.mercenary.utils.TUtils;
 import com.power.mercenary.view.BaseDialog;
 
 import org.greenrobot.eventbus.EventBus;
@@ -49,7 +50,6 @@ import io.rong.imlib.model.MessageContent;
 import io.rong.message.TextMessage;
 
 public class MainActivity extends BaseActivity implements BaseQuickAdapter.OnItemChildClickListener {
-
 
 
     @BindView(R.id.fl_content)
@@ -429,6 +429,7 @@ public class MainActivity extends BaseActivity implements BaseQuickAdapter.OnIte
     public void onRecevierEvent(EventUtils event) {
         switch (event.getType()) {
             case EventConstants.JUPMP_TO_MAIN:
+                TUtils.showCustom(this, "执行了");
                 if (homeFragment == null) {
                     homeFragment = new HomeFragment();
                 }
