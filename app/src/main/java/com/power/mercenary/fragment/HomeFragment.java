@@ -26,6 +26,7 @@ import com.power.mercenary.activity.GZTaskDetailsActivity;
 import com.power.mercenary.activity.HomeSearchActivity;
 import com.power.mercenary.activity.LocationActivity;
 import com.power.mercenary.activity.PTTaskDetailsActivity;
+import com.power.mercenary.activity.PersonalDataActivity;
 import com.power.mercenary.activity.PostDetailActivity;
 import com.power.mercenary.activity.SHTaskDetailsActivity;
 import com.power.mercenary.activity.SignInActivity;
@@ -359,6 +360,14 @@ public class HomeFragment extends BaseFragment implements MainPresenter.MainCall
                     Intent intent = new Intent(mContext,PostDetailActivity.class);
                     intent.putExtra("id",item.getId()+"");
                     startActivityForResult(intent,1);
+                }
+            });
+            helper.getView(R.id.item_image).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent = new Intent(mContext,PersonalDataActivity.class);
+                    intent.putExtra("userId",item.getPost_user_id()+"");
+                    startActivity(intent);
                 }
             });
         }

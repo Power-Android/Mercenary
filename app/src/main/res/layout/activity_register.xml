@@ -9,11 +9,11 @@
     <include layout="@layout/title_view"/>
 
     <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="70dip"
+        android:layout_height="70dip"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="30dp"
-        android:src="@drawable/dscj_2x"/>
+        android:src="@drawable/yongbingicon"/>
 
 
     <LinearLayout
@@ -62,6 +62,7 @@
                 android:background="@color/colorPrimary"/>
         </LinearLayout>
         <LinearLayout
+            android:visibility="gone"
             android:id="@+id/tongcheng_ll"
             android:layout_width="0dp"
             android:layout_height="wrap_content"

@@ -74,6 +74,7 @@ public class WorkPubActivity extends BaseActivity implements TieZiListPresenter.
         recyclerView.setLinearLayout();
         myAdapter = new MyAdapter(R.layout.item_circle_friend, mData);
         recyclerView.setAdapter(myAdapter);
+
     }
 
     @OnClick({R.id.title_back_iv, R.id.iv_photo})
