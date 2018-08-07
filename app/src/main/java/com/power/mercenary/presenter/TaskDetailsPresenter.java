@@ -1,10 +1,10 @@
 package com.power.mercenary.presenter;
 
 import android.app.Activity;
-import android.util.Log;
 
 import com.lzy.okgo.model.Response;
 import com.power.mercenary.MyApplication;
+import com.power.mercenary.bean.PayBean;
 import com.power.mercenary.bean.task.ApplyListBean;
 import com.power.mercenary.bean.task.MsgBean;
 import com.power.mercenary.bean.task.MsgListBean;
@@ -132,11 +132,11 @@ public class TaskDetailsPresenter {
 
     /**
      * 报名人操作
-     *
-     * @param id
+     *  @param id
      * @param apply_status 状态1待选 2选定 3放弃
+     * @param avatar
      */
-    public void changePeople(String id, int apply_status, String task_id) {
+    public void changePeople(String id, int apply_status, final String task_id, final String avatar, final String name) {
         new HttpManager<ResponseBean<Void>>("Home/Apply/change_apply", this)
                 .addParams("token", MyApplication.getUserToken())
                 .addParams("id", id)
@@ -145,7 +145,7 @@ public class TaskDetailsPresenter {
                 .postRequest(new DialogCallback<ResponseBean<Void>>(activity) {
                     @Override
                     public void onSuccess(Response<ResponseBean<Void>> response) {
-                        callBack.changePeople();
+                        callBack.changePeople(response, avatar, name);
                     }
                 });
     }
@@ -168,6 +168,18 @@ public class TaskDetailsPresenter {
                 });
     }
 
+    public void toPay(String task_id){
+        new HttpManager<ResponseBean<PayBean>>("Home/Pay/topay", this)
+                .addParams("token", MyApplication.getUserToken())
+                .addParams("task_id", task_id)
+                .postRequest(new DialogCallback<ResponseBean<PayBean>>(activity) {
+                    @Override
+                    public void onSuccess(Response<ResponseBean<PayBean>> response) {
+                        callBack.toPayRequest(response.body().data);
+                    }
+                });
+    }
+
     public interface TaskDetailsCallBack {
         void getTaskDetails(TaskDetailsBean datas);
 
@@ -179,10 +191,12 @@ public class TaskDetailsPresenter {
 
         void applyRequest();
 
-        void changePeople();
+        void changePeople(Response<ResponseBean<Void>> response, String avatar, String name);
 
         void changeCollection();
 
         void getMsgListFail();
+
+        void toPayRequest(PayBean data);
     }
 }

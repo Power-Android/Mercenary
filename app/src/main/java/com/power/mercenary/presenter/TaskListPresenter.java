@@ -45,7 +45,7 @@ public class TaskListPresenter {
                 .addParams("order_type", "DESC")
                 .addParams("task_type", task_type)
                 .addParams("task_type_child", task_type_child)
-                .postRequest(new JsonCallback<ResponseBean<List<TaskListBean>>>() {
+                .postRequest(new DialogCallback<ResponseBean<List<TaskListBean>>>(activity) {
                     @Override
                     public void onSuccess(Response<ResponseBean<List<TaskListBean>>> response) {
                         callBack.getTaskList(response.body().data);

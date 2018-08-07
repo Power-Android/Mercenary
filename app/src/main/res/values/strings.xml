@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">佣兵</string>
     <string name="picked_content_is">picked content is : </string>
+    <string name="pay_title">支付</string>
 
     <string-array name="test_display_2">
         <item>Dashing through the snow</item>

@@ -37,7 +37,7 @@ public class PublishPresenter {
                 .addParams("pageNum", pageNum)
                 .addParams("pageSize", 10)
                 .addParams("task_status", task_status)
-                .postRequest(new JsonCallback<ResponseBean<List<PublishTaskBean>>>() {
+                .postRequest(new DialogCallback<ResponseBean<List<PublishTaskBean>>>(activity) {
                     @Override
                     public void onSuccess(Response<ResponseBean<List<PublishTaskBean>>> response) {
                         callBack.getPublishTaskList(response.body().data);
@@ -61,7 +61,7 @@ public class PublishPresenter {
                 .addParams("token", MyApplication.getUserToken())
                 .addParams("pageNum", pageNum)
                 .addParams("pageSize", 10)
-                .postRequest(new JsonCallback<ResponseBean<List<PublishTaskBean>>>() {
+                .postRequest(new DialogCallback<ResponseBean<List<PublishTaskBean>>>(activity) {
                     @Override
                     public void onSuccess(Response<ResponseBean<List<PublishTaskBean>>> response) {
                         callBack.getPublishTaskList(response.body().data);

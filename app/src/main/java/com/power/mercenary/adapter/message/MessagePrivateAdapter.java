@@ -13,7 +13,6 @@ import com.bumptech.glide.Glide;
 import com.power.mercenary.MyApplication;
 import com.power.mercenary.R;
 import com.power.mercenary.bean.MsgPrivateBean;
-import com.power.mercenary.utils.TimeUtils;
 import com.power.mercenary.utils.Urls;
 import com.power.mercenary.view.CircleImageView;
 
@@ -55,22 +54,32 @@ public class MessagePrivateAdapter extends RecyclerView.Adapter {
             viewHolder.layout.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    onItemClickListener.onItemClickListener(datas.get(position));
+                    onItemClickListener.onItemClickListener(datas.get(position), position);
                 }
             });
 
             if (TextUtils.equals(datas.get(position).getFromuserid(), MyApplication.getUserId())) {
                 Glide.with(context)
-                        .load(Urls.BASEIMGURL + datas.get(position).getTouser_name())
+                        .load(Urls.BASEIMGURL + datas.get(position).getTouserhead_img())
                         .into(viewHolder.icon);
 
                 viewHolder.title.setText(datas.get(position).getTouser_name());
+                viewHolder.mHint.setVisibility(View.GONE);
             } else {
                 Glide.with(context)
                         .load(Urls.BASEIMGURL + datas.get(position).getFromuserhead_img())
                         .into(viewHolder.icon);
 
                 viewHolder.title.setText(datas.get(position).getFromuser_name());
+
+                switch (datas.get(position).getRead_status()) {
+                    case "1":
+                        viewHolder.mHint.setVisibility(View.GONE);
+                        break;
+                    case "0":
+                        viewHolder.mHint.setVisibility(View.VISIBLE);
+                        break;
+                }
             }
 
             long nowTime = System.currentTimeMillis();
@@ -83,15 +92,6 @@ public class MessagePrivateAdapter extends RecyclerView.Adapter {
             viewHolder.time.setText(sdf.format(new Date(datas.get(position).getMsgtime())));
 
             viewHolder.content.setText(datas.get(position).getContent());
-
-            switch (datas.get(position).getRead_status()) {
-                case "1":
-                    viewHolder.mHint.setVisibility(View.GONE);
-                    break;
-                case "0":
-                    viewHolder.mHint.setVisibility(View.VISIBLE);
-                    break;
-            }
         }
     }
 
@@ -126,6 +126,6 @@ public class MessagePrivateAdapter extends RecyclerView.Adapter {
     }
 
     public interface OnItemClickListener {
-        void onItemClickListener(MsgPrivateBean msgPrivateBean);
+        void onItemClickListener(MsgPrivateBean msgPrivateBean, int position);
     }
 }

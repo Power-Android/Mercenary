@@ -15,4 +15,8 @@ public class EventConstants {
     public static final int TYPE_REFRESH_ITEM = 8;  //获取全部
     public static final int TYPE_REFRESH_ITEM_SUCESS = 9;  //获取全部
     public static final int TYPE_CITY_SELECT = 10;  //获取全部
+    public static final int TYPE_CLEAR_ALL_HISTORY = 11;  //清空聊天记录
+    public static final int TYPE_MESSAGE_SHOW_NULL = 12;  //融云收到消息 进行展示 是否
+    public static final int TYPE_MESSAGE_SHOW_MINE = 13;  //融云收到消息 进行展示 是否
+    public static final int TYPE_MESSAGE_SHOW_RESRESH = 14;  //融云收到消息 进行展示 是否
 }

@@ -135,13 +135,13 @@ public class TaskListActivity extends BaseActivity implements TaskListPresenter.
     public void onRefresh() {
         page = 1;
         data.clear();
-        presenter.getTaskList(page, type, null);
+        presenter.getTaskList(page, type, taskChild);
     }
 
     @Override
     public void onLoadMore() {
         page ++;
-        presenter.getTaskList(page, type, null);
+        presenter.getTaskList(page, type, taskChild);
     }
 
     /**

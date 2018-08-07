@@ -553,7 +553,7 @@ public class HomeFragment extends BaseFragment implements MainPresenter.MainCall
                 //设置dialogpadding
                 .setPaddingdp(left, 0, right, 40)
                 //设置显示位置
-                .setGravity(Gravity.BOTTOM)
+                .setGravity(Gravity.CENTER)
                 //设置动画
                 .setAnimation(R.style.Bottom_Top_aniamtion)
                 //设置dialog的宽高

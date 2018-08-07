@@ -14,7 +14,7 @@ public class PersonalBean {
      * iscare : 1
      */
 
-    private int id;
+    private String id;
     private String name;
     private String head_img;
     private long create_time;
@@ -22,11 +22,11 @@ public class PersonalBean {
     private String total;
     private int iscare;
 
-    public int getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
 

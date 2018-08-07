@@ -1,6 +1,7 @@
 package com.power.mercenary.http;
 
 import android.content.Intent;
+import android.text.TextUtils;
 import android.util.Log;
 
 import com.lzy.okgo.callback.AbsCallback;
@@ -98,7 +99,9 @@ public abstract class JsonCallback<T> extends AbsCallback<T> {
                 case 2:
                 case 3:
                 case 4:
-                    TUtils.showCustom(MyApplication.getGloableContext(), ((HttpException) response.getException()).getErrorBean().msg);
+                    if (!TextUtils.equals(((HttpException) response.getException()).getErrorBean().msg, "error")) {
+                        TUtils.showCustom(MyApplication.getGloableContext(), ((HttpException) response.getException()).getErrorBean().msg);
+                    }
                     break;
             }
 

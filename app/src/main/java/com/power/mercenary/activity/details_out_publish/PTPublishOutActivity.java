@@ -21,17 +21,23 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.liaoinstan.springview.container.DefaultFooter;
 import com.liaoinstan.springview.widget.SpringView;
+import com.lzy.okgo.model.Response;
 import com.power.mercenary.MyApplication;
 import com.power.mercenary.R;
+import com.power.mercenary.activity.PersonalDataActivity;
 import com.power.mercenary.activity.SignInActivity;
+import com.power.mercenary.activity.WebActivity;
+import com.power.mercenary.activity.chat.ChatActivity;
 import com.power.mercenary.adapter.task.DetailsMsgAdapter;
 import com.power.mercenary.adapter.task.DetailsPeopleAdapter;
 import com.power.mercenary.base.BaseActivity;
+import com.power.mercenary.bean.PayBean;
 import com.power.mercenary.bean.mytask.PublishTaskBean;
 import com.power.mercenary.bean.task.ApplyListBean;
 import com.power.mercenary.bean.task.MsgBean;
 import com.power.mercenary.bean.task.MsgListBean;
 import com.power.mercenary.bean.task.TaskDetailsBean;
+import com.power.mercenary.http.ResponseBean;
 import com.power.mercenary.presenter.TaskDetailsPresenter;
 import com.power.mercenary.presenter.publish.PublishPresenter;
 import com.power.mercenary.utils.MercenaryUtils;
@@ -148,6 +154,7 @@ public class PTPublishOutActivity extends BaseActivity implements View.OnClickLi
     private String taskState;
     private String publisherId;
     private PublishPresenter publishPresenter;
+    private TaskDetailsBean taskDetailsBean;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -207,6 +214,13 @@ public class PTPublishOutActivity extends BaseActivity implements View.OnClickLi
 
         publishBtn.setOnClickListener(this);
         actTaskDetaiilsPrivateBtn.setOnClickListener(this);
+
+        ivIcon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                PersonalDataActivity.invoke(PTPublishOutActivity.this, taskDetailsBean.getPublisher_id());
+            }
+        });
     }
 
     private PopupWindow.OnDismissListener onDismissListener = new PopupWindow.OnDismissListener() {
@@ -289,7 +303,12 @@ public class PTPublishOutActivity extends BaseActivity implements View.OnClickLi
 
             case R.id.act_task_detaiils_privateBtn:
                 //私信
-
+                if (taskDetailsBean != null && taskDetailsBean.getXuanding() != null) {
+                    if (!TextUtils.equals(MyApplication.getUserId(), taskDetailsBean.getXuanding().getId())) {
+//                    PersonalDataActivity.invoke(this, publisherId);
+                        ChatActivity.invoke(this, taskDetailsBean.getXuanding().getId(), taskDetailsBean.getXuanding().getHead_img(), taskDetailsBean.getXuanding().getName());
+                    }
+                }
                 break;
 
             case R.id.act_task_detaiils_publishBtn:
@@ -306,6 +325,9 @@ public class PTPublishOutActivity extends BaseActivity implements View.OnClickLi
     @Override
     public void getTaskDetails(TaskDetailsBean datas) {
         if (datas != null) {
+
+            taskDetailsBean = datas;
+
             Glide.with(this)
                     .load(Urls.BASEIMGURL + datas.getHead_img())
                     .into(ivIcon);
@@ -440,9 +462,26 @@ public class PTPublishOutActivity extends BaseActivity implements View.OnClickLi
     }
 
     @Override
-    public void changePeople() {
-        presenter.getApplyList(taskId, page);
-        TUtils.showCustom(this, "操作成功");
+    public void changePeople(Response<ResponseBean<Void>> response, String avatar, String name) {
+        if (response != null && response.body() != null) {
+            if (response.body().code == 101) {
+                presenter.toPay(taskId);
+            } else {
+//                publishBtn.setText("任务中");
+//                publishBtn.setOnClickListener(null);
+//                tuijianTabLl.setVisibility(View.GONE);
+//                recycler_content.setVisibility(View.GONE);
+//                actTaskDetailsSMsg.setVisibility(View.VISIBLE);
+//                Glide.with(this)
+//                        .load(Urls.BASEIMGURL + avatar)
+//                        .into(actTaskDetaiilsPrivateMsg);
+//
+//                actTaskDetaiilsPrivateName.setText(name);
+
+                presenter.getApplyList(taskId, page);
+                TUtils.showCustom(this, "操作成功");
+            }
+        }
     }
 
     @Override
@@ -453,6 +492,11 @@ public class PTPublishOutActivity extends BaseActivity implements View.OnClickLi
     @Override
     public void getMsgListFail() {
         springView_rwsx.onFinishFreshAndLoad();
+    }
+
+    @Override
+    public void toPayRequest(PayBean data) {
+        WebActivity.invoke(this, data.getUrl(), getString(R.string.pay_title));
     }
 
     @OnClick({R.id.act_task_detaiils_collectionBtn, R.id.act_task_detaiils_complainBtn})
@@ -490,23 +534,12 @@ public class PTPublishOutActivity extends BaseActivity implements View.OnClickLi
         if (state == 2) {
             //选定 弹个界面
             if (TextUtils.equals(MyApplication.getUserId(), publisherId)) {
-                publishBtn.setText("任务中");
-                publishBtn.setOnClickListener(null);
-                tuijianTabLl.setVisibility(View.GONE);
-                recycler_content.setVisibility(View.GONE);
-                actTaskDetailsSMsg.setVisibility(View.VISIBLE);
-                Glide.with(this)
-                        .load(Urls.BASEIMGURL + avatar)
-                        .into(actTaskDetaiilsPrivateMsg);
-
-                actTaskDetaiilsPrivateName.setText(name);
-
-                presenter.changePeople(id, state, taskId);
+                presenter.changePeople(id, state, taskId, avatar, name);
             } else {
                 TUtils.showCustom(this, "只有发布者可以更改");
             }
         } else {
-            presenter.changePeople(id, state, taskId);
+            presenter.changePeople(id, state, taskId, avatar, name);
         }
     }
 

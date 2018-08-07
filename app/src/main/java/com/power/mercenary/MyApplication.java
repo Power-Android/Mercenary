@@ -6,6 +6,7 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.support.multidex.MultiDex;
 import android.text.TextUtils;
+import android.util.Config;
 import android.util.Log;
 
 import com.baidu.mapapi.SDKInitializer;
@@ -30,6 +31,8 @@ import com.power.mercenary.data.CacheConstants;
 import com.power.mercenary.data.EventConstants;
 import com.power.mercenary.event.EventUtils;
 import com.power.mercenary.utils.CacheUtils;
+import com.umeng.socialize.PlatformConfig;
+import com.umeng.socialize.UMShareAPI;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -62,6 +65,15 @@ public class MyApplication extends Application {
         ImageLoaderConfiguration configuration = ImageLoaderConfiguration.createDefault(this);
         ImageLoader.getInstance().init(configuration);
         initRongClound();
+        initUM();
+    }
+
+    private void initUM() {
+        UMShareAPI.get(this);
+
+        PlatformConfig.setWeixin("wxdbbb1928fdfa069d", "69ad4ae853a60921d709dd3125d75351");
+        PlatformConfig.setQQZone("1106733819", "ME4Of9bX0LUh8uz0");
+        PlatformConfig.setSinaWeibo("4004384953", "11a1e6053a816fb1636a739cb67ce667", "https://sns.whalecloud.com/sina2/callback");
     }
 
     private void initRongClound() {
@@ -230,7 +242,7 @@ public class MyApplication extends Application {
                 return tokenInfo.token;
             }
         }
-        return "44e7605001af6fc0881d55e670cb9833a28f55ab";
+        return "";
     }
 
     public static String getUserId() {

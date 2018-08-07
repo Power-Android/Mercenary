@@ -18,7 +18,9 @@ import android.widget.Toast;
 
 import com.liaoinstan.springview.container.DefaultHeader;
 import com.liaoinstan.springview.widget.SpringView;
+import com.lzy.okgo.model.Response;
 import com.power.mercenary.MainActivity;
+import com.power.mercenary.MyApplication;
 import com.power.mercenary.R;
 import com.power.mercenary.adapter.chat.ChatMsgAdapter;
 import com.power.mercenary.base.BaseActivity;
@@ -27,6 +29,9 @@ import com.power.mercenary.data.CacheConstants;
 import com.power.mercenary.data.EventConstants;
 import com.power.mercenary.event.EventUtils;
 import com.power.mercenary.fragment.HomeFragment;
+import com.power.mercenary.http.HttpManager;
+import com.power.mercenary.http.JsonCallback;
+import com.power.mercenary.http.ResponseBean;
 import com.power.mercenary.presenter.ChatPresenter;
 import com.power.mercenary.utils.CacheUtils;
 import com.power.mercenary.utils.SoftKeyboardTool;
@@ -143,6 +148,13 @@ public class ChatActivity extends BaseActivity implements SpringView.OnFreshList
             }
         });
 
+        input.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                listView.setTranscriptMode(ListView.TRANSCRIPT_MODE_ALWAYS_SCROLL);
+            }
+        });
+
         EventBus.getDefault().register(this);
     }
 
@@ -185,6 +197,13 @@ public class ChatActivity extends BaseActivity implements SpringView.OnFreshList
             case EventConstants.TYPE_REFRESH_ITEM:
                 getHistoryList();
                 break;
+            case EventConstants.TYPE_CLEAR_ALL_HISTORY:
+                mList.clear();
+                msgAdapter.notifyDataSetChanged();
+                break;
+            case EventConstants.TYPE_MESSAGE_SHOW_NULL:
+                finish();
+                break;
         }
     }
 
@@ -195,8 +214,6 @@ public class ChatActivity extends BaseActivity implements SpringView.OnFreshList
      * @param targetId
      */
     private void sendMessAge(final String content, String targetId) {
-
-        chatPresenter.addMessage(userId, content);
 
         TextMessage message = TextMessage.obtain(content);
 
@@ -210,12 +227,13 @@ public class ChatActivity extends BaseActivity implements SpringView.OnFreshList
             @Override
             public void onSuccess(Message message) {
                 // 消息发送成功的回调
+                chatPresenter.addMessage(userId, content);
                 mList.add(message);
                 msgAdapter.notifyDataSetChanged();
                 maxCount++;
                 CacheUtils.put(CacheConstants.MESSAGEID, maxCount);
-                TUtils.showCustom(ChatActivity.this, "发送成功");
                 Log.v("======>>", "send user id" + message.getSenderUserId() + " user id " + message.getTargetId());
+                EventBus.getDefault().post(new EventUtils(EventConstants.TYPE_MESSAGE_SHOW_MINE, message));
             }
 
             @Override
@@ -245,8 +263,6 @@ public class ChatActivity extends BaseActivity implements SpringView.OnFreshList
                 TUtils.showCustom(ChatActivity.this, "发送失败：" + info);
             }
         });
-
-        EventBus.getDefault().post(new EventUtils(EventConstants.TYPE_MESSAGE_SHOW, message));
     }
 
     @Override
@@ -254,13 +270,21 @@ public class ChatActivity extends BaseActivity implements SpringView.OnFreshList
         RongIMClient.getInstance().getRemoteHistoryMessages(Conversation.ConversationType.PRIVATE, userId, historyTime, 20, new RongIMClient.ResultCallback<List<Message>>() {
             @Override
             public void onSuccess(List<Message> messages) {
-                Log.v("======>>", "getRemoteHistoryMessages" + messages.size());
+                listView.setTranscriptMode(ListView.TRANSCRIPT_MODE_NORMAL);
+                if (messages != null && messages.size() > 0) {
+                    Collections.reverse(messages);
+                    historyTime = messages.get(0).getSentTime();
+                    mList.addAll(0, messages);
+                    msgAdapter.notifyDataSetChanged();
+                    listView.setSelection(0);
+                }
                 mSpringView.onFinishFreshAndLoad();
             }
 
             @Override
             public void onError(RongIMClient.ErrorCode errorCode) {
                 Log.v("======>>", "getRemoteHistoryMessages" + errorCode.getMessage() + "----" + errorCode.getValue());
+                TUtils.showCustom(ChatActivity.this, "getRemoteHistoryMessages " + errorCode.getMessage() + "----" + errorCode.getValue());
                 mSpringView.onFinishFreshAndLoad();
             }
         });
@@ -270,20 +294,33 @@ public class ChatActivity extends BaseActivity implements SpringView.OnFreshList
         RongIMClient.getInstance().getRemoteHistoryMessages(Conversation.ConversationType.PRIVATE, userId, historyTime, 40, new RongIMClient.ResultCallback<List<Message>>() {
             @Override
             public void onSuccess(List<Message> messages) {
-                Log.v("======>>", "getRemoteHistoryMessages" + messages.size());
-
+                listView.setTranscriptMode(ListView.TRANSCRIPT_MODE_NORMAL);
+                if (messages != null && messages.size() > 0) {
                     Collections.reverse(messages);
                     historyTime = messages.get(0).getSentTime();
-                    mList.addAll(messages);
+                    mList.addAll(0, messages);
                     msgAdapter.notifyDataSetChanged();
-                    listView.setSelection(msgAdapter.getAdapterListSize());
-
-                    Log.v("======>>", "RemotehistoryMessages -- Remotemessages.size" + messages.size());
-                    Log.v("======>>", "RemotehistoryMessages -- Remotemessages.get(0).getMessageId" + messages.get(0).getMessageId());
-                    Log.v("======>>", "RemotehistoryMessages -- messages.get(messages.size() - 1).getMessageId" + messages.get(messages.size() - 1).getMessageId());
-
+                    listView.setSelection(0);
                     EventBus.getDefault().post(new EventUtils(EventConstants.TYPE_REFRESH_ITEM_SUCESS, messages.size()));
-
+                } else {
+                    EventBus.getDefault().post(new EventUtils(EventConstants.TYPE_REFRESH_ITEM_SUCESS, 0));
+                    final Message msg = mList.get(mList.size() - 1);
+                    MessageContent content = msg.getContent();
+                    if (content instanceof TextMessage) {
+                        TextMessage textMessage = (TextMessage) content;
+                        new HttpManager<ResponseBean<Void>>("Home/YbTest/message_add", this)
+                                .addParams("token", MyApplication.getUserToken())
+                                .addParams("toUserId", userId)
+                                .addParams("objectName", "TxtMsg")
+                                .addParams("content", textMessage.getContent())
+                                .postRequest(new JsonCallback<ResponseBean<Void>>() {
+                                    @Override
+                                    public void onSuccess(Response<ResponseBean<Void>> response) {
+                                        EventBus.getDefault().post(new EventUtils(EventConstants.TYPE_MESSAGE_SHOW_RESRESH));
+                                    }
+                                });
+                    }
+                }
             }
 
             @Override

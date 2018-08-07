@@ -11,10 +11,15 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.lzy.okgo.model.Response;
+import com.power.mercenary.MyApplication;
 import com.power.mercenary.R;
 import com.power.mercenary.base.BaseActivity;
 import com.power.mercenary.data.EventConstants;
 import com.power.mercenary.event.EventUtils;
+import com.power.mercenary.http.HttpManager;
+import com.power.mercenary.http.JsonCallback;
+import com.power.mercenary.http.ResponseBean;
 import com.power.mercenary.utils.TUtils;
 import com.power.mercenary.view.BaseDialog;
 
@@ -61,10 +66,6 @@ public class ChatDetailsActivity extends BaseActivity {
         imgUrls = getIntent().getStringExtra("imgUrls");
 
         messages = getIntent().getParcelableArrayListExtra("messageList");
-
-        if (messages != null && messages.size() > 0) {
-            TUtils.showCustom(this, messages.size() + "");
-        }
 
         EventBus.getDefault().register(this);
     }
@@ -118,6 +119,19 @@ public class ChatDetailsActivity extends BaseActivity {
                     @Override
                     public void onSuccess(Boolean aBoolean) {
                         TUtils.showCustom(ChatDetailsActivity.this, "清除成功");
+                        EventBus.getDefault().post(new EventUtils(EventConstants.TYPE_CLEAR_ALL_HISTORY));
+                        new HttpManager<ResponseBean<Void>>("Home/YbTest/message_add", this)
+                                .addParams("token", MyApplication.getUserToken())
+                                .addParams("toUserId", userId)
+                                .addParams("objectName", "TxtMsg")
+                                .addParams("content", " ")
+                                .postRequest(new JsonCallback<ResponseBean<Void>>() {
+                                    @Override
+                                    public void onSuccess(Response<ResponseBean<Void>> response) {
+                                        EventBus.getDefault().post(new EventUtils(EventConstants.TYPE_MESSAGE_SHOW_NULL, userId));
+                                        finish();
+                                    }
+                                });
                     }
 
                     @Override
@@ -171,7 +185,7 @@ public class ChatDetailsActivity extends BaseActivity {
 
             case EventConstants.TYPE_REFRESH_ITEM_SUCESS:
                 int size = (int) event.getData();
-                if (size < 40) {
+                if (size != 0) {
                     EventBus.getDefault().post(new EventUtils(EventConstants.TYPE_REFRESH_ITEM, 0));
                 } else {
                     showQueryAllDialog();
@@ -207,6 +221,7 @@ public class ChatDetailsActivity extends BaseActivity {
             @Override
             public void onClick(View v) {
                 dialog.dismiss();
+                finish();
             }
         });
         dialog.show();

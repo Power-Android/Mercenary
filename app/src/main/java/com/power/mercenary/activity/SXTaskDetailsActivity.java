@@ -2,7 +2,6 @@ package com.power.mercenary.activity;
 
 import android.os.Handler;
 import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -16,18 +15,16 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.liaoinstan.springview.container.DefaultFooter;
 import com.liaoinstan.springview.widget.SpringView;
+import com.lzy.okgo.model.Response;
 import com.power.mercenary.R;
-import com.power.mercenary.adapter.DXRAdapter;
-import com.power.mercenary.adapter.MessageBoardAdapter;
-import com.power.mercenary.adapter.YBMRAdapter;
 import com.power.mercenary.base.BaseActivity;
+import com.power.mercenary.bean.PayBean;
 import com.power.mercenary.bean.task.ApplyListBean;
 import com.power.mercenary.bean.task.MsgBean;
 import com.power.mercenary.bean.task.MsgListBean;
 import com.power.mercenary.bean.task.TaskDetailsBean;
-import com.power.mercenary.bean.task.TaskListBean;
+import com.power.mercenary.http.ResponseBean;
 import com.power.mercenary.presenter.TaskDetailsPresenter;
-import com.power.mercenary.presenter.TaskListPresenter;
 import com.power.mercenary.view.SharingPop;
 
 import java.util.ArrayList;
@@ -240,7 +237,7 @@ public class SXTaskDetailsActivity extends BaseActivity implements View.OnClickL
     }
 
     @Override
-    public void changePeople() {
+    public void changePeople(Response<ResponseBean<Void>> response, String avatar, String name) {
 
     }
 
@@ -251,6 +248,11 @@ public class SXTaskDetailsActivity extends BaseActivity implements View.OnClickL
 
     @Override
     public void getMsgListFail() {
+
+    }
+
+    @Override
+    public void toPayRequest(PayBean data) {
 
     }
 

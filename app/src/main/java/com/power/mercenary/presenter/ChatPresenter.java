@@ -4,11 +4,13 @@ import android.app.Activity;
 
 import com.lzy.okgo.model.Response;
 import com.power.mercenary.MyApplication;
+import com.power.mercenary.activity.chat.ChatActivity;
 import com.power.mercenary.bean.ObtainUserInfo;
 import com.power.mercenary.http.DialogCallback;
 import com.power.mercenary.http.HttpManager;
 import com.power.mercenary.http.JsonCallback;
 import com.power.mercenary.http.ResponseBean;
+import com.power.mercenary.utils.TUtils;
 
 /**
  * admin  2018/7/26 wan
@@ -48,7 +50,7 @@ public class ChatPresenter {
                 .postRequest(new JsonCallback<ResponseBean<Void>>() {
                     @Override
                     public void onSuccess(Response<ResponseBean<Void>> response) {
-
+                        TUtils.showCustom(activity, response.body().msg);
                     }
                 });
     }

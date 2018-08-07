@@ -51,7 +51,7 @@
                     android:layout_marginTop="1dp"
                     android:text="首页"
                     android:textColor="@color/colorPrimary"
-                    android:textSize="11sp" />
+                    android:textSize="12sp" />
             </LinearLayout>
 
             <LinearLayout
@@ -76,7 +76,7 @@
                     android:layout_marginTop="1dp"
                     android:text="酒馆"
                     android:textColor="@color/textcolor_tab"
-                    android:textSize="11sp" />
+                    android:textSize="12sp" />
             </LinearLayout>
 
             <LinearLayout
@@ -101,7 +101,7 @@
                     android:layout_marginTop="1dp"
                     android:text="发布"
                     android:textColor="@color/textcolor_tab"
-                    android:textSize="11sp" />
+                    android:textSize="12sp" />
             </LinearLayout>
 
             <LinearLayout
@@ -126,7 +126,7 @@
                     android:layout_marginTop="1dp"
                     android:text="消息"
                     android:textColor="@color/textcolor_tab"
-                    android:textSize="11sp" />
+                    android:textSize="12sp" />
             </LinearLayout>
 
             <LinearLayout
@@ -151,7 +151,7 @@
                     android:layout_marginTop="1dp"
                     android:text="我的"
                     android:textColor="@color/textcolor_tab"
-                    android:textSize="11sp" />
+                    android:textSize="12sp" />
             </LinearLayout>
         </LinearLayout>
     </LinearLayout>
