@@ -116,7 +116,7 @@
                     android:layout_height="wrap_content"
                     android:text="我的价值"
                     android:textColor="@color/white"
-                    android:textSize="11sp" />
+                    android:textSize="13sp" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -124,7 +124,7 @@
                     android:layout_marginTop="5dp"
                     android:text="10000.00"
                     android:textColor="@color/white"
-                    android:textSize="11sp" />
+                    android:textSize="12sp" />
             </LinearLayout>
         </RelativeLayout>
     </LinearLayout>
@@ -145,7 +145,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="我发布的"
-                android:textSize="12sp" />
+                android:textSize="13sp" />
 
             <TextView
                 android:id="@+id/tv_fbrw"
@@ -154,7 +154,7 @@
                 android:layout_alignParentRight="true"
                 android:text="发布统计"
                 android:textColor="@color/colorPrimary"
-                android:textSize="12sp" />
+                android:textSize="13sp" />
         </RelativeLayout>
 
         <View
@@ -188,7 +188,7 @@
                     android:layout_marginTop="10dp"
                     android:text="未决定"
                     android:textColor="#999"
-                    android:textSize="12sp" />
+                    android:textSize="13sp" />
 
             </LinearLayout>
 
@@ -211,7 +211,7 @@
                     android:layout_marginTop="10dp"
                     android:text="任务中"
                     android:textColor="#999"
-                    android:textSize="12sp" />
+                    android:textSize="13sp" />
 
             </LinearLayout>
 
@@ -234,7 +234,7 @@
                     android:layout_marginTop="10dp"
                     android:text="审核中"
                     android:textColor="#999"
-                    android:textSize="12sp" />
+                    android:textSize="13sp" />
 
             </LinearLayout>
 
@@ -257,7 +257,7 @@
                     android:layout_marginTop="10dp"
                     android:text="待评价"
                     android:textColor="#999"
-                    android:textSize="12sp" />
+                    android:textSize="13sp" />
 
             </LinearLayout>
         </LinearLayout>
@@ -281,7 +281,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="我接受的"
-                android:textSize="12sp" />
+                android:textSize="13sp" />
 
             <TextView
                 android:id="@+id/tv_jsrw"
@@ -290,7 +290,7 @@
                 android:layout_alignParentRight="true"
                 android:text="接受统计"
                 android:textColor="@color/colorPrimary"
-                android:textSize="12sp" />
+                android:textSize="13sp" />
         </RelativeLayout>
 
         <View
@@ -324,7 +324,7 @@
                     android:layout_marginTop="10dp"
                     android:text="已报名"
                     android:textColor="#999"
-                    android:textSize="12sp" />
+                    android:textSize="13sp" />
 
             </LinearLayout>
 
@@ -347,7 +347,7 @@
                     android:layout_marginTop="10dp"
                     android:text="任务中"
                     android:textColor="#999"
-                    android:textSize="12sp" />
+                    android:textSize="13sp" />
 
             </LinearLayout>
 
@@ -370,7 +370,7 @@
                     android:layout_marginTop="10dp"
                     android:text="审核中"
                     android:textColor="#999"
-                    android:textSize="12sp" />
+                    android:textSize="13sp" />
 
             </LinearLayout>
 
@@ -393,7 +393,7 @@
                     android:layout_marginTop="10dp"
                     android:text="已完成"
                     android:textColor="#999"
-                    android:textSize="12sp" />
+                    android:textSize="13sp" />
 
             </LinearLayout>
         </LinearLayout>
@@ -420,7 +420,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="我的收藏"
-                android:textSize="12sp" />
+                android:textSize="13sp" />
 
             <ImageView
                 android:layout_width="wrap_content"
@@ -474,7 +474,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="我的推广"
-                android:textSize="12sp" />
+                android:textSize="13sp" />
 
             <ImageView
                 android:layout_width="wrap_content"
@@ -500,7 +500,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="我的成就"
-                android:textSize="12sp" />
+                android:textSize="13sp" />
 
             <ImageView
                 android:layout_width="wrap_content"
@@ -526,7 +526,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="我的资历"
-                android:textSize="12sp" />
+                android:textSize="13sp" />
 
             <ImageView
                 android:layout_width="wrap_content"

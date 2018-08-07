@@ -101,7 +101,7 @@
                     android:layout_marginTop="1dp"
                     android:text="发布"
                     android:textColor="@color/textcolor_tab"
-                    android:textSize="11sp" />
+                    android:textSize="12sp" />
             </LinearLayout>
 
             <LinearLayout
