@@ -148,6 +148,7 @@ public class HomeFragment extends BaseFragment implements MainPresenter.MainCall
         presenter.getHotInfo(1);
         mainPresenter = new MainPresenter(getActivity(), this);
         mainPresenter.getTaskList();
+        mainPresenter.getBannerList();
         initData();
         EventBus.getDefault().register(this);
         return view;
@@ -304,7 +305,7 @@ public class HomeFragment extends BaseFragment implements MainPresenter.MainCall
         List<String> bannerList = new ArrayList<>();
         if (datas != null) {
             for (int i = 0; i < datas.size(); i++) {
-                bannerList.add(datas.get(i).getPic());
+                bannerList.add(Urls.BASEIMGURL + datas.get(i).getPic());
             }
         }
         BannerUtils.startBanner(banner, bannerList);
