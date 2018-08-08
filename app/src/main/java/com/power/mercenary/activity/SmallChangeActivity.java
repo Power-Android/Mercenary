@@ -350,6 +350,8 @@ public class SmallChangeActivity extends BaseActivity implements View.OnClickLis
             return;
         }
         AllInfo.clear();
+
+
         for (int i = 0; i < alllist.size(); i++) {
             MingxiBean bean = new MingxiBean();
             bean.setMoney(alllist.get(i).getMoney());
