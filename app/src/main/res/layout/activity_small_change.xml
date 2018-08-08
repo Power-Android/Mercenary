@@ -79,6 +79,7 @@
             android:orientation="vertical">
 
             <TextView
+                android:id="@+id/tv_month_Date"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="2017-11"
@@ -91,6 +92,7 @@
                 android:orientation="horizontal">
 
                 <TextView
+                    android:id="@+id/tv_shouru_price"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="收入 500"
@@ -99,6 +101,7 @@
                     />
 
                 <TextView
+                    android:id="@+id/tv_zhichu_price"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="支出 500"
@@ -111,6 +114,7 @@
         </LinearLayout>
 
         <ImageView
+            android:id="@+id/img_Date"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/rl_2x"/>

@@ -91,7 +91,8 @@ public class MyValueActivity extends BaseActivity implements ValuePresenter.Valu
     }
 
     @Override
-    public void getMingxiInfo(MingxiInfo MingxiInfo) {
+    public void getMingxiInfo(MingxiInfo response) {
 
     }
+
 }

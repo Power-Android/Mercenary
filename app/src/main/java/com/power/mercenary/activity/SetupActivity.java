@@ -152,7 +152,10 @@ public class SetupActivity extends BaseActivity implements View.OnClickListener,
             @Override
             public void onClick(View v) {
                 MyApplication.loginOut();
-                EventBus.getDefault().post(new EventUtils(EventConstants.JUPMP_TO_MAIN));
+                startActivity(new Intent(SetupActivity.this,SignInActivity.class));
+                finish();
+                removeAllActivitys();
+//                EventBus.getDefault().post(new EventUtils(EventConstants.JUPMP_TO_MAIN));
             }
         });
 

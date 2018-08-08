@@ -20,6 +20,7 @@
             android:orientation="vertical">
 
             <TextView
+                android:id="@+id/tv_task_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="在线教育"
@@ -27,6 +28,7 @@
                 />
 
             <TextView
+                android:id="@+id/tv_task_content"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="美丽时间"
@@ -38,6 +40,7 @@
 
 
         <TextView
+            android:id="@+id/tv_task_price"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="+500.00"

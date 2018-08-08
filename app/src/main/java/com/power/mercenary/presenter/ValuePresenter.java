@@ -39,18 +39,22 @@ public class ValuePresenter {
 
     /**
      * 零钱明细
+     * token	是	string	用户token
+     * order_type	是	string	按照时间排序 由近及远DESC 由远及近ASC
+     * year	是	int	年
+     * month	是	int	月
      */
-    public void getMingxiInfo(String order_type,String year,String month) {
+    public void getMingxiInfo(String order_type, String year, String month) {
         new HttpManager<ResponseBean<MingxiInfo>>("Home/MyWallet/get_mingxi", this)
-                .addParams("token", MyApplication.getUserToken())
-                .addParams("order_type",order_type)
+//                .addParams("token", MyApplication.getUserToken())
+                .addParams("token","44e7605001af6fc0881d55e670cb9833a28f55ef")
+                .addParams("order_type", order_type)
                 .addParams("year", year)
-                .addParams("month",month)
-
+                .addParams("month", month)
                 .postRequest(new DialogCallback<ResponseBean<MingxiInfo>>(activity) {
                     @Override
                     public void onSuccess(Response<ResponseBean<MingxiInfo>> response) {
-//                        callBack.getValueInfo(response.body().data);
+                        callBack.getMingxiInfo(response.body().data);
                     }
                 });
     }
