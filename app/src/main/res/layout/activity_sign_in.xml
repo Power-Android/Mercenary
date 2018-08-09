@@ -13,7 +13,7 @@
         android:layout_height="70dip"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="30dp"
-        android:src="@drawable/yongbingicon"/>
+        android:src="@drawable/yongbing_icon"/>
 
 
     <LinearLayout

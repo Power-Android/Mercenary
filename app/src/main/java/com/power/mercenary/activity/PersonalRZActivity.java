@@ -51,8 +51,6 @@ public class PersonalRZActivity extends BaseActivity implements UpdataPresenter.
     TextView tvCommit;
     @BindView(R.id.edt_idcard_number)
     EditText edtIdcardNumber;
-    @BindView(R.id.ll_sfzh)
-    LinearLayout llSfzh;
     @BindView(R.id.layout_up)
     LinearLayout layoutUp;
     @BindView(R.id.img_Id_Card)

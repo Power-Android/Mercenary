@@ -327,8 +327,8 @@ public class SmallChangeActivity extends BaseActivity implements View.OnClickLis
     @Override
     public void getMingxiInfo(MingxiInfo MingxiInfo) {
 
-        tvShouruPrice.setText(MingxiInfo.getShouru_total());
-        tvZhichuPrice.setText(MingxiInfo.getZhichu_total());
+        tvShouruPrice.setText("收入 "+MingxiInfo.getShouru_total());
+        tvZhichuPrice.setText("支出 "+MingxiInfo.getZhichu_total());
 
         yearList.clear();
         monthList.clear();
