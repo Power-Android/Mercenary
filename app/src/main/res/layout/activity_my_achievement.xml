@@ -6,7 +6,7 @@
               android:layout_height="match_parent">
 
 
-    <include layout="@layout/title_view"/>s
+    <include layout="@layout/title_view"/>
 
 
     <LinearLayout
@@ -48,11 +48,13 @@
                 android:layout_width="80dp"
                 android:layout_height="80dp">
                 <ImageView
+                    android:id="@+id/img_achieve_left"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:src="@drawable/xg_2x"
+                    android:src="@drawable/post_img"
                     />
                 <TextView
+                    android:visibility="gone"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="小工"
@@ -71,11 +73,13 @@
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp">
                 <ImageView
+                    android:id="@+id/img_achieve_center"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:src="@drawable/dscj_2x"
+                    android:src="@drawable/post_img"
                     />
                 <TextView
+                    android:visibility="gone"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="点石成金"
@@ -91,11 +95,13 @@
                 android:layout_width="80dp"
                 android:layout_height="80dp">
                 <ImageView
+                    android:id="@+id/img_achieve_right"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:src="@drawable/dg_2x"
+                    android:src="@drawable/post_img"
                     />
                 <TextView
+                    android:visibility="gone"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="大工"

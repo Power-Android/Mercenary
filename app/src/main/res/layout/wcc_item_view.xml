@@ -20,12 +20,14 @@
             android:orientation="vertical">
 
             <TextView
+                android:id="@+id/tv_achieve_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="挫折"
                 android:textSize="14sp"/>
 
             <TextView
+                android:id="@+id/tv_achieve_content"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="成就简介：标题展示10个字符，多余隐藏"
@@ -49,10 +51,11 @@
                     />
 
                 <TextView
+                    android:id="@+id/tv_progress"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textSize="14sp"
-                    android:text="0/2"/>
+                    android:text="0/1"/>
 
 
             </LinearLayout>
@@ -63,9 +66,10 @@
         </LinearLayout>
 
         <ImageView
+            android:id="@+id/img_achieve"
             android:layout_width="80dp"
             android:layout_height="80dp"
-            android:src="@drawable/mr_2x"
+            android:src="@drawable/post_img"
             />
 
     </LinearLayout>
