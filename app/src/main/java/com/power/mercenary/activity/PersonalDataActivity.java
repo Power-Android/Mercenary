@@ -253,6 +253,9 @@ public class PersonalDataActivity extends BaseActivity implements View.OnClickLi
         switch (view.getId()) {
             case R.id.jiuguan_ll://
 //                initJiuguan();
+                Intent intent = new Intent(this, MyAchievementActivity.class);
+                intent.putExtra("state", 1);
+                startActivity(intent);
                 break;
             case R.id.renwutj_ll://
                 initRenwutj();

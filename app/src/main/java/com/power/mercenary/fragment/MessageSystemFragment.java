@@ -1,26 +1,35 @@
 package com.power.mercenary.fragment;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.power.mercenary.R;
-import com.power.mercenary.activity.chat.ChatActivity;
 import com.power.mercenary.activity.chat.ChatPushActivity;
-import com.power.mercenary.adapter.message.MessageTaskAdapter;
+import com.power.mercenary.adapter.message.MessageSystemAdapter;
 import com.power.mercenary.base.BaseFragment;
+import com.power.mercenary.bean.MsgSystemBean;
+import com.power.mercenary.presenter.MsgSystemPresenter;
 import com.power.mercenary.view.pullrecyclerview.WanRecyclerView;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * admin  2018/7/23 wan
  */
-public class MessageSystemFragment extends BaseFragment implements WanRecyclerView.PullRecyclerViewCallBack, MessageTaskAdapter.OnItemClickListener {
+public class MessageSystemFragment extends BaseFragment implements WanRecyclerView.PullRecyclerViewCallBack, MessageSystemAdapter.OnItemClickListener, MsgSystemPresenter.SystemCallBack {
 
     private WanRecyclerView mRecyclerView;
 
-    private MessageTaskAdapter adapter;
+    private MessageSystemAdapter adapter;
+
+    private MsgSystemPresenter presenter;
+
+    private int page = 1;
+
+    private List<MsgSystemBean> datas;
 
     @Override
     protected View initView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -30,10 +39,15 @@ public class MessageSystemFragment extends BaseFragment implements WanRecyclerVi
         mRecyclerView.setLinearLayout();
         mRecyclerView.setPullRecyclerViewListener(this);
 
-        adapter = new MessageTaskAdapter(getContext());
+        datas = new ArrayList<>();
+
+        adapter = new MessageSystemAdapter(getContext(), datas);
         adapter.setOnItemClickListener(this);
 
         mRecyclerView.setAdapter(adapter);
+
+        presenter = new MsgSystemPresenter(getActivity(), this);
+        presenter.getSystemList(page);
 
         return view;
     }
@@ -45,16 +59,36 @@ public class MessageSystemFragment extends BaseFragment implements WanRecyclerVi
 
     @Override
     public void onRefresh() {
-
+        page = 1;
+        datas.clear();
+        presenter.getSystemList(page);
     }
 
     @Override
     public void onLoadMore() {
-
+        page++;
+        presenter.getSystemList(page);
     }
 
     @Override
-    public void onItemClickListener() {
-        ChatPushActivity.invoke(getActivity(), "系统消息");
+    public void onItemClickListener(MsgSystemBean msgSystemBean) {
+        ChatPushActivity.invoke(getActivity(), "系统消息", msgSystemBean.getId(), "notice", "");
+    }
+
+    @Override
+    public void getSystemList(List<MsgSystemBean> data) {
+        if (data != null) {
+            datas.addAll(data);
+            mRecyclerView.setHasMore(data.size(), 20);
+        } else {
+            mRecyclerView.setHasMore(0, 20);
+        }
+        adapter.notifyDataSetChanged();
+        mRecyclerView.setStateView(datas.size());
+    }
+
+    @Override
+    public void getSystemListFail() {
+        mRecyclerView.setHasMore(0, 20);
     }
 }

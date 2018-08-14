@@ -11,6 +11,9 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.BaseAdapter;
+import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -85,6 +88,8 @@ public class HomeFragment extends BaseFragment implements MainPresenter.MainCall
     Unbinder unbinder;
     @BindView(R.id.pageGridView)
     PageGridView pageGridView;
+    @BindView(R.id.pageGridView2)
+    GridView pageGridView2;
     @BindView(R.id.pageindicator)
     MyPageIndicator pageindicator;
     @BindView(R.id.renwutj_tv)
@@ -120,6 +125,8 @@ public class HomeFragment extends BaseFragment implements MainPresenter.MainCall
     private List<NineGridTestModel> mList = new ArrayList<>();
     private List<String> mUrlList = new ArrayList<>();
 
+    private boolean isShow = false;
+
     private String[] mUrls = new String[]{"https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=202447557,2967022603&fm=27&gp=0.jpg",
             "https://ss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=104961686,3757525983&fm=27&gp=0.jpg",
             "https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=569334953,1638673400&fm=27&gp=0.jpg",
@@ -139,12 +146,15 @@ public class HomeFragment extends BaseFragment implements MainPresenter.MainCall
 
     private int PAOTUI = 101, SHENGHUO = 102, GERENDINGZHI = 103, GONGZUO = 104, JIANKANG = 105;
     private HomeSearchPresenter presenter;
+    private GridPage2Adapter gridPageAdapter2;
+    private ArrayList<Testbean> gridPageList2;
+    private int stateNum;
 
     @Override
     protected View initView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_home, null);
         unbinder = ButterKnife.bind(this, view);
-        presenter = new HomeSearchPresenter(getActivity(),this);
+        presenter = new HomeSearchPresenter(getActivity(), this);
         presenter.getHotInfo(1);
         mainPresenter = new MainPresenter(getActivity(), this);
         mainPresenter.getTaskList();
@@ -186,6 +196,7 @@ public class HomeFragment extends BaseFragment implements MainPresenter.MainCall
         //----------------------------结束---------------------------------------------
 
         //----------------------------横向分页------------------------------------------
+        gridPageList2 = new ArrayList<>();
         List<Testbean> gridPageList = new ArrayList<>();
         Testbean testbean0 = new Testbean();
         testbean0.setImg(R.drawable.pt_iv);
@@ -219,6 +230,8 @@ public class HomeFragment extends BaseFragment implements MainPresenter.MainCall
         pageGridView.setOnItemClickListener(gridPageAdapter);
         //设置分页指示器
         pageGridView.setPageIndicator(pageindicator);
+        gridPageAdapter2 = new GridPage2Adapter(gridPageList2);
+        pageGridView2.setAdapter(gridPageAdapter2);
         //----------------------------结束----------------------------------------------
         //----------------------------推荐----------------------------------------------
 
@@ -337,37 +350,37 @@ public class HomeFragment extends BaseFragment implements MainPresenter.MainCall
 
         @Override
         protected void convert(final BaseViewHolder helper, final HomHotBean item) {
-            helper.setText(R.id.tv_name,item.getPost_user_name());
+            helper.setText(R.id.tv_name, item.getPost_user_name());
             helper.setText(R.id.tv_time, MyUtils.getDateToStringTime(item.getCreate_time()));
-            helper.setText(R.id.tv_content,item.getPost_content());
-            helper.setText(R.id.tv_pinglun,item.getCount());
-            Glide.with(mContext).load(Urls.BASEIMGURL+item.getPost_user_headimg()).into((ImageView) helper.getView(R.id.item_image));
+            helper.setText(R.id.tv_content, item.getPost_content());
+            helper.setText(R.id.tv_pinglun, item.getCount());
+            Glide.with(mContext).load(Urls.BASEIMGURL + item.getPost_user_headimg()).into((ImageView) helper.getView(R.id.item_image));
 
             NineGridTestLayout nineGridlayout = helper.getView(R.id.nine_gridlayout);
             nineGridlayout.setIsShowAll(item.isShowAll);
             String post_img = item.getPost_img();
 
-            String[] all=post_img.split("\\|");
+            String[] all = post_img.split("\\|");
 
             mUrlList.clear();
             for (int i = 0; i < all.length; i++) {
-                mUrlList.add(Urls.BASEIMGURL+all[i]);
+                mUrlList.add(Urls.BASEIMGURL + all[i]);
             }
             item.setUrlList(mUrlList);
             nineGridlayout.setUrlList(item.getUrlList());
             helper.getView(R.id.jump_detail_ll).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Intent intent = new Intent(mContext,PostDetailActivity.class);
-                    intent.putExtra("id",item.getId()+"");
-                    startActivityForResult(intent,1);
+                    Intent intent = new Intent(mContext, PostDetailActivity.class);
+                    intent.putExtra("id", item.getId() + "");
+                    startActivityForResult(intent, 1);
                 }
             });
             helper.getView(R.id.item_image).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Intent intent = new Intent(mContext,PersonalDataActivity.class);
-                    intent.putExtra("userId",item.getPost_user_id()+"");
+                    Intent intent = new Intent(mContext, PersonalDataActivity.class);
+                    intent.putExtra("userId", item.getPost_user_id() + "");
                     startActivity(intent);
                 }
             });
@@ -478,58 +491,142 @@ public class HomeFragment extends BaseFragment implements MainPresenter.MainCall
 
         @Override
         public void onItemClick(PageGridView pageGridView, int position) {
-//            TUtils.showShort(mContext, "点击了---" + mData.get(position).getTitle());
-
-            if (!MyApplication.isLogin()) {
-                startActivity(new Intent(mContext, SignInActivity.class));
+            if (position == 5) {
+                Intent intent = new Intent(mContext, TaskListActivity.class);
+                intent.putExtra("type", "6");
+                startActivity(intent);
                 return;
             }
 
-            switch (position) {
-                case 0://跑腿
-                    nextList.clear();
-                    nextList.add("物品");
-                    nextList.add("人员");
-                    showNextIssueDialog(60, 60, 2, PAOTUI);
-                    break;
-                case 1://生活
-                    nextList.clear();
-                    nextList.add("衣");
-                    nextList.add("食");
-                    nextList.add("住");
-                    nextList.add("行");
-                    nextList.add("游");
-                    showNextIssueDialog(20, 20, 3, SHENGHUO);
-                    break;
-                case 2://个人定制
-                    nextList.clear();
-                    nextList.add("硬件");
-                    nextList.add("软件");
-                    showNextIssueDialog(60, 60, 2, GERENDINGZHI);
-                    break;
-                case 3://工作
-                    nextList.clear();
-                    nextList.add("仕");
-                    nextList.add("农");
-                    nextList.add("工");
-                    nextList.add("商");
-                    nextList.add("律");
-                    showNextIssueDialog(20, 20, 3, GONGZUO);
-                    break;
-                case 4://健康
-                    nextList.clear();
-                    nextList.add("心理");
-                    nextList.add("健身");
-                    nextList.add("减肥");
-                    showNextIssueDialog(20, 20, 3, JIANKANG);
-                    break;
-                case 5://其他
-                    mDialog.dismiss();
-                    Intent intent = new Intent(mContext, TaskListActivity.class);
-                    intent.putExtra("type", "6");
-                    startActivity(intent);
-                    break;
+            if (stateNum == position + 1) {
+                isShow = true;
+            } else {
+                isShow = false;
             }
+
+            gridPageList2.clear();
+            if (!isShow) {
+                switch (position) {
+                    case 0://跑腿
+                        stateNum = 1;
+                        Testbean testbean0 = new Testbean();
+                        testbean0.setImg(R.drawable.wupin);
+                        testbean0.setTitle("物品");
+                        gridPageList2.add(testbean0);
+                        Testbean testbean1 = new Testbean();
+                        testbean1.setImg(R.drawable.renyuan);
+                        testbean1.setTitle("人员");
+                        gridPageList2.add(testbean1);
+
+//                    nextList.clear();
+//                    nextList.add("物品");
+//                    nextList.add("人员");
+//                    showNextIssueDialog(60, 60, 2, PAOTUI);
+                        break;
+                    case 1://生活
+                        stateNum = 2;
+                        Testbean testbean01 = new Testbean();
+                        testbean01.setImg(R.drawable.yi);
+                        testbean01.setTitle("衣");
+                        gridPageList2.add(testbean01);
+                        Testbean testbean11 = new Testbean();
+                        testbean11.setImg(R.drawable.shi);
+                        testbean11.setTitle("食");
+                        gridPageList2.add(testbean11);
+                        Testbean testbean21 = new Testbean();
+                        testbean21.setImg(R.drawable.zhu);
+                        testbean21.setTitle("住");
+                        gridPageList2.add(testbean21);
+                        Testbean testbean31 = new Testbean();
+                        testbean31.setImg(R.drawable.xing);
+                        testbean31.setTitle("行");
+                        gridPageList2.add(testbean31);
+                        Testbean testbean41 = new Testbean();
+                        testbean41.setImg(R.drawable.you);
+                        testbean41.setTitle("游");
+                        gridPageList2.add(testbean41);
+                        TUtils.showShort(mContext, "点击了---2" + mData.get(position).getTitle());
+//                    nextList.clear();
+//                    nextList.add("衣");
+//                    nextList.add("食");
+//                    nextList.add("住");
+//                    nextList.add("行");
+//                    nextList.add("游");
+//                    showNextIssueDialog(20, 20, 3, SHENGHUO);
+                        break;
+                    case 2://个人定制
+                        stateNum = 3;
+                        Testbean testbean02 = new Testbean();
+                        testbean02.setImg(R.drawable.yingjian);
+                        testbean02.setTitle("硬件");
+                        gridPageList2.add(testbean02);
+                        Testbean testbean12 = new Testbean();
+                        testbean12.setImg(R.drawable.ruanjian);
+                        testbean12.setTitle("软件");
+                        gridPageList2.add(testbean12);
+                        TUtils.showShort(mContext, "点击了---3" + mData.get(position).getTitle());
+//                    nextList.clear();
+//                    nextList.add("硬件");
+//                    nextList.add("软件");
+//                    showNextIssueDialog(60, 60, 2, GERENDINGZHI);
+                        break;
+                    case 3://工作
+                        stateNum = 4;
+                        Testbean testbean03 = new Testbean();
+                        testbean03.setImg(R.drawable.shishu);
+                        testbean03.setTitle("仕");
+                        gridPageList2.add(testbean03);
+                        Testbean testbean13 = new Testbean();
+                        testbean13.setImg(R.drawable.nong);
+                        testbean13.setTitle("农");
+                        gridPageList2.add(testbean13);
+                        Testbean testbean23 = new Testbean();
+                        testbean23.setImg(R.drawable.gong);
+                        testbean23.setTitle("工");
+                        gridPageList2.add(testbean23);
+                        Testbean testbean33 = new Testbean();
+                        testbean33.setImg(R.drawable.shang);
+                        testbean33.setTitle("商");
+                        gridPageList2.add(testbean33);
+                        Testbean testbean43 = new Testbean();
+                        testbean43.setImg(R.drawable.lv);
+                        testbean43.setTitle("律");
+                        gridPageList2.add(testbean43);
+                        TUtils.showShort(mContext, "点击了---4" + mData.get(position).getTitle());
+//                    nextList.clear();
+//                    nextList.add("仕");
+//                    nextList.add("农");
+//                    nextList.add("工");
+//                    nextList.add("商");
+//                    nextList.add("律");
+//                    showNextIssueDialog(20, 20, 3, GONGZUO);
+                        break;
+                    case 4://健康
+                        stateNum = 5;
+                        Testbean testbean04 = new Testbean();
+                        testbean04.setImg(R.drawable.xinli);
+                        testbean04.setTitle("心理");
+                        gridPageList2.add(testbean04);
+                        Testbean testbean14 = new Testbean();
+                        testbean14.setImg(R.drawable.jianshen);
+                        testbean14.setTitle("健身");
+                        gridPageList2.add(testbean14);
+                        Testbean testbean24 = new Testbean();
+                        testbean24.setImg(R.drawable.jianfei);
+                        testbean24.setTitle("减肥");
+                        gridPageList2.add(testbean24);
+                        TUtils.showShort(mContext, "点击了---5" + mData.get(position).getTitle());
+//                    nextList.clear();
+//                    nextList.add("心理");
+//                    nextList.add("健身");
+//                    nextList.add("减肥");
+//                    showNextIssueDialog(20, 20, 3, JIANKANG);
+                        break;
+                }
+            }
+
+            gridPageAdapter2.notifyDataSetChanged();
+
         }
 
         @Override
@@ -588,15 +685,15 @@ public class HomeFragment extends BaseFragment implements MainPresenter.MainCall
                         mDialog.dismiss();
                         intent.putExtra("type", "2");
                         if (position == 0) {
-                            intent.putExtra("child", "1");
-                        } else if (position == 1) {
-                            intent.putExtra("child", "2");
-                        } else if (position == 2) {
                             intent.putExtra("child", "3");
-                        } else if (position == 3) {
+                        } else if (position == 1) {
                             intent.putExtra("child", "4");
-                        } else if (position == 4) {
+                        } else if (position == 2) {
                             intent.putExtra("child", "5");
+                        } else if (position == 3) {
+                            intent.putExtra("child", "6");
+                        } else if (position == 4) {
+                            intent.putExtra("child", "7");
                         }
                         startActivity(intent);
                         break;
@@ -604,9 +701,9 @@ public class HomeFragment extends BaseFragment implements MainPresenter.MainCall
                         mDialog.dismiss();
                         intent.putExtra("type", "3");
                         if (position == 0) {
-                            intent.putExtra("child", "1");
+                            intent.putExtra("child", "13");
                         } else if (position == 1) {
-                            intent.putExtra("child", "2");
+                            intent.putExtra("child", "14");
                         }
                         startActivity(intent);
                         break;
@@ -614,15 +711,15 @@ public class HomeFragment extends BaseFragment implements MainPresenter.MainCall
                         mDialog.dismiss();
                         intent.putExtra("type", "4");
                         if (position == 0) {
-                            intent.putExtra("child", "1");
+                            intent.putExtra("child", "8");
                         } else if (position == 1) {
-                            intent.putExtra("child", "2");
+                            intent.putExtra("child", "9");
                         } else if (position == 2) {
-                            intent.putExtra("child", "3");
+                            intent.putExtra("child", "10");
                         } else if (position == 3) {
-                            intent.putExtra("child", "4");
+                            intent.putExtra("child", "11");
                         } else if (position == 4) {
-                            intent.putExtra("child", "5");
+                            intent.putExtra("child", "12");
                         }
                         startActivity(intent);
                         break;
@@ -630,11 +727,11 @@ public class HomeFragment extends BaseFragment implements MainPresenter.MainCall
                         mDialog.dismiss();
                         intent.putExtra("type", "5");
                         if (position == 0) {
-                            intent.putExtra("child", "1");
+                            intent.putExtra("child", "17");
                         } else if (position == 1) {
-                            intent.putExtra("child", "2");
+                            intent.putExtra("child", "16");
                         } else if (position == 2) {
-                            intent.putExtra("child", "3");
+                            intent.putExtra("child", "15");
                         }
                         startActivity(intent);
                         break;
@@ -698,6 +795,124 @@ public class HomeFragment extends BaseFragment implements MainPresenter.MainCall
             case R.id.post_rl://热门帖子
                 startActivity(new Intent(mContext, WorkPubActivity.class));
                 break;
+        }
+    }
+
+    public class GridPage2Adapter extends BaseAdapter {
+        List<Testbean> mData;
+
+        public GridPage2Adapter(List<Testbean> mData) {
+            this.mData = mData;
+        }
+
+        @Override
+        public int getCount() {
+            return mData.size();
+        }
+
+        @Override
+        public Object getItem(int position) {
+            return mData.get(position);
+        }
+
+        @Override
+        public long getItemId(int position) {
+            return position;
+        }
+
+        @Override
+        public View getView(final int position, View convertView, ViewGroup parent) {
+            ViewHolder holder = new ViewHolder();
+            convertView = LayoutInflater.from(mContext).inflate(R.layout.item_grid_page, parent, false);
+//            ViewGroup.LayoutParams params = convertView.getLayoutParams();
+//            params.height = width;
+//            params.width = width;
+//            convertView.setLayoutParams(params);
+            holder.tv_title = convertView.findViewById(R.id.item_title_tv);
+            holder.icon = convertView.findViewById(R.id.item_icon_iv);
+            holder.tv_title.setText(mData.get(position).getTitle());
+            Glide.with(mContext).load(mData.get(position).getImg()).into(holder.icon);
+            holder.layout = convertView.findViewById(R.id.yigedalayout);
+            holder.layout.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(mContext, TaskListActivity.class);
+                    TUtils.showShort(mContext, "点击了---" + stateNum + "----" + position);
+                    switch (stateNum) {
+                        case 1://跑腿
+                            intent.putExtra("type", "1");
+                            if (position == 0) {
+                                intent.putExtra("child", "1");
+                            } else if (position == 1) {
+                                intent.putExtra("child", "2");
+                            }
+                            TUtils.showShort(mContext, "点击了---" + stateNum + "----" + position);
+                            startActivity(intent);
+                            break;
+                        case 2://生活
+                            intent.putExtra("type", "2");
+                            if (position == 0) {
+                                intent.putExtra("child", "1");
+                            } else if (position == 1) {
+                                intent.putExtra("child", "2");
+                            } else if (position == 2) {
+                                intent.putExtra("child", "3");
+                            } else if (position == 3) {
+                                intent.putExtra("child", "4");
+                            } else if (position == 4) {
+                                intent.putExtra("child", "5");
+                            }
+                            TUtils.showShort(mContext, "点击了---" + stateNum + "----" + position);
+                            startActivity(intent);
+                            break;
+                        case 3://个人定制
+                            intent.putExtra("type", "3");
+                            if (position == 0) {
+                                intent.putExtra("child", "1");
+                            } else if (position == 1) {
+                                intent.putExtra("child", "2");
+                            }
+                            TUtils.showShort(mContext, "点击了---" + stateNum + "----" + position);
+                            startActivity(intent);
+                            break;
+                        case 4://工作
+                            intent.putExtra("type", "4");
+                            if (position == 0) {
+                                intent.putExtra("child", "1");
+                            } else if (position == 1) {
+                                intent.putExtra("child", "2");
+                            } else if (position == 2) {
+                                intent.putExtra("child", "3");
+                            } else if (position == 3) {
+                                intent.putExtra("child", "4");
+                            } else if (position == 4) {
+                                intent.putExtra("child", "5");
+                            }
+                            TUtils.showShort(mContext, "点击了---" + stateNum + "----" + position);
+                            startActivity(intent);
+                            break;
+                        case 5://健康
+                            intent.putExtra("type", "5");
+                            if (position == 0) {
+                                intent.putExtra("child", "1");
+                            } else if (position == 1) {
+                                intent.putExtra("child", "2");
+                            } else if (position == 2) {
+                                intent.putExtra("child", "3");
+                            }
+                            TUtils.showShort(mContext, "点击了---" + stateNum + "----" + position);
+                            startActivity(intent);
+                            break;
+                    }
+                }
+            });
+            return convertView;
+        }
+
+        class ViewHolder {
+            TextView tv_title;
+            ImageView icon;
+            LinearLayout layout;
         }
     }
 }

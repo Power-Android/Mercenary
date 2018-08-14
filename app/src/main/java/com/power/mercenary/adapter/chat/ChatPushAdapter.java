@@ -9,7 +9,10 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.power.mercenary.R;
+import com.power.mercenary.bean.MsgDetailsBean;
+import com.power.mercenary.utils.Urls;
 import com.power.mercenary.view.CircleImageView;
 
 import java.text.SimpleDateFormat;
@@ -21,11 +24,11 @@ import java.util.List;
  */
 public class ChatPushAdapter extends BaseAdapter {
     private Context context;
-    private List<String> list;
+    private List<MsgDetailsBean> list;
 
     private ChatMsgAdapter.OnBackgroundClickListener onBackgroundClickListener;
 
-    public ChatPushAdapter(Context context, List<String> list) {
+    public ChatPushAdapter(Context context, List<MsgDetailsBean> list) {
         this.context = context;
         this.list = list;
     }
@@ -76,33 +79,33 @@ public class ChatPushAdapter extends BaseAdapter {
 
             long nowTime = System.currentTimeMillis();
             SimpleDateFormat sdf = null;
-//            if (nowTime - list.get(position).getSentTime() < 1000 * 60 * 60 * 24) {
-//                sdf = new SimpleDateFormat("HH:mm");// 1
-//            } else {
-//                sdf = new SimpleDateFormat("MM月dd日 HH:mm");
-//            }
-//            if (position == 0) {
-//                vh.time.setVisibility(View.VISIBLE);
-//                vh.time.setText(sdf.format(new Date(list.get(position).getSentTime())));
-//            } else {
-//                if (list.get(position).getSentTime() - list.get(position - 1).getSentTime() > 3 * 60 * 1000) {
-//                    vh.time.setVisibility(View.VISIBLE);
-//                    vh.time.setText(sdf.format(new Date(list.get(position).getSentTime())));
-//                } else {
-//                    vh.time.setVisibility(View.GONE);
-//                }
-//            }
+            if (nowTime - list.get(position).getCreate_time() < 1000 * 60 * 60 * 24) {
+                sdf = new SimpleDateFormat("HH:mm");// 1
+            } else {
+                sdf = new SimpleDateFormat("MM月dd日 HH:mm");
+            }
+            if (position == 0) {
+                vh.time.setVisibility(View.VISIBLE);
+                vh.time.setText(sdf.format(new Date(list.get(position).getCreate_time())));
+            } else {
+                if (list.get(position).getCreate_time() - list.get(position - 1).getCreate_time() > 3 * 60 * 1000) {
+                    vh.time.setVisibility(View.VISIBLE);
+                    vh.time.setText(sdf.format(new Date(list.get(position).getCreate_time())));
+                } else {
+                    vh.time.setVisibility(View.GONE);
+                }
+            }
 
 
             vh.left.setVisibility(View.VISIBLE);
             vh.right.setVisibility(View.GONE);
 
-//            Glide.with(context)
-//                    .load(Urls.BASEIMGURL + avatar)
-//                    .into(vh.leftPhoto);
+            Glide.with(context)
+                    .load(Urls.BASEIMGURL + list.get(position).getLiuyan_user_headimg())
+                    .into(vh.leftPhoto);
 
 
-//            vh.leftContent.setText(textMessage.getContent());
+            vh.leftContent.setText(list.get(position).getLiuyan_content());
 
         }
 

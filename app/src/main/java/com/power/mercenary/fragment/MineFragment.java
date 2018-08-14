@@ -12,6 +12,8 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.lzy.okgo.model.Response;
+import com.power.mercenary.MyApplication;
 import com.power.mercenary.R;
 import com.power.mercenary.activity.AcceptTaskActivity;
 import com.power.mercenary.activity.MyAchievementActivity;
@@ -23,10 +25,15 @@ import com.power.mercenary.activity.ReleaseTaskActivity;
 import com.power.mercenary.activity.SetupActivity;
 import com.power.mercenary.activity.TaskStatisticsActivity;
 import com.power.mercenary.base.BaseFragment;
+import com.power.mercenary.bean.AcceptBean;
+import com.power.mercenary.bean.PublishBean;
 import com.power.mercenary.bean.user.UserInfo;
 import com.power.mercenary.data.CacheConstants;
 import com.power.mercenary.data.EventConstants;
 import com.power.mercenary.event.EventUtils;
+import com.power.mercenary.http.HttpManager;
+import com.power.mercenary.http.JsonCallback;
+import com.power.mercenary.http.ResponseBean;
 import com.power.mercenary.presenter.UserPresenter;
 import com.power.mercenary.utils.CacheUtils;
 import com.power.mercenary.utils.Urls;
@@ -90,6 +97,22 @@ public class MineFragment extends BaseFragment implements UserPresenter.UserCall
     @BindView(R.id.frag_mine_ywc)
     LinearLayout fragMineYwc;
     Unbinder unbinder;
+    @BindView(R.id.mine_accept_wjd)
+    View acceptWjd;
+    @BindView(R.id.mine_accept_rwz)
+    View acceptRwz;
+    @BindView(R.id.mine_accept_shz)
+    View acceptShz;
+    @BindView(R.id.mine_accept_dpj)
+    View acceptDpj;
+    @BindView(R.id.mine_publish_ybm)
+    View publishYbm;
+    @BindView(R.id.mine_publish_rwz)
+    View publishRwz;
+    @BindView(R.id.mine_publish_shz)
+    View publishShz;
+    @BindView(R.id.mine_publish_ywc)
+    View publishYwc;
 
     private UserPresenter userPresenter;
 
@@ -125,6 +148,9 @@ public class MineFragment extends BaseFragment implements UserPresenter.UserCall
 
             }
         });
+
+        initAccept();
+        initPublish();
 
 //        rl_wdgz.setOnClickListener(new View.OnClickListener() {
 //            @Override
@@ -227,6 +253,14 @@ public class MineFragment extends BaseFragment implements UserPresenter.UserCall
             }
         });
 
+        icon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), SetupActivity.class);
+                startActivity(intent);
+            }
+        });
+
         EventBus.getDefault().register(this);
 
         return view;
@@ -251,8 +285,80 @@ public class MineFragment extends BaseFragment implements UserPresenter.UserCall
             case EventConstants.TYPE_USERINFO:
                 //刷新用户信息
                 userPresenter.getUserInfo();
+                initAccept();
+                initPublish();
                 break;
         }
+    }
+
+    private void initPublish() {
+        new HttpManager<ResponseBean<PublishBean>>("Home/MyTask/fabu_num", this)
+                .addParams("token", MyApplication.getUserToken())
+                .postRequest(new JsonCallback<ResponseBean<PublishBean>>() {
+                    @Override
+                    public void onSuccess(Response<ResponseBean<PublishBean>> response) {
+                        if (response != null && response.body() != null && response.body().data != null) {
+                            if (response.body().data.getRwz() > 0) {
+                                acceptRwz.setVisibility(View.VISIBLE);
+                            } else {
+                                acceptRwz.setVisibility(View.GONE);
+                            }
+
+                            if (response.body().data.getShz() > 0) {
+                                acceptShz.setVisibility(View.VISIBLE);
+                            } else {
+                                acceptShz.setVisibility(View.GONE);
+                            }
+
+                            if (response.body().data.getDpj() > 0) {
+                                acceptDpj.setVisibility(View.VISIBLE);
+                            } else {
+                                acceptDpj.setVisibility(View.GONE);
+                            }
+
+                            if (response.body().data.getWjd() > 0) {
+                                acceptWjd.setVisibility(View.VISIBLE);
+                            } else {
+                                acceptWjd.setVisibility(View.GONE);
+                            }
+                        }
+                    }
+                });
+    }
+
+    private void initAccept() {
+        new HttpManager<ResponseBean<AcceptBean>>("Home/MyTask/jieshou_num", this)
+                .addParams("token", MyApplication.getUserToken())
+                .postRequest(new JsonCallback<ResponseBean<AcceptBean>>() {
+                    @Override
+                    public void onSuccess(Response<ResponseBean<AcceptBean>> response) {
+                        if (response != null && response.body() != null && response.body().data != null) {
+                            if (response.body().data.getRwz() > 0) {
+                                publishRwz.setVisibility(View.VISIBLE);
+                            } else {
+                                publishRwz.setVisibility(View.GONE);
+                            }
+
+                            if (response.body().data.getShz() > 0) {
+                                publishShz.setVisibility(View.VISIBLE);
+                            } else {
+                                publishShz.setVisibility(View.GONE);
+                            }
+
+                            if (response.body().data.getYbm() > 0) {
+                                publishYbm.setVisibility(View.VISIBLE);
+                            } else {
+                                publishYbm.setVisibility(View.GONE);
+                            }
+
+                            if (response.body().data.getYwc() > 0) {
+                                publishYwc.setVisibility(View.VISIBLE);
+                            } else {
+                                publishYwc.setVisibility(View.GONE);
+                            }
+                        }
+                    }
+                });
     }
 
     @Override

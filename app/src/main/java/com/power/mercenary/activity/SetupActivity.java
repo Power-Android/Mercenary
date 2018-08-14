@@ -108,6 +108,12 @@ public class SetupActivity extends BaseActivity implements View.OnClickListener,
 
     private RelativeLayout clearCache;
 
+    private TextView showName;
+
+    private RelativeLayout personalData;
+
+    private TextView checkView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -137,6 +143,37 @@ public class SetupActivity extends BaseActivity implements View.OnClickListener,
         ll_nl.setOnClickListener(this);
         findViewById(R.id.act_setUp_age).setOnClickListener(this);
         findViewById(R.id.act_setUp_nickname).setOnClickListener(this);
+
+        showName = (TextView) findViewById(R.id.right_show_name);
+
+        personalData = (RelativeLayout) findViewById(R.id.ll_grsmrz);
+
+        checkView = (TextView) findViewById(R.id.tv_shiming);
+
+        personalData.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(SetupActivity.this, PersonalRZActivity.class);
+                startActivityForResult(intent,0);
+            }
+        });
+
+        showName.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (!TextUtils.isEmpty(tvName.getText().toString())) {
+                    String name = tvName.getText().toString();
+                    int len = name.length() - 1;
+                    StringBuffer string = new StringBuffer();
+                    string.append(name.substring(0, 1));
+                    for (int i = 0; i < len; i++) {
+                        string.append("*");
+                    }
+
+                    tvName.setText(string.toString());
+                }
+            }
+        });
 
         List<String> ageList = new ArrayList<>();
 
@@ -214,6 +251,21 @@ public class SetupActivity extends BaseActivity implements View.OnClickListener,
                 tv_sz_age.setText("男");
                 sex = 0;
             }
+        }
+
+        switch (userInfo.getIs_check()) {
+            case 0:
+                checkView.setText("未审核");
+                break;
+            case 1:
+                checkView.setText("审核中");
+                break;
+            case 2:
+                checkView.setText("审核通过");
+                break;
+            case 3:
+                checkView.setText("审核未通过");
+                break;
         }
     }
 
@@ -317,15 +369,15 @@ public class SetupActivity extends BaseActivity implements View.OnClickListener,
 
                 break;
             case R.id.ll_nl:
-                setShowPop(agePop, ll_nl);
+//                setShowPop(agePop, ll_nl);
 
                 break;
             case R.id.act_setUp_age:
-                pvCustomOptions.show();
+//                pvCustomOptions.show();
                 break;
             case R.id.act_setUp_nickname:
-                intent = new Intent(SetupActivity.this, ModifyNicknameActivity.class);
-                startActivity(intent);
+//                intent = new Intent(SetupActivity.this, ModifyNicknameActivity.class);
+//                startActivity(intent);
                 break;
         }
 

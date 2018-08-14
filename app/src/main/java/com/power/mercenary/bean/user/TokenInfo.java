@@ -5,4 +5,5 @@ package com.power.mercenary.bean.user;
  */
 public class TokenInfo {
     public String token;
+    public String yun_token;
 }

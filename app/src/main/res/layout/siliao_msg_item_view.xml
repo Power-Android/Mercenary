@@ -26,8 +26,8 @@
 
             <View
                 android:id="@+id/item_messagePrivate_hint"
-                android:layout_width="10dp"
-                android:layout_height="10dp"
+                android:layout_width="8dp"
+                android:layout_height="8dp"
                 android:background="@drawable/message_hint"
                 android:layout_alignRight="@id/item_messagePrivate_icon"
                 android:visibility="gone"/>

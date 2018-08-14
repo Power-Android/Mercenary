@@ -89,9 +89,9 @@ public class MessageFragment extends BaseFragment implements View.OnClickListene
 
         fragments = new ArrayList<>();
         fragments.add(new MessageTaskFragment());
-        fragments.add(new MessageSystemFragment());
-        fragments.add(new MessageTavernFragment());
         fragments.add(new MessagePrivateFragment());
+        fragments.add(new MessageTavernFragment());
+        fragments.add(new MessageSystemFragment());
 
         vPagerAdapter = new FragmentVPagerAdapter(getChildFragmentManager(), fragments);
         viewPager.setAdapter(vPagerAdapter);

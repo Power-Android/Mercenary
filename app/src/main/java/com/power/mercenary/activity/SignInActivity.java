@@ -36,6 +36,7 @@ import com.power.mercenary.utils.Urls;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import io.rong.imlib.RongIMClient;
 
 import static com.power.mercenary.R.id.et_sign_mm;
 import static com.power.mercenary.R.id.iv_dl_yj;
@@ -218,7 +219,7 @@ public class SignInActivity extends BaseActivity implements View.OnClickListener
                         Toast.makeText(mContext, "请输入密码", Toast.LENGTH_SHORT).show();
                         return;
                     } else {
-                        String md5 = MyUtils.getMD5("mobile=" + edtPassPhone.getText().toString() +"pwd=" + etSignMm.getText().toString() +  Urls.SECRET);
+                        String md5 = MyUtils.getMD5("mobile=" + edtPassPhone.getText().toString() + "pwd=" + etSignMm.getText().toString() + Urls.SECRET);
                         presenter.getPassLoginInfo(md5, edtPassPhone.getText().toString(), etSignMm.getText().toString());
                         Log.d("密码登录", md5 + "------");
                     }
@@ -238,8 +239,24 @@ public class SignInActivity extends BaseActivity implements View.OnClickListener
 
     @Override
     public void getCodeLoginInfo(TokenInfo userInfo) {
+        RongIMClient.connect(userInfo.yun_token, new RongIMClient.ConnectCallback() {
+            @Override
+            public void onTokenIncorrect() {
+
+            }
+
+            @Override
+            public void onSuccess(String s) {
+                Log.v("======>>", "RongClound connect! id:" + s);
+            }
+
+            @Override
+            public void onError(RongIMClient.ErrorCode errorCode) {
+                Log.v("======>>", "errorCode" + errorCode.getValue() + "-----" + errorCode.getMessage());
+            }
+        });
         startActivity(new Intent(this, MainActivity.class));
-        CacheUtils.put(CacheConstants.TYPE_LOGIN,userInfo);
+        CacheUtils.put(CacheConstants.TYPE_LOGIN, userInfo);
         new HttpManager<ResponseBean<UserInfo>>("Home/UserCenter/getinfo", this)
                 .addParams("token", userInfo.token)
                 .postRequest(new DialogCallback<ResponseBean<UserInfo>>(this) {
@@ -254,8 +271,24 @@ public class SignInActivity extends BaseActivity implements View.OnClickListener
 
     @Override
     public void getPassLoginInfo(TokenInfo userInfo) {
+        RongIMClient.connect(userInfo.yun_token, new RongIMClient.ConnectCallback() {
+            @Override
+            public void onTokenIncorrect() {
+
+            }
+
+            @Override
+            public void onSuccess(String s) {
+                Log.v("======>>", "RongClound connect! id:" + s);
+            }
+
+            @Override
+            public void onError(RongIMClient.ErrorCode errorCode) {
+
+            }
+        });
         startActivity(new Intent(this, MainActivity.class));
-        CacheUtils.put(CacheConstants.TYPE_LOGIN,userInfo);
+        CacheUtils.put(CacheConstants.TYPE_LOGIN, userInfo);
         new HttpManager<ResponseBean<UserInfo>>("Home/UserCenter/getinfo", this)
                 .addParams("token", userInfo.token)
                 .postRequest(new DialogCallback<ResponseBean<UserInfo>>(this) {

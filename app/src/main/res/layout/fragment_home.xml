@@ -63,6 +63,13 @@
                 app:PagingColums="5"
                 app:PagingDiver="@drawable/divider_bg"
                 app:PagingRows="1" />
+            <GridView
+                android:id="@+id/pageGridView2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingTop="5dp"
+                android:background="@color/white"
+                android:numColumns="5"/>
             <com.power.mercenary.view.MyPageIndicator
                 android:id="@+id/pageindicator"
                 android:layout_width="match_parent"

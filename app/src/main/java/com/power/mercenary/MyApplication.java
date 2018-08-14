@@ -31,6 +31,7 @@ import com.power.mercenary.data.CacheConstants;
 import com.power.mercenary.data.EventConstants;
 import com.power.mercenary.event.EventUtils;
 import com.power.mercenary.utils.CacheUtils;
+import com.power.mercenary.utils.TUtils;
 import com.umeng.socialize.PlatformConfig;
 import com.umeng.socialize.UMShareAPI;
 
@@ -79,22 +80,28 @@ public class MyApplication extends Application {
     private void initRongClound() {
         RongIMClient.init(this);
 
-        RongIMClient.connect("f/ww2Ik4llNclhzWLoA9bpAFSQEI2fLhbzT8mI6rYYdkd5Ste+SswczhksR3CtoaIdbEgDdlKaK9g3180WAa4A==", new RongIMClient.ConnectCallback() {
-            @Override
-            public void onTokenIncorrect() {
+        if (CacheUtils.get(CacheConstants.TYPE_LOGIN) != null) {
+            TokenInfo tokenInfo = CacheUtils.get(CacheConstants.TYPE_LOGIN);
+            if (!TextUtils.isEmpty(tokenInfo.yun_token)) {
+                TUtils.showCustom(this, tokenInfo.yun_token);
+                RongIMClient.connect(tokenInfo.yun_token, new RongIMClient.ConnectCallback() {
+                    @Override
+                    public void onTokenIncorrect() {
 
+                    }
+
+                    @Override
+                    public void onSuccess(String s) {
+                        Log.v("======>>", "RongClound connect! id:" + s);
+                    }
+
+                    @Override
+                    public void onError(RongIMClient.ErrorCode errorCode) {
+                        Log.v("======>>", "errorCode" + errorCode.getValue() + "-----" + errorCode.getMessage());
+                    }
+                });
             }
-
-            @Override
-            public void onSuccess(String s) {
-                Log.v("======>>", "RongClound connect! id:" + s);
-            }
-
-            @Override
-            public void onError(RongIMClient.ErrorCode errorCode) {
-
-            }
-        });
+        }
 
         RongIMClient.setOnReceiveMessageListener(new RongIMClient.OnReceiveMessageListener() {
             @Override

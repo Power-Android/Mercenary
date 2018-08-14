@@ -177,11 +177,28 @@
                 android:gravity="center"
                 android:orientation="vertical">
 
-                <ImageView
+
+                <RelativeLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/wjd_2x" />
+                    android:layout_weight="1">
 
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/wjd_2x"
+                        android:layout_centerInParent="true"
+                        />
+
+                    <View
+                        android:id="@+id/mine_accept_wjd"
+                        android:layout_width="8dp"
+                        android:layout_height="8dp"
+                        android:background="@drawable/message_hint"
+                        android:layout_marginLeft="20dp"
+                        android:visibility="gone" />
+
+                </RelativeLayout>
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -200,10 +217,27 @@
                 android:gravity="center"
                 android:orientation="vertical">
 
-                <ImageView
+                <RelativeLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/rwz_2x" />
+                    android:layout_weight="1">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/rwz_2x"
+                        android:layout_centerInParent="true"
+                        />
+
+                    <View
+                        android:id="@+id/mine_accept_rwz"
+                        android:layout_width="8dp"
+                        android:layout_height="8dp"
+                        android:background="@drawable/message_hint"
+                        android:layout_marginLeft="20dp"
+                        android:visibility="gone" />
+
+                </RelativeLayout>
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -223,10 +257,27 @@
                 android:gravity="center"
                 android:orientation="vertical">
 
-                <ImageView
+                <RelativeLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/shz_2x" />
+                    android:layout_weight="1">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/shz_2x"
+                        android:layout_centerInParent="true"
+                        />
+
+                    <View
+                        android:id="@+id/mine_accept_shz"
+                        android:layout_width="8dp"
+                        android:layout_height="8dp"
+                        android:background="@drawable/message_hint"
+                        android:layout_marginLeft="20dp"
+                        android:visibility="gone" />
+
+                </RelativeLayout>
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -246,10 +297,27 @@
                 android:gravity="center"
                 android:orientation="vertical">
 
-                <ImageView
+                <RelativeLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/dpj_2x" />
+                    android:layout_weight="1">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/dpj_2x"
+                        android:layout_centerInParent="true"
+                        />
+
+                    <View
+                        android:id="@+id/mine_accept_dpj"
+                        android:layout_width="8dp"
+                        android:layout_height="8dp"
+                        android:background="@drawable/message_hint"
+                        android:layout_marginLeft="20dp"
+                        android:visibility="gone" />
+
+                </RelativeLayout>
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -313,10 +381,27 @@
                 android:gravity="center"
                 android:orientation="vertical">
 
-                <ImageView
+                <RelativeLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/ybm_2x" />
+                    android:layout_weight="1">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/ybm_2x"
+                        android:layout_centerInParent="true"
+                        />
+
+                    <View
+                        android:id="@+id/mine_publish_ybm"
+                        android:layout_width="8dp"
+                        android:layout_height="8dp"
+                        android:background="@drawable/message_hint"
+                        android:layout_marginLeft="20dp"
+                        android:visibility="gone" />
+
+                </RelativeLayout>
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -336,10 +421,27 @@
                 android:gravity="center"
                 android:orientation="vertical">
 
-                <ImageView
+                <RelativeLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/rwz_2x" />
+                    android:layout_weight="1">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/rwz_2x"
+                        android:layout_centerInParent="true"
+                        />
+
+                    <View
+                        android:id="@+id/mine_publish_rwz"
+                        android:layout_width="8dp"
+                        android:layout_height="8dp"
+                        android:background="@drawable/message_hint"
+                        android:layout_marginLeft="20dp"
+                        android:visibility="gone" />
+
+                </RelativeLayout>
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -359,11 +461,27 @@
                 android:gravity="center"
                 android:orientation="vertical">
 
-                <ImageView
+                <RelativeLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/shz_2x" />
+                    android:layout_weight="1">
 
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/shz_2x"
+                        android:layout_centerInParent="true"
+                        />
+
+                    <View
+                        android:id="@+id/mine_publish_shz"
+                        android:layout_width="8dp"
+                        android:layout_height="8dp"
+                        android:background="@drawable/message_hint"
+                        android:layout_marginLeft="20dp"
+                        android:visibility="gone" />
+
+                </RelativeLayout>
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -382,11 +500,27 @@
                 android:gravity="center"
                 android:orientation="vertical">
 
-                <ImageView
+                <RelativeLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/dpj_2x" />
+                    android:layout_weight="1">
 
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/dpj_2x"
+                        android:layout_centerInParent="true"
+                        />
+
+                    <View
+                        android:id="@+id/mine_publish_ywc"
+                        android:layout_width="8dp"
+                        android:layout_height="8dp"
+                        android:background="@drawable/message_hint"
+                        android:layout_marginLeft="20dp"
+                        android:visibility="gone" />
+
+                </RelativeLayout>
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
