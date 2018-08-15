@@ -69,7 +69,9 @@ public class ModifyPhoneActivity extends BaseActivity implements AccountPresente
         tv_hqyzm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                countDownUtils.start();
+                if (!TextUtils.isEmpty(etPhone.getText().toString())) {
+                    countDownUtils.start();
+                }
             }
         });
 

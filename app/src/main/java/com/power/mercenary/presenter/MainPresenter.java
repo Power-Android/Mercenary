@@ -27,9 +27,9 @@ public class MainPresenter {
     /**
      * 获取任务列表
      */
-    public void getTaskList(){
+    public void getTaskList(String city){
         new HttpManager<ResponseBean<MainTaskBean>>("Home/Index/index_task", this)
-                .addParams("city", "北京")
+                .addParams("city", city)
                 .postRequest(new DialogCallback<ResponseBean<MainTaskBean>>(activity) {
                     @Override
                     public void onSuccess(Response<ResponseBean<MainTaskBean>> response) {

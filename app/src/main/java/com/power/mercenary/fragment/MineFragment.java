@@ -57,6 +57,9 @@ public class MineFragment extends BaseFragment implements UserPresenter.UserCall
     @BindView(R.id.tv_sz)
     TextView tvSz;
 
+    @BindView(R.id.frag_mine_money)
+    TextView money;
+
     @BindView(R.id.ll_wdjz)
     LinearLayout ll_wdjz;
 
@@ -373,6 +376,10 @@ public class MineFragment extends BaseFragment implements UserPresenter.UserCall
 
             if (!TextUtils.isEmpty(userInfo.getNick_name())) {
                 name.setText(userInfo.getNick_name());
+            }
+
+            if (!TextUtils.isEmpty(userInfo.money)) {
+                money.setText(userInfo.money);
             }
         }
     }

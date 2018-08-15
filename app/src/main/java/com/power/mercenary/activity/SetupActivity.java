@@ -114,6 +114,8 @@ public class SetupActivity extends BaseActivity implements View.OnClickListener,
 
     private TextView checkView;
 
+    private String showAndHide = "show";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -154,24 +156,35 @@ public class SetupActivity extends BaseActivity implements View.OnClickListener,
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(SetupActivity.this, PersonalRZActivity.class);
-                startActivityForResult(intent,0);
+                startActivityForResult(intent, 0);
             }
         });
 
         showName.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (!TextUtils.isEmpty(tvName.getText().toString())) {
-                    String name = tvName.getText().toString();
-                    int len = name.length() - 1;
-                    StringBuffer string = new StringBuffer();
-                    string.append(name.substring(0, 1));
-                    for (int i = 0; i < len; i++) {
-                        string.append("*");
-                    }
+                if (TextUtils.equals(showAndHide, "hide")) {
+                    if (!TextUtils.isEmpty(tvName.getText().toString())) {
+                        String name = tvName.getText().toString();
+                        int len = name.length() - 1;
+                        StringBuffer string = new StringBuffer();
+                        string.append(name.substring(0, 1));
+                        for (int i = 0; i < len; i++) {
+                            string.append("*");
+                        }
 
-                    tvName.setText(string.toString());
+                        tvName.setText(string.toString());
+                    }
+                    showAndHide = "show";
+                    showName.setText("显示真实姓名");
+                } else if (TextUtils.equals(showAndHide, "show")) {
+                    if (!TextUtils.isEmpty(userInfo.getName())) {
+                        tvName.setText(userInfo.getName());
+                    }
+                    showAndHide = "hide";
+                    showName.setText("隐藏真实姓名");
                 }
+                CacheUtils.put(CacheConstants.SHOWANDHIDEREALNAME, showAndHide);
             }
         });
 
@@ -185,11 +198,29 @@ public class SetupActivity extends BaseActivity implements View.OnClickListener,
 
         initData();
 
+        if (CacheUtils.get(CacheConstants.SHOWANDHIDEREALNAME) != null) {
+            showAndHide = CacheUtils.get(CacheConstants.SHOWANDHIDEREALNAME);
+            if (TextUtils.equals(showAndHide, "show")) {
+                if (!TextUtils.isEmpty(userInfo.getName())) {
+                    String name = userInfo.getName();
+                    int len = name.length() - 1;
+                    StringBuffer string = new StringBuffer();
+                    string.append(name.substring(0, 1));
+                    for (int i = 0; i < len; i++) {
+                        string.append("*");
+                    }
+
+                    tvName.setText(string.toString());
+                }
+                showName.setText("显示真实姓名");
+            }
+        }
+
         logout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 MyApplication.loginOut();
-                startActivity(new Intent(SetupActivity.this,SignInActivity.class));
+                startActivity(new Intent(SetupActivity.this, SignInActivity.class));
                 finish();
                 removeAllActivitys();
 //                EventBus.getDefault().post(new EventUtils(EventConstants.JUPMP_TO_MAIN));

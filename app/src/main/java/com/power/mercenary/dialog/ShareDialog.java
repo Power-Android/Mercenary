@@ -62,7 +62,6 @@ public class ShareDialog extends PopupWindow {
         weixin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                TUtils.showCustom(activity, "点击微信");
                 showWx(img, title, content, id);
             }
         });
@@ -70,7 +69,6 @@ public class ShareDialog extends PopupWindow {
         weixinP.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                TUtils.showCustom(activity, "点击微信朋友圈");
                 showPyq(img, title, content, id);
             }
         });
@@ -78,7 +76,6 @@ public class ShareDialog extends PopupWindow {
         qq.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                TUtils.showCustom(activity, "点击QQ");
                 showQQ(img, title, content, id);
             }
         });
@@ -86,7 +83,6 @@ public class ShareDialog extends PopupWindow {
         qzone.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                TUtils.showCustom(activity, "点击QQ空间");
                 showQzone(img, title, content, id);
             }
         });
@@ -94,7 +90,6 @@ public class ShareDialog extends PopupWindow {
         sina.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                TUtils.showCustom(activity, "点击微博");
                 showSina(img, title, content, id);
             }
         });

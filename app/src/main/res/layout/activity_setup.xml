@@ -36,7 +36,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            android:text="显示真实姓名"
+            android:text="隐藏真实姓名"
             android:textColor="@color/white"
             android:textSize="14sp"
             />
@@ -111,10 +111,9 @@
                     android:paddingTop="10dp">
 
                     <TextView
-                        android:layout_width="0dp"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
-                        android:layout_weight="2"
                         android:text="昵称"
                         android:textSize="13sp" />
 
@@ -130,6 +129,9 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_centerVertical="true"
+                            android:layout_marginLeft="10dp"
+                            android:singleLine="true"
+                            android:ellipsize="end"
                             android:textSize="13sp" />
 
                         <ImageView

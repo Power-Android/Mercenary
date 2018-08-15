@@ -154,10 +154,10 @@
         android:paddingLeft="15dp"
         android:paddingRight="15dp">
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="#FFF5F5F5" />
+        <!--<View-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="1dp"-->
+            <!--android:background="#FFF5F5F5" />-->
 
         <RelativeLayout
             android:id="@+id/rl_gywm"

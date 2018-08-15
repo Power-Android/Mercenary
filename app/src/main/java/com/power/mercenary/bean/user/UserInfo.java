@@ -53,6 +53,7 @@ public class UserInfo {
     private String experience;
     private String workyear;
     private String certificate;
+    public String money;
 
     public String getNick_name() {
         return nick_name;

@@ -1,12 +1,14 @@
 package com.power.mercenary.activity;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.NestedScrollView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
+import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.EditText;
@@ -33,6 +35,7 @@ import com.power.mercenary.bean.task.ApplyListBean;
 import com.power.mercenary.bean.task.MsgBean;
 import com.power.mercenary.bean.task.MsgListBean;
 import com.power.mercenary.bean.task.TaskDetailsBean;
+import com.power.mercenary.dialog.CallDialog;
 import com.power.mercenary.dialog.ShareDialog;
 import com.power.mercenary.http.ResponseBean;
 import com.power.mercenary.presenter.TaskDetailsPresenter;
@@ -40,6 +43,7 @@ import com.power.mercenary.utils.MercenaryUtils;
 import com.power.mercenary.utils.MyUtils;
 import com.power.mercenary.utils.TUtils;
 import com.power.mercenary.utils.Urls;
+import com.power.mercenary.view.BaseDialog;
 import com.power.mercenary.view.CircleImageView;
 import com.power.mercenary.view.MaxHeightRecyclerView;
 import com.power.mercenary.view.SharingPop;
@@ -423,6 +427,7 @@ public class PTTaskDetailsActivity extends BaseActivity implements View.OnClickL
 
     @Override
     public void publishMsg(MsgBean datas) {
+        etMsg.setText("");
         TUtils.showCustom(this, "发表成功");
     }
 
@@ -517,11 +522,7 @@ public class PTTaskDetailsActivity extends BaseActivity implements View.OnClickL
 
                 break;
             case R.id.act_task_detaiils_complainBtn:
-                if (!MyApplication.isLogin()) {
-                    startActivity(new Intent(this, SignInActivity.class));
-                    return;
-                }
-
+                CallDialog.showComplaintDialog(this);
                 break;
         }
     }
@@ -530,11 +531,11 @@ public class PTTaskDetailsActivity extends BaseActivity implements View.OnClickL
     public void selectedPeople(String id, int state, String avatar, String name, String userId) {
         if (state == 2) {
             //选定 弹个界面
-            if (TextUtils.equals(MyApplication.getUserId(), publisherId)) {
+//            if (TextUtils.equals(MyApplication.getUserId(), publisherId)) {
                 presenter.changePeople(id, state, taskId, avatar, name);
-            } else {
-                TUtils.showCustom(this, "只有发布者可以更改");
-            }
+//            } else {
+//                TUtils.showCustom(this, "只有发布者可以更改");
+//            }
         } else {
             presenter.changePeople(id, state, taskId, avatar, name);
         }

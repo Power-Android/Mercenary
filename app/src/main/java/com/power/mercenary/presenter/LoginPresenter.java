@@ -7,6 +7,7 @@ import com.power.mercenary.bean.user.TokenInfo;
 import com.power.mercenary.http.DialogCallback;
 import com.power.mercenary.http.HttpManager;
 import com.power.mercenary.http.ResponseBean;
+import com.power.mercenary.utils.TUtils;
 
 /**
  * Created by Administrator on 2018/7/5.
@@ -52,6 +53,11 @@ public class LoginPresenter {
                 .postRequest(new DialogCallback<ResponseBean<TokenInfo>>(activity) {
                     @Override
                     public void onSuccess(Response<ResponseBean<TokenInfo>> response) {
+                        if (response.body().code == 1) {
+                            TUtils.showCustom(activity, response.body().msg);
+                            return;
+                        }
+
                         if (response.body().data != null) {
                             callBack.getPassLoginInfo(response.body().data);
                         }

@@ -35,6 +35,7 @@ import com.power.mercenary.activity.SHTaskDetailsActivity;
 import com.power.mercenary.activity.SignInActivity;
 import com.power.mercenary.activity.TaskListActivity;
 import com.power.mercenary.activity.WorkPubActivity;
+import com.power.mercenary.adapter.MyAdapter;
 import com.power.mercenary.base.BaseFragment;
 import com.power.mercenary.bean.BannerBean;
 import com.power.mercenary.bean.CitySelectBean;
@@ -120,6 +121,8 @@ public class HomeFragment extends BaseFragment implements MainPresenter.MainCall
 
     private MainPresenter mainPresenter;
     private List<MainTaskBean.TuijianBean> tuijianList;
+    private List<MainTaskBean.TuijianBean> taskList = new ArrayList<>();
+    private List<MainTaskBean.TuijianBean> tongchengList = new ArrayList<>();
     private TuijianAdapter tuijianAdapter;
 
     private List<NineGridTestModel> mList = new ArrayList<>();
@@ -144,11 +147,13 @@ public class HomeFragment extends BaseFragment implements MainPresenter.MainCall
 
     private List<String> nextList = new ArrayList<>();
 
+    private int oneAndTwo = 0;
+
     private int PAOTUI = 101, SHENGHUO = 102, GERENDINGZHI = 103, GONGZUO = 104, JIANKANG = 105;
     private HomeSearchPresenter presenter;
     private GridPage2Adapter gridPageAdapter2;
     private ArrayList<Testbean> gridPageList2;
-    private int stateNum;
+    private int stateNum = -1;
 
     @Override
     protected View initView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -157,7 +162,7 @@ public class HomeFragment extends BaseFragment implements MainPresenter.MainCall
         presenter = new HomeSearchPresenter(getActivity(), this);
         presenter.getHotInfo(1);
         mainPresenter = new MainPresenter(getActivity(), this);
-        mainPresenter.getTaskList();
+        mainPresenter.getTaskList(locationTv.getText().toString());
         mainPresenter.getBannerList();
         initData();
         EventBus.getDefault().register(this);
@@ -170,6 +175,8 @@ public class HomeFragment extends BaseFragment implements MainPresenter.MainCall
             case EventConstants.TYPE_CITY_SELECT:
                 CitySelectBean selectBean = (CitySelectBean) event.getData();
                 locationTv.setText(selectBean.cityName);
+                tuijianList.clear();
+                mainPresenter.getTaskList(selectBean.cityName);
                 break;
         }
     }
@@ -308,8 +315,21 @@ public class HomeFragment extends BaseFragment implements MainPresenter.MainCall
 
     @Override
     public void getTaskList(MainTaskBean taskBean) {
-        this.taskBean = taskBean;
-        initRenwutjData();
+//        this.taskBean = taskBean;
+        if (taskBean == null)
+            return;
+
+        taskList.clear();
+        tongchengList.clear();
+
+        taskList.addAll(taskBean.getTuijian());
+        tongchengList.addAll(taskBean.getSame_city());
+
+        if (oneAndTwo == 1) {
+            initTongchengData();
+        } else {
+            initRenwutjData();
+        }
     }
 
     @Override
@@ -406,15 +426,15 @@ public class HomeFragment extends BaseFragment implements MainPresenter.MainCall
     }
 
     private void initRenwutjData() {
-        if (taskBean != null && taskBean.getTuijian() != null) {
-            tuijianList.addAll(taskBean.getTuijian());
+        if (taskList != null) {
+            tuijianList.addAll(taskList);
         }
         tuijianAdapter.notifyDataSetChanged();
     }
 
     private void initTongchengData() {
-        if (taskBean != null && taskBean.getSame_city() != null) {
-            tuijianList.addAll(taskBean.getSame_city());
+        if (tongchengList != null) {
+            tuijianList.addAll(tongchengList);
         }
         tuijianAdapter.notifyDataSetChanged();
     }
@@ -430,11 +450,13 @@ public class HomeFragment extends BaseFragment implements MainPresenter.MainCall
 
         @Override
         protected void convert(BaseViewHolder helper, MainTaskBean.TuijianBean item) {
+            TextView money = helper.getView(R.id.item_money_tv);
             TextView titleTv = helper.getView(R.id.item_title_tv);
             TextView contentTv = helper.getView(R.id.item_content_tv);
             RecyclerView tagRecyclerView = helper.getView(R.id.tag_recycler);
             titleTv.setText(item.getTask_name());
             contentTv.setText(item.getTask_description());
+            money.setText("￥" + item.getPay_amount());
 
             tagRecyclerView.setNestedScrollingEnabled(false);
             LinearLayoutManager linearLayoutManager = new LinearLayoutManager(mContext);
@@ -498,17 +520,12 @@ public class HomeFragment extends BaseFragment implements MainPresenter.MainCall
                 return;
             }
 
-            if (stateNum == position + 1) {
-                isShow = true;
-            } else {
-                isShow = false;
-            }
-
             gridPageList2.clear();
-            if (!isShow) {
+
+            if (stateNum != position || pageGridView2.getVisibility() == View.GONE) {
+                pageGridView2.setVisibility(View.VISIBLE);
                 switch (position) {
                     case 0://跑腿
-                        stateNum = 1;
                         Testbean testbean0 = new Testbean();
                         testbean0.setImg(R.drawable.wupin);
                         testbean0.setTitle("物品");
@@ -517,14 +534,8 @@ public class HomeFragment extends BaseFragment implements MainPresenter.MainCall
                         testbean1.setImg(R.drawable.renyuan);
                         testbean1.setTitle("人员");
                         gridPageList2.add(testbean1);
-
-//                    nextList.clear();
-//                    nextList.add("物品");
-//                    nextList.add("人员");
-//                    showNextIssueDialog(60, 60, 2, PAOTUI);
                         break;
                     case 1://生活
-                        stateNum = 2;
                         Testbean testbean01 = new Testbean();
                         testbean01.setImg(R.drawable.yi);
                         testbean01.setTitle("衣");
@@ -545,17 +556,8 @@ public class HomeFragment extends BaseFragment implements MainPresenter.MainCall
                         testbean41.setImg(R.drawable.you);
                         testbean41.setTitle("游");
                         gridPageList2.add(testbean41);
-                        TUtils.showShort(mContext, "点击了---2" + mData.get(position).getTitle());
-//                    nextList.clear();
-//                    nextList.add("衣");
-//                    nextList.add("食");
-//                    nextList.add("住");
-//                    nextList.add("行");
-//                    nextList.add("游");
-//                    showNextIssueDialog(20, 20, 3, SHENGHUO);
                         break;
                     case 2://个人定制
-                        stateNum = 3;
                         Testbean testbean02 = new Testbean();
                         testbean02.setImg(R.drawable.yingjian);
                         testbean02.setTitle("硬件");
@@ -564,14 +566,8 @@ public class HomeFragment extends BaseFragment implements MainPresenter.MainCall
                         testbean12.setImg(R.drawable.ruanjian);
                         testbean12.setTitle("软件");
                         gridPageList2.add(testbean12);
-                        TUtils.showShort(mContext, "点击了---3" + mData.get(position).getTitle());
-//                    nextList.clear();
-//                    nextList.add("硬件");
-//                    nextList.add("软件");
-//                    showNextIssueDialog(60, 60, 2, GERENDINGZHI);
                         break;
                     case 3://工作
-                        stateNum = 4;
                         Testbean testbean03 = new Testbean();
                         testbean03.setImg(R.drawable.shishu);
                         testbean03.setTitle("仕");
@@ -592,17 +588,8 @@ public class HomeFragment extends BaseFragment implements MainPresenter.MainCall
                         testbean43.setImg(R.drawable.lv);
                         testbean43.setTitle("律");
                         gridPageList2.add(testbean43);
-                        TUtils.showShort(mContext, "点击了---4" + mData.get(position).getTitle());
-//                    nextList.clear();
-//                    nextList.add("仕");
-//                    nextList.add("农");
-//                    nextList.add("工");
-//                    nextList.add("商");
-//                    nextList.add("律");
-//                    showNextIssueDialog(20, 20, 3, GONGZUO);
                         break;
                     case 4://健康
-                        stateNum = 5;
                         Testbean testbean04 = new Testbean();
                         testbean04.setImg(R.drawable.xinli);
                         testbean04.setTitle("心理");
@@ -615,18 +602,15 @@ public class HomeFragment extends BaseFragment implements MainPresenter.MainCall
                         testbean24.setImg(R.drawable.jianfei);
                         testbean24.setTitle("减肥");
                         gridPageList2.add(testbean24);
-                        TUtils.showShort(mContext, "点击了---5" + mData.get(position).getTitle());
-//                    nextList.clear();
-//                    nextList.add("心理");
-//                    nextList.add("健身");
-//                    nextList.add("减肥");
-//                    showNextIssueDialog(20, 20, 3, JIANKANG);
                         break;
                 }
+            } else {
+                pageGridView2.setVisibility(View.GONE);
             }
-
+            stateNum = position;
             gridPageAdapter2.notifyDataSetChanged();
 
+//
         }
 
         @Override
@@ -785,10 +769,12 @@ public class HomeFragment extends BaseFragment implements MainPresenter.MainCall
                 startActivity(new Intent(mContext, HomeSearchActivity.class));
                 break;
             case R.id.renwutj_ll://任务推荐
+                oneAndTwo = 0;
                 tuijianList.clear();
                 initRenwutj();
                 break;
             case R.id.tongcheng_ll://同城
+                oneAndTwo = 1;
                 tuijianList.clear();
                 initTongcheng();
                 break;
@@ -837,8 +823,7 @@ public class HomeFragment extends BaseFragment implements MainPresenter.MainCall
                 @Override
                 public void onClick(View v) {
                     Intent intent = new Intent(mContext, TaskListActivity.class);
-                    TUtils.showShort(mContext, "点击了---" + stateNum + "----" + position);
-                    switch (stateNum) {
+                    switch (stateNum + 1) {
                         case 1://跑腿
                             intent.putExtra("type", "1");
                             if (position == 0) {
@@ -846,61 +831,56 @@ public class HomeFragment extends BaseFragment implements MainPresenter.MainCall
                             } else if (position == 1) {
                                 intent.putExtra("child", "2");
                             }
-                            TUtils.showShort(mContext, "点击了---" + stateNum + "----" + position);
                             startActivity(intent);
                             break;
                         case 2://生活
                             intent.putExtra("type", "2");
                             if (position == 0) {
-                                intent.putExtra("child", "1");
-                            } else if (position == 1) {
-                                intent.putExtra("child", "2");
-                            } else if (position == 2) {
                                 intent.putExtra("child", "3");
-                            } else if (position == 3) {
+                            } else if (position == 1) {
                                 intent.putExtra("child", "4");
-                            } else if (position == 4) {
+                            } else if (position == 2) {
                                 intent.putExtra("child", "5");
+                            } else if (position == 3) {
+                                intent.putExtra("child", "6");
+                            } else if (position == 4) {
+                                intent.putExtra("child", "7");
                             }
-                            TUtils.showShort(mContext, "点击了---" + stateNum + "----" + position);
                             startActivity(intent);
                             break;
                         case 3://个人定制
                             intent.putExtra("type", "3");
                             if (position == 0) {
-                                intent.putExtra("child", "1");
+                                intent.putExtra("child", "13");
                             } else if (position == 1) {
-                                intent.putExtra("child", "2");
+                                intent.putExtra("child", "14");
                             }
-                            TUtils.showShort(mContext, "点击了---" + stateNum + "----" + position);
                             startActivity(intent);
                             break;
                         case 4://工作
                             intent.putExtra("type", "4");
                             if (position == 0) {
-                                intent.putExtra("child", "1");
+                                intent.putExtra("child", "8");
                             } else if (position == 1) {
-                                intent.putExtra("child", "2");
+                                intent.putExtra("child", "9");
                             } else if (position == 2) {
-                                intent.putExtra("child", "3");
+                                intent.putExtra("child", "10");
                             } else if (position == 3) {
-                                intent.putExtra("child", "4");
+                                intent.putExtra("child", "11");
                             } else if (position == 4) {
-                                intent.putExtra("child", "5");
+                                intent.putExtra("child", "12");
                             }
-                            TUtils.showShort(mContext, "点击了---" + stateNum + "----" + position);
                             startActivity(intent);
                             break;
                         case 5://健康
                             intent.putExtra("type", "5");
                             if (position == 0) {
-                                intent.putExtra("child", "1");
+                                intent.putExtra("child", "17");
                             } else if (position == 1) {
-                                intent.putExtra("child", "2");
+                                intent.putExtra("child", "16");
                             } else if (position == 2) {
-                                intent.putExtra("child", "3");
+                                intent.putExtra("child", "15");
                             }
-                            TUtils.showShort(mContext, "点击了---" + stateNum + "----" + position);
                             startActivity(intent);
                             break;
                     }

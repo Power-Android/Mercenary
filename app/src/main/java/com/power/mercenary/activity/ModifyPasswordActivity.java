@@ -14,6 +14,7 @@ import com.power.mercenary.R;
 import com.power.mercenary.base.BaseActivity;
 import com.power.mercenary.bean.user.TokenInfo;
 import com.power.mercenary.presenter.AccountPresenter;
+import com.power.mercenary.utils.CountDownUtils;
 import com.power.mercenary.utils.TUtils;
 
 import butterknife.BindView;
@@ -31,6 +32,8 @@ public class ModifyPasswordActivity extends BaseActivity implements AccountPrese
     TextView title_text;
     @BindView(R.id.tv_bdmm_tcdl)
     TextView submit;
+    @BindView(R.id.tv_hqyzm)
+    TextView tv_hqyzm;
 
     @BindView(R.id.img_yj)
     ImageView img_yj;
@@ -44,6 +47,7 @@ public class ModifyPasswordActivity extends BaseActivity implements AccountPrese
     private boolean isqh;
 
     private AccountPresenter presenter;
+    private CountDownUtils countDownUtils;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -73,6 +77,17 @@ public class ModifyPasswordActivity extends BaseActivity implements AccountPrese
                     img_yj.setImageResource(R.drawable.by_2x);
                 }
                 isqh = !isqh;
+            }
+        });
+
+        countDownUtils = new CountDownUtils(1000*60,1000,tv_hqyzm);
+
+        tv_hqyzm.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (!TextUtils.isEmpty(phone.getText().toString())) {
+                    countDownUtils.start();
+                }
             }
         });
 

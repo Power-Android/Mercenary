@@ -36,6 +36,8 @@ import com.power.mercenary.bean.task.ApplyListBean;
 import com.power.mercenary.bean.task.MsgBean;
 import com.power.mercenary.bean.task.MsgListBean;
 import com.power.mercenary.bean.task.TaskDetailsBean;
+import com.power.mercenary.dialog.CallDialog;
+import com.power.mercenary.dialog.ShareDialog;
 import com.power.mercenary.http.DialogCallback;
 import com.power.mercenary.http.HttpManager;
 import com.power.mercenary.http.ResponseBean;
@@ -295,9 +297,9 @@ public class PTAcceptSuccessActivity extends BaseActivity implements View.OnClic
                 initTongcheng();
                 break;
             case R.id.iv_right_fx:
-
-                setShowPop(sharingPop, iv_right_fx);
-
+                ShareDialog dialog = new ShareDialog(this, "title", "content", "image", "id");
+                dialog.setOnDismissListener(onDismissListener);;
+                setShowPop(dialog, iv_right_fx);
                 break;
             case R.id.left_back:
                 finish();
@@ -439,6 +441,7 @@ public class PTAcceptSuccessActivity extends BaseActivity implements View.OnClic
 
     @Override
     public void publishMsg(MsgBean datas) {
+        etMsg.setText("");
         TUtils.showCustom(this, "发表成功");
     }
 
@@ -533,11 +536,7 @@ public class PTAcceptSuccessActivity extends BaseActivity implements View.OnClic
 
                 break;
             case R.id.act_task_detaiils_complainBtn:
-                if (!MyApplication.isLogin()) {
-                    startActivity(new Intent(this, SignInActivity.class));
-                    return;
-                }
-
+                CallDialog.showComplaintDialog(this);
                 break;
         }
     }
@@ -546,11 +545,11 @@ public class PTAcceptSuccessActivity extends BaseActivity implements View.OnClic
     public void selectedPeople(String id, int state, String avatar, String name, String userId) {
         if (state == 2) {
             //选定 弹个界面
-            if (TextUtils.equals(MyApplication.getUserId(), publisherId)) {
+//            if (TextUtils.equals(MyApplication.getUserId(), publisherId)) {
                 presenter.changePeople(id, state, taskId, avatar, name);
-            } else {
-                TUtils.showCustom(this, "只有发布者可以更改");
-            }
+//            } else {
+//                TUtils.showCustom(this, "只有发布者可以更改");
+//            }
         } else {
             presenter.changePeople(id, state, taskId, avatar, name);
         }
