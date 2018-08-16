@@ -1,5 +1,6 @@
 package com.power.mercenary.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
@@ -17,6 +18,7 @@ import com.power.mercenary.R;
 import com.power.mercenary.base.BaseActivity;
 import com.power.mercenary.bean.user.TokenInfo;
 import com.power.mercenary.presenter.LoginPresenter;
+import com.power.mercenary.utils.CountDownUtils;
 import com.power.mercenary.utils.MyUtils;
 import com.power.mercenary.utils.Urls;
 
@@ -69,9 +71,14 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
 
     @BindView(R.id.tv_zc_wc)
     TextView tv_zc_wc;
+    @BindView(R.id.tv_people_xieyi)
+    TextView tvPeopleXieyi;
     private LoginPresenter presenter;
     private boolean isyt;
-    String loginType="";
+    String loginType = "";
+
+    private CountDownUtils countDownUtils;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -83,7 +90,10 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
         tv_zc_wc.setOnClickListener(this);
         left_back.setOnClickListener(this);
         tv_ydty.setOnClickListener(this);
+        tvPeopleXieyi.setOnClickListener(this);
+        tvHqyzm.setOnClickListener(this);
         presenter = new LoginPresenter(this, this);
+        countDownUtils = new CountDownUtils(1000 * 60, 1000, tvHqyzm);
         initRenwutj();
     }
 
@@ -102,6 +112,7 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
         indicatorRenwutj.setBackgroundColor(getResources().getColor(R.color.concrete));
         tongchengTv.setTextColor(getResources().getColor(R.color.colorPrimary));
         indicatorTongcheng.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
+
         tv_zc_wc.setText("下一步");
     }
 
@@ -113,6 +124,16 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
             case R.id.renwutj_ll:
                 initRenwutj();
                 break;
+            case R.id.tv_people_xieyi:
+                startActivity(new Intent(this,XieyiActivity.class));
+                break;
+            case R.id.tv_hqyzm:
+                if (edtPhone.getText().length() < 11 || edtPhone.getText().equals("")) {
+                    Toast.makeText(mContext, "请输入正确的手机号", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                countDownUtils.start();
+                break;
             case R.id.tongcheng_ll:
                 initTongcheng();
                 break;
@@ -122,10 +143,10 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
             case R.id.tv_zc_wc:
 
                 if (tv_zc_wc.getText().equals("完成")) { //个人
-                    loginType="0";
+                    loginType = "0";
                     RegisterNet(loginType);
                 } else if (tv_zc_wc.getText().equals("下一步")) {//企业
-                    loginType="1";
+                    loginType = "1";
                     RegisterNet(loginType);
                 }
                 break;
@@ -140,34 +161,35 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
         }
 
     }
+
     private void RegisterNet(String loginType) {
-        if (TextUtils.isEmpty(edtPhone.getText().toString())){
+        if (TextUtils.isEmpty(edtPhone.getText().toString())) {
             Toast.makeText(mContext, "手机号不能为空", Toast.LENGTH_SHORT).show();
             return;
-        }else if (TextUtils.isEmpty(edtCode.getText().toString())){
+        } else if (TextUtils.isEmpty(edtCode.getText().toString())) {
             Toast.makeText(mContext, "短信验证码不正确", Toast.LENGTH_SHORT).show();
             return;
-        }else if (TextUtils.isEmpty(edtNewPass.getText().toString())){
+        } else if (TextUtils.isEmpty(edtNewPass.getText().toString())) {
             Toast.makeText(mContext, "密码不能为空", Toast.LENGTH_SHORT).show();
             return;
-        }else {
-            String md5 = MyUtils.getMD5("code=" + edtCode.getText().toString() + "mobile=" + edtPhone.getText().toString()+"pwd="+edtNewPass.getText().toString() + "user_type="+loginType + Urls.SECRET);
-            Log.d("RegisterActivityMD5", md5+"------");
-            presenter.getUserInfo(md5,"1234",edtPhone.getText().toString(),"0",edtNewPass.getText().toString());
+        } else {
+            String md5 = MyUtils.getMD5("code=" + edtCode.getText().toString() + "mobile=" + edtPhone.getText().toString() + "pwd=" + edtNewPass.getText().toString() + "user_type=" + loginType + Urls.SECRET);
+            Log.d("RegisterActivityMD5", md5 + "------");
+            presenter.getUserInfo(md5, "1234", edtPhone.getText().toString(), "0", edtNewPass.getText().toString());
         }
     }
 
 
     @Override
     public void getTokenInfo(TokenInfo userInfo) {
-        if (loginType.equals("0")){
+        if (loginType.equals("0")) {
             Toast.makeText(mContext, "注册成功", Toast.LENGTH_SHORT).show();
             finish();
-        }else {
+        } else {
             Toast.makeText(mContext, "企业注册成功", Toast.LENGTH_SHORT).show();
             finish();
         }
-        Log.d("RegisterActivityToken", userInfo.token+"--------");
+        Log.d("RegisterActivityToken", userInfo.token + "--------");
     }
 
     @Override

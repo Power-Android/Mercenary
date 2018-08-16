@@ -65,7 +65,7 @@
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="10dp"
                     android:background="@null"
-                    android:hint="请输入物品规格"
+                    android:hint="请输入物品名称"
                     android:textColorHint="@color/hint_color"
                     android:textSize="14sp"/>
             </RelativeLayout>
@@ -167,7 +167,8 @@
                     android:hint="请输入任务目的"
                     android:textColorHint="@color/hint_color"
                     android:textSize="14sp"
-                    android:minLines="5"/>
+                    android:minLines="5"
+                    android:maxLength="200"/>
             </LinearLayout>
             <RelativeLayout
                 android:id="@+id/transport_time_rl"

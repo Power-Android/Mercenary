@@ -26,7 +26,6 @@ import com.power.mercenary.base.BaseActivity;
 import com.power.mercenary.data.EventRefreshContants;
 import com.power.mercenary.presenter.PubTaskPresenter;
 import com.power.mercenary.utils.MyUtils;
-import com.power.mercenary.utils.TUtils;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -88,13 +87,20 @@ public class PubPaotuiActivity extends BaseActivity implements PubTaskPresenter.
     private ArrayList<String> biaoqianList;
     private BiaoqianAdapter biaoqianAdapter;
     private ImageView img_del_table;
-    private String IsdelTable="";
+    private String IsdelTable = "";
     private String taskType;
     private String childTaskType;
     private OptionsPickerView pvCustomOptions;
     private List<String> yearList = new ArrayList<>();
     private List<String> monthList = new ArrayList<>();
     private List<String> dayList = new ArrayList<>();
+    private int myear;
+    private int mmounth;
+    private int mday;
+    private String startOrend = "";
+    private int yearindex;
+    private int mounthindex;
+    private int dayindex;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -108,17 +114,22 @@ public class PubPaotuiActivity extends BaseActivity implements PubTaskPresenter.
     }
 
     private void initView() {
-        for (int i = 1979; i < 2030; i++) {
-            yearList.add(i+"年");
+        String currentDate = MyUtils.getCurrentDate2();
+        String[] split = currentDate.split(",");
+        myear = Integer.parseInt(split[0]);
+        mmounth = Integer.parseInt(split[1]);
+        mday = Integer.parseInt(split[2]);
+        for (int i = myear; i < 2050; i++) {
+            yearList.add(i + "年");
         }
         for (int i = 1; i <= 12; i++) {
-            monthList.add(i+"月");
+            monthList.add(i + "月");
         }
         for (int i = 1; i <= 31; i++) {
-            dayList.add(i+"日");
+            dayList.add(i + "日");
         }
 
-        Log.d("PubPaotuiActivity", MyApplication.getUserToken()+"--------");
+        Log.d("PubPaotuiActivity", MyApplication.getUserToken() + "--------");
 
         taskMudiEt.addTextChangedListener(new TextWatcher() {
             @Override
@@ -133,11 +144,11 @@ public class PubPaotuiActivity extends BaseActivity implements PubTaskPresenter.
 
             @Override
             public void afterTextChanged(Editable editable) {
-                if (taskMudiEt.getText().toString().length()>=200){
+                if (taskMudiEt.getText().toString().length() > 200) {
                     Toast.makeText(mContext, "最多可输入200字", Toast.LENGTH_SHORT).show();
                     return;
                 }
-            mudiZishuTv.setText(taskMudiEt.getText().toString().length()+"/200");
+                mudiZishuTv.setText(taskMudiEt.getText().toString().length() + "/200");
             }
         });
 
@@ -169,15 +180,15 @@ public class PubPaotuiActivity extends BaseActivity implements PubTaskPresenter.
         protected void convert(final BaseViewHolder helper, String item) {
             helper.setText(R.id.item_content_tv, item);
             img_del_table = helper.getView(R.id.img_del_table);
-            if (IsdelTable.equals("1")){
+            if (IsdelTable.equals("1")) {
                 img_del_table.setVisibility(View.VISIBLE);
-            }else {
+            } else {
                 img_del_table.setVisibility(View.GONE);
             }
             helper.setOnClickListener(R.id.img_del_table, new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    IsdelTable="2";
+                    IsdelTable = "2";
                     biaoqianList.remove(helper.getAdapterPosition());
                     biaoqianAdapter.notifyDataSetChanged();
                     if (biaoqianList.size() <= 0) {
@@ -188,16 +199,28 @@ public class PubPaotuiActivity extends BaseActivity implements PubTaskPresenter.
 
         }
     }
-    private void initSelectAge(final List<String> data,final List<String> data1,final List<String> data2) {
+
+    private void initSelectAge(final List<String> data, final List<String> data1, final List<String> data2) {
         pvCustomOptions = new OptionsPickerView.Builder(this, new OptionsPickerView.OnOptionsSelectListener() {
             @Override
             public void onOptionsSelect(int options1, int option2, int options3, View v) {
                 //返回的分别是三个级别的选中位置
+
                 String year = data.get(options1);
-                String  month = data1.get(option2);
-                String  day = data2.get(options3);
-                validitySongdaEt.setText(year+month+day);
-                pvCustomOptions.setSelectOptions(options1,option2,options3);
+                String month = data1.get(option2);
+                String day = data2.get(options3);
+                String substring = year.substring(0, year.length() - 1);
+                String substring1 = month.substring(0, month.length() - 1);
+                String substring2 = day.substring(0, day.length() - 1);
+                if (Integer.parseInt(substring) == myear && Integer.parseInt(substring1) <= mmounth && Integer.parseInt(substring2) < mday) {
+                    Toast.makeText(mContext, "送达时间不可在当前时间之前", Toast.LENGTH_SHORT).show();
+                    return;
+                } else {
+                    validitySongdaEt.setText(year + month + day);
+                    pvCustomOptions.setSelectOptions(options1, option2, options3);
+                    pvCustomOptions.dismiss();
+                }
+
             }
         })
                 .setLayoutRes(R.layout.view_custom_age, new CustomListener() {
@@ -212,7 +235,7 @@ public class PubPaotuiActivity extends BaseActivity implements PubTaskPresenter.
                             @Override
                             public void onClick(View v) {
                                 pvCustomOptions.returnData();
-                                pvCustomOptions.dismiss();
+
 
                             }
                         });
@@ -232,9 +255,27 @@ public class PubPaotuiActivity extends BaseActivity implements PubTaskPresenter.
                 .setDividerColor(getResources().getColor(R.color.textColorDrak))
                 .setTextColorCenter(getResources().getColor(R.color.black)) //设置选中项文字颜色
                 .build();
-        pvCustomOptions.setNPicker(data,data1,data2);//添加数据
+        pvCustomOptions.setNPicker(data, data1, data2);//添加数据
+        for (int i = 0; i < yearList.size(); i++) {
+            if (yearList.get(i).equals(myear+"年")){
+                yearindex=i;
+            }
+        }
+        for (int i = 0; i < monthList.size(); i++) {
+            if (monthList.get(i).equals(mmounth+"月")){
+                mounthindex=i;
+            }
+        }
+        for (int i = 0; i < dayList.size(); i++) {
+            if (dayList.get(i).equals(mday+"日")){
+                dayindex=i;
+            }
+        }
+        pvCustomOptions.setSelectOptions(yearindex,mounthindex,dayindex);
 
     }
+
+
     @OnClick({R.id.title_back_iv, R.id.title_content_right_tv, R.id.transport_time_rl, start_address_tv,
             R.id.del_start_address_tv, R.id.end_address_tv, R.id.add_biaoqian_tv, R.id.del_biaoqian_tv})
     public void onViewClicked(View view) {
@@ -286,32 +327,41 @@ public class PubPaotuiActivity extends BaseActivity implements PubTaskPresenter.
                 } else if (TextUtils.isEmpty(validityTimeEt.getText().toString())) {
                     Toast.makeText(mContext, "请输入有效期", Toast.LENGTH_SHORT).show();
                     return;
-                }else if (TextUtils.isEmpty(startAddressTv.getText().toString())||startAddressTv.getText().toString().equals("请选择取货地址")){
+                } else if (startAddressTv.getText().equals("请选择取货地址")) {
+                    Toast.makeText(mContext, "请选择取货地址", Toast.LENGTH_SHORT).show();
+                    return;
+                } else if (TextUtils.isEmpty(startAddressTv.getText().toString()) || startAddressTv.getText().toString().equals("请选择取货地址")) {
                     Toast.makeText(mContext, "请选择取货地址", Toast.LENGTH_SHORT).show();
 
-                }else if (biaoqianList.size()<=0) {
+                } else if (TextUtils.isEmpty(endAddressTv.getText().toString()) || endAddressTv.getText().equals("请选择目的地址")) {
+                    Toast.makeText(mContext, "请选择目的地址", Toast.LENGTH_SHORT).show();
+                    return;
+                } else if (biaoqianList.size() <= 0) {
                     Toast.makeText(mContext, "请输入任务标签", Toast.LENGTH_SHORT).show();
                     return;
                 }
                 String s1 = MyUtils.listToString(biaoqianList);
-                presenter.publishTask("",taskType, childTaskType, taskNameEt.getText().toString(), s1, "", moneyEt.getText().toString(),
+                presenter.publishTask("", taskType, childTaskType, taskNameEt.getText().toString(), s1, "", moneyEt.getText().toString(),
                         validityTimeEt.getText().toString(), "", taskMudiEt.getText().toString(), "",
                         goodsNameEt.getText().toString(), numEt.getText().toString(), "", MyUtils.Timetodata(validitySongdaEt.getText().toString()),
-                        "开始地址", "目的地址", biaoqianEt.getText().toString());
+                        startAddressTv.getText().toString(), endAddressTv.getText().toString(), biaoqianEt.getText().toString());
                 break;
             case R.id.transport_time_rl:
-                initSelectAge(yearList,monthList,dayList);
+                initSelectAge(yearList, monthList, dayList);
                 pvCustomOptions.show();
                 break;
             case start_address_tv:
-                Intent intent = new Intent(mContext,MapAddressActivity.class);
+                startOrend = "1";
+                Intent intent = new Intent(mContext, MapAddressActivity.class);
                 startActivity(intent);
                 break;
             case R.id.del_start_address_tv:
                 startAddressTv.setText("请选择取货地址");
                 break;
             case R.id.end_address_tv:
-                TUtils.showShort(mContext, "点击了---目的地址");
+                startOrend = "2";
+                Intent intent1 = new Intent(mContext, MapAddressActivity.class);
+                startActivity(intent1);
                 break;
             case R.id.add_biaoqian_tv:
                 if (biaoqianList.size() >= 5) {
@@ -337,15 +387,23 @@ public class PubPaotuiActivity extends BaseActivity implements PubTaskPresenter.
                 break;
         }
     }
+
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void getEvent(EventRefreshContants eventBean) {
-        if (eventBean.getmAddress()!=null){
-            startAddressTv.setText(eventBean.getmAddress()+"");
+        if (eventBean.getmAddress() != null) {
+            if (startOrend.equals("1")) {
+                startAddressTv.setText(eventBean.getmAddress() + "");
+            } else {
+                endAddressTv.setText(eventBean.getmAddress() + "");
+            }
+
         }
     }
+
     @Override
     public void publishTask() {
         Toast.makeText(mContext, "发布成功", Toast.LENGTH_SHORT).show();
+        finish();
     }
 
     @Override

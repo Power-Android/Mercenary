@@ -16,7 +16,7 @@
             android:id="@+id/left_back"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/back_2x"
+            android:src="@drawable/title_back_iv"
             />
         <TextView
             android:layout_width="wrap_content"
@@ -71,6 +71,7 @@
             android:gravity="right"
             android:layout_height="wrap_content">
             <TextView
+                android:visibility="gone"
                 android:id="@+id/tv_tx"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -97,6 +98,7 @@
         android:orientation="vertical">
 
         <RelativeLayout
+            android:visibility="gone"
             android:id="@+id/rl_yhk"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

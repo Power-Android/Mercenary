@@ -38,9 +38,9 @@ public class MainPresenter {
                 });
     }
 
-    public void getBannerList(){
+    public void getBannerList(int type){
         new HttpManager<ResponseBean<List<BannerBean>>>("Home/Index/get_banner", this)
-                .addParams("type", 1)
+                .addParams("type", type)
                 .postRequest(new DialogCallback<ResponseBean<List<BannerBean>>>(activity) {
                     @Override
                     public void onSuccess(Response<ResponseBean<List<BannerBean>>> response) {

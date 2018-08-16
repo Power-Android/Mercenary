@@ -11,7 +11,6 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.GridView;
 import android.widget.ImageView;
@@ -22,7 +21,6 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
-import com.power.mercenary.MyApplication;
 import com.power.mercenary.R;
 import com.power.mercenary.activity.GRTaskDetailsActivity;
 import com.power.mercenary.activity.GZTaskDetailsActivity;
@@ -32,10 +30,8 @@ import com.power.mercenary.activity.PTTaskDetailsActivity;
 import com.power.mercenary.activity.PersonalDataActivity;
 import com.power.mercenary.activity.PostDetailActivity;
 import com.power.mercenary.activity.SHTaskDetailsActivity;
-import com.power.mercenary.activity.SignInActivity;
 import com.power.mercenary.activity.TaskListActivity;
 import com.power.mercenary.activity.WorkPubActivity;
-import com.power.mercenary.adapter.MyAdapter;
 import com.power.mercenary.base.BaseFragment;
 import com.power.mercenary.bean.BannerBean;
 import com.power.mercenary.bean.CitySelectBean;
@@ -163,7 +159,7 @@ public class HomeFragment extends BaseFragment implements MainPresenter.MainCall
         presenter.getHotInfo(1);
         mainPresenter = new MainPresenter(getActivity(), this);
         mainPresenter.getTaskList(locationTv.getText().toString());
-        mainPresenter.getBannerList();
+        mainPresenter.getBannerList(1);
         initData();
         EventBus.getDefault().register(this);
         return view;
@@ -526,6 +522,7 @@ public class HomeFragment extends BaseFragment implements MainPresenter.MainCall
                 pageGridView2.setVisibility(View.VISIBLE);
                 switch (position) {
                     case 0://跑腿
+                        stateNum = 1;
                         Testbean testbean0 = new Testbean();
                         testbean0.setImg(R.drawable.wupin);
                         testbean0.setTitle("物品");

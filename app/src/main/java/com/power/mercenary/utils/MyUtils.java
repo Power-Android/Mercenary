@@ -159,6 +159,13 @@ public class MyUtils {
         String date = sdf.format(curDate);
         return date;
     }
+    // 获取当前时间
+    public static String getCurrentDate2() {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy,MM,dd");
+        Date curDate = new Date(System.currentTimeMillis());//获取当前时间
+        String date = sdf.format(curDate);
+        return date;
+    }
     //  时间戳转为日期  /年/月/日/时/分
     public static String getDateToStringTime(String time) {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm");

@@ -24,7 +24,13 @@ public class AcceptTaskBean {
     private String task_status;
     private String apply_status;
     private String task_type;
+    public String getTask_status() {
+        return task_status;
+    }
 
+    public void setTask_status(String task_status) {
+        this.task_status = task_status;
+    }
     public String getTask_type() {
         return task_type;
     }
@@ -81,13 +87,7 @@ public class AcceptTaskBean {
         this.task_tag = task_tag;
     }
 
-    public String getTask_status() {
-        return task_status;
-    }
 
-    public void setTask_status(String task_status) {
-        this.task_status = task_status;
-    }
 
     public String getApply_status() {
         return apply_status;

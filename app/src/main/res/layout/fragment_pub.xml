@@ -27,17 +27,28 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:orientation="vertical">
-                    <com.youth.banner.Banner
-                        android:id="@+id/banner"
+                    <RelativeLayout
                         android:layout_width="match_parent"
-                        android:layout_height="120dp"
-                        android:layout_marginRight="10dp"
-                        android:layout_marginTop="10dp"
-                        app:indicator_drawable_selected="@drawable/dot_selected"
-                        app:indicator_drawable_unselected="@drawable/dot_unselected"
-                        app:indicator_height="4dp"
-                        app:indicator_margin="2dp"
-                        app:indicator_width="4dp" />
+                        android:layout_height="120dip">
+                        <com.youth.banner.Banner
+                            android:visibility="gone"
+                            android:id="@+id/banner"
+                            android:layout_width="match_parent"
+                            android:layout_height="120dp"
+                            android:layout_marginRight="10dp"
+                            android:layout_marginTop="10dp"
+                            app:indicator_drawable_selected="@drawable/dot_selected"
+                            app:indicator_drawable_unselected="@drawable/dot_unselected"
+                            app:indicator_height="4dp"
+                            app:indicator_margin="2dp"
+                            app:indicator_width="4dp" />
+                        <ImageView
+                            android:id="@+id/img_banner"
+                            android:scaleType="fitXY"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent" />
+                    </RelativeLayout>
+
                     <LinearLayout
                         android:id="@+id/layout_hottuijian"
                         android:layout_width="wrap_content"

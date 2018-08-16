@@ -40,11 +40,20 @@ public class MainTaskBean {
         private String id;
         private String task_name;
         private String task_type;
+        private String task_status;
         private String task_type_child;
         private String pay_amount;
         private String task_description;
         private String task_tag;
 
+
+        public String getTask_status() {
+            return task_status;
+        }
+
+        public void setTask_status(String task_status) {
+            this.task_status = task_status;
+        }
         public String getId() {
             return id;
         }

@@ -11,6 +11,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
+import com.power.mercenary.MyApplication;
 import com.power.mercenary.R;
 import com.power.mercenary.base.BaseActivity;
 import com.power.mercenary.bean.NineGridTestModel;
@@ -88,6 +89,10 @@ public class WorkPubActivity extends BaseActivity implements TieZiListPresenter.
 
 
             case R.id.iv_photo:
+                if (!MyApplication.isLogin()) {
+                    startActivity(new Intent(this, SignInActivity.class));
+                    return;
+                }
                 Intent intent = new Intent(mContext,PostActivity.class);
                 intent.putExtra("task_type_child",task_type_child);
                 intent.putExtra("task_type",task_type);

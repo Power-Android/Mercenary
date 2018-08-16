@@ -1,5 +1,6 @@
 package com.power.mercenary.activity;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.LayoutRes;
@@ -26,6 +27,18 @@ import com.chad.library.adapter.base.BaseViewHolder;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.power.mercenary.R;
+import com.power.mercenary.activity.details_audit_accept.GRAcceptAuditActivity;
+import com.power.mercenary.activity.details_audit_accept.GZAcceptAuditActivity;
+import com.power.mercenary.activity.details_audit_accept.PTAcceptAuditActivity;
+import com.power.mercenary.activity.details_audit_accept.SHAcceptAuditActivity;
+import com.power.mercenary.activity.details_intask_accept.GRAcceptInTaskActivity;
+import com.power.mercenary.activity.details_intask_accept.GZAcceptInTaskActivity;
+import com.power.mercenary.activity.details_intask_accept.PTAcceptInTaskActivity;
+import com.power.mercenary.activity.details_intask_accept.SHAcceptInTaskActivity;
+import com.power.mercenary.activity.details_success_accept.GRAcceptSuccessActivity;
+import com.power.mercenary.activity.details_success_accept.GZAcceptSuccessActivity;
+import com.power.mercenary.activity.details_success_accept.PTAcceptSuccessActivity;
+import com.power.mercenary.activity.details_success_accept.SHAcceptSuccessActivity;
 import com.power.mercenary.base.BaseActivity;
 import com.power.mercenary.bean.HomHotBean;
 import com.power.mercenary.bean.HotSearchBean;
@@ -268,7 +281,7 @@ public class HomeSearchActivity extends BaseActivity implements View.OnClickList
     }
 
     @Override
-    public void getTaskInfo(List<MainTaskBean.TuijianBean> hotInfo) {
+    public void getTaskInfo(final List<MainTaskBean.TuijianBean> hotInfo) {
         if (hotInfo==null||hotInfo.size()<=0){
             tvNoTask.setVisibility(View.VISIBLE);
             taskRecycler.setVisibility(View.GONE);
@@ -279,6 +292,129 @@ public class HomeSearchActivity extends BaseActivity implements View.OnClickList
             taskRecycler.setNestedScrollingEnabled(false);
             TuijianAdapter taskAdapter = new TuijianAdapter(R.layout.item_tuijian_renwu, hotInfo);
             taskRecycler.setAdapter(taskAdapter);
+            taskAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
+                @Override
+                public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+                    String taskType = hotInfo.get(position).getTask_type();
+                    String taskId = hotInfo.get(position).getId();
+                    String taskState = hotInfo.get(position).getTask_status();
+                    if (TextUtils.equals(taskState, "2")) {
+                            switch (taskType) {
+                                case "1":
+                                    Intent ptIntent = new Intent(HomeSearchActivity.this, PTAcceptInTaskActivity.class);
+                                    ptIntent.putExtra("taskId", taskId);
+                                startActivity(ptIntent);
+                                break;
+
+                            case "2":
+                            case "5":
+                            case "6":
+                                Intent shIntent = new Intent(HomeSearchActivity.this, SHAcceptInTaskActivity.class);
+                                shIntent.putExtra("taskId", taskId);
+                                startActivity(shIntent);
+                                break;
+
+                            case "3":
+                                Intent grIntent = new Intent(HomeSearchActivity.this, GRAcceptInTaskActivity.class);
+                                grIntent.putExtra("taskId", taskId);
+                                startActivity(grIntent);
+                                break;
+
+                            case "4":
+                                Intent gzIntent = new Intent(HomeSearchActivity.this, GZAcceptInTaskActivity.class);
+                                gzIntent.putExtra("taskId", taskId);
+                                startActivity(gzIntent);
+                                break;
+                        }
+
+                    } else if (TextUtils.equals(taskState, "3")) {
+                        switch (taskType) {
+                            case "1":
+                                Intent ptIntent = new Intent(HomeSearchActivity.this, PTAcceptAuditActivity.class);
+                                ptIntent.putExtra("taskId", taskId);
+                                startActivity(ptIntent);
+                                break;
+
+                            case "2":
+                            case "5":
+                            case "6":
+                                Intent shIntent = new Intent(HomeSearchActivity.this, SHAcceptAuditActivity.class);
+                                shIntent.putExtra("taskId", taskId);
+                                startActivity(shIntent);
+                                break;
+
+                            case "3":
+                                Intent grIntent = new Intent(HomeSearchActivity.this, GRAcceptAuditActivity.class);
+                                grIntent.putExtra("taskId", taskId);
+                                startActivity(grIntent);
+                                break;
+
+                            case "4":
+                                Intent gzIntent = new Intent(HomeSearchActivity.this, GZAcceptAuditActivity.class);
+                                gzIntent.putExtra("taskId", taskId);
+                                startActivity(gzIntent);
+                                break;
+                        }
+
+                    } else if (TextUtils.equals(taskState, "6") || TextUtils.equals(taskState, "7")) {
+                        switch (taskType) {
+                            case "1":
+                                Intent ptIntent = new Intent(HomeSearchActivity.this, PTAcceptSuccessActivity.class);
+                                ptIntent.putExtra("taskId", taskId);
+                                startActivity(ptIntent);
+                                break;
+
+                            case "2":
+                            case "5":
+                            case "6":
+                                Intent shIntent = new Intent(HomeSearchActivity.this, SHAcceptSuccessActivity.class);
+                                shIntent.putExtra("taskId", taskId);
+                                startActivity(shIntent);
+                                break;
+
+                            case "3":
+                                Intent grIntent = new Intent(HomeSearchActivity.this, GRAcceptSuccessActivity.class);
+                                grIntent.putExtra("taskId", taskId);
+                                startActivity(grIntent);
+                                break;
+
+                            case "4":
+                                Intent gzIntent = new Intent(HomeSearchActivity.this, GZAcceptSuccessActivity.class);
+                                gzIntent.putExtra("taskId", taskId);
+                                startActivity(gzIntent);
+                                break;
+                        }
+                    } else {
+                        switch (taskType) {
+                            case "1":
+                                Intent ptIntent = new Intent(HomeSearchActivity.this, PTTaskDetailsActivity.class);
+                                ptIntent.putExtra("taskId", taskId);
+                                startActivity(ptIntent);
+                                break;
+
+                            case "2":
+                            case "5":
+                            case "6":
+                                Intent shIntent = new Intent(HomeSearchActivity.this, SHTaskDetailsActivity.class);
+                                shIntent.putExtra("taskId", taskId);
+                                startActivity(shIntent);
+                                break;
+
+                            case "3":
+                                Intent grIntent = new Intent(HomeSearchActivity.this, GRTaskDetailsActivity.class);
+                                grIntent.putExtra("taskId", taskId);
+                                startActivity(grIntent);
+                                break;
+
+                            case "4":
+                                Intent gzIntent = new Intent(HomeSearchActivity.this, GZTaskDetailsActivity.class);
+                                gzIntent.putExtra("taskId", taskId);
+                                startActivity(gzIntent);
+                                break;
+                        }
+                    }
+                }
+            });
         }
         allSearchLayout.setVisibility(View.GONE);
     }

@@ -12,21 +12,24 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.power.mercenary.R;
 import com.power.mercenary.activity.PostDetailActivity;
 import com.power.mercenary.activity.WorkPubActivity;
 import com.power.mercenary.base.BaseFragment;
+import com.power.mercenary.bean.BannerBean;
+import com.power.mercenary.bean.MainTaskBean;
 import com.power.mercenary.bean.Testbean;
 import com.power.mercenary.bean.TieZiDetailsBean;
 import com.power.mercenary.bean.TieZiListBean;
 import com.power.mercenary.http.ResponseBean;
+import com.power.mercenary.presenter.MainPresenter;
 import com.power.mercenary.presenter.TieZiListPresenter;
-import com.power.mercenary.utils.TUtils;
+import com.power.mercenary.utils.Urls;
 import com.power.mercenary.view.FluidLayout;
 import com.youth.banner.Banner;
-import com.youth.banner.listener.OnBannerListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -39,7 +42,7 @@ import butterknife.Unbinder;
  * Created by power on 2018/3/21.
  */
 
-public class PubFragment extends BaseFragment implements TieZiListPresenter.TaskListCallBack {
+public class PubFragment extends BaseFragment implements TieZiListPresenter.TaskListCallBack, MainPresenter.MainCallBack {
     @BindView(R.id.title_content_tv)
     TextView titleContentTv;
     @BindView(R.id.recycler_title)
@@ -60,11 +63,14 @@ public class PubFragment extends BaseFragment implements TieZiListPresenter.Task
     @BindView(R.id.layout_hottuijian)
     LinearLayout layoutHottuijian;
     Unbinder unbinder1;
+    @BindView(R.id.img_banner)
+    ImageView imgBanner;
     private int scrollPosition;
     private List<String> hotNameList = new ArrayList<>();
     private String task_type = "0";
     private String task_type_child = "";
     private TieZiListPresenter presenter;
+    private List<BannerBean> bannerBeans;
 
     @Override
     protected View initView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -72,6 +78,8 @@ public class PubFragment extends BaseFragment implements TieZiListPresenter.Task
         unbinder = ButterKnife.bind(this, view);
         presenter = new TieZiListPresenter(getActivity(), this);
         presenter.getTaskList(1, task_type, "0");
+        MainPresenter mainPresenter = new MainPresenter(getActivity(), this);
+        mainPresenter.getBannerList(2);
         initData();
         return view;
     }
@@ -84,12 +92,12 @@ public class PubFragment extends BaseFragment implements TieZiListPresenter.Task
         baaaneList.add(R.drawable.test_banner);
         baaaneList.add(R.drawable.test_banner);
 //        BannerUtils.startBanner(banner, baaaneList);
-        banner.setOnBannerListener(new OnBannerListener() {
-            @Override
-            public void OnBannerClick(int position) {
-                TUtils.showShort(mContext, "点击了Banner" + position);
-            }
-        });
+//        banner.setOnBannerListener(new OnBannerListener() {
+//            @Override
+//            public void OnBannerClick(int position) {
+//                TUtils.showShort(mContext, bannerBeans.get(position).getUrl());
+//            }
+//        });
 
         final List<Testbean> titleList = new ArrayList<>();
         Testbean testbean0 = new Testbean();
@@ -229,9 +237,9 @@ public class PubFragment extends BaseFragment implements TieZiListPresenter.Task
         adapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-                Intent intent = new Intent(mContext,PostDetailActivity.class);
-                intent.putExtra("id",datas.get(position).getId()+"");
-                startActivityForResult(intent,1);
+                Intent intent = new Intent(mContext, PostDetailActivity.class);
+                intent.putExtra("id", datas.get(position).getId() + "");
+                startActivityForResult(intent, 1);
             }
         });
     }
@@ -259,6 +267,26 @@ public class PubFragment extends BaseFragment implements TieZiListPresenter.Task
     @Override
     public void getPost(ResponseBean datas) {
 
+    }
+
+    @Override
+    public void getTaskList(MainTaskBean taskBean) {
+
+    }
+
+    @Override
+    public void getBannerList(List<BannerBean> datas) {
+//        bannerBeans = datas;
+//        List<String> bannerList = new ArrayList<>();
+//        if (datas != null) {
+//            for (int i = 0; i < datas.size(); i++) {
+//                bannerList.add(Urls.BASEIMGURL + datas.get(i).getPic());
+//            }
+//        }
+        if (datas!=null&&datas.size()>0){
+            Glide.with(mContext).load(Urls.BASEIMGURL + datas.get(0).getPic()).into(imgBanner);
+        }
+//        BannerUtils.startBanner(banner, bannerList);
     }
 
     private class ContentAdapter extends BaseQuickAdapter<TieZiListBean, BaseViewHolder> {

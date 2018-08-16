@@ -79,6 +79,7 @@
                     android:hint="请输入任务目的"
                     android:textColorHint="@color/hint_color"
                     android:textSize="14sp"
+                    android:maxLength="200"
                     android:minLines="5"/>
             </LinearLayout>
             <LinearLayout

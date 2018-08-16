@@ -17,7 +17,6 @@ import android.widget.Toast;
 
 import com.lzy.okgo.model.Response;
 import com.power.mercenary.MainActivity;
-import com.power.mercenary.MyApplication;
 import com.power.mercenary.R;
 import com.power.mercenary.base.BaseActivity;
 import com.power.mercenary.bean.user.TokenInfo;
@@ -31,18 +30,12 @@ import com.power.mercenary.presenter.UserPresenter;
 import com.power.mercenary.utils.CacheUtils;
 import com.power.mercenary.utils.CountDownUtils;
 import com.power.mercenary.utils.MyUtils;
-import com.power.mercenary.utils.SpUtils;
 import com.power.mercenary.utils.Urls;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import io.rong.imlib.RongIMClient;
 
-import static com.power.mercenary.R.id.et_sign_mm;
-import static com.power.mercenary.R.id.iv_dl_yj;
-import static com.power.mercenary.R.id.tv_hqyzm;
-import static com.power.mercenary.R.id.tv_mm_wjmm;
-import static com.power.mercenary.R.id.tv_yzm_mm;
 
 /**
  * Created by Administrator on 2018/3/29.
@@ -146,6 +139,10 @@ public class SignInActivity extends BaseActivity implements View.OnClickListener
         tvHqyzm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                if (edtPhone.getText().length()<11||edtPhone.getText().equals("")){
+                    Toast.makeText(mContext, "请输入正确的手机号", Toast.LENGTH_SHORT).show();
+                    return;
+                }
                 countDownUtils.start();
             }
         });

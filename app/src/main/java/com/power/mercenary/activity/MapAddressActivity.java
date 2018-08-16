@@ -1,11 +1,17 @@
 package com.power.mercenary.activity;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.location.LocationManager;
+import android.os.Build;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.support.annotation.Nullable;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -69,17 +75,65 @@ public class MapAddressActivity extends BaseActivity implements OnGetPoiSearchRe
     private List<PoiBean> mPoiinfo = new ArrayList<>();
     private int scrollPosition;
     private BiaoqianAdapter biaoqianAdapter;
-
+    private LocationManager lm;//【位置管理】
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_map_address);
         ButterKnife.bind(this);
         EventBus.getDefault().register(this);
-        initMap();
+//        checkPermissionGranted(Manifest.permission.ACCESS_FINE_LOCATION)
+//         checkPermissionGranted(Manifest.permission.ACCESS_COARSE_LOCATION)
+//        if (isLocationEnabled()){
+//            Toast.makeText(mContext, "未开启定位权限", Toast.LENGTH_SHORT).show();
+//        }else {
+
+//        }
+        lm = (LocationManager) this.getSystemService(this.LOCATION_SERVICE);
+        boolean ok = lm.isProviderEnabled(LocationManager.GPS_PROVIDER);
+        if (ok) {//开了定位服务
+            if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
+                    != PackageManager.PERMISSION_GRANTED) {
+                // 没有权限，申请权限。
+//                        Toast.makeText(this, "没有权限", Toast.LENGTH_SHORT).show();
+                Intent intent =new Intent();
+                //定位服务页面
+                intent.setAction(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+                //如果页面无法打开，进入设置页面
+//                intent.setAction(Settings.ACTION_SETTINGS);
+            } else {
+                initMap();
+                // 有权限了，去放肆吧。
+//                        Toast.makeText(this, "有权限", Toast.LENGTH_SHORT).show();
+            }
+        } else {
+            Toast.makeText(this, "系统检测到未开启GPS定位服务", Toast.LENGTH_SHORT).show();
+            Intent intent = new Intent();
+            intent.setAction(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+            startActivityForResult(intent, 1315);
+            finish();
+        }
 
     }
-
+//    private boolean checkPermissionGranted(String permission) {
+//        return this.checkPermission(permission, Process.myPid(), Process.myUid()) == PackageManager.PERMISSION_GRANTED;
+//    }
+public boolean isLocationEnabled() {
+        int locationMode = 0;
+        String locationProviders;
+         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+                 try {
+                         locationMode = Settings.Secure.getInt(getContentResolver(), Settings.Secure.LOCATION_MODE);
+                     } catch (Settings.SettingNotFoundException e) {
+                         e.printStackTrace();
+                         return false;
+                     }
+                 return locationMode != Settings.Secure.LOCATION_MODE_OFF;
+             } else {
+                 locationProviders = Settings.Secure.getString(getContentResolver(), Settings.Secure.LOCATION_PROVIDERS_ALLOWED);
+                 return !TextUtils.isEmpty(locationProviders);
+             }
+     }
     @Override
     protected void onDestroy() {
         super.onDestroy();

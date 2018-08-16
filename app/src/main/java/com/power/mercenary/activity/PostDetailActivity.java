@@ -17,6 +17,7 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
+import com.power.mercenary.MyApplication;
 import com.power.mercenary.R;
 import com.power.mercenary.base.BaseActivity;
 import com.power.mercenary.bean.TieZiDetailsBean;
@@ -139,6 +140,10 @@ public class PostDetailActivity extends BaseActivity implements TieZiListPresent
                 finish();
                 break;
             case R.id.send:
+                if (!MyApplication.isLogin()) {
+                    startActivity(new Intent(this, SignInActivity.class));
+                    return;
+                }
                 if (TextUtils.isEmpty(edPinglun.getText().toString())) {
                     if (isPinglun){
                         Toast.makeText(mContext, "请输入评论内容", Toast.LENGTH_SHORT).show();

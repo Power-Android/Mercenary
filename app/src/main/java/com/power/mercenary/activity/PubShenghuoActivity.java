@@ -115,7 +115,7 @@ public class PubShenghuoActivity extends BaseActivity implements PubTaskPresente
 
             @Override
             public void afterTextChanged(Editable editable) {
-                if (taskMudiEt.getText().toString().length()>=200){
+                if (taskMudiEt.getText().toString().length()>200){
                     Toast.makeText(mContext, "最多可输入200字", Toast.LENGTH_SHORT).show();
                     return;
                 }
@@ -344,6 +344,7 @@ public class PubShenghuoActivity extends BaseActivity implements PubTaskPresente
     @Override
     public void publishTask() {
         Toast.makeText(mContext, "发布成功", Toast.LENGTH_SHORT).show();
+        finish();
     }
 
 }

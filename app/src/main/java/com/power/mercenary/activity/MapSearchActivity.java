@@ -73,7 +73,19 @@ public class MapSearchActivity extends BaseActivity implements OnGetPoiSearchRes
         setContentView(R.layout.activity_search_address);
         ButterKnife.bind(this);
         searchContent = getIntent().getStringExtra("searchContent");
+
+            setMyLoctionPicture();
+
+
+    }
+
+    private void setMyLoctionPicture() {
         searchTv.setText(searchContent);
+        bmapView.removeViewAt(1);//隐藏logo
+        bmapView.removeViewAt(2);//隐藏比例尺
+        bmapView.showZoomControls(false);// 隐藏缩放控件
+        mBaiduMap = bmapView.getMap();
+        mBaiduMap.clear();
         initMap();
         searchTv.addTextChangedListener(new TextWatcher() {
             @Override
@@ -88,17 +100,7 @@ public class MapSearchActivity extends BaseActivity implements OnGetPoiSearchRes
 
             @Override
             public void afterTextChanged(Editable editable) {
-                if (!TextUtils.isEmpty(searchContent)){
-                    mLocClient.registerLocationListener(new BDLocationListener() {
-                        @Override
-                        public void onReceiveLocation(BDLocation bdLocation) {
-                            if (!TextUtils.isEmpty(searchContent)){
-                                searchNeayBy(searchContent,bdLocation.getLongitude(), bdLocation.getLatitude());
-                            }
-
-                        }
-                    });
-                }
+                initMap();
             }
         });
     }
@@ -110,27 +112,17 @@ public class MapSearchActivity extends BaseActivity implements OnGetPoiSearchRes
                 finish();
                 break;
             case R.id.title_content_right_tv:
-                if (!TextUtils.isEmpty(searchContent)){
-                    mLocClient.registerLocationListener(new BDLocationListener() {
-                        @Override
-                        public void onReceiveLocation(BDLocation bdLocation) {
-                            if (!TextUtils.isEmpty(searchContent)){
-                                searchNeayBy(searchContent,bdLocation.getLongitude(), bdLocation.getLatitude());
-                            }
-
-                        }
-                    });
+                if (!TextUtils.isEmpty(searchTv.getText().toString())) {
+                    initMap();
+                }else {
+                    Toast.makeText(mContext, "请输入要搜索的地址", Toast.LENGTH_SHORT).show();
                 }
                 break;
         }
     }
 
     private void initMap() {
-        bmapView.removeViewAt(1);//隐藏logo
-        bmapView.removeViewAt(2);//隐藏比例尺
-        bmapView.showZoomControls(false);// 隐藏缩放控件
-        mBaiduMap = bmapView.getMap();
-        mBaiduMap.clear();
+
         // 开启定位图层
         mBaiduMap.setMyLocationEnabled(true);
         mBaiduMap.setMapStatus(MapStatusUpdateFactory.newMapStatus(new MapStatus.Builder().zoom(17).build()));   // 设置级别
@@ -154,10 +146,9 @@ public class MapSearchActivity extends BaseActivity implements OnGetPoiSearchRes
         mLocClient.registerLocationListener(new BDLocationListener() {
             @Override
             public void onReceiveLocation(BDLocation bdLocation) {
-                if (!TextUtils.isEmpty(searchContent)){
-                    searchNeayBy(searchContent,bdLocation.getLongitude(), bdLocation.getLatitude());
+                if (!TextUtils.isEmpty(searchTv.getText().toString())) {
+                    searchNeayBy(searchTv.getText().toString(), bdLocation.getLongitude(), bdLocation.getLatitude());
                 }
-
             }
         });
         mLocClient.start(); // 调用此方法开始定位
@@ -165,7 +156,7 @@ public class MapSearchActivity extends BaseActivity implements OnGetPoiSearchRes
 
     }
 
-    private void searchNeayBy(String searchContent,double mlongitude, double mlatitude) {
+    private void searchNeayBy(String searchContent, double mlongitude, double mlatitude) {
         // POI初始化搜索模块，注册搜索事件监听
         PoiSearch mPoiSearch = PoiSearch.newInstance();
         mPoiSearch.setOnGetPoiSearchResultListener(this);
@@ -188,6 +179,7 @@ public class MapSearchActivity extends BaseActivity implements OnGetPoiSearchRes
 
         if (result.error == SearchResult.ERRORNO.NO_ERROR) {// 检索结果正常返回
             if (result != null) {
+                mPoiinfo.clear();
                 if (result.getAllPoi() != null && result.getAllPoi().size() > 0) {
                     List<PoiInfo> allPoi = result.getAllPoi();
                     for (int i = 0; i < allPoi.size(); i++) {

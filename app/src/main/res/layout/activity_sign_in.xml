@@ -91,7 +91,6 @@
     </LinearLayout>
     <!--密码登录-->
     <LinearLayout
-        android:visibility="gone"
         android:id="@+id/pass_login"
         android:background="@color/bg_color"
         android:layout_width="match_parent"
@@ -170,7 +169,7 @@
                 <ImageView
                     android:id="@+id/iv_dl_yj"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="20dip"
                     android:src="@drawable/by_2x"
                     />
 
