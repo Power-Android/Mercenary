@@ -1,8 +1,11 @@
 package com.power.mercenary.activity;
 
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -10,6 +13,7 @@ import android.widget.TextView;
 
 import com.power.mercenary.R;
 import com.power.mercenary.base.BaseActivity;
+import com.power.mercenary.utils.TUtils;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -61,6 +65,25 @@ public class HelpActivity extends BaseActivity {
                 startActivity(intent);
                 break;
             case R.id.rl_jcgx:
+                try {
+                    String verName = getPackageManager().
+                            getPackageInfo(getPackageName(), 0).versionName;
+
+//                    if (TextUtils.equals(verName, response.body().getDatas().getVersionNumber())) {
+//                        TUtils.showFail(SettingActivity.this, getString(R.string.max_version));
+//                    } else{
+                        String mAddress = "market://details?id=" + getPackageName();
+                        Intent marketIntent = new Intent("android.intent.action.VIEW");
+                        marketIntent.setData(Uri.parse(mAddress));
+                        if (marketIntent.resolveActivity(getPackageManager()) != null) { //可以接收
+                            startActivity(marketIntent);
+                        } else {
+                            TUtils.showCustom(HelpActivity.this, "此版本已是最新");
+                        }
+//                    }
+                } catch (PackageManager.NameNotFoundException e) {
+                    e.printStackTrace();
+                }
                 break;
             case R.id.rl_yhsz:
                 break;

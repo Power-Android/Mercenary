@@ -32,21 +32,21 @@
             android:process=":multiprocess"
             tools:node="replace"></service>
 
-        <receiver
-            android:name=".push.MPushReceiver"
-            android:enabled="true"
-            android:exported="false">
-            <intent-filter>
-                <action android:name="cn.jpush.android.intent.REGISTRATION" />
-                <action android:name="cn.jpush.android.intent.MESSAGE_RECEIVED" />
-                <action android:name="cn.jpush.android.intent.NOTIFICATION_RECEIVED" />
-                <action android:name="cn.jpush.android.intent.NOTIFICATION_OPENED" />
-                <action android:name="cn.jpush.android.intent.NOTIFICATION_CLICK_ACTION" />
-                <action android:name="cn.jpush.android.intent.CONNECTION" />
+        <!--<receiver-->
+            <!--android:name=".push.MPushReceiver"-->
+            <!--android:enabled="true"-->
+            <!--android:exported="false">-->
+            <!--<intent-filter>-->
+                <!--<action android:name="cn.jpush.android.intent.REGISTRATION" />-->
+                <!--<action android:name="cn.jpush.android.intent.MESSAGE_RECEIVED" />-->
+                <!--<action android:name="cn.jpush.android.intent.NOTIFICATION_RECEIVED" />-->
+                <!--<action android:name="cn.jpush.android.intent.NOTIFICATION_OPENED" />-->
+                <!--<action android:name="cn.jpush.android.intent.NOTIFICATION_CLICK_ACTION" />-->
+                <!--<action android:name="cn.jpush.android.intent.CONNECTION" />-->
 
-                <category android:name="com.power.mercenary" />
-            </intent-filter>
-        </receiver>
+                <!--<category android:name="com.power.mercenary" />-->
+            <!--</intent-filter>-->
+        <!--</receiver>-->
 
         <provider
             android:name="android.support.v4.content.FileProvider"
@@ -358,6 +358,18 @@
 
         <activity android:name=".activity.HomeSearchActivity"></activity>
         <activity android:name=".activity.WebActivity"></activity>
+
+        <receiver
+            android:exported="true"
+            android:name=".push.RCNotificationReceiver">
+            <intent-filter>
+                <action android:name="io.rong.push.intent.MESSAGE_ARRIVED" />
+                <action android:name="io.rong.push.intent.MI_MESSAGE_ARRIVED" />
+                <action android:name="io.rong.push.intent.MESSAGE_CLICKED" />
+                <action android:name="io.rong.push.intent.MI_MESSAGE_CLICKED" />
+                <action android:name="io.rong.push.intent.THIRD_PARTY_PUSH_STATE" />
+            </intent-filter>
+        </receiver>
     </application>
 
 </manifest>

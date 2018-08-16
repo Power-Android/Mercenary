@@ -71,6 +71,8 @@ public class ModifyPhoneActivity extends BaseActivity implements AccountPresente
             public void onClick(View view) {
                 if (!TextUtils.isEmpty(etPhone.getText().toString())) {
                     countDownUtils.start();
+                } else {
+                    TUtils.showCustom(ModifyPhoneActivity.this, "请输入手机号");
                 }
             }
         });

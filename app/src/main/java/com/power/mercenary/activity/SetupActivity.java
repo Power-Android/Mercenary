@@ -28,9 +28,12 @@ import com.power.mercenary.event.EventUtils;
 import com.power.mercenary.presenter.UpdataPresenter;
 import com.power.mercenary.utils.CacheUtils;
 import com.power.mercenary.utils.DataCleanManager;
+import com.power.mercenary.utils.TUtils;
 import com.power.mercenary.utils.Urls;
 import com.power.mercenary.view.AgePop;
 import com.power.mercenary.view.SelectorPop;
+import com.power.mercenary.view.SwitchButton;
+import com.umeng.socialize.utils.Log;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -93,6 +96,8 @@ public class SetupActivity extends BaseActivity implements View.OnClickListener,
     TextView logout;
     @BindView(R.id.act_setUp_icon)
     ImageView icon;
+    @BindView(R.id.sb_check)
+    SwitchButton switchButton;
 
     private OptionsPickerView pvCustomOptions;
 
@@ -114,7 +119,7 @@ public class SetupActivity extends BaseActivity implements View.OnClickListener,
 
     private TextView checkView;
 
-    private String showAndHide = "show";
+    private String showAndHide = "hide";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -160,10 +165,22 @@ public class SetupActivity extends BaseActivity implements View.OnClickListener,
             }
         });
 
+        if (CacheUtils.get(CacheConstants.MESSAGE_SWITCHBUTTON) != null) {
+            String msgButton = CacheUtils.get(CacheConstants.MESSAGE_SWITCHBUTTON);
+            switch (msgButton) {
+                case "false":
+                    switchButton.setChecked(false);
+                    break;
+                case "true":
+                    switchButton.setChecked(true);
+                    break;
+            }
+        }
+
         showName.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (TextUtils.equals(showAndHide, "hide")) {
+                if (TextUtils.equals(showAndHide, "show")) {
                     if (!TextUtils.isEmpty(tvName.getText().toString())) {
                         String name = tvName.getText().toString();
                         int len = name.length() - 1;
@@ -175,13 +192,13 @@ public class SetupActivity extends BaseActivity implements View.OnClickListener,
 
                         tvName.setText(string.toString());
                     }
-                    showAndHide = "show";
+                    showAndHide = "hide";
                     showName.setText("显示真实姓名");
-                } else if (TextUtils.equals(showAndHide, "show")) {
+                } else if (TextUtils.equals(showAndHide, "hide")) {
                     if (!TextUtils.isEmpty(userInfo.getName())) {
                         tvName.setText(userInfo.getName());
                     }
-                    showAndHide = "hide";
+                    showAndHide = "show";
                     showName.setText("隐藏真实姓名");
                 }
                 CacheUtils.put(CacheConstants.SHOWANDHIDEREALNAME, showAndHide);
@@ -202,7 +219,12 @@ public class SetupActivity extends BaseActivity implements View.OnClickListener,
             showAndHide = CacheUtils.get(CacheConstants.SHOWANDHIDEREALNAME);
             if (TextUtils.equals(showAndHide, "show")) {
                 if (!TextUtils.isEmpty(userInfo.getName())) {
-                    String name = userInfo.getName();
+                    tvName.setText(userInfo.getName());
+                }
+                showName.setText("隐藏真实姓名");
+            } else {
+                if (!TextUtils.isEmpty(tvName.getText().toString())) {
+                    String name = tvName.getText().toString();
                     int len = name.length() - 1;
                     StringBuffer string = new StringBuffer();
                     string.append(name.substring(0, 1));
@@ -214,6 +236,19 @@ public class SetupActivity extends BaseActivity implements View.OnClickListener,
                 }
                 showName.setText("显示真实姓名");
             }
+        } else {
+            if (!TextUtils.isEmpty(tvName.getText().toString())) {
+                String name = tvName.getText().toString();
+                int len = name.length() - 1;
+                StringBuffer string = new StringBuffer();
+                string.append(name.substring(0, 1));
+                for (int i = 0; i < len; i++) {
+                    string.append("*");
+                }
+
+                tvName.setText(string.toString());
+            }
+            showName.setText("显示真实姓名");
         }
 
         logout.setOnClickListener(new View.OnClickListener() {
@@ -243,6 +278,13 @@ public class SetupActivity extends BaseActivity implements View.OnClickListener,
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
+            }
+        });
+
+        switchButton.setOnCheckedChangeListener(new SwitchButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(SwitchButton view, boolean isChecked) {
+                CacheUtils.put(CacheConstants.MESSAGE_SWITCHBUTTON, isChecked + "");
             }
         });
 

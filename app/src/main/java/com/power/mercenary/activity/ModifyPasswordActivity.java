@@ -87,6 +87,8 @@ public class ModifyPasswordActivity extends BaseActivity implements AccountPrese
             public void onClick(View v) {
                 if (!TextUtils.isEmpty(phone.getText().toString())) {
                     countDownUtils.start();
+                } else {
+                    TUtils.showCustom(ModifyPasswordActivity.this, "请输入手机号");
                 }
             }
         });

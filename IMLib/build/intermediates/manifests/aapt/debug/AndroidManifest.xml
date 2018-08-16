@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="io.rong.imlib"
-    android:versionCode="2018070618"
-    android:versionName="2.9.2 Dev" >
+    android:versionCode="2018073114"
+    android:versionName="2.9.3 Stable" >
 
     <uses-sdk
         android:minSdkVersion="16"
@@ -32,10 +32,6 @@
             android:name="io.rong.imlib.ipc.RongService"
             android:exported="true"
             android:process=":ipc" />
-        <service
-            android:name="io.rong.imlib.ReConnectService"
-            android:exported="true"
-            android:permission="android.permission.BIND_JOB_SERVICE" />
 
         <receiver
             android:name="io.rong.imlib.ConnectChangeReceiver"

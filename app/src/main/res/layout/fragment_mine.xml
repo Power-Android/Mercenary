@@ -88,7 +88,8 @@
                     android:paddingTop="2dp"
                     android:text="未缴纳"
                     android:textColor="@color/white"
-                    android:textSize="11sp" />
+                    android:textSize="11sp"
+                    android:visibility="gone"/>
             </LinearLayout>
         </LinearLayout>
 

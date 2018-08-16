@@ -83,7 +83,6 @@ public class MyApplication extends Application {
         if (CacheUtils.get(CacheConstants.TYPE_LOGIN) != null) {
             TokenInfo tokenInfo = CacheUtils.get(CacheConstants.TYPE_LOGIN);
             if (!TextUtils.isEmpty(tokenInfo.yun_token)) {
-                TUtils.showCustom(this, tokenInfo.yun_token);
                 RongIMClient.connect(tokenInfo.yun_token, new RongIMClient.ConnectCallback() {
                     @Override
                     public void onTokenIncorrect() {
@@ -110,6 +109,27 @@ public class MyApplication extends Application {
 
                 if (content instanceof TextMessage) {
                     TextMessage textMessage = (TextMessage) content;
+
+                    if (CacheUtils.get(CacheConstants.MESSAGE_SWITCHBUTTON) != null) {
+
+                        String switchStr = CacheUtils.get(CacheConstants.MESSAGE_SWITCHBUTTON);
+
+                        if (TextUtils.equals(switchStr, "true")) {
+                            RongIMClient.getInstance().deleteMessages(new int[]{message.getMessageId()}, new RongIMClient.ResultCallback<Boolean>() {
+                                @Override
+                                public void onSuccess(Boolean aBoolean) {
+
+                                }
+
+                                @Override
+                                public void onError(RongIMClient.ErrorCode errorCode) {
+
+                                }
+                            });
+
+                            return true;
+                        }
+                    }
 
                     //int   消息id
                     CacheUtils.put(CacheConstants.MESSAGEID, message.getMessageId());

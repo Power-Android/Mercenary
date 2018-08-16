@@ -24,6 +24,9 @@ import com.power.mercenary.utils.TUtils;
 
 import org.greenrobot.eventbus.EventBus;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -72,6 +75,12 @@ public class ModifyEmailActivity extends BaseActivity implements UpdataPresenter
             @Override
             public void onClick(View v) {
                 if (!TextUtils.isEmpty(etEmail.getText().toString())) {
+
+                    if (!isEmail(etEmail.getText().toString())) {
+                        TUtils.showCustom(ModifyEmailActivity.this, "请输入正确的邮箱");
+                        return;
+                    }
+
                     userInfo.setMail(etEmail.getText().toString());
                     CacheUtils.put(CacheConstants.USERINFO, userInfo);
                     presenter.updataUserInfo(userInfo.getNick_name(), userInfo.getName(), userInfo.getAge(), Integer.parseInt(userInfo.getSex()), etEmail.getText().toString());
@@ -91,5 +100,13 @@ public class ModifyEmailActivity extends BaseActivity implements UpdataPresenter
     public void updataSuccess() {
         EventBus.getDefault().post(new EventUtils(EventConstants.TYPE_USERINFO));
         finish();
+    }
+
+    public boolean isEmail(String email) {
+        String str = "^([a-zA-Z0-9_\\-\\.]+)@((\\[[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.)|(([a-zA-Z0-9\\-]+\\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\\]?)$";
+        Pattern p = Pattern.compile(str);
+        Matcher m = p.matcher(email);
+
+        return m.matches();
     }
 }

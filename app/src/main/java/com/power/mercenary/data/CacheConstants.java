@@ -9,4 +9,5 @@ public class CacheConstants {
     public static final String MESSAGEID = "MESSAGEID"; //登录后 获取   存放的tokeninfo
     public static final String IS_IN_CHAT = "IS_IN_CHAT"; //是否在聊天室
     public static final String SHOWANDHIDEREALNAME = "SHOWANDHIDEREALNAME"; //是否在聊天室
+    public static final String MESSAGE_SWITCHBUTTON = "MESSAGE_SWITCHBUTTON"; //是否在聊天室
 }

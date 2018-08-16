@@ -9,7 +9,6 @@
     android:id="@+id/yigedalayout">
     <ImageView
         android:id="@+id/item_icon_iv"
-        android:src="@drawable/pt_iv"
         android:layout_width="40dp"
         android:layout_height="40dp"
         android:layout_gravity="center_horizontal"
@@ -18,7 +17,6 @@
         android:id="@+id/item_title_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="跑腿"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="5dp" />
 </LinearLayout>

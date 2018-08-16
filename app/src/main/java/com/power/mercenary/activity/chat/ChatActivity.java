@@ -260,7 +260,6 @@ public class ChatActivity extends BaseActivity implements SpringView.OnFreshList
                         info = "不在该聊天室中";
                         break;
                 }
-                TUtils.showCustom(ChatActivity.this, "发送失败：" + info);
             }
         });
     }
@@ -284,7 +283,6 @@ public class ChatActivity extends BaseActivity implements SpringView.OnFreshList
             @Override
             public void onError(RongIMClient.ErrorCode errorCode) {
                 Log.v("======>>", "getRemoteHistoryMessages" + errorCode.getMessage() + "----" + errorCode.getValue());
-                TUtils.showCustom(ChatActivity.this, "getRemoteHistoryMessages " + errorCode.getMessage() + "----" + errorCode.getValue());
                 mSpringView.onFinishFreshAndLoad();
             }
         });
@@ -375,6 +373,8 @@ public class ChatActivity extends BaseActivity implements SpringView.OnFreshList
                     Log.v("======>>", "historyMessages -- messages.size" + messages.size());
                     Log.v("======>>", "historyMessages -- messages.get(0).getMessageId" + messages.get(0).getMessageId());
                     Log.v("======>>", "historyMessages -- messages.get(messages.size() - 1).getMessageId" + messages.get(messages.size() - 1).getMessageId());
+                } else {
+                    onRefresh();
                 }
             }
 
