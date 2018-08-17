@@ -11,8 +11,13 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.lzy.okgo.model.Response;
 import com.power.mercenary.R;
 import com.power.mercenary.base.BaseActivity;
+import com.power.mercenary.bean.VersionBean;
+import com.power.mercenary.http.DialogCallback;
+import com.power.mercenary.http.HttpManager;
+import com.power.mercenary.http.ResponseBean;
 import com.power.mercenary.utils.TUtils;
 
 import butterknife.BindView;
@@ -65,25 +70,35 @@ public class HelpActivity extends BaseActivity {
                 startActivity(intent);
                 break;
             case R.id.rl_jcgx:
-                try {
-                    String verName = getPackageManager().
-                            getPackageInfo(getPackageName(), 0).versionName;
+                new HttpManager<ResponseBean<VersionBean>>("", this)
+                        .postRequest(new DialogCallback<ResponseBean<VersionBean>>(HelpActivity.this) {
+                            @Override
+                            public void onSuccess(Response<ResponseBean<VersionBean>> response) {
+                                if (response.body().data != null) {
+                                    String version = response.body().data.version;
+                                    try {
+                                        String verName = getPackageManager().
+                                                getPackageInfo(getPackageName(), 0).versionName;
 
-//                    if (TextUtils.equals(verName, response.body().getDatas().getVersionNumber())) {
-//                        TUtils.showFail(SettingActivity.this, getString(R.string.max_version));
-//                    } else{
-                        String mAddress = "market://details?id=" + getPackageName();
-                        Intent marketIntent = new Intent("android.intent.action.VIEW");
-                        marketIntent.setData(Uri.parse(mAddress));
-                        if (marketIntent.resolveActivity(getPackageManager()) != null) { //可以接收
-                            startActivity(marketIntent);
-                        } else {
-                            TUtils.showCustom(HelpActivity.this, "此版本已是最新");
-                        }
-//                    }
-                } catch (PackageManager.NameNotFoundException e) {
-                    e.printStackTrace();
-                }
+                                        if (TextUtils.equals(verName, version)) {
+                                            TUtils.showCustom(HelpActivity.this, "此版本已是最新");
+                                        } else {
+                                            String mAddress = "market://details?id=" + getPackageName();
+                                            Intent marketIntent = new Intent("android.intent.action.VIEW");
+                                            marketIntent.setData(Uri.parse(mAddress));
+                                            if (marketIntent.resolveActivity(getPackageManager()) != null) { //可以接收
+                                                startActivity(marketIntent);
+                                            } else {
+                                                TUtils.showCustom(HelpActivity.this, "您的手机上没有安装应用市场");
+                                            }
+                                        }
+                                    } catch (PackageManager.NameNotFoundException e) {
+                                        e.printStackTrace();
+                                    }
+                                }
+                            }
+                        });
+
                 break;
             case R.id.rl_yhsz:
                 break;
