@@ -548,7 +548,7 @@ public class GRPublishAppraiseActivity extends BaseActivity implements View.OnCl
 
     @Override
     public void changeCollection() {
-
+        EventBus.getDefault().post(new EventUtils(EventConstants.TYPE_REFRESH_COLLECTION));
     }
 
     @Override
@@ -565,6 +565,11 @@ public class GRPublishAppraiseActivity extends BaseActivity implements View.OnCl
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.act_task_detaiils_collectionBtn:
+                if (!MyApplication.isLogin()) {
+                    startActivity(new Intent(this, SignInActivity.class));
+                    return;
+                }
+
                 if (collectionState == 1) {
                     ivBtnCollection.setImageDrawable(getResources().getDrawable(R.drawable.w_sc_2x));
                     presenter.changeCollection(taskId, 2);

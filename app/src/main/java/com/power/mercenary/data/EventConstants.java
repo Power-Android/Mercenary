@@ -19,4 +19,5 @@ public class EventConstants {
     public static final int TYPE_MESSAGE_SHOW_NULL = 12;  //融云收到消息 进行展示 是否
     public static final int TYPE_MESSAGE_SHOW_MINE = 13;  //融云收到消息 进行展示 是否
     public static final int TYPE_MESSAGE_SHOW_RESRESH = 14;  //融云收到消息 进行展示 是否
+    public static final int TYPE_REFRESH_COLLECTION = 15;  //融云收到消息 进行展示 是否
 }

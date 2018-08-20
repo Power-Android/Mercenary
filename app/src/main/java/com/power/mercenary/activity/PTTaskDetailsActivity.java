@@ -35,8 +35,10 @@ import com.power.mercenary.bean.task.ApplyListBean;
 import com.power.mercenary.bean.task.MsgBean;
 import com.power.mercenary.bean.task.MsgListBean;
 import com.power.mercenary.bean.task.TaskDetailsBean;
+import com.power.mercenary.data.EventConstants;
 import com.power.mercenary.dialog.CallDialog;
 import com.power.mercenary.dialog.ShareDialog;
+import com.power.mercenary.event.EventUtils;
 import com.power.mercenary.http.ResponseBean;
 import com.power.mercenary.presenter.TaskDetailsPresenter;
 import com.power.mercenary.utils.MercenaryUtils;
@@ -47,6 +49,8 @@ import com.power.mercenary.view.BaseDialog;
 import com.power.mercenary.view.CircleImageView;
 import com.power.mercenary.view.MaxHeightRecyclerView;
 import com.power.mercenary.view.SharingPop;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -497,7 +501,7 @@ public class PTTaskDetailsActivity extends BaseActivity implements View.OnClickL
 
     @Override
     public void changeCollection() {
-
+        EventBus.getDefault().post(new EventUtils(EventConstants.TYPE_REFRESH_COLLECTION));
     }
 
     @Override

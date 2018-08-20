@@ -31,6 +31,7 @@ import com.power.mercenary.activity.PersonalDataActivity;
 import com.power.mercenary.activity.PostDetailActivity;
 import com.power.mercenary.activity.SHTaskDetailsActivity;
 import com.power.mercenary.activity.TaskListActivity;
+import com.power.mercenary.activity.WebActivity;
 import com.power.mercenary.activity.WorkPubActivity;
 import com.power.mercenary.base.BaseFragment;
 import com.power.mercenary.bean.BannerBean;
@@ -192,8 +193,8 @@ public class HomeFragment extends BaseFragment implements MainPresenter.MainCall
         banner.setOnBannerListener(new OnBannerListener() {
             @Override
             public void OnBannerClick(int position) {
-                TUtils.showShort(mContext, bannerBeans.get(position).getUrl());
-
+//                TUtils.showShort(mContext, bannerBeans.get(position).getUrl());
+                WebActivity.invoke(mContext, bannerBeans.get(position).getUrl(), "");
             }
         });
         //----------------------------结束---------------------------------------------

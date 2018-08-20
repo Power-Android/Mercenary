@@ -39,8 +39,10 @@ import com.power.mercenary.bean.task.ApplyListBean;
 import com.power.mercenary.bean.task.MsgBean;
 import com.power.mercenary.bean.task.MsgListBean;
 import com.power.mercenary.bean.task.TaskDetailsBean;
+import com.power.mercenary.data.EventConstants;
 import com.power.mercenary.dialog.CallDialog;
 import com.power.mercenary.dialog.ShareDialog;
+import com.power.mercenary.event.EventUtils;
 import com.power.mercenary.http.ResponseBean;
 import com.power.mercenary.presenter.TaskDetailsPresenter;
 import com.power.mercenary.presenter.publish.PublishPresenter;
@@ -53,6 +55,8 @@ import com.power.mercenary.view.CircleImageView;
 import com.power.mercenary.view.MaxHeightRecyclerView;
 import com.power.mercenary.view.RatingBarView;
 import com.power.mercenary.view.SharingPop;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -534,7 +538,7 @@ public class GZPublishAppraiseActivity extends BaseActivity implements View.OnCl
 
     @Override
     public void changeCollection() {
-
+        EventBus.getDefault().post(new EventUtils(EventConstants.TYPE_REFRESH_COLLECTION));
     }
 
     @Override
@@ -551,6 +555,11 @@ public class GZPublishAppraiseActivity extends BaseActivity implements View.OnCl
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.act_task_detaiils_collectionBtn:
+                if (!MyApplication.isLogin()) {
+                    startActivity(new Intent(this, SignInActivity.class));
+                    return;
+                }
+
                 if (collectionState == 1) {
                     ivBtnCollection.setImageDrawable(getResources().getDrawable(R.drawable.w_sc_2x));
                     presenter.changeCollection(taskId, 2);
