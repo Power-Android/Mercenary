@@ -439,6 +439,15 @@ public class GZAcceptInTaskActivity extends BaseActivity implements View.OnClick
 
     @Override
     public void publishMsg(MsgBean datas) {
+        msgPage++;
+
+        if (msgListBeanList.size() < 10) {
+            msgListBeanList.clear();
+            msgPage = 1;
+        }
+
+        presenter.getMsgList(taskId, msgPage);
+
         etMsg.setText("");
         TUtils.showCustom(this, "发表成功");
     }

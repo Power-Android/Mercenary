@@ -10,9 +10,11 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.lzy.okgo.model.Response;
 import com.power.mercenary.R;
 import com.power.mercenary.base.BaseActivity;
 import com.power.mercenary.bean.user.TokenInfo;
+import com.power.mercenary.http.ResponseBean;
 import com.power.mercenary.presenter.AccountPresenter;
 import com.power.mercenary.utils.CountDownUtils;
 import com.power.mercenary.utils.TUtils;
@@ -116,7 +118,7 @@ public class ModifyPasswordActivity extends BaseActivity implements AccountPrese
     }
 
     @Override
-    public void changePhone(TokenInfo tokenInfo) {
+    public void changePhone(Response<ResponseBean<TokenInfo>> tokenInfo) {
 
     }
 }

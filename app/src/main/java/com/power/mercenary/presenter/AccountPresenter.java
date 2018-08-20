@@ -11,9 +11,6 @@ import com.power.mercenary.http.ResponseBean;
 import com.power.mercenary.utils.MyUtils;
 import com.power.mercenary.utils.Urls;
 
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
-
 /**
  * admin  2018/7/5 wan
  */
@@ -64,7 +61,7 @@ public class AccountPresenter {
                 .postRequest(new DialogCallback<ResponseBean<TokenInfo>>(activity) {
                     @Override
                     public void onSuccess(Response<ResponseBean<TokenInfo>> response) {
-                        callBack.changePhone(response.body().data);
+                        callBack.changePhone(response);
                     }
                 });
     }
@@ -72,6 +69,6 @@ public class AccountPresenter {
     public interface AccountCallBack {
         void changePassword(TokenInfo tokenInfo);
 
-        void changePhone(TokenInfo tokenInfo);
+        void changePhone(Response<ResponseBean<TokenInfo>> tokenInfo);
     }
 }

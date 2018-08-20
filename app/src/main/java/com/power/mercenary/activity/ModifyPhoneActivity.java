@@ -8,13 +8,14 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.lzy.okgo.model.Response;
 import com.power.mercenary.R;
 import com.power.mercenary.base.BaseActivity;
 import com.power.mercenary.bean.user.TokenInfo;
-import com.power.mercenary.bean.user.UserInfo;
 import com.power.mercenary.data.CacheConstants;
 import com.power.mercenary.data.EventConstants;
 import com.power.mercenary.event.EventUtils;
+import com.power.mercenary.http.ResponseBean;
 import com.power.mercenary.presenter.AccountPresenter;
 import com.power.mercenary.utils.CacheUtils;
 import com.power.mercenary.utils.CountDownUtils;
@@ -97,10 +98,20 @@ public class ModifyPhoneActivity extends BaseActivity implements AccountPresente
     }
 
     @Override
-    public void changePhone(TokenInfo tokenInfo) {
-        CacheUtils.put(CacheConstants.TYPE_LOGIN, tokenInfo);
-        EventBus.getDefault().post(new EventUtils(EventConstants.TYPE_MODIFY_PHONE, etPhone.getText().toString()));
-        EventBus.getDefault().post(new EventUtils(EventConstants.TYPE_USERINFO));
-        finish();
+    public void changePhone(Response<ResponseBean<TokenInfo>> tokenInfo) {
+
+        if (tokenInfo != null && tokenInfo.body().code == 0) {
+            if (tokenInfo.body().data != null) {
+                CacheUtils.put(CacheConstants.TYPE_LOGIN, tokenInfo.body().data);
+                EventBus.getDefault().post(new EventUtils(EventConstants.TYPE_MODIFY_PHONE, etPhone.getText().toString()));
+                EventBus.getDefault().post(new EventUtils(EventConstants.TYPE_USERINFO));
+                finish();
+            }
+        } else if (tokenInfo.body().code == 1) {
+            TUtils.showCustom(this, tokenInfo.body().msg);
+        }
+
+
+
     }
 }
