@@ -68,7 +68,6 @@ public class MyQualificationsActivity extends BaseActivity implements MyZiLiPres
         initData();
         InitListener();
 
-
     }
     private void initData() {
 
@@ -160,7 +159,7 @@ public class MyQualificationsActivity extends BaseActivity implements MyZiLiPres
         }else if (response.getIs_check().equals("1")){
             tvZhengshu.setText("已上传");
         }
-        tvRegisterData.setText(response.getDays());
+        tvRegisterData.setText(response.getDays()+"天");
 
     }
 

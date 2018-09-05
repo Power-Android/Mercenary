@@ -519,7 +519,7 @@ public class SHAcceptInTaskActivity extends BaseActivity implements View.OnClick
 
     @Override
     public void changeCollection() {
-        EventBus.getDefault().post(new EventUtils(EventConstants.TYPE_REFRESH_COLLECTION));
+        EventBus.getDefault().postSticky(new EventUtils(EventConstants.TYPE_REFRESH_COLLECTION));
     }
 
     @Override

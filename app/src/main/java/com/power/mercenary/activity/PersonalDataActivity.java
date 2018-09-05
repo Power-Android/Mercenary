@@ -11,9 +11,9 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.power.mercenary.MyApplication;
 import com.power.mercenary.R;
 import com.power.mercenary.activity.chat.ChatActivity;
-import com.power.mercenary.adapter.MsgAdapter;
 import com.power.mercenary.adapter.MyAdapter;
 import com.power.mercenary.base.BaseActivity;
 import com.power.mercenary.base.BaseFragment;
@@ -24,7 +24,6 @@ import com.power.mercenary.fragment.MyAchievementFragment;
 import com.power.mercenary.fragment.MyResumeFragment;
 import com.power.mercenary.fragment.RenWuTongJiFragment;
 import com.power.mercenary.presenter.PersonalPresenter;
-import com.power.mercenary.utils.TimeUtils;
 import com.power.mercenary.utils.Urls;
 import com.power.mercenary.view.CircleImageView;
 
@@ -368,8 +367,14 @@ public class PersonalDataActivity extends BaseActivity implements View.OnClickLi
     }
 
     public static void invoke(Context context, String userId) {
-        Intent intent = new Intent(context, PersonalDataActivity.class);
-        intent.putExtra("userId", userId);
-        context.startActivity(intent);
+        if (!MyApplication.isLogin()) {
+            Intent intent = new Intent(MyApplication.getGloableContext(), SignInActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            MyApplication.getGloableContext().startActivity(intent);
+        }else {
+            Intent intent = new Intent(context, PersonalDataActivity.class);
+            intent.putExtra("userId", userId);
+            context.startActivity(intent);
+        }
     }
 }

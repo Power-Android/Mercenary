@@ -43,6 +43,7 @@
                             app:indicator_margin="2dp"
                             app:indicator_width="4dp" />
                         <ImageView
+                            android:src="@drawable/post_img"
                             android:id="@+id/img_banner"
                             android:scaleType="fitXY"
                             android:layout_width="match_parent"

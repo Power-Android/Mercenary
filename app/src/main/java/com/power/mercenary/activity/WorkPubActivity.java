@@ -86,8 +86,6 @@ public class WorkPubActivity extends BaseActivity implements TieZiListPresenter.
                 break;
 
 
-
-
             case R.id.iv_photo:
                 if (!MyApplication.isLogin()) {
                     startActivity(new Intent(this, SignInActivity.class));

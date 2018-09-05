@@ -243,10 +243,10 @@ public class HomeSearchActivity extends BaseActivity implements View.OnClickList
         if (mHistoryList != null && mHistoryList.size() > 0) {
             mHistoryAdapter = new RecyclerHistoryAdapter(R.layout.history_item, mHistoryList);
             recyclerLishi.setAdapter(mHistoryAdapter);
-            relativeLishi.setVisibility(View.VISIBLE);
+            ivDelete.setVisibility(View.VISIBLE);
         } else {
-            relativeLishi.setVisibility(View.GONE);
-            tvWujilu.setVisibility(View.VISIBLE);
+            ivDelete.setVisibility(View.GONE);
+//            tvWujilu.setVisibility(View.VISIBLE);
         }
 
     }

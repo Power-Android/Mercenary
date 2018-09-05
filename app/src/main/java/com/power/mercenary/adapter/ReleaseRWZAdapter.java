@@ -1,8 +1,6 @@
 package com.power.mercenary.adapter;
 
 import android.content.Context;
-import android.support.annotation.LayoutRes;
-import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -11,14 +9,11 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.chad.library.adapter.base.BaseQuickAdapter;
-import com.chad.library.adapter.base.BaseViewHolder;
 import com.power.mercenary.R;
 import com.power.mercenary.activity.TaskListActivity;
 import com.power.mercenary.bean.mytask.PublishTaskBean;
 import com.power.mercenary.utils.MercenaryUtils;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -54,7 +49,7 @@ public class ReleaseRWZAdapter extends RecyclerView.Adapter {
 
             viewHolder.title.setText(data.get(position).getTask_name());
 
-            viewHolder.price.setText(data.get(position).getPay_amount());
+            viewHolder.price.setText("￥" +data.get(position).getPay_amount());
 
             viewHolder.num.setText("浏览数：" + data.get(position).getView_num() + " 分享数：" + data.get(position).getShare_num());
 

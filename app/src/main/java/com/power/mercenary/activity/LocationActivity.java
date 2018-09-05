@@ -5,11 +5,9 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.AbsListView;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -31,8 +29,6 @@ import com.power.mercenary.data.EventConstants;
 import com.power.mercenary.event.EventUtils;
 import com.power.mercenary.presenter.LocationPresenter;
 import com.power.mercenary.utils.DividerItemDecoration;
-import com.power.mercenary.utils.SoftKeyboardTool;
-import com.power.mercenary.utils.TUtils;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -212,7 +208,7 @@ public class LocationActivity extends BaseActivity implements LocationPresenter.
                 double latitude = bdLocation.getLatitude();
                 String country = bdLocation.getCountry();
                 String city = bdLocation.getCity();
-                title.setText("当前定位城市-" + city.replace("市", ""));
+                title.setText("当前城市-" + city.replace("市", ""));
                 locationTv.setText(city.replace("市", ""));
             }
         });

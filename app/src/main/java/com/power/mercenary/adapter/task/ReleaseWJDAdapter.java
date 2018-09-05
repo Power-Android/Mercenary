@@ -7,15 +7,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
-import android.widget.PopupMenu;
 import android.widget.TextView;
 
 import com.power.mercenary.R;
 import com.power.mercenary.activity.TaskListActivity;
 import com.power.mercenary.bean.mytask.PublishTaskBean;
 import com.power.mercenary.utils.MercenaryUtils;
-
-import org.w3c.dom.Text;
 
 import java.util.List;
 
@@ -51,7 +48,7 @@ public class ReleaseWJDAdapter extends RecyclerView.Adapter {
 
             viewHolder.title.setText(data.get(position).getTask_name());
 
-            viewHolder.price.setText(data.get(position).getPay_amount());
+            viewHolder.price.setText("￥" +data.get(position).getPay_amount());
 
             viewHolder.num.setText("浏览数：" + data.get(position).getView_num() + " 分享数：" + data.get(position).getShare_num());
 

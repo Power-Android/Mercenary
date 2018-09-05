@@ -85,6 +85,7 @@ public class PubFragment extends BaseFragment implements TieZiListPresenter.Task
     }
 
     private void initData() {
+        titleBackIv.setVisibility(View.GONE);
         titleContentTv.setText("全部分类");
 
         List<Integer> baaaneList = new ArrayList<>();

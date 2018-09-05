@@ -7,6 +7,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -50,6 +51,8 @@ public class MyAchievementActivity extends BaseActivity implements AchievePresen
     ImageView imgAchieveCenter;
     @BindView(R.id.img_achieve_right)
     ImageView imgAchieveRight;
+    @BindView(R.id.layout_all_cj)
+    LinearLayout layoutAllCj;
     private YWCAdapter ywcAdapter;
     ArrayList<String> mList = new ArrayList<>();
 
@@ -78,14 +81,13 @@ public class MyAchievementActivity extends BaseActivity implements AchievePresen
     public void getAchieveInfo(AchieveBean achieveBean) {
         List<AchieveBean.XunzhangBean> xunzhang = achieveBean.getXunzhang();
         if (xunzhang.size() <= 0) {
-
+            layoutAllCj.setVisibility(View.GONE);
         } else if (xunzhang.size() == 1) {
             Glide.with(mContext).load(Urls.BASEIMGURL + xunzhang.get(0).getMedal()).into(imgAchieveCenter);
-        }else if (xunzhang.size() == 2) {
+        } else if (xunzhang.size() == 2) {
             Glide.with(mContext).load(Urls.BASEIMGURL + xunzhang.get(0).getMedal()).into(imgAchieveCenter);
             Glide.with(mContext).load(Urls.BASEIMGURL + xunzhang.get(1).getMedal()).into(imgAchieveLeft);
-        }
-        else if (xunzhang.size() >= 3) {
+        } else if (xunzhang.size() >= 3) {
             Glide.with(mContext).load(Urls.BASEIMGURL + xunzhang.get(0).getMedal()).into(imgAchieveCenter);
             Glide.with(mContext).load(Urls.BASEIMGURL + xunzhang.get(1).getMedal()).into(imgAchieveLeft);
             Glide.with(mContext).load(Urls.BASEIMGURL + xunzhang.get(2).getMedal()).into(imgAchieveRight);

@@ -175,7 +175,7 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
         } else {
             String md5 = MyUtils.getMD5("code=" + edtCode.getText().toString() + "mobile=" + edtPhone.getText().toString() + "pwd=" + edtNewPass.getText().toString() + "user_type=" + loginType + Urls.SECRET);
             Log.d("RegisterActivityMD5", md5 + "------");
-            presenter.getUserInfo(md5, "1234", edtPhone.getText().toString(), "0", edtNewPass.getText().toString());
+            presenter.getUserInfo(md5, edtCode.getText().toString(), edtPhone.getText().toString(), "0", edtNewPass.getText().toString());
         }
     }
 

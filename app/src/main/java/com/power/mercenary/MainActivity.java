@@ -2,21 +2,17 @@ package com.power.mercenary;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.view.Gravity;
+import android.util.Log;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.chad.library.adapter.base.BaseQuickAdapter;
-import com.chad.library.adapter.base.BaseViewHolder;
+import com.bigkoo.pickerview.OptionsPickerView;
+import com.bigkoo.pickerview.listener.CustomListener;
 import com.power.mercenary.activity.PubGerendingzhiActivity;
 import com.power.mercenary.activity.PubGongzuoActivity;
 import com.power.mercenary.activity.PubJiankangActivity;
@@ -32,7 +28,6 @@ import com.power.mercenary.fragment.HomeFragment;
 import com.power.mercenary.fragment.MessageFragment;
 import com.power.mercenary.fragment.MineFragment;
 import com.power.mercenary.fragment.PubFragment;
-import com.power.mercenary.utils.TUtils;
 import com.power.mercenary.view.BaseDialog;
 
 import org.greenrobot.eventbus.EventBus;
@@ -45,11 +40,8 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import io.rong.imlib.model.Message;
-import io.rong.imlib.model.MessageContent;
-import io.rong.message.TextMessage;
 
-public class MainActivity extends BaseActivity implements BaseQuickAdapter.OnItemChildClickListener {
+public class MainActivity extends BaseActivity {
 
 
     @BindView(R.id.fl_content)
@@ -94,8 +86,11 @@ public class MainActivity extends BaseActivity implements BaseQuickAdapter.OnIte
     private BaseDialog mDialog;
     private BaseDialog.Builder mBuilder;
     private List<String> list;
+    private List<String> datas;
+    private List<List<String>> list1;
     private List<String> nextList = new ArrayList<>();
     private int PAOTUI = 101, SHENGHUO = 102, GERENDINGZHI = 103, GONGZUO = 104, JIANKANG = 105;
+    private OptionsPickerView pvCustomOptions;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -165,21 +160,7 @@ public class MainActivity extends BaseActivity implements BaseQuickAdapter.OnIte
                 tvMessage.setTextColor(getResources().getColor(R.color.textcolor_tab));
                 tvMine.setTextColor(getResources().getColor(R.color.textcolor_tab));
                 break;
-            case R.id.ll_issue:
-                if (!MyApplication.isLogin()) {
-                    startActivity(new Intent(this, SignInActivity.class));
-                    return;
-                }
 
-                list = new ArrayList<>();
-                list.add("跑腿");
-                list.add("生活");
-                list.add("个人定制");
-                list.add("工作");
-                list.add("健康");
-                list.add("其他");
-                showIssueDialog();
-                break;
             case R.id.ll_message:
                 if (!MyApplication.isLogin()) {
                     startActivity(new Intent(this, SignInActivity.class));
@@ -220,210 +201,161 @@ public class MainActivity extends BaseActivity implements BaseQuickAdapter.OnIte
                 tvMessage.setTextColor(getResources().getColor(R.color.textcolor_tab));
                 tvMine.setTextColor(getResources().getColor(R.color.colorPrimary));
                 break;
-        }
-    }
-
-    private void showIssueDialog() {
-        mBuilder = new BaseDialog.Builder(this);
-        mDialog = mBuilder.setViewId(R.layout.dialog_issue)
-                //设置dialogpadding
-                .setPaddingdp(20, 0, 20, 30)
-                //设置显示位置
-                .setGravity(Gravity.BOTTOM)
-                //设置动画
-                .setAnimation(R.style.Bottom_Top_aniamtion)
-                //设置dialog的宽高
-                .setWidthHeightpx(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT)
-                //设置触摸dialog外围是否关闭
-                .isOnTouchCanceled(true)
-                //设置监听事件
-                .builder();
-
-        RecyclerView issueRecycler = mDialog.getView(R.id.issue_recycler);
-        issueRecycler.setLayoutManager(new GridLayoutManager(this, 3));
-        issueRecycler.setNestedScrollingEnabled(false);
-        IssueAdapter issueAdapter = new IssueAdapter(R.layout.item_issue_layout, list);
-        issueRecycler.setAdapter(issueAdapter);
-        issueAdapter.setOnItemChildClickListener(this);
-        mDialog.show();
-    }
-
-    @Override
-    public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
-        mDialog.dismiss();
-        switch (position) {
-            case 0://跑腿
-                nextList.clear();
-                nextList.add("物品");
-                nextList.add("人员");
-                showNextIssueDialog(60, 60, 2, PAOTUI);
-                break;
-            case 1://生活
-                nextList.clear();
-                nextList.add("衣");
-                nextList.add("食");
-                nextList.add("住");
-                nextList.add("行");
-                nextList.add("游");
-                showNextIssueDialog(20, 20, 3, SHENGHUO);
-                break;
-            case 2://个人定制
-                nextList.clear();
-                nextList.add("硬件");
-                nextList.add("软件");
-                showNextIssueDialog(60, 60, 2, GERENDINGZHI);
-                break;
-            case 3://工作
-                nextList.clear();
-                nextList.add("仕");
-                nextList.add("农");
-                nextList.add("工");
-                nextList.add("商");
-                nextList.add("律");
-                showNextIssueDialog(20, 20, 3, GONGZUO);
-                break;
-            case 4://健康
-                nextList.clear();
-                nextList.add("心理");
-                nextList.add("健身");
-                nextList.add("减肥");
-                showNextIssueDialog(20, 20, 3, JIANKANG);
-                break;
-            case 5://其他
-                mDialog.dismiss();
-                Intent intent = new Intent(MainActivity.this, PubQitaActivity.class);
-                intent.putExtra("TaskType", "6");
-                intent.putExtra("ChildTaskType", "1");
-                startActivity(intent);
-                break;
-        }
-    }
-
-    private void showNextIssueDialog(int left, int right, int spanCount, final int pubType) {
-        mBuilder = new BaseDialog.Builder(this);
-        mDialog = mBuilder.setViewId(R.layout.dialog_issue)
-                //设置dialogpadding
-                .setPaddingdp(left, 0, right, 40)
-                //设置显示位置
-                .setGravity(Gravity.BOTTOM)
-                //设置动画
-                .setAnimation(R.style.Bottom_Top_aniamtion)
-                //设置dialog的宽高
-                .setWidthHeightpx(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT)
-                //设置触摸dialog外围是否关闭
-                .isOnTouchCanceled(true)
-                //设置监听事件
-                .builder();
-
-        RecyclerView issueNextRecycler = mDialog.getView(R.id.issue_recycler);
-        issueNextRecycler.setLayoutManager(new GridLayoutManager(this, spanCount));
-        issueNextRecycler.setNestedScrollingEnabled(false);
-        IssueNextAdapter issueNextAdapter = new IssueNextAdapter(R.layout.item_issue_layout, nextList);
-        issueNextRecycler.setAdapter(issueNextAdapter);
-        issueNextAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
-            @Override
-            public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
-                switch (pubType) {
-                    case 101://跑腿发布页面
-                        mDialog.dismiss();
-                        Intent intent = new Intent(MainActivity.this, PubPaotuiActivity.class);
-                        intent.putExtra("TaskType", "1");
-                        if (position == 0) {
-                            intent.putExtra("ChildTaskType", "1");
-                        } else if (position == 1) {
-                            intent.putExtra("ChildTaskType", "2");
-                        }
-                        startActivity(intent);
-                        break;
-                    case 102://生活发布页
-                        mDialog.dismiss();
-                        Intent intent1 = new Intent(MainActivity.this, PubShenghuoActivity.class);
-                        intent1.putExtra("TaskType", "2");
-                        if (position == 0) {
-                            intent1.putExtra("ChildTaskType", "1");
-                        } else if (position == 1) {
-                            intent1.putExtra("ChildTaskType", "2");
-                        } else if (position == 2) {
-                            intent1.putExtra("ChildTaskType", "3");
-                        } else if (position == 3) {
-                            intent1.putExtra("ChildTaskType", "4");
-                        } else if (position == 4) {
-                            intent1.putExtra("ChildTaskType", "5");
-                        }
-                        startActivity(intent1);
-                        break;
-                    case 103://个人定制发布页面
-                        mDialog.dismiss();
-                        Intent intent2 = new Intent(MainActivity.this, PubGerendingzhiActivity.class);
-                        intent2.putExtra("TaskType", "3");
-                        if (position == 0) {
-                            intent2.putExtra("ChildTaskType", "1");
-                        } else if (position == 1) {
-                            intent2.putExtra("ChildTaskType", "2");
-                        }
-                        startActivity(intent2);
-                        break;
-                    case 104://工作发布页
-                        mDialog.dismiss();
-                        Intent intent3 = new Intent(MainActivity.this, PubGongzuoActivity.class);
-                        intent3.putExtra("TaskType", "4");
-                        if (position == 0) {
-                            intent3.putExtra("ChildTaskType", "1");
-                        } else if (position == 1) {
-                            intent3.putExtra("ChildTaskType", "2");
-                        } else if (position == 2) {
-                            intent3.putExtra("ChildTaskType", "3");
-                        } else if (position == 3) {
-                            intent3.putExtra("ChildTaskType", "4");
-                        } else if (position == 4) {
-                            intent3.putExtra("ChildTaskType", "5");
-                        }
-                        startActivity(intent3);
-                        break;
-                    case 105://健康发布页面
-                        mDialog.dismiss();
-                        Intent intent4 = new Intent(MainActivity.this, PubJiankangActivity.class);
-                        intent4.putExtra("TaskType", "5");
-                        if (position == 0) {
-                            intent4.putExtra("ChildTaskType", "1");
-                        } else if (position == 1) {
-                            intent4.putExtra("ChildTaskType", "2");
-                        } else if (position == 2) {
-                            intent4.putExtra("ChildTaskType", "3");
-                        }
-                        startActivity(intent4);
-                        break;
+            case R.id.ll_issue:
+                if (!MyApplication.isLogin()) {
+                    startActivity(new Intent(this, SignInActivity.class));
+                    return;
                 }
+                list = new ArrayList<>();
+                list.add("跑腿");
+                list.add("生活");
+                list.add("个人定制");
+                list.add("工作");
+                list.add("健康");
+                list.add("其他");
+                list1 = new ArrayList<>();
+//                showIssueDialog();
+                datas = new ArrayList<>();
+                datas.add("物品");
+                datas.add("人员");
+                list1.add(datas);
+                datas = new ArrayList<>();
+                datas.add("衣");
+                datas.add("食");
+                datas.add("住");
+                datas.add("行");
+                datas.add("游");
+                list1.add(datas);
+                datas = new ArrayList<>();
+                datas.add("硬件");
+                datas.add("软件");
+                list1.add(datas);
+                datas = new ArrayList<>();
+                datas.add("仕");
+                datas.add("农");
+                datas.add("工");
+                datas.add("商");
+                datas.add("律");
+                list1.add(datas);
+                datas = new ArrayList<>();
+                datas.add("心理");
+                datas.add("健身");
+                datas.add("减肥");
+                list1.add(datas);
+                datas = new ArrayList<>();
+                datas.add("");
+                list1.add(datas);
+                initCustomOptionPicker(list,list1);
+                pvCustomOptions.show();
+                break;
+        }
+    }
+
+    private void initCustomOptionPicker(final List<String> data,final List<List<String>> data1){
+        pvCustomOptions = new OptionsPickerView.Builder(this, new OptionsPickerView.OnOptionsSelectListener() {
+            @Override
+            public void onOptionsSelect(int options1, int option2, int options3, View v) {
+                //返回的分别是三个级别的选中位置
+                Log.d("MainActivity", "options1:" + options1+"-----");
+                Log.d("MainActivity", "options2:" + option2+"-----");
+                String tx = data.get(options1);
+                if (tx.equals("跑腿")){
+                    Intent intent = new Intent(MainActivity.this, PubPaotuiActivity.class);
+                    intent.putExtra("TaskType", "1");
+                    if (option2 == 0) {
+                        intent.putExtra("ChildTaskType", "1");
+                    } else if (option2 == 1) {
+                        intent.putExtra("ChildTaskType", "2");
+                    }
+                    startActivity(intent);
+                }else if (tx.equals("生活")){
+                    Intent intent1 = new Intent(MainActivity.this, PubShenghuoActivity.class);
+                    intent1.putExtra("TaskType", "2");
+                    if (option2 == 0) {
+                        intent1.putExtra("ChildTaskType", "1");
+                    } else if (option2 == 1) {
+                        intent1.putExtra("ChildTaskType", "2");
+                    } else if (option2 == 2) {
+                        intent1.putExtra("ChildTaskType", "3");
+                    } else if (option2 == 3) {
+                        intent1.putExtra("ChildTaskType", "4");
+                    } else if (option2 == 4) {
+                        intent1.putExtra("ChildTaskType", "5");
+                    }
+                    startActivity(intent1);
+                }else if (tx.equals("个人定制")){
+                    Intent intent2 = new Intent(MainActivity.this, PubGerendingzhiActivity.class);
+                    intent2.putExtra("TaskType", "3");
+                    if (option2 == 0) {
+                        intent2.putExtra("ChildTaskType", "1");
+                    } else if (option2 == 1) {
+                        intent2.putExtra("ChildTaskType", "2");
+                    }
+                    startActivity(intent2);
+                }else if (tx.equals("工作")){
+                    Intent intent3 = new Intent(MainActivity.this, PubGongzuoActivity.class);
+                    intent3.putExtra("TaskType", "4");
+                    if (option2 == 0) {
+                        intent3.putExtra("ChildTaskType", "1");
+                    } else if (option2 == 1) {
+                        intent3.putExtra("ChildTaskType", "2");
+                    } else if (option2 == 2) {
+                        intent3.putExtra("ChildTaskType", "3");
+                    } else if (option2 == 3) {
+                        intent3.putExtra("ChildTaskType", "4");
+                    } else if (option2 == 4) {
+                        intent3.putExtra("ChildTaskType", "5");
+                    }
+                    startActivity(intent3);
+                }else if (tx.equals("健康")){
+                    Intent intent4 = new Intent(MainActivity.this, PubJiankangActivity.class);
+                    intent4.putExtra("TaskType", "5");
+                    if (option2 == 0) {
+                        intent4.putExtra("ChildTaskType", "1");
+                    } else if (option2 == 1) {
+                        intent4.putExtra("ChildTaskType", "2");
+                    } else if (option2 == 2) {
+                        intent4.putExtra("ChildTaskType", "3");
+                    }
+                    startActivity(intent4);
+                }else if (tx.equals("其他")){
+                    Intent intent = new Intent(MainActivity.this, PubQitaActivity.class);
+                    intent.putExtra("TaskType", "6");
+                    intent.putExtra("ChildTaskType", "1");
+                    startActivity(intent);
+                }
+//                fkTv.setText(tx);
             }
-        });
-        mDialog.show();
+        })
+                .setLayoutRes(R.layout.pickerview_custom_options, new CustomListener() {
+                    @Override
+                    public void customLayout(View v) {
+                        final TextView tvSubmit = (TextView) v.findViewById(R.id.tv_finish);
+                        final TextView tvCancle = (TextView) v.findViewById(R.id.tv_cancle);
+
+                        tvSubmit.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                pvCustomOptions.returnData();
+                                pvCustomOptions.dismiss();
+                            }
+                        });
+                        tvCancle.setVisibility(View.GONE);
+                    }
+                })
+                .setSelectOptions(0)//默认选中项
+                .setContentTextSize(18)//设置滚轮文字大小
+                .setBgColor(getResources().getColor(R.color.concrete))
+                .setTextColorOut(getResources().getColor(R.color.textColorDrak))
+                .setDividerColor(getResources().getColor(R.color.textColorDrak))
+                .setTextColorCenter(getResources().getColor(R.color.black)) //设置选中项文字颜色
+                .build();
+        pvCustomOptions.setPicker(data,data1);//添加数据
+
     }
 
-    private class IssueAdapter extends BaseQuickAdapter<String, BaseViewHolder> {
 
-        public IssueAdapter(int layoutResId, @Nullable List<String> data) {
-            super(layoutResId, data);
-        }
 
-        @Override
-        protected void convert(BaseViewHolder helper, String item) {
-            helper.setText(R.id.item_type_tv, item)
-                    .addOnClickListener(R.id.item_type_tv);
-        }
-    }
-
-    private class IssueNextAdapter extends BaseQuickAdapter<String, BaseViewHolder> {
-
-        public IssueNextAdapter(int layoutResId, @Nullable List<String> data) {
-            super(layoutResId, data);
-        }
-
-        @Override
-        protected void convert(BaseViewHolder helper, String item) {
-            helper.setText(R.id.item_type_tv, item)
-                    .addOnClickListener(R.id.item_type_tv);
-        }
-    }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onRecevierEvent(EventUtils event) {

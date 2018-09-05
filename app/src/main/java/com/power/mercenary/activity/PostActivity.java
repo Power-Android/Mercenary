@@ -82,7 +82,7 @@ public class PostActivity extends BaseActivity implements PicNumsPresenter.PubTa
         titleBackIv.setVisibility(View.VISIBLE);
         titleContentTv.setText("发帖子");
         titleContentRightTv.setVisibility(View.VISIBLE);
-        titleContentRightTv.setText("发表");
+        titleContentRightTv.setText("发布");
 
         addImgesAdpter = new GridViewAddImgesAdpter(list, this);
         mygridview.setAdapter(addImgesAdpter);

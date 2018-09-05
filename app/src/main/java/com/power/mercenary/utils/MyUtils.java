@@ -121,18 +121,16 @@ public class MyUtils {
         return date.getTime();
     }
 
-    public static String stampToDate(String s) {
-        String res;
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        long lt = new Long(s);
-        Date date = new Date(lt);
-        res = simpleDateFormat.format(date);
-        return res;
+    public static String stampToDate(String time) {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm");
+        long lcc_time = Long.valueOf(time);
+        String format = sdf.format(new Date(lcc_time * 1000L));
+        return format;
     }
 
     //  时间戳转为日期  /年/月/日
     public static String getDateToString(String time) {
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm");
         long lcc_time = Long.valueOf(time);
         String format = sdf.format(new Date(lcc_time * 1000L));
         return format;

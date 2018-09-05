@@ -10,14 +10,15 @@
     android:orientation="vertical"
     android:id="@+id/item_layout_click"
     >
-    <RelativeLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
         <TextView
             android:clickable="false"
             android:id="@+id/item_title_tv"
-            android:layout_width="wrap_content"
+            android:layout_width="0dip"
+            android:layout_weight="1"
             android:layout_height="wrap_content"
             android:textColor="@color/textColorDrak"/>
         <TextView
@@ -27,7 +28,7 @@
             android:layout_height="wrap_content"
             android:textColor="@color/pro_content"
             android:layout_alignParentRight="true"/>
-    </RelativeLayout>
+    </LinearLayout>
 
     <TextView
         android:clickable="false"

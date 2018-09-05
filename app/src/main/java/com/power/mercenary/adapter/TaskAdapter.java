@@ -33,7 +33,7 @@ public TaskAdapter(@LayoutRes int layoutResId, @Nullable List<CollectionBean> da
 @Override
 protected void convert(BaseViewHolder helper, CollectionBean item) {
         helper.setText(R.id.tv_collction_name,item.getTask_name());
-        helper.setText(R.id.tv_collction_price,item.getPay_amount());
+        helper.setText(R.id.tv_collction_price,"¥"+item.getPay_amount());
         helper.setText(R.id.tv_collction_table,item.getTask_description());
 
         String[] all=item.getTask_tag().split("\\|");

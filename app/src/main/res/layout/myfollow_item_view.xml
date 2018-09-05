@@ -13,8 +13,8 @@
                 android:orientation="horizontal">
                 <com.power.mercenary.view.CircleImageView
                     android:id="@+id/img_collction_head"
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
+                    android:layout_width="45dp"
+                    android:layout_height="45dp"
                     android:src="@drawable/moren_2x"/>
                 
                 <TextView

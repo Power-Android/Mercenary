@@ -101,21 +101,21 @@ public class MineFragment extends BaseFragment implements UserPresenter.UserCall
     LinearLayout fragMineYwc;
     Unbinder unbinder;
     @BindView(R.id.mine_accept_wjd)
-    View acceptWjd;
+    TextView acceptWjd;
     @BindView(R.id.mine_accept_rwz)
-    View acceptRwz;
+    TextView acceptRwz;
     @BindView(R.id.mine_accept_shz)
-    View acceptShz;
+    TextView acceptShz;
     @BindView(R.id.mine_accept_dpj)
-    View acceptDpj;
+    TextView acceptDpj;
     @BindView(R.id.mine_publish_ybm)
-    View publishYbm;
+    TextView publishYbm;
     @BindView(R.id.mine_publish_rwz)
-    View publishRwz;
+    TextView publishRwz;
     @BindView(R.id.mine_publish_shz)
-    View publishShz;
+    TextView publishShz;
     @BindView(R.id.mine_publish_ywc)
-    View publishYwc;
+    TextView publishYwc;
 
     private UserPresenter userPresenter;
 
@@ -302,24 +302,28 @@ public class MineFragment extends BaseFragment implements UserPresenter.UserCall
                     public void onSuccess(Response<ResponseBean<PublishBean>> response) {
                         if (response != null && response.body() != null && response.body().data != null) {
                             if (response.body().data.getRwz() > 0) {
+                                acceptRwz.setText(response.body().data.getRwz()+"");
                                 acceptRwz.setVisibility(View.VISIBLE);
                             } else {
                                 acceptRwz.setVisibility(View.GONE);
                             }
 
                             if (response.body().data.getShz() > 0) {
+                                acceptShz.setText(response.body().data.getShz()+"");
                                 acceptShz.setVisibility(View.VISIBLE);
                             } else {
                                 acceptShz.setVisibility(View.GONE);
                             }
 
                             if (response.body().data.getDpj() > 0) {
+                                acceptDpj.setText(response.body().data.getDpj()+"");
                                 acceptDpj.setVisibility(View.VISIBLE);
                             } else {
                                 acceptDpj.setVisibility(View.GONE);
                             }
 
                             if (response.body().data.getWjd() > 0) {
+                                acceptWjd.setText(response.body().data.getWjd()+"");
                                 acceptWjd.setVisibility(View.VISIBLE);
                             } else {
                                 acceptWjd.setVisibility(View.GONE);
@@ -337,24 +341,28 @@ public class MineFragment extends BaseFragment implements UserPresenter.UserCall
                     public void onSuccess(Response<ResponseBean<AcceptBean>> response) {
                         if (response != null && response.body() != null && response.body().data != null) {
                             if (response.body().data.getRwz() > 0) {
+                                publishRwz.setText(response.body().data.getRwz()+"");
                                 publishRwz.setVisibility(View.VISIBLE);
                             } else {
                                 publishRwz.setVisibility(View.GONE);
                             }
 
                             if (response.body().data.getShz() > 0) {
+                                publishShz.setText(response.body().data.getShz()+"");
                                 publishShz.setVisibility(View.VISIBLE);
                             } else {
                                 publishShz.setVisibility(View.GONE);
                             }
 
                             if (response.body().data.getYbm() > 0) {
+                                publishYbm.setText(response.body().data.getYbm()+"");
                                 publishYbm.setVisibility(View.VISIBLE);
                             } else {
                                 publishYbm.setVisibility(View.GONE);
                             }
 
                             if (response.body().data.getYwc() > 0) {
+                                publishYwc.setText(response.body().data.getYwc()+"");
                                 publishYwc.setVisibility(View.VISIBLE);
                             } else {
                                 publishYwc.setVisibility(View.GONE);

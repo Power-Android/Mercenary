@@ -29,8 +29,14 @@ import com.power.mercenary.activity.details_success_accept.SHAcceptSuccessActivi
 import com.power.mercenary.adapter.TaskAdapter;
 import com.power.mercenary.base.BaseFragment;
 import com.power.mercenary.bean.CollectionBean;
+import com.power.mercenary.data.EventConstants;
+import com.power.mercenary.event.EventUtils;
 import com.power.mercenary.presenter.CollectionPresenter;
 import com.power.mercenary.view.pullrecyclerview.WanRecyclerView;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -57,12 +63,21 @@ public class TaskFragment extends BaseFragment implements CollectionPresenter.Co
     protected View initView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = View.inflate(getActivity(),R.layout.fragment_ren,null);
         ButterKnife.bind(this, view);
+        EventBus.getDefault().register(this);
         presenter = new CollectionPresenter(getActivity(),this);
         presenter.getCollectionTask();
         initData();
         return view;
     }
+    @Subscribe(threadMode = ThreadMode.MAIN) //在ui线程执行
+    public void RefreshTask(EventUtils eventUtils){
+        if (eventUtils.getType()== EventConstants.TYPE_REFRESH_COLLECTION){
+            page = 1;
+            mData.clear();
+            presenter.getCollectionTask();
+        }
 
+    }
     private void initData() {
         mRecycler.setPullRecyclerViewListener(this);
         mRecycler.setNestedScrollingEnabled(false);
@@ -228,5 +243,11 @@ public class TaskFragment extends BaseFragment implements CollectionPresenter.Co
     public void onLoadMore() {
         page++;
         presenter.getCollectionTask();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
     }
 }

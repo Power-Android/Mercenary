@@ -11,6 +11,7 @@
         android:background="@color/colorPrimary">
 
         <ImageView
+            android:padding="5dip"
             android:id="@+id/left_back"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

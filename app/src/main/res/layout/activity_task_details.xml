@@ -118,13 +118,16 @@
                         android:padding="10dp"
                         android:orientation="vertical">
 
-                        <RelativeLayout
+                        <LinearLayout
+                            android:orientation="horizontal"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content">
 
                             <TextView
+                                android:paddingRight="10dip"
                                 android:id="@+id/act_task_detaiils_title"
-                                android:layout_width="wrap_content"
+                                android:layout_width="0dip"
+                                android:layout_weight="1"
                                 android:layout_height="wrap_content"
                                 android:textSize="14sp"
                                 />
@@ -136,7 +139,7 @@
                                 android:textSize="14sp"
                                 android:layout_alignParentRight="true"
                                 />
-                        </RelativeLayout>
+                        </LinearLayout>
 
                         <android.support.v7.widget.RecyclerView
                             android:id="@+id/recycler_task_tag"

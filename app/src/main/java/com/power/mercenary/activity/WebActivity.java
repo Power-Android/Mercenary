@@ -10,10 +10,8 @@ import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.FrameLayout;
-import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
-
 
 import com.power.mercenary.R;
 import com.power.mercenary.base.BaseActivity;
@@ -40,7 +38,7 @@ public class WebActivity extends BaseActivity {
         String result = getIntent().getStringExtra("result");
         String title = getIntent().getStringExtra("title");
         webView = (WebView) findViewById(R.id.webView);
-        webTitle.setText(title);
+        webTitle.setText("详情");
         WebSettings webSettings = webView.getSettings();
         webSettings.setJavaScriptEnabled(true);
         webView.setWebChromeClient(new WebChromeClient() {

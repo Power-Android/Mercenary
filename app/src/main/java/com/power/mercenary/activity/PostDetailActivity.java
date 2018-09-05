@@ -144,7 +144,7 @@ public class PostDetailActivity extends BaseActivity implements TieZiListPresent
                     startActivity(new Intent(this, SignInActivity.class));
                     return;
                 }
-                if (TextUtils.isEmpty(edPinglun.getText().toString())) {
+                if (TextUtils.isEmpty(edPinglun.getText().toString().trim())) {
                     if (isPinglun){
                         Toast.makeText(mContext, "请输入评论内容", Toast.LENGTH_SHORT).show();
                     }else {
@@ -159,7 +159,6 @@ public class PostDetailActivity extends BaseActivity implements TieZiListPresent
                         presenter.getHuifu(liuyanid, edPinglun.getText().toString());
                         KeyboardUtils.hideKeyboard(edPinglun);
                     }
-
                 }
                 break;
         }
