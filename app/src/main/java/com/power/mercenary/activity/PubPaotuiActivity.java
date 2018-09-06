@@ -82,6 +82,10 @@ public class PubPaotuiActivity extends BaseActivity implements PubTaskPresenter.
     TextView validitySongdaEt;
     @BindView(R.id.relative_table)
     RelativeLayout relativeTable;
+    @BindView(R.id.newbiaoqian_recycler)
+    RecyclerView newbiaoqianRecycler;
+    @BindView(R.id.add_newbiaoqian_tv)
+    TextView addNewbiaoqianTv;
     private PubTaskPresenter presenter;
     private List<String> mlist = new ArrayList<>();
     private ArrayList<String> biaoqianList;
@@ -101,6 +105,7 @@ public class PubPaotuiActivity extends BaseActivity implements PubTaskPresenter.
     private int yearindex;
     private int mounthindex;
     private int dayindex;
+    private NewbqAdapter newbqAdapter;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -157,19 +162,62 @@ public class PubPaotuiActivity extends BaseActivity implements PubTaskPresenter.
         titleContentTv.setText("发布任务");
         titleContentRightTv.setVisibility(View.VISIBLE);
         titleContentRightTv.setText("发布");
+
+
         biaoqianList = new ArrayList<>();
-        biaoqianRecycler.setNestedScrollingEnabled(false);
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(mContext);
-        linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
-        biaoqianRecycler.setLayoutManager(linearLayoutManager);
-        biaoqianAdapter = new BiaoqianAdapter(R.layout.task_table_layout, biaoqianList);
-        biaoqianRecycler.setAdapter(biaoqianAdapter);
-        if (biaoqianList.size() <= 0) {
-            relativeTable.setVisibility(View.GONE);
-        }
+        biaoqianList.add("");
+        newbiaoqianRecycler.setNestedScrollingEnabled(false);
+        newbiaoqianRecycler.setLayoutManager(new LinearLayoutManager(mContext));
+        newbqAdapter = new NewbqAdapter(R.layout.item_require_layout, biaoqianList);
+        newbiaoqianRecycler.setAdapter(newbqAdapter);
     }
 
 
+    private class NewbqAdapter extends BaseQuickAdapter<String, BaseViewHolder> {
+
+        public NewbqAdapter(int layoutResId, @Nullable List<String> data) {
+            super(layoutResId, data);
+        }
+
+        @Override
+        protected void convert(final BaseViewHolder helper, final String item) {
+            final int num = helper.getAdapterPosition() + 1;
+            ImageView item_del_iv = helper.getView(R.id.item_del_iv);
+            final EditText item_content_et = helper.getView(R.id.item_content_et);
+            if (item != null) {
+                item_content_et.setText(item);
+            }
+            item_content_et.addTextChangedListener(new TextWatcher() {
+                @Override
+                public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+                }
+
+                @Override
+                public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+                }
+
+                @Override
+                public void afterTextChanged(Editable editable) {
+                    if (!item_content_et.getText().toString().equals("")) {
+                        biaoqianList.set(helper.getAdapterPosition(), item_content_et.getText().toString());
+                    }
+                }
+            });
+
+            item_del_iv.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    biaoqianList.remove(helper.getAdapterPosition());
+                    newbqAdapter.notifyDataSetChanged();
+
+
+                }
+            });
+            helper.setText(R.id.item_name_tv, "要求" + num);
+        }
+    }
     private class BiaoqianAdapter extends BaseQuickAdapter<String, BaseViewHolder> {
 
         public BiaoqianAdapter(int layoutResId, @Nullable List<String> data) {
@@ -257,27 +305,27 @@ public class PubPaotuiActivity extends BaseActivity implements PubTaskPresenter.
                 .build();
         pvCustomOptions.setNPicker(data, data1, data2);//添加数据
         for (int i = 0; i < yearList.size(); i++) {
-            if (yearList.get(i).equals(myear+"年")){
-                yearindex=i;
+            if (yearList.get(i).equals(myear + "年")) {
+                yearindex = i;
             }
         }
         for (int i = 0; i < monthList.size(); i++) {
-            if (monthList.get(i).equals(mmounth+"月")){
-                mounthindex=i;
+            if (monthList.get(i).equals(mmounth + "月")) {
+                mounthindex = i;
             }
         }
         for (int i = 0; i < dayList.size(); i++) {
-            if (dayList.get(i).equals(mday+"日")){
-                dayindex=i;
+            if (dayList.get(i).equals(mday + "日")) {
+                dayindex = i;
             }
         }
-        pvCustomOptions.setSelectOptions(yearindex,mounthindex,dayindex);
+        pvCustomOptions.setSelectOptions(yearindex, mounthindex, dayindex);
 
     }
 
 
     @OnClick({R.id.title_back_iv, R.id.title_content_right_tv, R.id.transport_time_rl, start_address_tv,
-            R.id.del_start_address_tv, R.id.end_address_tv, R.id.add_biaoqian_tv, R.id.del_biaoqian_tv})
+            R.id.del_start_address_tv, R.id.end_address_tv, R.id.add_biaoqian_tv, R.id.del_biaoqian_tv,R.id.add_newbiaoqian_tv})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.title_back_iv:
@@ -345,6 +393,10 @@ public class PubPaotuiActivity extends BaseActivity implements PubTaskPresenter.
                         validityTimeEt.getText().toString(), "", taskMudiEt.getText().toString(), "",
                         goodsNameEt.getText().toString(), numEt.getText().toString(), "", MyUtils.Timetodata(validitySongdaEt.getText().toString()),
                         startAddressTv.getText().toString(), endAddressTv.getText().toString(), biaoqianEt.getText().toString());
+                break;
+            case R.id.add_newbiaoqian_tv:
+                biaoqianList.add("");
+                newbqAdapter.notifyItemInserted(biaoqianList.size() - 1);
                 break;
             case R.id.transport_time_rl:
                 initSelectAge(yearList, monthList, dayList);

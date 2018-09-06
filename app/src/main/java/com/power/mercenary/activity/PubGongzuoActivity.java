@@ -68,6 +68,10 @@ public class PubGongzuoActivity extends BaseActivity implements PubTaskPresenter
     TextView view02;
     @BindView(R.id.relative_table)
     RelativeLayout relativeTable;
+    @BindView(R.id.newbiaoqian_recycler)
+    RecyclerView newbiaoqianRecycler;
+    @BindView(R.id.add_newbiaoqian_tv)
+    TextView addNewbiaoqianTv;
     private ArrayList<String> requireList;
     private ArrayList<String> biaoqianList;
     private RequireAdapter requireAdapter;
@@ -77,6 +81,7 @@ public class PubGongzuoActivity extends BaseActivity implements PubTaskPresenter
     private String IsdelTable = "";
     private String taskType;
     private String childTaskType;
+    private NewbqAdapter newbqAdapter;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -102,11 +107,11 @@ public class PubGongzuoActivity extends BaseActivity implements PubTaskPresenter
 
             @Override
             public void afterTextChanged(Editable editable) {
-                if (taskMudiEt.getText().toString().length()>200){
+                if (taskMudiEt.getText().toString().length() > 200) {
                     Toast.makeText(mContext, "最多可输入200字", Toast.LENGTH_SHORT).show();
                     return;
                 }
-                mudiZishuTv.setText(taskMudiEt.getText().toString().length()+"/200");
+                mudiZishuTv.setText(taskMudiEt.getText().toString().length() + "/200");
             }
         });
         taskDetailEt.addTextChangedListener(new TextWatcher() {
@@ -122,11 +127,11 @@ public class PubGongzuoActivity extends BaseActivity implements PubTaskPresenter
 
             @Override
             public void afterTextChanged(Editable editable) {
-                if (taskDetailEt.getText().toString().length()>=200){
+                if (taskDetailEt.getText().toString().length() >= 200) {
                     Toast.makeText(mContext, "最多可输入200字", Toast.LENGTH_SHORT).show();
                     return;
                 }
-                detailZishuTv.setText(taskDetailEt.getText().toString().length()+"/200");
+                detailZishuTv.setText(taskDetailEt.getText().toString().length() + "/200");
             }
         });
 
@@ -143,15 +148,11 @@ public class PubGongzuoActivity extends BaseActivity implements PubTaskPresenter
         requireRecycler.setAdapter(requireAdapter);
 
         biaoqianList = new ArrayList<>();
-        biaoqianRecycler.setNestedScrollingEnabled(false);
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(mContext);
-        linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
-        biaoqianRecycler.setLayoutManager(linearLayoutManager);
-        biaoqianAdapter = new BiaoqianAdapter(R.layout.task_table_layout, biaoqianList);
-        biaoqianRecycler.setAdapter(biaoqianAdapter);
-        if (biaoqianList.size() <= 0) {
-            relativeTable.setVisibility(View.GONE);
-        }
+        biaoqianList.add("");
+        newbiaoqianRecycler.setNestedScrollingEnabled(false);
+        newbiaoqianRecycler.setLayoutManager(new LinearLayoutManager(mContext));
+        newbqAdapter = new NewbqAdapter(R.layout.item_require_layout, biaoqianList);
+        newbiaoqianRecycler.setAdapter(newbqAdapter);
     }
 
     @Override
@@ -163,6 +164,51 @@ public class PubGongzuoActivity extends BaseActivity implements PubTaskPresenter
     @Override
     public void testTask() {
 
+    }
+    private class NewbqAdapter extends BaseQuickAdapter<String, BaseViewHolder> {
+
+        public NewbqAdapter(int layoutResId, @Nullable List<String> data) {
+            super(layoutResId, data);
+        }
+
+        @Override
+        protected void convert(final BaseViewHolder helper, final String item) {
+            final int num = helper.getAdapterPosition() + 1;
+            ImageView item_del_iv = helper.getView(R.id.item_del_iv);
+            final EditText item_content_et = helper.getView(R.id.item_content_et);
+            if (item != null) {
+                item_content_et.setText(item);
+            }
+            item_content_et.addTextChangedListener(new TextWatcher() {
+                @Override
+                public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+                }
+
+                @Override
+                public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+                }
+
+                @Override
+                public void afterTextChanged(Editable editable) {
+                    if (!item_content_et.getText().toString().equals("")) {
+                        biaoqianList.set(helper.getAdapterPosition(), item_content_et.getText().toString());
+                    }
+                }
+            });
+
+            item_del_iv.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    biaoqianList.remove(helper.getAdapterPosition());
+                    newbqAdapter.notifyDataSetChanged();
+
+
+                }
+            });
+            helper.setText(R.id.item_name_tv, "要求" + num);
+        }
     }
 
     private class RequireAdapter extends BaseQuickAdapter<String, BaseViewHolder> {
@@ -221,15 +267,15 @@ public class PubGongzuoActivity extends BaseActivity implements PubTaskPresenter
         protected void convert(final BaseViewHolder helper, String item) {
             helper.setText(R.id.item_content_tv, item);
             img_del_table = helper.getView(R.id.img_del_table);
-            if (IsdelTable.equals("1")){
+            if (IsdelTable.equals("1")) {
                 img_del_table.setVisibility(View.VISIBLE);
-            }else {
+            } else {
                 img_del_table.setVisibility(View.GONE);
             }
             helper.setOnClickListener(R.id.img_del_table, new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    IsdelTable="2";
+                    IsdelTable = "2";
                     biaoqianList.remove(helper.getAdapterPosition());
                     biaoqianAdapter.notifyDataSetChanged();
                     if (biaoqianList.size() <= 0) {
@@ -242,7 +288,7 @@ public class PubGongzuoActivity extends BaseActivity implements PubTaskPresenter
     }
 
     @OnClick({R.id.title_back_iv, R.id.title_content_right_tv, R.id.add_require_tv, R.id.add_biaoqian_tv,
-            R.id.del_biaoqian_tv, R.id.detail_zishu_tv})
+            R.id.del_biaoqian_tv, R.id.detail_zishu_tv,R.id.add_newbiaoqian_tv})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.title_back_iv:
@@ -255,7 +301,7 @@ public class PubGongzuoActivity extends BaseActivity implements PubTaskPresenter
                 } else if (TextUtils.isEmpty(taskMudiEt.getText().toString())) {
                     Toast.makeText(mContext, "请输入任务目的", Toast.LENGTH_SHORT).show();
                     return;
-                }else if (requireList.size()==1&&requireList.get(0).equals("")) {
+                } else if (requireList.size() == 1 && requireList.get(0).equals("")) {
                     Toast.makeText(mContext, "请输入任务要求", Toast.LENGTH_SHORT).show();
                     return;
                 } else if (TextUtils.isEmpty(taskMoneyEt.getText().toString())) {
@@ -292,10 +338,14 @@ public class PubGongzuoActivity extends BaseActivity implements PubTaskPresenter
                 String s = MyUtils.listToString(requireList);
                 String s1 = MyUtils.listToString(biaoqianList);
 
-                presenter.publishTask("",taskType,childTaskType, taskNameEt.getText().toString(), s1, "", taskMoneyEt.getText().toString(),
+                presenter.publishTask("", taskType, childTaskType, taskNameEt.getText().toString(), s1, "", taskMoneyEt.getText().toString(),
                         "", taskDetailEt.getText().toString(), taskMudiEt.getText().toString(), s,
                         "", "", "", "",
                         "", "", "");
+                break;
+            case R.id.add_newbiaoqian_tv:
+                biaoqianList.add("");
+                newbqAdapter.notifyItemInserted(biaoqianList.size() - 1);
                 break;
             case R.id.add_require_tv:
                 requireList.add("");

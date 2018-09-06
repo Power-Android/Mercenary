@@ -2,12 +2,183 @@
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="10dip"
     android:orientation="vertical">
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/issue_recycler"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
+   <LinearLayout
+       android:orientation="vertical"
+       android:background="@drawable/home_white_bg"
+       android:layout_width="match_parent"
+       android:layout_height="wrap_content">
+        <TextView
+            android:textSize="16sp"
+            android:gravity="center"
+            android:padding="7dip"
+            android:textColor="@color/black"
+            android:text="发布任务"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+       <View
+           android:background="@color/pro_kuang"
+           android:layout_width="match_parent"
+           android:layout_height="1dip"></View>
+       <LinearLayout
+           android:paddingBottom="10dip"
+           android:paddingTop="10dip"
+           android:paddingLeft="15dip"
+           android:paddingRight="15dip"
+           android:orientation="horizontal"
+           android:layout_width="match_parent"
+           android:layout_height="wrap_content"
+           >
+           <LinearLayout
+               android:gravity="center"
+               android:orientation="vertical"
+               android:layout_width="0dip"
+               android:layout_weight="1"
+               android:layout_height="wrap_content">
+               <ImageView
+                   android:src="@drawable/paotui_icon"
+                   android:layout_width="wrap_content"
+                   android:layout_height="wrap_content" />
+               <TextView
+                   android:padding="5dip"
+                   android:text="跑腿"
+                   android:layout_width="wrap_content"
+                   android:layout_height="wrap_content" />
 
-    </android.support.v7.widget.RecyclerView>
+           </LinearLayout>
+           <LinearLayout
+               android:gravity="center"
+               android:orientation="vertical"
+               android:layout_width="0dip"
+               android:layout_weight="1"
+               android:layout_height="wrap_content">
+               <ImageView
+                   android:src="@drawable/shenghuo_icon"
+                   android:layout_width="wrap_content"
+                   android:layout_height="wrap_content" />
+               <TextView
+                   android:padding="5dip"
+                   android:text="生活"
+                   android:layout_width="wrap_content"
+                   android:layout_height="wrap_content" />
+
+           </LinearLayout>
+           <LinearLayout
+               android:gravity="center"
+               android:orientation="vertical"
+               android:layout_width="0dip"
+               android:layout_weight="1"
+               android:layout_height="wrap_content">
+               <ImageView
+                   android:src="@drawable/geren_icon"
+                   android:layout_width="wrap_content"
+                   android:layout_height="wrap_content" />
+               <TextView
+                   android:padding="5dip"
+                   android:text="个人定制"
+                   android:layout_width="wrap_content"
+                   android:layout_height="wrap_content" />
+
+           </LinearLayout>
+           <LinearLayout
+               android:gravity="center"
+               android:orientation="vertical"
+               android:layout_width="0dip"
+               android:layout_weight="1"
+               android:layout_height="wrap_content">
+               <ImageView
+                   android:src="@drawable/gongzuo_icon"
+                   android:layout_width="wrap_content"
+                   android:layout_height="wrap_content" />
+               <TextView
+                   android:padding="5dip"
+                   android:text="工作"
+                   android:layout_width="wrap_content"
+                   android:layout_height="wrap_content" />
+
+           </LinearLayout>
+       </LinearLayout>
+       <LinearLayout
+           android:paddingBottom="10dip"
+           android:paddingTop="10dip"
+           android:paddingLeft="15dip"
+           android:paddingRight="15dip"
+           android:orientation="horizontal"
+           android:layout_width="match_parent"
+           android:layout_height="wrap_content"
+           >
+           <LinearLayout
+               android:gravity="center"
+               android:orientation="vertical"
+               android:layout_width="0dip"
+               android:layout_weight="1"
+               android:layout_height="wrap_content">
+               <ImageView
+                   android:src="@drawable/jiankang_icon"
+                   android:layout_width="wrap_content"
+                   android:layout_height="wrap_content" />
+               <TextView
+                   android:padding="5dip"
+                   android:text="健康"
+                   android:layout_width="wrap_content"
+                   android:layout_height="wrap_content" />
+
+           </LinearLayout>
+           <LinearLayout
+               android:gravity="center"
+               android:orientation="vertical"
+               android:layout_width="0dip"
+               android:layout_weight="1"
+               android:layout_height="wrap_content">
+               <ImageView
+                   android:src="@drawable/qita_icon"
+                   android:layout_width="wrap_content"
+                   android:layout_height="wrap_content" />
+               <TextView
+                   android:padding="5dip"
+                   android:text="其他"
+                   android:layout_width="wrap_content"
+                   android:layout_height="wrap_content" />
+
+           </LinearLayout>
+           <LinearLayout
+               android:visibility="invisible"
+               android:gravity="center"
+               android:orientation="vertical"
+               android:layout_width="0dip"
+               android:layout_weight="1"
+               android:layout_height="wrap_content">
+               <ImageView
+                   android:src="@drawable/paotui_icon"
+                   android:layout_width="wrap_content"
+                   android:layout_height="wrap_content" />
+               <TextView
+                   android:padding="5dip"
+                   android:text="跑腿"
+                   android:layout_width="wrap_content"
+                   android:layout_height="wrap_content" />
+
+           </LinearLayout>
+           <LinearLayout
+               android:visibility="invisible"
+               android:gravity="center"
+               android:orientation="vertical"
+               android:layout_width="0dip"
+               android:layout_weight="1"
+               android:layout_height="wrap_content">
+               <ImageView
+                   android:src="@drawable/paotui_icon"
+                   android:layout_width="wrap_content"
+                   android:layout_height="wrap_content" />
+               <TextView
+                   android:padding="5dip"
+                   android:text="跑腿"
+                   android:layout_width="wrap_content"
+                   android:layout_height="wrap_content" />
+
+           </LinearLayout>
+       </LinearLayout>
+   </LinearLayout>
 </LinearLayout>

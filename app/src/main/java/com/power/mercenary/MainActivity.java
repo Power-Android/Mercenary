@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
@@ -206,49 +207,76 @@ public class MainActivity extends BaseActivity {
                     startActivity(new Intent(this, SignInActivity.class));
                     return;
                 }
-                list = new ArrayList<>();
-                list.add("跑腿");
-                list.add("生活");
-                list.add("个人定制");
-                list.add("工作");
-                list.add("健康");
-                list.add("其他");
-                list1 = new ArrayList<>();
-//                showIssueDialog();
-                datas = new ArrayList<>();
-                datas.add("物品");
-                datas.add("人员");
-                list1.add(datas);
-                datas = new ArrayList<>();
-                datas.add("衣");
-                datas.add("食");
-                datas.add("住");
-                datas.add("行");
-                datas.add("游");
-                list1.add(datas);
-                datas = new ArrayList<>();
-                datas.add("硬件");
-                datas.add("软件");
-                list1.add(datas);
-                datas = new ArrayList<>();
-                datas.add("仕");
-                datas.add("农");
-                datas.add("工");
-                datas.add("商");
-                datas.add("律");
-                list1.add(datas);
-                datas = new ArrayList<>();
-                datas.add("心理");
-                datas.add("健身");
-                datas.add("减肥");
-                list1.add(datas);
-                datas = new ArrayList<>();
-                datas.add("");
-                list1.add(datas);
-                initCustomOptionPicker(list,list1);
-                pvCustomOptions.show();
+
+//                ShowPickerView();
+                                showIssueDialog();
+
                 break;
         }
+    }
+
+    private void showIssueDialog() {
+        mBuilder = new BaseDialog.Builder(this);
+        mDialog = mBuilder.setViewId(R.layout.dialog_issue)
+                //设置dialogpadding
+                .setPaddingdp(20, 0, 20, 30)
+                //设置显示位置
+                .setGravity(Gravity.BOTTOM)
+                //设置动画
+                .setAnimation(R.style.Bottom_Top_aniamtion)
+                //设置dialog的宽高
+                .setWidthHeightpx(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT)
+                //设置触摸dialog外围是否关闭
+                .isOnTouchCanceled(true)
+                //设置监听事件
+                .builder();
+
+
+        mDialog.show();
+    }
+
+
+    private void ShowPickerView() {
+        list = new ArrayList<>();
+        list.add("跑腿");
+        list.add("生活");
+        list.add("个人定制");
+        list.add("工作");
+        list.add("健康");
+        list.add("其他");
+        list1 = new ArrayList<>();
+        datas = new ArrayList<>();
+        datas.add("物品");
+        datas.add("人员");
+        list1.add(datas);
+        datas = new ArrayList<>();
+        datas.add("衣");
+        datas.add("食");
+        datas.add("住");
+        datas.add("行");
+        datas.add("游");
+        list1.add(datas);
+        datas = new ArrayList<>();
+        datas.add("硬件");
+        datas.add("软件");
+        list1.add(datas);
+        datas = new ArrayList<>();
+        datas.add("仕");
+        datas.add("农");
+        datas.add("工");
+        datas.add("商");
+        datas.add("律");
+        list1.add(datas);
+        datas = new ArrayList<>();
+        datas.add("心理");
+        datas.add("健身");
+        datas.add("减肥");
+        list1.add(datas);
+        datas = new ArrayList<>();
+        datas.add("");
+        list1.add(datas);
+        initCustomOptionPicker(list,list1);
+        pvCustomOptions.show();
     }
 
     private void initCustomOptionPicker(final List<String> data,final List<List<String>> data1){
