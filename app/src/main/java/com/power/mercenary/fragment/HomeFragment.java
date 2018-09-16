@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.Nullable;
-import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.Gravity;
@@ -48,7 +47,6 @@ import com.power.mercenary.presenter.MainPresenter;
 import com.power.mercenary.utils.BannerUtils;
 import com.power.mercenary.utils.MercenaryUtils;
 import com.power.mercenary.utils.MyUtils;
-import com.power.mercenary.utils.TUtils;
 import com.power.mercenary.utils.Urls;
 import com.power.mercenary.view.BaseDialog;
 import com.power.mercenary.view.MyPageIndicator;
@@ -643,11 +641,11 @@ public class HomeFragment extends BaseFragment implements MainPresenter.MainCall
                 //设置监听事件
                 .builder();
 
-        RecyclerView issueNextRecycler = mDialog.getView(R.id.issue_recycler);
-        issueNextRecycler.setLayoutManager(new GridLayoutManager(mContext, spanCount));
-        issueNextRecycler.setNestedScrollingEnabled(false);
+//        RecyclerView issueNextRecycler = mDialog.getView(R.id.issue_recycler);
+//        issueNextRecycler.setLayoutManager(new GridLayoutManager(mContext, spanCount));
+//        issueNextRecycler.setNestedScrollingEnabled(false);
         IssueNextAdapter issueNextAdapter = new IssueNextAdapter(R.layout.item_issue_layout, nextList);
-        issueNextRecycler.setAdapter(issueNextAdapter);
+//        issueNextRecycler.setAdapter(issueNextAdapter);
         issueNextAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
             @Override
             public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {

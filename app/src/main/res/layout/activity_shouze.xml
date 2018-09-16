@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".activity.ShouzeActivity">
+
+    <include layout="@layout/title_view"></include>
+    <android.support.v4.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <LinearLayout
+            android:orientation="vertical"
+            android:padding="15dip"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="8dip"
+            android:background="@color/white">
+            <TextView
+                android:textSize="14sp"
+                android:textColor="#999"
+                android:text="本协议为您（甲方）与APP管理者（乙方）之间所订立的契约，具有合同的法律效力，请您仔细阅读。您点击“我已阅读并同意本《佣兵天下APP》服务分销协议”按钮后，本协议即生效，对双方产生约束力。"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:layout_marginTop="15dip"
+                android:textColor="#333"
+                android:text="甲方的权利与义务"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:layout_marginTop="15dip"
+                android:textSize="14sp"
+                android:textColor="#999"
+                android:text="1.1甲方可通过各种合法合规的方式，向周边人群推送自己在乙方所申请到的推广二维码。为乙方发展用户。"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:textSize="14sp"
+                android:textColor="#999"
+                android:text="1.2甲方可以得到自己发展成功的用户交易金额的百分之一作为提成。"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:layout_marginTop="15dip"
+                android:textColor="#333"
+                android:text="乙方的权利与义务"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:layout_marginTop="15dip"
+                android:textSize="14sp"
+                android:textColor="#999"
+                android:text="1.1乙方通过软件向甲方发送乙方所申请的二维码，并协助乙方发展用户。"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:textSize="14sp"
+                android:textColor="#999"
+                android:text="1.2乙方在甲方所发展的用户交易完毕后将乙方所发展交易金额的百分之一作为提成转至乙方在APP内的账户并记录，并通过APP向乙方告知。"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:layout_marginTop="15dip"
+                android:textColor="#333"
+                android:text="免责条款"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:layout_marginTop="15dip"
+                android:textSize="14sp"
+                android:textColor="#999"
+                android:text="甲方不可使用违法违规的方法进行推广，若甲方有违法违规的推广行为，由甲方自行承担责任。"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:id="@+id/tv_dl_wc"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="我已阅读并同意《佣兵天下》的服务协议"
+                android:background="@drawable/selector_lanse"
+                android:textColor="@color/white"
+                android:textSize="14sp"
+                android:gravity="center"
+                android:layout_marginTop="50dp"
+                android:paddingTop="15dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:paddingBottom="15dp"/>
+            <LinearLayout
+                android:layout_marginTop="10dip"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <CheckBox
+                    android:id="@+id/agree_provision_chk"
+                    android:layout_width="15dp"
+                    android:layout_height="15dp"
+                    android:background="@drawable/checkbox_bg"
+                    android:button="@null" />
+                <TextView
+                    android:paddingLeft="10dip"
+                    android:text="我已阅读推广准则"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </android.support.v4.widget.NestedScrollView>
+</LinearLayout>

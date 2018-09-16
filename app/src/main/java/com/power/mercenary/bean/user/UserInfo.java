@@ -55,6 +55,16 @@ public class UserInfo {
     private String certificate;
     public String money;
 
+    public String getIsagree() {
+        return isagree;
+    }
+
+    public void setIsagree(String isagree) {
+        this.isagree = isagree;
+    }
+
+    public String isagree;
+
     public String getNick_name() {
         return nick_name;
     }

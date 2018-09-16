@@ -3,6 +3,7 @@ package com.power.mercenary.fragment;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,6 +24,7 @@ import com.power.mercenary.activity.MyQualificationsActivity;
 import com.power.mercenary.activity.MyValueActivity;
 import com.power.mercenary.activity.ReleaseTaskActivity;
 import com.power.mercenary.activity.SetupActivity;
+import com.power.mercenary.activity.ShouzeActivity;
 import com.power.mercenary.activity.TaskStatisticsActivity;
 import com.power.mercenary.base.BaseFragment;
 import com.power.mercenary.bean.AcceptBean;
@@ -121,13 +123,14 @@ public class MineFragment extends BaseFragment implements UserPresenter.UserCall
 
     private ImageView icon;
     private TextView name;
+    private String isagree;
 
     @Override
     protected View initView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_mine, null);
 
         ButterKnife.bind(this, view);
-
+        EventBus.getDefault().register(this);
         icon = view.findViewById(R.id.frag_mine_icon);
         name = view.findViewById(R.id.frag_mine_name);
 
@@ -176,10 +179,14 @@ public class MineFragment extends BaseFragment implements UserPresenter.UserCall
         rl_wdtg.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                Log.d("MineFragment", MyApplication.getUserToken()+"-------");
+            if (isagree.equals("0")){
+                Intent intent = new Intent(getActivity(), ShouzeActivity.class);
+                startActivity(intent);
+            }else {
                 Intent intent = new Intent(getActivity(), MyExtensionActivity.class);
                 startActivity(intent);
-
+            }
             }
         });
 
@@ -264,7 +271,6 @@ public class MineFragment extends BaseFragment implements UserPresenter.UserCall
             }
         });
 
-        EventBus.getDefault().register(this);
 
         return view;
     }
@@ -389,6 +395,7 @@ public class MineFragment extends BaseFragment implements UserPresenter.UserCall
             if (!TextUtils.isEmpty(userInfo.money)) {
                 money.setText(userInfo.money);
             }
+            isagree = userInfo.isagree;
         }
     }
 

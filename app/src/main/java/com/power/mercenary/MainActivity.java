@@ -207,9 +207,8 @@ public class MainActivity extends BaseActivity {
                     startActivity(new Intent(this, SignInActivity.class));
                     return;
                 }
-
 //                ShowPickerView();
-                                showIssueDialog();
+                showIssueDialog();
 
                 break;
         }
@@ -219,7 +218,7 @@ public class MainActivity extends BaseActivity {
         mBuilder = new BaseDialog.Builder(this);
         mDialog = mBuilder.setViewId(R.layout.dialog_issue)
                 //设置dialogpadding
-                .setPaddingdp(20, 0, 20, 30)
+                .setPaddingdp(0, 0, 0, 0)
                 //设置显示位置
                 .setGravity(Gravity.BOTTOM)
                 //设置动画
@@ -230,9 +229,313 @@ public class MainActivity extends BaseActivity {
                 .isOnTouchCanceled(true)
                 //设置监听事件
                 .builder();
-
-
+        mDialog.getView(R.id.layout_paotui).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                showPaotuiDialog();
+                mDialog.dismiss();
+            }
+        });
+        mDialog.getView(R.id.layout_shenghuo).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                showShenghuoDialog();
+                mDialog.dismiss();
+            }
+        });
+        mDialog.getView(R.id.layout_geren).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                showGerenDialog();
+                mDialog.dismiss();
+            }
+        });
+        mDialog.getView(R.id.layout_gongzuo).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                showWorkDialog();
+                mDialog.dismiss();
+            }
+        });
+        mDialog.getView(R.id.layout_jiankang).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                showJiankangDialog();
+                mDialog.dismiss();
+            }
+        });
+        mDialog.getView(R.id.layout_qita).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MainActivity.this, PubQitaActivity.class);
+                intent.putExtra("TaskType", "6");
+                intent.putExtra("ChildTaskType", "1");
+                startActivity(intent);
+                mDialog.dismiss();
+            }
+        });
         mDialog.show();
+    }
+    //健康
+    private void showJiankangDialog() {
+        final BaseDialog dialog = mBuilder.setViewId(R.layout.dialog_pub_jiankang)
+                //设置dialogpadding
+                .setPaddingdp(0, 0, 0, 0)
+                //设置显示位置
+                .setGravity(Gravity.BOTTOM)
+                //设置动画
+                .setAnimation(R.style.Bottom_Top_aniamtion)
+                //设置dialog的宽高
+                .setWidthHeightpx(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT)
+                //设置触摸dialog外围是否关闭
+                .isOnTouchCanceled(true)
+                //设置监听事件
+                .builder();
+        dialog.getView(R.id.layout_paotui).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent4 = new Intent(MainActivity.this, PubJiankangActivity.class);
+                intent4.putExtra("TaskType", "5");
+                intent4.putExtra("ChildTaskType", "1");
+                startActivity(intent4);
+                dialog.dismiss();
+            }
+        });
+        dialog.getView(R.id.layout_shenghuo).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent4 = new Intent(MainActivity.this, PubJiankangActivity.class);
+                intent4.putExtra("TaskType", "5");
+                intent4.putExtra("ChildTaskType", "2");
+                startActivity(intent4);
+                dialog.dismiss();
+            }
+        });
+        dialog.getView(R.id.layout_jianfei).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent4 = new Intent(MainActivity.this, PubJiankangActivity.class);
+                intent4.putExtra("TaskType", "5");
+                intent4.putExtra("ChildTaskType", "2");
+                startActivity(intent4);
+                dialog.dismiss();
+            }
+        });
+        dialog.show();
+    }
+
+    //工作
+    private void showWorkDialog() {
+        final BaseDialog dialog = mBuilder.setViewId(R.layout.dialog_pub_work)
+                //设置dialogpadding
+                .setPaddingdp(0, 0, 0, 0)
+                //设置显示位置
+                .setGravity(Gravity.BOTTOM)
+                //设置动画
+                .setAnimation(R.style.Bottom_Top_aniamtion)
+                //设置dialog的宽高
+                .setWidthHeightpx(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT)
+                //设置触摸dialog外围是否关闭
+                .isOnTouchCanceled(true)
+                //设置监听事件
+                .builder();
+        dialog.getView(R.id.layout_paotui).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent3 = new Intent(MainActivity.this, PubGongzuoActivity.class);
+                intent3.putExtra("TaskType", "4");
+                intent3.putExtra("ChildTaskType", "1");
+                startActivity(intent3);
+                dialog.dismiss();
+            }
+        });
+        dialog.getView(R.id.layout_shenghuo).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent3 = new Intent(MainActivity.this, PubGongzuoActivity.class);
+                intent3.putExtra("TaskType", "4");
+                intent3.putExtra("ChildTaskType", "2");
+                startActivity(intent3);
+                dialog.dismiss();
+            }
+        });
+        dialog.getView(R.id.layout_geren).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent3 = new Intent(MainActivity.this, PubGongzuoActivity.class);
+                intent3.putExtra("TaskType", "4");
+                intent3.putExtra("ChildTaskType", "3");
+                startActivity(intent3);
+                dialog.dismiss();
+            }
+        });
+        dialog.getView(R.id.layout_gongzuo).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent3 = new Intent(MainActivity.this, PubGongzuoActivity.class);
+                intent3.putExtra("TaskType", "4");
+                intent3.putExtra("ChildTaskType", "4");
+                startActivity(intent3);
+                dialog.dismiss();
+            }
+        });
+        dialog.getView(R.id.layout_jiankang).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent3 = new Intent(MainActivity.this, PubGongzuoActivity.class);
+                intent3.putExtra("TaskType", "4");
+                intent3.putExtra("ChildTaskType", "5");
+                startActivity(intent3);
+                dialog.dismiss();
+            }
+        });
+        dialog.show();
+    }
+
+    //个人定制
+    private void showGerenDialog() {
+        final BaseDialog dialog = mBuilder.setViewId(R.layout.dialog_pub_geren)
+                //设置dialogpadding
+                .setPaddingdp(0, 0, 0, 0)
+                //设置显示位置
+                .setGravity(Gravity.BOTTOM)
+                //设置动画
+                .setAnimation(R.style.Bottom_Top_aniamtion)
+                //设置dialog的宽高
+                .setWidthHeightpx(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT)
+                //设置触摸dialog外围是否关闭
+                .isOnTouchCanceled(true)
+                //设置监听事件
+                .builder();
+        dialog.getView(R.id.layout_paotui).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent2 = new Intent(MainActivity.this, PubGerendingzhiActivity.class);
+                intent2.putExtra("TaskType", "3");
+                intent2.putExtra("ChildTaskType", "1");
+                startActivity(intent2);
+                dialog.dismiss();
+            }
+        });
+        dialog.getView(R.id.layout_shenghuo).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent2 = new Intent(MainActivity.this, PubGerendingzhiActivity.class);
+                intent2.putExtra("TaskType", "3");
+                intent2.putExtra("ChildTaskType", "2");
+                startActivity(intent2);
+                dialog.dismiss();
+            }
+        });
+
+        dialog.show();
+    }
+
+    //跑腿
+    private void showPaotuiDialog() {
+        final BaseDialog dialog = mBuilder.setViewId(R.layout.dialog_pub_paotui)
+                //设置dialogpadding
+                .setPaddingdp(0, 0, 0, 0)
+                //设置显示位置
+                .setGravity(Gravity.BOTTOM)
+                //设置动画
+                .setAnimation(R.style.Bottom_Top_aniamtion)
+                //设置dialog的宽高
+                .setWidthHeightpx(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT)
+                //设置触摸dialog外围是否关闭
+                .isOnTouchCanceled(true)
+                //设置监听事件
+                .builder();
+        dialog.getView(R.id.layout_paotui).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MainActivity.this, PubPaotuiActivity.class);
+                intent.putExtra("TaskType", "1");
+                intent.putExtra("ChildTaskType", "1");
+                startActivity(intent);
+                dialog.dismiss();
+            }
+        });
+        dialog.getView(R.id.layout_shenghuo).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MainActivity.this, PubPaotuiActivity.class);
+                intent.putExtra("TaskType", "1");
+                intent.putExtra("ChildTaskType", "2");
+                startActivity(intent);
+                dialog.dismiss();
+            }
+        });
+
+        dialog.show();
+    }
+
+    //生活
+    private void showShenghuoDialog() {
+        final BaseDialog dialog = mBuilder.setViewId(R.layout.dialog_pub_shenghuo)
+                //设置dialogpadding
+                .setPaddingdp(0, 0, 0, 0)
+                //设置显示位置
+                .setGravity(Gravity.BOTTOM)
+                //设置动画
+                .setAnimation(R.style.Bottom_Top_aniamtion)
+                //设置dialog的宽高
+                .setWidthHeightpx(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT)
+                //设置触摸dialog外围是否关闭
+                .isOnTouchCanceled(true)
+                //设置监听事件
+                .builder();
+        dialog.getView(R.id.layout_paotui).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent1 = new Intent(MainActivity.this, PubShenghuoActivity.class);
+                intent1.putExtra("TaskType", "2");
+                intent1.putExtra("ChildTaskType", "1");
+                startActivity(intent1);
+                dialog.dismiss();
+            }
+        });
+        dialog.getView(R.id.layout_shenghuo).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent1 = new Intent(MainActivity.this, PubShenghuoActivity.class);
+                intent1.putExtra("TaskType", "2");
+                intent1.putExtra("ChildTaskType", "2");
+                startActivity(intent1);
+                dialog.dismiss();
+            }
+        });
+        dialog.getView(R.id.layout_geren).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent1 = new Intent(MainActivity.this, PubShenghuoActivity.class);
+                intent1.putExtra("TaskType", "2");
+                intent1.putExtra("ChildTaskType", "3");
+                startActivity(intent1);
+                dialog.dismiss();
+            }
+        });
+        dialog.getView(R.id.layout_gongzuo).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent1 = new Intent(MainActivity.this, PubShenghuoActivity.class);
+                intent1.putExtra("TaskType", "2");
+                intent1.putExtra("ChildTaskType", "4");
+                startActivity(intent1);
+                dialog.dismiss();
+            }
+        });
+        dialog.getView(R.id.layout_jiankang).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent1 = new Intent(MainActivity.this, PubShenghuoActivity.class);
+                intent1.putExtra("TaskType", "2");
+                intent1.putExtra("ChildTaskType", "5");
+                startActivity(intent1);
+                dialog.dismiss();
+            }
+        });
+        dialog.show();
     }
 
 
@@ -275,19 +578,19 @@ public class MainActivity extends BaseActivity {
         datas = new ArrayList<>();
         datas.add("");
         list1.add(datas);
-        initCustomOptionPicker(list,list1);
+        initCustomOptionPicker(list, list1);
         pvCustomOptions.show();
     }
 
-    private void initCustomOptionPicker(final List<String> data,final List<List<String>> data1){
+    private void initCustomOptionPicker(final List<String> data, final List<List<String>> data1) {
         pvCustomOptions = new OptionsPickerView.Builder(this, new OptionsPickerView.OnOptionsSelectListener() {
             @Override
             public void onOptionsSelect(int options1, int option2, int options3, View v) {
                 //返回的分别是三个级别的选中位置
-                Log.d("MainActivity", "options1:" + options1+"-----");
-                Log.d("MainActivity", "options2:" + option2+"-----");
+                Log.d("MainActivity", "options1:" + options1 + "-----");
+                Log.d("MainActivity", "options2:" + option2 + "-----");
                 String tx = data.get(options1);
-                if (tx.equals("跑腿")){
+                if (tx.equals("跑腿")) {
                     Intent intent = new Intent(MainActivity.this, PubPaotuiActivity.class);
                     intent.putExtra("TaskType", "1");
                     if (option2 == 0) {
@@ -296,7 +599,7 @@ public class MainActivity extends BaseActivity {
                         intent.putExtra("ChildTaskType", "2");
                     }
                     startActivity(intent);
-                }else if (tx.equals("生活")){
+                } else if (tx.equals("生活")) {
                     Intent intent1 = new Intent(MainActivity.this, PubShenghuoActivity.class);
                     intent1.putExtra("TaskType", "2");
                     if (option2 == 0) {
@@ -311,7 +614,7 @@ public class MainActivity extends BaseActivity {
                         intent1.putExtra("ChildTaskType", "5");
                     }
                     startActivity(intent1);
-                }else if (tx.equals("个人定制")){
+                } else if (tx.equals("个人定制")) {
                     Intent intent2 = new Intent(MainActivity.this, PubGerendingzhiActivity.class);
                     intent2.putExtra("TaskType", "3");
                     if (option2 == 0) {
@@ -320,7 +623,7 @@ public class MainActivity extends BaseActivity {
                         intent2.putExtra("ChildTaskType", "2");
                     }
                     startActivity(intent2);
-                }else if (tx.equals("工作")){
+                } else if (tx.equals("工作")) {
                     Intent intent3 = new Intent(MainActivity.this, PubGongzuoActivity.class);
                     intent3.putExtra("TaskType", "4");
                     if (option2 == 0) {
@@ -335,7 +638,7 @@ public class MainActivity extends BaseActivity {
                         intent3.putExtra("ChildTaskType", "5");
                     }
                     startActivity(intent3);
-                }else if (tx.equals("健康")){
+                } else if (tx.equals("健康")) {
                     Intent intent4 = new Intent(MainActivity.this, PubJiankangActivity.class);
                     intent4.putExtra("TaskType", "5");
                     if (option2 == 0) {
@@ -346,7 +649,7 @@ public class MainActivity extends BaseActivity {
                         intent4.putExtra("ChildTaskType", "3");
                     }
                     startActivity(intent4);
-                }else if (tx.equals("其他")){
+                } else if (tx.equals("其他")) {
                     Intent intent = new Intent(MainActivity.this, PubQitaActivity.class);
                     intent.putExtra("TaskType", "6");
                     intent.putExtra("ChildTaskType", "1");
@@ -378,11 +681,9 @@ public class MainActivity extends BaseActivity {
                 .setDividerColor(getResources().getColor(R.color.textColorDrak))
                 .setTextColorCenter(getResources().getColor(R.color.black)) //设置选中项文字颜色
                 .build();
-        pvCustomOptions.setPicker(data,data1);//添加数据
+        pvCustomOptions.setPicker(data, data1);//添加数据
 
     }
-
-
 
 
     @Subscribe(threadMode = ThreadMode.MAIN)
