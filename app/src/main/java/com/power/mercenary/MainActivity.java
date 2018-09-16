@@ -627,6 +627,9 @@ public class MainActivity extends BaseActivity {
                     }
                     startActivity(intent2);
                 } else if (tx.equals("工作")) {
+
+
+
                     Intent intent3 = new Intent(MainActivity.this, PubGongzuoActivity.class);
                     intent3.putExtra("TaskType", "4");
                     if (option2 == 0) {
