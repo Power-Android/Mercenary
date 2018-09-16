@@ -470,6 +470,9 @@ public class MainActivity extends BaseActivity {
         dialog.show();
     }
 
+
+
+
     //生活
     private void showShenghuoDialog() {
         final BaseDialog dialog = mBuilder.setViewId(R.layout.dialog_pub_shenghuo)
