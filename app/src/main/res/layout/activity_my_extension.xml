@@ -2,26 +2,21 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:layout_width="match_parent"
               android:layout_height="match_parent">
-
-
-
-
-    <RelativeLayout
+    <WebView
+        android:id="@+id/webView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@drawable/my_tg_2x">
-
-    </RelativeLayout>
-
-
+        android:layout_height="match_parent">
+    </WebView>
     <RelativeLayout
         android:id="@+id/rl_title_bg"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="10dp"
-        android:background="@android:color/transparent">
+        android:background="@android:color/transparent"
+        >
 
         <ImageView
+            android:padding="5dip"
             android:id="@+id/left_back"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

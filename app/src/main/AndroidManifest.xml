@@ -18,7 +18,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:replace="android:icon, android:label,android:theme">
-        <activity android:name=".MainActivity">
+        <activity android:name=".activity.LancherActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -341,7 +341,7 @@
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
 
-                <data android:scheme="tencent1106733819" />
+                <data android:scheme="tencent1107775427" />
             </intent-filter>
         </activity>
         <activity
@@ -371,7 +371,11 @@
             </intent-filter>
         </receiver>
 
-        <activity android:name=".activity.ShouzeActivity"></activity>
+        <activity android:name=".activity.ShouzeActivity" />
+        <activity android:name=".activity.UserShouzeActivity" />
+        <activity android:name=".activity.TuiGuangActivity"></activity>
+        <activity android:name=".MainActivity"></activity>
+
     </application>
 
 </manifest>

@@ -298,7 +298,7 @@ public class SHPublishOutActivity extends BaseActivity implements View.OnClickLi
                 initTongcheng();
                 break;
             case R.id.iv_right_fx:
-                ShareDialog dialog = new ShareDialog(this, "title", "content", "image", "id");
+                ShareDialog dialog = new ShareDialog(this, taskDetailsBean.getTask_name(), taskDetailsBean.getTask_description(), taskDetailsBean.getId());
                 dialog.setOnDismissListener(onDismissListener);;
                 setShowPop(dialog, iv_right_fx);
                 break;

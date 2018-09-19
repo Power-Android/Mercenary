@@ -74,7 +74,7 @@
             android:layout_height="wrap_content"
             android:textSize="13sp"
             android:textColor="@color/colorPrimary"
-            android:text="888@qq.com"
+            android:text="www.hourenzaishu.com"
             />
     </LinearLayout>
 

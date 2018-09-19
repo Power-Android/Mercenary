@@ -73,8 +73,8 @@ public class MyApplication extends Application {
         UMShareAPI.get(this);
 
         PlatformConfig.setWeixin("wxdbbb1928fdfa069d", "69ad4ae853a60921d709dd3125d75351");
-        PlatformConfig.setQQZone("1106733819", "ME4Of9bX0LUh8uz0");
-        PlatformConfig.setSinaWeibo("4004384953", "11a1e6053a816fb1636a739cb67ce667", "https://sns.whalecloud.com/sina2/callback");
+        PlatformConfig.setQQZone("1107775427", "oNQ59nIFsxWijcgv");
+        PlatformConfig.setSinaWeibo("3169663256", "8292350b6a4180157579caa1368c592c", "https://sns.whalecloud.com/sina2/callback");
     }
 
     private void initRongClound() {

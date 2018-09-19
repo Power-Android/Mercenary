@@ -131,6 +131,11 @@ public class ForgetPasswordActivity extends BaseActivity implements LoginPresent
         finish();
     }
 
+    @Override
+    public void getCodeInfo() {
+
+    }
+
     @OnClick(R.id.tv_hqyzm)
     public void onClick() {
         if (edtPhone.getText().length() < 11 || edtPhone.getText().equals("")) {

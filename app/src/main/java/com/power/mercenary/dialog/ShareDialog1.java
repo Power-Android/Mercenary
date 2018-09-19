@@ -1,10 +1,8 @@
 package com.power.mercenary.dialog;
 
 import android.app.Activity;
-import android.app.Dialog;
 import android.content.Context;
 import android.graphics.drawable.ColorDrawable;
-import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,9 +11,9 @@ import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 
+import com.power.mercenary.MyApplication;
 import com.power.mercenary.R;
 import com.power.mercenary.utils.TUtils;
-import com.power.mercenary.view.BaseDialog;
 import com.umeng.socialize.ShareAction;
 import com.umeng.socialize.UMShareListener;
 import com.umeng.socialize.bean.SHARE_MEDIA;
@@ -25,7 +23,7 @@ import com.umeng.socialize.media.UMWeb;
 /**
  * admin  2018/7/26 wan
  */
-public class ShareDialog extends PopupWindow {
+public class ShareDialog1 extends PopupWindow {
 
     private Activity activity;
     private LayoutInflater inflater;
@@ -38,13 +36,13 @@ public class ShareDialog extends PopupWindow {
     private LinearLayout sina;
     private TextView cancel;
 
-    public ShareDialog(Activity activity, String title, String content, String id) {
+    public ShareDialog1(Activity activity, String title, String content) {
         super(activity);
         this.activity = activity;
-        initPopupWindow(title, content, id);
+        initPopupWindow(title, content);
     }
 
-    public void initPopupWindow(final String title, final String content, final String id) {
+    public void initPopupWindow(final String title, final String content) {
         inflater = (LayoutInflater) activity
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         defaultView = inflater.inflate(R.layout.sharing_pop_item_view, null);
@@ -62,35 +60,35 @@ public class ShareDialog extends PopupWindow {
         weixin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showWx(title, content, id);
+                showWx(title, content);
             }
         });
 
         weixinP.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showPyq(title, content, id);
+                showPyq(title, content);
             }
         });
 
         qq.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showQQ(title, content, id);
+                showQQ(title, content);
             }
         });
 
         qzone.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showQzone(title, content, id);
+                showQzone(title, content);
             }
         });
 
         sina.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showSina(title, content, id);
+                showSina(title, content);
             }
         });
 
@@ -119,11 +117,11 @@ public class ShareDialog extends PopupWindow {
         return defaultView;
     }
 
-    public void showQQ( String title, String content, String id) {
+    public void showQQ( String title, String content) {
         UMImage image = new UMImage(activity, "https://ss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=4267222417,1017407570&fm=200&gp=0.jpg");//网络图片
         UMImage thumb = new UMImage(activity, R.drawable.yongbingicon);
         image.setThumb(thumb);
-        UMWeb web = new UMWeb("http://yb.dashuibei.com/register/detail.html?id=" + id);
+        UMWeb web = new UMWeb("http://yb.dashuibei.com/register/extension.html?token="+ MyApplication.getUserToken());
         web.setTitle(title + "");//标题
         web.setThumb(thumb);  //缩略图
         web.setDescription(content + "");//描述
@@ -138,11 +136,11 @@ public class ShareDialog extends PopupWindow {
                 .share();
     }
 
-    public void showWx( String title, String content, String id) {
+    public void showWx( String title, String content) {
         UMImage image = new UMImage(activity, "https://ss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=4267222417,1017407570&fm=200&gp=0.jpg");//网络图片
         UMImage thumb = new UMImage(activity, R.drawable.yongbingicon);
         image.setThumb(thumb);
-        UMWeb web = new UMWeb("http://yb.dashuibei.com/register/detail.html?id=" + id);
+        UMWeb web = new UMWeb("http://yb.dashuibei.com/register/extension.html?token="+ MyApplication.getUserToken());
         web.setTitle(title + "");//标题
         web.setThumb(thumb);  //缩略图
         web.setDescription(content + "");//描述
@@ -157,11 +155,11 @@ public class ShareDialog extends PopupWindow {
                 .share();
     }
 
-    public void showPyq( String title, String content, String id) {
+    public void showPyq( String title, String content) {
         UMImage image = new UMImage(activity, "https://ss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=4267222417,1017407570&fm=200&gp=0.jpg");//网络图片
         UMImage thumb = new UMImage(activity, R.drawable.yongbingicon);
         image.setThumb(thumb);
-        UMWeb web = new UMWeb("http://yb.dashuibei.com/register/detail.html?id=" + id);
+        UMWeb web = new UMWeb("http://yb.dashuibei.com/register/extension.html?token="+ MyApplication.getUserToken());
         web.setTitle(title + "");//标题
         web.setThumb(thumb);  //缩略图
         web.setDescription(content + "");//描述
@@ -176,11 +174,11 @@ public class ShareDialog extends PopupWindow {
                 .share();
     }
 
-    public void showQzone( String title, String content, String id) {
+    public void showQzone( String title, String content) {
         UMImage image = new UMImage(activity, "https://ss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=4267222417,1017407570&fm=200&gp=0.jpg");//网络图片
         UMImage thumb = new UMImage(activity, R.drawable.yongbingicon);
         image.setThumb(thumb);
-        UMWeb web = new UMWeb("http://yb.dashuibei.com/register/detail.html?id=" + id);
+        UMWeb web = new UMWeb("http://yb.dashuibei.com/register/extension.html?token="+ MyApplication.getUserToken());
         web.setTitle(title + "");//标题
         web.setThumb(thumb);  //缩略图
         web.setDescription(content + "");//描述
@@ -195,11 +193,11 @@ public class ShareDialog extends PopupWindow {
                 .share();
     }
 
-    public void showSina( String title, String content, String id) {
+    public void showSina( String title, String content) {
         UMImage image = new UMImage(activity, "https://ss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=4267222417,1017407570&fm=200&gp=0.jpg");//网络图片
         UMImage thumb = new UMImage(activity, R.drawable.yongbingicon);
         image.setThumb(thumb);
-        UMWeb web = new UMWeb("http://yb.dashuibei.com/register/detail.html?id=" + id);
+        UMWeb web = new UMWeb("http://yb.dashuibei.com/register/extension.html?token="+ MyApplication.getUserToken());
         web.setTitle(title + "");//标题
         web.setThumb(thumb);  //缩略图
         web.setDescription(content + "");//描述

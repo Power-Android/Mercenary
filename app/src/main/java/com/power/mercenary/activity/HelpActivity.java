@@ -101,8 +101,12 @@ public class HelpActivity extends BaseActivity {
 
                 break;
             case R.id.rl_yhsz:
+                intent = new Intent(HelpActivity.this, UserShouzeActivity.class);
+                startActivity(intent);
                 break;
             case R.id.rl_tgsz:
+                intent = new Intent(HelpActivity.this, TuiGuangActivity.class);
+                startActivity(intent);
                 break;
             case R.id.rl_gywm:
                 intent = new Intent(HelpActivity.this, AboutUsActivity.class);

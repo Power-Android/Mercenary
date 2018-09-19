@@ -143,6 +143,9 @@ public class SignInActivity extends BaseActivity implements View.OnClickListener
                     Toast.makeText(mContext, "请输入正确的手机号", Toast.LENGTH_SHORT).show();
                     return;
                 }
+                String md5 = MyUtils.getMD5("mobile=" + edtPhone.getText().toString() + Urls.SECRET);
+
+                presenter.getCodeInfo(md5,edtPhone.getText().toString());
                 countDownUtils.start();
             }
         });
@@ -301,6 +304,11 @@ public class SignInActivity extends BaseActivity implements View.OnClickListener
     @Override
     public void getForgetPassInfo(TokenInfo userInfo) {
 
+    }
+
+    @Override
+    public void getCodeInfo() {
+        countDownUtils.start();
     }
 
     @Override

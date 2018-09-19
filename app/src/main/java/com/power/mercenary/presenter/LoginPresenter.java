@@ -3,6 +3,7 @@ package com.power.mercenary.presenter;
 import android.app.Activity;
 
 import com.lzy.okgo.model.Response;
+import com.power.mercenary.bean.SuccessBean;
 import com.power.mercenary.bean.user.TokenInfo;
 import com.power.mercenary.http.DialogCallback;
 import com.power.mercenary.http.HttpManager;
@@ -82,6 +83,22 @@ public class LoginPresenter {
                 });
     }
     /**
+     * 获取验证码
+     */
+    public void getCodeInfo(String signature,String mobile){
+        new HttpManager<ResponseBean<SuccessBean>>("Home/User/sendsms", this)
+                .addParams("signature",signature)
+                .addParams("mobile",mobile)
+                .postRequest(new DialogCallback<ResponseBean<SuccessBean>>(activity) {
+                    @Override
+                    public void onSuccess(Response<ResponseBean<SuccessBean>> response) {
+                        if (response.body().data != null) {
+                            callBack.getCodeInfo();
+                        }
+                    }
+                });
+    }
+    /**
      * 重置密码
      */
     public void ForgetPassrInfo(String signature,String code,String mobile,String pwd){
@@ -104,5 +121,6 @@ public class LoginPresenter {
         void getCodeLoginInfo(TokenInfo userInfo);
         void getPassLoginInfo(TokenInfo userInfo);
         void getForgetPassInfo(TokenInfo userInfo);
+        void getCodeInfo();
     }
 }

@@ -207,4 +207,9 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
 
     }
 
+    @Override
+    public void getCodeInfo() {
+
+    }
+
 }

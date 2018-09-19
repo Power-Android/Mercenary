@@ -1,14 +1,27 @@
 package com.power.mercenary.activity;
 
+import android.content.Context;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
+import android.webkit.WebChromeClient;
+import android.webkit.WebSettings;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 
+import com.power.mercenary.MyApplication;
 import com.power.mercenary.R;
 import com.power.mercenary.base.BaseActivity;
+import com.power.mercenary.dialog.ShareDialog;
+import com.power.mercenary.dialog.ShareDialog1;
 import com.power.mercenary.view.SharingPop;
 
 import butterknife.BindView;
@@ -21,22 +34,29 @@ import butterknife.ButterKnife;
 public class MyExtensionActivity extends BaseActivity {
 
 
-@BindView(R.id.my_tg_fx)
+    @BindView(R.id.my_tg_fx)
     TextView my_tg_fx;
 
     @BindView(R.id.left_back)
     ImageView left_back;
+    @BindView(R.id.webView)
+    WebView webView;
 
     private SharingPop sharingPop;
+    private LayoutInflater inflater;
+    public View defaultView;
 
+    private LinearLayout weixin;
+    private LinearLayout weixinP;
+    private LinearLayout qq;
+    private LinearLayout qzone;
+    private LinearLayout sina;
+    private TextView cancel;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_extension);
         ButterKnife.bind(this);
-
-        sharingPop = new SharingPop(MyExtensionActivity.this,R.layout.sharing_pop_item_view);
-        sharingPop.setOnDismissListener(onDismissListener);
         left_back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -48,10 +68,13 @@ public class MyExtensionActivity extends BaseActivity {
             @Override
             public void onClick(View view) {
 
-                setShowPop(sharingPop,my_tg_fx);
+                ShareDialog1 dialog = new ShareDialog1(MyExtensionActivity.this, "佣兵天下", "佣兵旨在为优秀的个人自由创业者提升服务质量，简化沟通，让优秀的创业者更专心的为用户提供更好的服务，更搞笑的打造自己的品牌。");
+                dialog.setOnDismissListener(onDismissListener);
+                setShowPop(dialog, my_tg_fx);
 
             }
         });
+        initWeb();
 
     }
 
@@ -64,4 +87,46 @@ public class MyExtensionActivity extends BaseActivity {
         }
     };
 
+    private void initWeb() {
+        webView.loadUrl("http://yb.dashuibei.com/register/extension.html?token="+ MyApplication.getUserToken());
+
+        WebSettings setTtings= webView.getSettings();
+        //设置可以加载JavaScript的代码
+        setTtings.setJavaScriptEnabled(true);
+        //优先加载缓存
+        setTtings.setCacheMode(WebSettings.LOAD_CACHE_ELSE_NETWORK);
+        //不加载缓存
+        setTtings.setCacheMode(WebSettings.LOAD_NO_CACHE);
+        //是否支持缩放，true是支持 false是不支持
+        setTtings.setSupportZoom(true);
+
+        //这个方法使用后，网页就会在自己浏览器中显示出来
+        webView.setWebViewClient(new WebViewClient(){
+            @Override
+            public boolean shouldOverrideUrlLoading(WebView view, String url) {
+                view.loadUrl(url);
+                return true;
+            }
+
+        });
+        webView.setWebChromeClient(new WebChromeClient(){
+            @Override
+            public void onProgressChanged(WebView view, int newProgress) {
+                //super.onProgressChanged(view, newProgress);
+                if(newProgress==100){
+                    //数据加载完毕
+
+                    //这里面我们可以将进度条或者对话框dismiss掉
+                }else{
+                    //数据正在加载
+                    //这里面我们将进度条或者对话框show出来
+
+                }
+            }
+
+
+        });
+
+
+    }
 }
