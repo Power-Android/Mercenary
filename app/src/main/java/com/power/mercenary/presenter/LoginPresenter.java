@@ -1,6 +1,7 @@
 package com.power.mercenary.presenter;
 
 import android.app.Activity;
+import android.util.Log;
 
 import com.lzy.okgo.model.Response;
 import com.power.mercenary.bean.SuccessBean;
@@ -80,7 +81,14 @@ public class LoginPresenter {
                             callBack.getCodeLoginInfo(response.body().data);
                         }
                     }
+
+                    @Override
+                    public void onError(Response<ResponseBean<TokenInfo>> response) {
+                        super.onError(response);
+                        Log.d("LoginPresenter", response.getException().getMessage()+"-----");
+                    }
                 });
+
     }
     /**
      * 获取验证码

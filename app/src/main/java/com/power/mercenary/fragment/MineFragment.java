@@ -267,6 +267,8 @@ public class MineFragment extends BaseFragment implements UserPresenter.UserCall
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity(), SetupActivity.class);
+//                Intent intent = new Intent(getActivity(), CommitUserInfoActivity.class);
+
                 startActivity(intent);
             }
         });

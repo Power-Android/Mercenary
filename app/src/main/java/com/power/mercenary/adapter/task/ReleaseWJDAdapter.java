@@ -1,18 +1,29 @@
 package com.power.mercenary.adapter.task;
 
+import android.app.Activity;
 import android.content.Context;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.lzy.okgo.model.Response;
+import com.power.mercenary.MyApplication;
 import com.power.mercenary.R;
 import com.power.mercenary.activity.TaskListActivity;
+import com.power.mercenary.bean.SuccessBean;
 import com.power.mercenary.bean.mytask.PublishTaskBean;
+import com.power.mercenary.http.DialogCallback;
+import com.power.mercenary.http.HttpManager;
+import com.power.mercenary.http.ResponseBean;
 import com.power.mercenary.utils.MercenaryUtils;
+import com.power.mercenary.view.BaseDialog;
 
 import java.util.List;
 
@@ -55,7 +66,13 @@ public class ReleaseWJDAdapter extends RecyclerView.Adapter {
             viewHolder.recyclerView.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false));
             TaskListActivity.TagAdapter tagAdapter = new TaskListActivity.TagAdapter(R.layout.item_tag_layout, MercenaryUtils.stringToList(data.get(position).getTask_tag()));
             viewHolder.recyclerView.setAdapter(tagAdapter);
-
+            viewHolder.xiugaiPrice.setVisibility(View.VISIBLE);
+            viewHolder.xiugaiPrice.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    showIssueDialog(position);
+                }
+            });
             viewHolder.chexiao.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -78,7 +95,59 @@ public class ReleaseWJDAdapter extends RecyclerView.Adapter {
             });
         }
     }
+    private BaseDialog mDialog;
+    private BaseDialog.Builder mBuilder;
+    private void showIssueDialog(final int position) {
+        mBuilder = new BaseDialog.Builder(context);
+        mDialog = mBuilder.setViewId(R.layout.dialog_xiugai_price)
+                //设置dialogpadding
+                .setPaddingdp(0, 0, 0, 0)
+                //设置显示位置
+                .setGravity(Gravity.CENTER)
+                //设置动画
+                .setAnimation(R.style.Bottom_Top_aniamtion)
+                //设置dialog的宽高
+                .setWidthHeightpx(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT)
+                //设置触摸dialog外围是否关闭
+                .isOnTouchCanceled(true)
+                //设置监听事件
+                .builder();
+        TextView tv_sure = mDialog.getView(R.id.tv_sure);
+        TextView tv_cancle = mDialog.getView(R.id.tv_cancle);
+        final TextView edt_price = mDialog.getView(R.id.edt_price);
+        edt_price.setText(data.get(position).getPay_amount()+"");
+        tv_sure.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                double v = Double.parseDouble(edt_price.getText().toString()) * 100;
+                new HttpManager<ResponseBean<SuccessBean>>("Home/TaskFaBu/editprice", this)
+                        .addParams("token", MyApplication.getUserToken())
+                        .addParams("id",data.get(position).getId())
+                        .addParams("pay_amount", v+"")
+                        .postRequest(new DialogCallback<ResponseBean<SuccessBean>>((Activity) context) {
+                            @Override
+                            public void onSuccess(Response<ResponseBean<SuccessBean>> response) {
+                                Toast.makeText(context, response.body().msg, Toast.LENGTH_SHORT).show();
+                                listener.xiugai();
+                                mDialog.dismiss();
+                            }
 
+                            @Override
+                            public void onError(Response<ResponseBean<SuccessBean>> response) {
+                                super.onError(response);
+                                Log.d("ReleaseRWZAdapter", response.getException().getMessage()+"--------");
+                            }
+                        });
+            }
+        });
+        tv_cancle.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mDialog.dismiss();
+            }
+        });
+        mDialog.show();
+    }
     @Override
     public int getItemCount() {
         return data.size();
@@ -100,6 +169,8 @@ public class ReleaseWJDAdapter extends RecyclerView.Adapter {
 
         LinearLayout mView;
 
+        TextView xiugaiPrice;
+
         public WJDViewHolder(View itemView) {
             super(itemView);
             mView = itemView.findViewById(R.id.item_wjd_view_layout);
@@ -109,11 +180,12 @@ public class ReleaseWJDAdapter extends RecyclerView.Adapter {
             num = itemView.findViewById(R.id.item_wjd_view_num);
             chexiao = itemView.findViewById(R.id.item_wjd_view_chexiao);
             yaoqing = itemView.findViewById(R.id.item_wjd_view_yaoqing);
+            xiugaiPrice = itemView.findViewById(R.id.item_wjd_view_xiugai);
         }
     }
 
     public interface TaskHandleListener{
-        void xiugai(String id);
+        void xiugai();
         void chexiao(String id, int itemPosition);
         void yaoqing(String id);
         void TaskOnClickViewListener(String id, int position, String taskType, String taskState);

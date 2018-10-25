@@ -50,7 +50,11 @@ public class DetailsPeopleAdapter extends RecyclerView.Adapter {
     public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position) {
         if (holder instanceof PepViewHolder) {
             PepViewHolder viewHolder = (PepViewHolder) holder;
-
+            if (data.get(position).getApply_user_id().equals(MyApplication.getUserId())){
+                viewHolder.del.setText("放弃");
+            }else {
+                viewHolder.del.setText("剔除");
+            }
             switch (viewState) {
                 case 1:
                     viewHolder.dx.setVisibility(View.GONE);

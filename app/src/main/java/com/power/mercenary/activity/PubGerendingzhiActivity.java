@@ -436,6 +436,7 @@ public class PubGerendingzhiActivity extends BaseActivity implements PubTaskPres
                     return;
                 } else if (listAll.size() <= 0) {
                     Toast.makeText(mContext, "请选择任务相关图片", Toast.LENGTH_SHORT).show();
+                    return;
                 }
 
                 /**
@@ -471,7 +472,7 @@ public class PubGerendingzhiActivity extends BaseActivity implements PubTaskPres
 
                 picNumsPresenter.publishTask(fileList);//上传多张图片
 
-                presenter.publishTask("", taskType, childTaskType, taskNameEt.getText().toString(), s1, imgurl, taskMoneyEt.getText().toString(),
+                presenter.publishTask("", taskType, childTaskType, taskNameEt.getText().toString(), s1, imgurl, (Integer.parseInt(taskMoneyEt.getText().toString())*100)+"",
                         "", taskDesEt.getText().toString(), "", s,
                         "", "", "", "",
                         "", "", "");

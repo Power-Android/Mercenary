@@ -45,7 +45,7 @@
                     android:layout_height="wrap_content" />
                 <TextView
                     android:padding="5dip"
-                    android:text="物品"
+                    android:text="跑腿"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
 
@@ -63,7 +63,7 @@
                     android:layout_height="wrap_content" />
                 <TextView
                     android:padding="5dip"
-                    android:text="人员"
+                    android:text="接送人"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
 

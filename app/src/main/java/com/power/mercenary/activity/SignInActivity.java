@@ -255,7 +255,6 @@ public class SignInActivity extends BaseActivity implements View.OnClickListener
                 Log.v("======>>", "errorCode" + errorCode.getValue() + "-----" + errorCode.getMessage());
             }
         });
-        startActivity(new Intent(this, MainActivity.class));
         CacheUtils.put(CacheConstants.TYPE_LOGIN, userInfo);
         new HttpManager<ResponseBean<UserInfo>>("Home/UserCenter/getinfo", this)
                 .addParams("token", userInfo.token)
@@ -264,6 +263,14 @@ public class SignInActivity extends BaseActivity implements View.OnClickListener
                     public void onSuccess(Response<ResponseBean<UserInfo>> response) {
                         CacheUtils.put(CacheConstants.USERINFO, response.body().data);
                         finish();
+                        UserInfo data = response.body().data;
+                        if (data.getAge().equals("")||data.getAge()==null||data.getHead_img().equals("")||data.getHead_img()==null
+                                ||data.getSex().equals("")||data.getSex()==null||data.getNick_name().equals("")||data.getNick_name()==null
+                                ||data.getName().equals("")||data.getName()==null){
+                            startActivity(new Intent(SignInActivity.this, CommitUserInfoActivity.class));
+                        }else {
+                            startActivity(new Intent(SignInActivity.this, MainActivity.class));
+                        }
                     }
                 });
 //        Toast.makeText(this, "验证码登录成功", Toast.LENGTH_SHORT).show();
@@ -287,7 +294,6 @@ public class SignInActivity extends BaseActivity implements View.OnClickListener
 
             }
         });
-        startActivity(new Intent(this, MainActivity.class));
         CacheUtils.put(CacheConstants.TYPE_LOGIN, userInfo);
         new HttpManager<ResponseBean<UserInfo>>("Home/UserCenter/getinfo", this)
                 .addParams("token", userInfo.token)
@@ -296,6 +302,14 @@ public class SignInActivity extends BaseActivity implements View.OnClickListener
                     public void onSuccess(Response<ResponseBean<UserInfo>> response) {
                         CacheUtils.put(CacheConstants.USERINFO, response.body().data);
                         finish();
+                        UserInfo data = response.body().data;
+                        if (data.getAge().equals("")||data.getAge()==null||data.getHead_img().equals("")||data.getHead_img()==null
+                                ||data.getSex().equals("")||data.getSex()==null||data.getNick_name().equals("")||data.getNick_name()==null
+                                ||data.getName().equals("")||data.getName()==null){
+                            startActivity(new Intent(SignInActivity.this, CommitUserInfoActivity.class));
+                        }else {
+                            startActivity(new Intent(SignInActivity.this, MainActivity.class));
+                        }
                     }
                 });
 //        Toast.makeText(this, "密码登录成功", Toast.LENGTH_SHORT).show();

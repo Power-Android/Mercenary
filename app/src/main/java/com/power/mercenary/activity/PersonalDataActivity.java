@@ -103,6 +103,8 @@ public class PersonalDataActivity extends BaseActivity implements View.OnClickLi
     private LinearLayout collection;
 
     private LinearLayout privateChat;
+    private LinearLayout layout_show_btn;
+
 
     private int isFollow;
     private PersonalBean data;
@@ -114,8 +116,18 @@ public class PersonalDataActivity extends BaseActivity implements View.OnClickLi
         ButterKnife.bind(this);
         list = new ArrayList<>();
         title_text.setText("个人资料");
-
+        layout_show_btn= (LinearLayout) findViewById(R.id.layout_show_btn);
+        if (getIntent()!=null){
+          String  isShowButton = getIntent().getStringExtra("isShowButton");
+          if (isShowButton.equals("no")){
+              layout_show_btn.setVisibility(View.GONE);
+          }else {
+              layout_show_btn.setVisibility(View.VISIBLE);
+          }
+        }
         userId = getIntent().getStringExtra("userId");
+
+
 
         name = (TextView) findViewById(R.id.act_personal_name);
 
@@ -373,6 +385,7 @@ public class PersonalDataActivity extends BaseActivity implements View.OnClickLi
             MyApplication.getGloableContext().startActivity(intent);
         }else {
             Intent intent = new Intent(context, PersonalDataActivity.class);
+            intent.putExtra("isShowButton", "yes");
             intent.putExtra("userId", userId);
             context.startActivity(intent);
         }

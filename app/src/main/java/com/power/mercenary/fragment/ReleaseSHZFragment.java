@@ -7,10 +7,6 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.power.mercenary.R;
-import com.power.mercenary.activity.details_appraise_publish.GRPublishAppraiseActivity;
-import com.power.mercenary.activity.details_appraise_publish.GZPublishAppraiseActivity;
-import com.power.mercenary.activity.details_appraise_publish.PTPublishAppraiseActivity;
-import com.power.mercenary.activity.details_appraise_publish.SHPublishAppraiseActivity;
 import com.power.mercenary.activity.details_audit_publish.GRPublishAuditActivity;
 import com.power.mercenary.activity.details_audit_publish.GZPublishAuditActivity;
 import com.power.mercenary.activity.details_audit_publish.PTPublishAuditActivity;
@@ -116,8 +112,10 @@ public class ReleaseSHZFragment  extends BaseFragment implements WanRecyclerView
     }
 
     @Override
-    public void TaskOnClickListener(String id, int position) {
-        publishPresenter.auditTaskRequest(id, 1, position);
+    public void TaskOnClickListener() {
+        page = 1;
+        mList.clear();
+        publishPresenter.getPublishTaskList(page, 3);
     }
 
     @Override

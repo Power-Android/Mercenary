@@ -185,9 +185,13 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
         if (loginType.equals("0")) {
             Toast.makeText(mContext, "注册成功", Toast.LENGTH_SHORT).show();
             finish();
+            Intent intent = new Intent(RegisterActivity.this, CommitUserInfoActivity.class);
+            startActivity(intent);
         } else {
             Toast.makeText(mContext, "企业注册成功", Toast.LENGTH_SHORT).show();
             finish();
+            Intent intent = new Intent(RegisterActivity.this, CommitUserInfoActivity.class);
+            startActivity(intent);
         }
         Log.d("RegisterActivityToken", userInfo.token + "--------");
     }

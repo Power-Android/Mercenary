@@ -62,7 +62,7 @@ public class AcceptTaskFragment extends BaseFragment implements WanRecyclerView.
         mRecyclerView = view.findViewById(R.id.frag_release_recyclerView);
         mRecyclerView.setLinearLayout();
         mRecyclerView.setPullRecyclerViewListener(this);
-        adapter = new AcceptTaskAdapter(getContext(), mList);
+        adapter = new AcceptTaskAdapter(getContext(), mList,state);
 
         adapter.setOnItemClickListener(this);
 
@@ -230,5 +230,12 @@ public class AcceptTaskFragment extends BaseFragment implements WanRecyclerView.
                     break;
             }
         }
+    }
+
+    @Override
+    public void TuiKuanListener() {
+        page = 1;
+        mList.clear();
+        acceptPresenter.getAcceptTaskList(page, state);
     }
 }

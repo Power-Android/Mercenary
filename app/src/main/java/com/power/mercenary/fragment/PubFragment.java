@@ -71,6 +71,7 @@ public class PubFragment extends BaseFragment implements TieZiListPresenter.Task
     private String task_type_child = "";
     private TieZiListPresenter presenter;
     private List<BannerBean> bannerBeans;
+    private String task_title;
 
     @Override
     protected View initView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -209,11 +210,13 @@ public class PubFragment extends BaseFragment implements TieZiListPresenter.Task
 //                    startActivity(new Intent(mContext, PubListActivity.class));
                     for (int i1 = 0; i1 < hotNameList.size(); i1++) {
                         if (i1 == finalI) {
+                            task_title = hotNameList.get(i1);
                             task_type_child = (finalI + 1) + "";
                         }
                     }
                     Intent intent = new Intent(mContext, WorkPubActivity.class);
                     intent.putExtra("task_type", task_type);
+                    intent.putExtra("task_title", task_title);
                     intent.putExtra("task_type_child", task_type_child);
                     startActivity(intent);
                 }

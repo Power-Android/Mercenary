@@ -528,7 +528,7 @@ public class HomeFragment extends BaseFragment implements MainPresenter.MainCall
                         gridPageList2.add(testbean0);
                         Testbean testbean1 = new Testbean();
                         testbean1.setImg(R.drawable.renyuan);
-                        testbean1.setTitle("人员");
+                        testbean1.setTitle("接送人");
                         gridPageList2.add(testbean1);
                         break;
                     case 1://生活
@@ -566,7 +566,7 @@ public class HomeFragment extends BaseFragment implements MainPresenter.MainCall
                     case 3://工作
                         Testbean testbean03 = new Testbean();
                         testbean03.setImg(R.drawable.shishu);
-                        testbean03.setTitle("仕");
+                        testbean03.setTitle("士");
                         gridPageList2.add(testbean03);
                         Testbean testbean13 = new Testbean();
                         testbean13.setImg(R.drawable.nong);

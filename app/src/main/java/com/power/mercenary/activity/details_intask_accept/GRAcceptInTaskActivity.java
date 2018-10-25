@@ -28,7 +28,6 @@ import com.power.mercenary.activity.PersonalDataActivity;
 import com.power.mercenary.activity.SignInActivity;
 import com.power.mercenary.activity.WebActivity;
 import com.power.mercenary.activity.chat.ChatActivity;
-import com.power.mercenary.activity.details_audit_publish.GRPublishAuditActivity;
 import com.power.mercenary.adapter.task.DetailsMsgAdapter;
 import com.power.mercenary.adapter.task.DetailsPeopleAdapter;
 import com.power.mercenary.base.BaseActivity;
@@ -222,6 +221,15 @@ public class GRAcceptInTaskActivity extends BaseActivity implements View.OnClick
             @Override
             public void onClick(View v) {
                 PersonalDataActivity.invoke(GRAcceptInTaskActivity.this, taskDetailsBean.getPublisher_id());
+            }
+        });
+        actTaskDetaiilsPrivateMsg.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(GRAcceptInTaskActivity.this, PersonalDataActivity.class);
+                intent.putExtra("isShowButton", "no");
+                intent.putExtra("userId",  taskDetailsBean.getXuanding().getId());
+                startActivity(intent);
             }
         });
     }

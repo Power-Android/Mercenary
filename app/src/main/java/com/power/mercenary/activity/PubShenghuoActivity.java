@@ -324,7 +324,7 @@ public class PubShenghuoActivity extends BaseActivity implements PubTaskPresente
                 String s = MyUtils.listToString(requireList);
                 String s1 = MyUtils.listToString(biaoqianList);
 
-                presenter.publishTask("", taskType, childTaskType, taskNameEt.getText().toString(), s1, "", taskMoneyEt.getText().toString(),
+                presenter.publishTask("", taskType, childTaskType, taskNameEt.getText().toString(), s1, "",(Integer.parseInt(taskMoneyEt.getText().toString())*100)+"",
                         validityTimeEt.getText().toString(), taskDetailEt.getText().toString(), taskMudiEt.getText().toString(), s,
                         "", "", "", "1530961214",
                         "开始地址", "目的地址", "");

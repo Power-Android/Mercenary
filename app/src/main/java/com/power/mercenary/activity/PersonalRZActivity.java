@@ -77,37 +77,40 @@ public class PersonalRZActivity extends BaseActivity implements UpdataPresenter.
         myZiLiPresenter = new MyZiLiPresenter(this,this);
     }
 
-    @OnClick({R.id.tv_commit, R.id.tv_scz_pz})
+    @OnClick({R.id.tv_commit, R.id.tv_scz_pz,R.id.img_Id_Card})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.tv_commit:
+
+                break;
+            case R.id.tv_scz_pz:
                 if (TextUtils.isEmpty(edtIdcardNumber.getText().toString())){
                     Toast.makeText(mContext, "请输入身份证号码", Toast.LENGTH_SHORT).show();
-                   return;
+                    return;
                 }
                 if (selectList.size()<=0){
                     Toast.makeText(mContext, "请上传证件照", Toast.LENGTH_SHORT).show();
                     return;
                 }
 
-                    new Compressor(this)
-                            .compressToFileAsFlowable(new File(selectList.get(0).getPath()))
-                            .subscribeOn(Schedulers.io())
-                            .observeOn(AndroidSchedulers.mainThread())
-                            .subscribe(new Consumer<File>() {
-                                @Override
-                                public void accept(File file) {
-                                    presenter.updataUserImg(file);
-                                }
-                            }, new Consumer<Throwable>() {
-                                @Override
-                                public void accept(Throwable throwable) {
-                                    throwable.printStackTrace();
-                                }
-                            });
+                new Compressor(this)
+                        .compressToFileAsFlowable(new File(selectList.get(0).getPath()))
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe(new Consumer<File>() {
+                            @Override
+                            public void accept(File file) {
+                                presenter.updataUserImg(file);
+                            }
+                        }, new Consumer<Throwable>() {
+                            @Override
+                            public void accept(Throwable throwable) {
+                                throwable.printStackTrace();
+                            }
+                        });
 
                 break;
-            case R.id.tv_scz_pz:
+            case R.id.img_Id_Card:
                 cameraList = new ArrayList<>();
                 cameraList.add("从相册中选择");
                 cameraList.add("拍照");

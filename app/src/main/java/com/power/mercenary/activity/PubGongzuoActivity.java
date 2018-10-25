@@ -338,7 +338,7 @@ public class PubGongzuoActivity extends BaseActivity implements PubTaskPresenter
                 String s = MyUtils.listToString(requireList);
                 String s1 = MyUtils.listToString(biaoqianList);
 
-                presenter.publishTask("", taskType, childTaskType, taskNameEt.getText().toString(), s1, "", taskMoneyEt.getText().toString(),
+                presenter.publishTask("", taskType, childTaskType, taskNameEt.getText().toString(), s1, "",(Integer.parseInt(taskMoneyEt.getText().toString())*100)+"",
                         "", taskDetailEt.getText().toString(), taskMudiEt.getText().toString(), s,
                         "", "", "", "",
                         "", "", "");

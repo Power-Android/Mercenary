@@ -2,8 +2,11 @@ package com.power.mercenary.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
@@ -17,7 +20,6 @@ import com.luck.picture.lib.PictureSelector;
 import com.luck.picture.lib.config.PictureConfig;
 import com.luck.picture.lib.config.PictureMimeType;
 import com.luck.picture.lib.entity.LocalMedia;
-import com.power.mercenary.MyApplication;
 import com.power.mercenary.R;
 import com.power.mercenary.base.BaseActivity;
 import com.power.mercenary.bean.user.UserImgInfo;
@@ -27,15 +29,13 @@ import com.power.mercenary.data.EventConstants;
 import com.power.mercenary.event.EventUtils;
 import com.power.mercenary.presenter.UpdataPresenter;
 import com.power.mercenary.utils.CacheUtils;
-import com.power.mercenary.utils.DataCleanManager;
+import com.power.mercenary.utils.TUtils;
 import com.power.mercenary.utils.Urls;
 import com.power.mercenary.view.AgePop;
+import com.power.mercenary.view.CircleImageView;
 import com.power.mercenary.view.SelectorPop;
-import com.power.mercenary.view.SwitchButton;
 
 import org.greenrobot.eventbus.EventBus;
-import org.greenrobot.eventbus.Subscribe;
-import org.greenrobot.eventbus.ThreadMode;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -43,144 +43,115 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import id.zelory.compressor.Compressor;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
 
-/**
- * Created by Administrator on 2018/3/22.
- */
-
-public class SetupActivity extends BaseActivity implements View.OnClickListener, UpdataPresenter.UpdataCallBack {
-
+public class CommitUserInfoActivity extends BaseActivity implements UpdataPresenter.UpdataCallBack {
 
     @BindView(R.id.left_back)
-    ImageView left_back;
-
+    ImageView leftBack;
     @BindView(R.id.title_text)
-    TextView title_text;
-
-    @BindView(R.id.rl_bz)
-    RelativeLayout rl_bz;
-    @BindView(R.id.ll_nc)
-    LinearLayout ll_nc;
-
-    @BindView(R.id.rl_zhyaq)
-    RelativeLayout rl_zhyaq;
-
-    @BindView(R.id.ll_txsc)
-    LinearLayout ll_txsc;
-    @BindView(R.id.rl_gywm)
-    RelativeLayout rl_gywm;
-
-    @BindView(R.id.rl_wtfk)
-    RelativeLayout rl_wtfk;
-    private SelectorPop selectorPop;
-
-    private AgePop agePop;
-    @BindView(R.id.ll_nl)
-    LinearLayout ll_nl;
-    @BindView(R.id.tv_sz_age)
-    TextView tv_sz_age;
-
-    @BindView(R.id.act_setUp_age_tv)
-    TextView tvAge;
-    @BindView(R.id.act_setUp_nickname_tv)
-    TextView tvNickname;
-    @BindView(R.id.act_setUp_name_tv)
-    TextView tvName;
-    @BindView(R.id.tv_tcdl)
-    TextView logout;
+    TextView titleText;
+    @BindView(R.id.right_show_name)
+    TextView rightShowName;
+    @BindView(R.id.rl_title_bg)
+    RelativeLayout rlTitleBg;
     @BindView(R.id.act_setUp_icon)
-    ImageView icon;
-    @BindView(R.id.sb_check)
-    SwitchButton switchButton;
-
-    private OptionsPickerView pvCustomOptions;
-
-    private UserInfo userInfo;
-
-    private UpdataPresenter presenter;
-
-    private List<LocalMedia> selectList;
-
-    private int sex;
-
-    private TextView tvCacheNum;
-
-    private RelativeLayout clearCache;
-
-    private TextView showName;
-
-    private RelativeLayout personalData;
-
-    private TextView checkView;
-
+    CircleImageView actSetUpIcon;
+    @BindView(R.id.ll_txsc)
+    LinearLayout llTxsc;
+    @BindView(R.id.edt_nickName)
+    EditText edtNickName;
+    @BindView(R.id.ll_nc)
+    LinearLayout llNc;
+    @BindView(R.id.edt_name)
+    EditText edtName;
+    @BindView(R.id.act_setUp_nickname)
+    LinearLayout actSetUpNickname;
+    @BindView(R.id.tv_check_sex)
+    TextView tvCheckSex;
+    @BindView(R.id.ll_nl)
+    LinearLayout llNl;
+    @BindView(R.id.tv_check_age)
+    TextView tvCheckAge;
+    @BindView(R.id.act_setUp_age)
+    LinearLayout actSetUpAge;
+    @BindView(R.id.tv_commit)
+    TextView tvCommit;
+    private int sex=0;
     private String showAndHide = "hide";
+    private UserInfo userInfo;
+    private SelectorPop selectorPop;
+    private UpdataPresenter presenter;
+    private List<LocalMedia> selectList;
+    private AgePop agePop;
+    private OptionsPickerView pvCustomOptions;
+    private boolean isSave = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_setup);
+        setContentView(R.layout.activity_commit_user_info);
         ButterKnife.bind(this);
-        title_text.setText("设置");
-        selectorPop = new SelectorPop(SetupActivity.this, R.layout.selector_pop_item_view);
-        agePop = new AgePop(SetupActivity.this, R.layout.nianling_pop_item_view);
+        initView();
+        initData();
+    }
 
-        tvCacheNum = (TextView) findViewById(R.id.act_setUp_cacheNum);
+    private void initData() {
+        List<String> ageList = new ArrayList<>();
+        for (int i = 0; i < 100; i++) {
+            ageList.add(i + "");
+        }
+        initSelectAge(ageList);
 
-        clearCache = (RelativeLayout) findViewById(R.id.act_setUp_clearCache);
-
-        presenter = new UpdataPresenter(this, this);
-
-        selectorPop.setOnDismissListener(onDismissListener);
-        selectorPop.setOnSelectorListener(selectorListener);
-        agePop.setOnDismissListener(onDismissListener);
-        agePop.setOnAgeSelectorListener(ageSelectorListener);
-        left_back.setOnClickListener(this);
-        rl_bz.setOnClickListener(this);
-        ll_txsc.setOnClickListener(this);
-        rl_gywm.setOnClickListener(this);
-        ll_nc.setOnClickListener(this);
-        rl_zhyaq.setOnClickListener(this);
-        rl_wtfk.setOnClickListener(this);
-        ll_nl.setOnClickListener(this);
-        findViewById(R.id.act_setUp_age).setOnClickListener(this);
-        findViewById(R.id.act_setUp_nickname).setOnClickListener(this);
-
-        showName = (TextView) findViewById(R.id.right_show_name);
-
-        personalData = (RelativeLayout) findViewById(R.id.ll_grsmrz);
-
-        checkView = (TextView) findViewById(R.id.tv_shiming);
-
-        personalData.setOnClickListener(new View.OnClickListener() {
+        edtNickName.addTextChangedListener(new TextWatcher() {
             @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(SetupActivity.this, PersonalRZActivity.class);
-                startActivityForResult(intent, 0);
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+                if (s.toString().replace(" ", "").length() >= 4 && s.toString().replace(" ", "").length() <= 20) {
+                    isSave = true;
+                } else {
+                    isSave = false;
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
             }
         });
+    }
 
-        if (CacheUtils.get(CacheConstants.MESSAGE_SWITCHBUTTON) != null) {
-            String msgButton = CacheUtils.get(CacheConstants.MESSAGE_SWITCHBUTTON);
-            switch (msgButton) {
-                case "false":
-                    switchButton.setChecked(false);
-                    break;
-                case "true":
-                    switchButton.setChecked(true);
-                    break;
-            }
-        }
+    private void initView() {
+        titleText.setText("完善信息");
+        userInfo = CacheUtils.get(CacheConstants.USERINFO);
+        selectorPop = new SelectorPop(this, R.layout.selector_pop_item_view);
+        selectorPop.setOnDismissListener(onDismissListener);
+        selectorPop.setOnSelectorListener(selectorListener);
+        agePop = new AgePop(this, R.layout.nianling_pop_item_view);
+        agePop.setOnDismissListener(onDismissListener);
+        agePop.setOnAgeSelectorListener(ageSelectorListener);
+        presenter = new UpdataPresenter(this, this);
+    }
 
-        showName.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+    @OnClick({R.id.left_back, R.id.right_show_name, R.id.act_setUp_icon, R.id.ll_nc, R.id.tv_check_sex, R.id.tv_check_age, R.id.tv_commit})
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.left_back:
+                finish();
+                break;
+            case R.id.right_show_name:
                 if (TextUtils.equals(showAndHide, "show")) {
-                    if (!TextUtils.isEmpty(tvName.getText().toString())) {
-                        String name = tvName.getText().toString();
+                    if (!TextUtils.isEmpty(edtName.getText().toString())) {
+                        String name = edtName.getText().toString();
                         int len = name.length() - 1;
                         StringBuffer string = new StringBuffer();
                         string.append(name.substring(0, 1));
@@ -188,158 +159,61 @@ public class SetupActivity extends BaseActivity implements View.OnClickListener,
                             string.append("*");
                         }
 
-                        tvName.setText(string.toString());
+                        edtName.setText(string.toString());
                     }
                     showAndHide = "hide";
-                    showName.setText("显示真实姓名");
+                    rightShowName.setText("显示真实姓名");
                 } else if (TextUtils.equals(showAndHide, "hide")) {
                     if (!TextUtils.isEmpty(userInfo.getName())) {
-                        tvName.setText(userInfo.getName());
+                        edtName.setText(userInfo.getName());
                     }
                     showAndHide = "show";
-                    showName.setText("隐藏真实姓名");
+                    rightShowName.setText("隐藏真实姓名");
                 }
                 CacheUtils.put(CacheConstants.SHOWANDHIDEREALNAME, showAndHide);
-            }
-        });
-
-        List<String> ageList = new ArrayList<>();
-
-        for (int i = 0; i < 100; i++) {
-            ageList.add(i + "");
-        }
-
-        initSelectAge(ageList);
-
-        initData();
-
-        if (CacheUtils.get(CacheConstants.SHOWANDHIDEREALNAME) != null) {
-            showAndHide = CacheUtils.get(CacheConstants.SHOWANDHIDEREALNAME);
-            if (TextUtils.equals(showAndHide, "show")) {
-                if (!TextUtils.isEmpty(userInfo.getName())) {
-                    tvName.setText(userInfo.getName());
-                }
-                showName.setText("隐藏真实姓名");
-            } else {
-                if (!TextUtils.isEmpty(tvName.getText().toString())) {
-                    String name = tvName.getText().toString();
-                    int len = name.length() - 1;
-                    StringBuffer string = new StringBuffer();
-                    string.append(name.substring(0, 1));
-                    for (int i = 0; i < len; i++) {
-                        string.append("*");
-                    }
-
-                    tvName.setText(string.toString());
-                }
-                showName.setText("显示真实姓名");
-            }
-        } else {
-            if (!TextUtils.isEmpty(tvName.getText().toString())) {
-                String name = tvName.getText().toString();
-                int len = name.length() - 1;
-                StringBuffer string = new StringBuffer();
-                string.append(name.substring(0, 1));
-                for (int i = 0; i < len; i++) {
-                    string.append("*");
-                }
-
-                tvName.setText(string.toString());
-            }
-            showName.setText("显示真实姓名");
-        }
-
-        logout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                MyApplication.loginOut();
-                startActivity(new Intent(SetupActivity.this, SignInActivity.class));
-                finish();
-                removeAllActivitys();
-//                EventBus.getDefault().post(new EventUtils(EventConstants.JUPMP_TO_MAIN));
-            }
-        });
-
-        try {
-            tvCacheNum.setText(DataCleanManager.getTotalCacheSize(this));
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        clearCache.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                DataCleanManager.clearAllCache(SetupActivity.this);
-
-                try {
-                    tvCacheNum.setText(DataCleanManager.getTotalCacheSize(SetupActivity.this));
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        });
-
-        switchButton.setOnCheckedChangeListener(new SwitchButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(SwitchButton view, boolean isChecked) {
-                CacheUtils.put(CacheConstants.MESSAGE_SWITCHBUTTON, isChecked + "");
-            }
-        });
-
-        EventBus.getDefault().register(this);
-    }
-
-    private void initData() {
-        userInfo = CacheUtils.get(CacheConstants.USERINFO);
-
-        if (userInfo == null)
-            return;
-
-        if (!TextUtils.isEmpty(userInfo.getHead_img())) {
-            Glide.with(mContext)
-                    .load(Urls.BASEIMGURL + userInfo.getHead_img())
-                    .into(icon);
-        }
-
-        if (!TextUtils.isEmpty(userInfo.getAge())) {
-            tvAge.setText(userInfo.getAge());
-            pvCustomOptions.setSelectOptions(Integer.parseInt(userInfo.getAge()));
-        }
-
-        if (!TextUtils.isEmpty(userInfo.getNick_name())) {
-            tvNickname.setText(userInfo.getNick_name());
-        }
-
-        if (!TextUtils.isEmpty(userInfo.getName())) {
-            tvName.setText(userInfo.getName());
-        }
-
-        if (!TextUtils.isEmpty(userInfo.getSex())) {
-            if (TextUtils.equals(userInfo.getSex(), "1")) {
-                tv_sz_age.setText("女");
-                sex = 1;
-            } else {
-                tv_sz_age.setText("男");
-                sex = 0;
-            }
-        }
-
-        switch (userInfo.getIs_check()) {
-            case 0:
-                checkView.setText("未审核");
                 break;
-            case 1:
-                checkView.setText("审核中");
+            case R.id.act_setUp_icon:
+                setShowPop(selectorPop, actSetUpIcon);
                 break;
-            case 2:
-                checkView.setText("审核通过");
+            case R.id.ll_nc:
                 break;
-            case 3:
-                checkView.setText("审核未通过");
+            case R.id.tv_check_sex:
+                setShowPop(agePop, tvCheckAge);
+                break;
+            case R.id.tv_check_age:
+                pvCustomOptions.show();
+                break;
+            case R.id.tv_commit:
+                if (TextUtils.isEmpty(edtNickName.getText().toString())){
+                    TUtils.showCustom(this, "请输入昵称");
+                    return;
+            }
+                if (TextUtils.isEmpty(edtName.getText().toString())){
+                    TUtils.showCustom(this, "请输入姓名");
+                    return;
+                }
+                if (TextUtils.equals(tvCheckSex.getText().toString(),"请选择性别")){
+                    TUtils.showCustom(this, "请选择性别");
+                    return;
+                }
+                if (TextUtils.equals(tvCheckAge.getText().toString(),"请选择年龄")){
+                    TUtils.showCustom(this, "请选择年龄");
+                    return;
+                }
+                if (!TextUtils.isEmpty(edtNickName.getText().toString().replace(" ", "")) && isSave) {
+                    presenter.updataUserInfo(edtNickName.getText().toString().replace(" ", ""),
+                            edtName.getText().toString(),
+                            tvCheckAge.getText().toString(),
+                            sex,
+                           "");
+                } else if (!isSave) {
+                    TUtils.showCustom(this, "请输入昵称4-20个字符");
+                } else {
+                    TUtils.showCustom(this, "请输入昵称");
+                }
                 break;
         }
     }
-
 
     private void initSelectAge(final List<String> data) {
         pvCustomOptions = new OptionsPickerView.Builder(this, new OptionsPickerView.OnOptionsSelectListener() {
@@ -347,7 +221,7 @@ public class SetupActivity extends BaseActivity implements View.OnClickListener,
             public void onOptionsSelect(int options1, int option2, int options3, View v) {
                 //返回的分别是三个级别的选中位置
                 String tx = data.get(options1);
-                tvAge.setText(tx);
+                tvCheckAge.setText(tx);
                 pvCustomOptions.setSelectOptions(options1);
             }
         })
@@ -383,17 +257,18 @@ public class SetupActivity extends BaseActivity implements View.OnClickListener,
 
     }
 
+
     private AgePop.AgeSelectorListener ageSelectorListener = new AgePop.AgeSelectorListener() {
         @Override
         public void OnNanListener() {
-            tv_sz_age.setText("男");
+            tvCheckSex.setText("男");
             sex = 0;
             agePop.dismiss();
         }
 
         @Override
         public void OnNVListener() {
-            tv_sz_age.setText("女");
+            tvCheckSex.setText("女");
             sex = 1;
             agePop.dismiss();
         }
@@ -401,86 +276,6 @@ public class SetupActivity extends BaseActivity implements View.OnClickListener,
         @Override
         public void OnCancelListener() {
             agePop.dismiss();
-        }
-    };
-
-    @Override
-    public void onClick(View view) {
-
-        Intent intent;
-        switch (view.getId()) {
-            case R.id.left_back:
-                finish();
-                break;
-            case R.id.rl_bz:
-                intent = new Intent(SetupActivity.this, HelpActivity.class);
-                startActivity(intent);
-
-                break;
-            case R.id.ll_txsc:
-                setShowPop(selectorPop, ll_txsc);
-                break;
-            case R.id.rl_gywm:
-                intent = new Intent(SetupActivity.this, AboutUsActivity.class);
-                startActivity(intent);
-
-                break;
-            case R.id.ll_nc:
-                intent = new Intent(SetupActivity.this, ModifyNameActivity.class);
-                startActivity(intent);
-                break;
-            case R.id.rl_zhyaq:
-                intent = new Intent(SetupActivity.this, SecurityActivity.class);
-                startActivity(intent);
-
-                break;
-            case R.id.rl_wtfk:
-                intent = new Intent(SetupActivity.this, ProblemFeedbackActivity.class);
-                startActivity(intent);
-
-                break;
-            case R.id.ll_nl:
-//                setShowPop(agePop, ll_nl);
-
-                break;
-            case R.id.act_setUp_age:
-                pvCustomOptions.show();
-                break;
-            case R.id.act_setUp_nickname:
-                intent = new Intent(SetupActivity.this, ModifyNicknameActivity.class);
-//                startActivity(intent);
-                break;
-        }
-
-    }
-
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onRecevierEvent(EventUtils event) {
-        switch (event.getType()) {
-            case EventConstants.TYPE_SETT_REFRESH:
-                //刷新用户信息
-                initData();
-                break;
-        }
-    }
-
-    @Override
-    public void finish() {
-        super.finish();
-        if (!TextUtils.equals(sex + "", userInfo.getSex()) || !TextUtils.equals(tvAge.getText().toString(), userInfo.getAge())) {
-            presenter.updataUserInfo(tvNickname.getText().toString(),
-                    tvName.getText().toString(),
-                    tvAge.getText().toString(),
-                    sex,
-                    userInfo.getMail());
-        }
-    }
-
-    private PopupWindow.OnDismissListener onDismissListener = new PopupWindow.OnDismissListener() {
-        @Override
-        public void onDismiss() {
-            // TODO Auto-generated method stub
-            setWindowTranslucence(1.0f);
         }
     };
 
@@ -502,33 +297,13 @@ public class SetupActivity extends BaseActivity implements View.OnClickListener,
             selectorPop.dismiss();
         }
     };
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        EventBus.getDefault().unregister(this);
-    }
-
-    @Override
-    public void updataUserImg(UserImgInfo imgInfo) {
-        if (imgInfo != null) {
-            userInfo.setHead_img(imgInfo.imgurl);
-            CacheUtils.put(CacheConstants.USERINFO, userInfo);
-
-            Glide.with(mContext)
-                    .load(Urls.BASEIMGURL + imgInfo.imgurl)
-                    .into(icon);
-
-            EventBus.getDefault().
-                    post(new EventUtils(EventConstants.TYPE_USERINFO));
+    private PopupWindow.OnDismissListener onDismissListener = new PopupWindow.OnDismissListener() {
+        @Override
+        public void onDismiss() {
+            // TODO Auto-generated method stub
+            setWindowTranslucence(1.0f);
         }
-    }
-
-    @Override
-    public void updataSuccess() {
-        EventBus.getDefault().
-                post(new EventUtils(EventConstants.TYPE_USERINFO));
-    }
+    };
 
     private void requestPhoto() {
         // 进入相册 以下是例子：不需要的api可以不写
@@ -621,5 +396,28 @@ public class SetupActivity extends BaseActivity implements View.OnClickListener,
                     break;
             }
         }
+    }
+
+    @Override
+    public void updataUserImg(UserImgInfo imgInfo) {
+        if (imgInfo != null) {
+            userInfo.setHead_img(imgInfo.imgurl);
+            CacheUtils.put(CacheConstants.USERINFO, userInfo);
+
+            Glide.with(mContext)
+                    .load(Urls.BASEIMGURL + imgInfo.imgurl)
+                    .into(actSetUpIcon);
+
+            EventBus.getDefault().
+                    post(new EventUtils(EventConstants.TYPE_USERINFO));
+        }
+    }
+
+    @Override
+    public void updataSuccess() {
+        userInfo.setNick_name(edtNickName.getText().toString().replace(" ", ""));
+        EventBus.getDefault().post(new EventUtils(EventConstants.TYPE_USERINFO));
+        EventBus.getDefault().post(new EventUtils(EventConstants.TYPE_SETT_REFRESH));
+        finish();
     }
 }

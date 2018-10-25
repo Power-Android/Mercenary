@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white">
+    <TextView
+        android:id="@+id/tv_day_nums"
+        android:gravity="center_vertical"
+        android:text="111"
+        android:textColor="#666"
+        android:paddingLeft="15dip"
+        android:textSize="14sp"
+        android:layout_width="match_parent"
+        android:layout_height="35dip" />
+    <View
+        android:background="#eee"
+        android:layout_width="match_parent"
+        android:layout_height="1dip"></View>
+</LinearLayout>

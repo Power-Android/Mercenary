@@ -1,42 +1,66 @@
 package com.power.mercenary.adapter.task;
 
+import android.app.Activity;
 import android.content.Context;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.SeekBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.lzy.okgo.model.Response;
+import com.power.mercenary.MyApplication;
 import com.power.mercenary.R;
 import com.power.mercenary.activity.TaskListActivity;
+import com.power.mercenary.bean.SuccessBean;
 import com.power.mercenary.bean.mytask.AcceptTaskBean;
+import com.power.mercenary.http.DialogCallback;
+import com.power.mercenary.http.HttpManager;
+import com.power.mercenary.http.ResponseBean;
 import com.power.mercenary.utils.MercenaryUtils;
+import com.power.mercenary.utils.MyUtils;
+import com.power.mercenary.view.BaseDialog;
 
-import org.w3c.dom.Text;
-
+import java.text.DecimalFormat;
 import java.util.List;
 
 /**
  * admin  2018/7/18 wan
  */
-public class AcceptTaskAdapter extends RecyclerView.Adapter {
+public class AcceptTaskAdapter extends RecyclerView.Adapter implements SeekBar.OnSeekBarChangeListener {
 
     private Context context;
-
+    private int state;
     private List<AcceptTaskBean> data;
 
     private OnItemClickListener onItemClickListener;
+    private EditText edt_pub_people;
+    private EditText edt_shou_people;
+    private TextView tv_all_price;
+    private CheckBox cb_all_parice;
+    private CheckBox cb_zdy_parice;
+    private TextView tv_pingtai_peice;
+    private BaseDialog mDialog;
+    private BaseDialog.Builder mBuilder;
+    private int tuiType;
 
-    public void setOnItemClickListener(OnItemClickListener onItemClickListener){
+    public void setOnItemClickListener(OnItemClickListener onItemClickListener) {
         this.onItemClickListener = onItemClickListener;
     }
 
-    public AcceptTaskAdapter(Context context, List<AcceptTaskBean> data) {
+    public AcceptTaskAdapter(Context context, List<AcceptTaskBean> data, int state) {
         this.context = context;
         this.data = data;
+        this.state = state;
     }
 
     @Override
@@ -58,6 +82,33 @@ public class AcceptTaskAdapter extends RecyclerView.Adapter {
 
             if (data.get(position).getTask_status().equals("7") || data.get(position).getTask_status().equals("6")) {
                 viewHolder.imageView.setVisibility(View.VISIBLE);
+                if (data.get(position).getSettle_status().equals("3")) {
+                    viewHolder.tuikuan.setVisibility(View.VISIBLE);
+                    viewHolder.tuikuan.setText("已退款");
+                    viewHolder.tuikuan.setEnabled(false);
+                }
+            } else if (data.get(position).getTask_status().equals("2")) {//任务中
+                viewHolder.tuikuan.setVisibility(View.VISIBLE);
+                if (!data.get(position).getRefuse_cause().equals("")) {
+                    viewHolder.layoutJujue.setVisibility(View.VISIBLE);
+                    viewHolder.tvJujue.setText(data.get(position).getRefuse_cause());
+                    viewHolder.tuikuan.setText("未通过");
+                    viewHolder.tuikuan.setEnabled(false);
+                }
+            } else if (data.get(position).getTask_status().equals("3")) {//审核中
+                if (data.get(position).getSettle_status().equals("2")) {
+                    viewHolder.tuikuan.setVisibility(View.VISIBLE);
+                    viewHolder.tuikuan.setText("退款中");
+                    viewHolder.tuikuan.setEnabled(false);
+                }
+                if (data.get(position).getIs_yanqi().equals("1")) {//是否延期
+                    viewHolder.tuikuan.setText("延期处理");
+                    viewHolder.tuikuan.setEnabled(false);
+                    viewHolder.layout_yanqi.setVisibility(View.VISIBLE);
+                    viewHolder.tvCause.setText(data.get(position).getYanqi_reason());
+                    viewHolder.tvDays.setText(data.get(position).getYanqi_days());
+                    viewHolder.tvYanTime.setText(MyUtils.getDateToStringTime(data.get(position).getYanqi_start()));
+                }
             } else {
                 viewHolder.imageView.setVisibility(View.GONE);
             }
@@ -68,16 +119,168 @@ public class AcceptTaskAdapter extends RecyclerView.Adapter {
                     onItemClickListener.onItemClickListener(data.get(position).getTask_type(), data.get(position).getId(), data.get(position).getTask_status());
                 }
             });
-
+            viewHolder.tuikuan.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    showIssueDialog(position);
+                }
+            });
             viewHolder.recyclerView.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false));
             TaskListActivity.TagAdapter tagAdapter = new TaskListActivity.TagAdapter(R.layout.item_tag_layout, MercenaryUtils.stringToList(data.get(position).getTask_tag()));
             viewHolder.recyclerView.setAdapter(tagAdapter);
         }
     }
 
+    private void showIssueDialog(final int position) {
+        mBuilder = new BaseDialog.Builder(context);
+        mDialog = mBuilder.setViewId(R.layout.dialog_tuikuan)
+                //设置dialogpadding
+                .setPaddingdp(0, 0, 0, 0)
+                //设置显示位置
+                .setGravity(Gravity.CENTER)
+                //设置动画
+                .setAnimation(R.style.Bottom_Top_aniamtion)
+                //设置dialog的宽高
+                .setWidthHeightpx(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT)
+                //设置触摸dialog外围是否关闭
+                .isOnTouchCanceled(true)
+                //设置监听事件
+                .builder();
+        cb_all_parice = mDialog.getView(R.id.cb_all_parice);
+        cb_zdy_parice = mDialog.getView(R.id.cb_zdy_parice);
+        final LinearLayout all_data_layout = mDialog.getView(R.id.all_data_layout);
+        final LinearLayout pingtai_layout = mDialog.getView(R.id.pingtai_layout);
+        tv_all_price = mDialog.getView(R.id.tv_all_price);
+        final TextView tv_zfpt_price = mDialog.getView(R.id.tv_zfpt_price);
+        final SeekBar seekbar = mDialog.getView(R.id.seekbar);
+        edt_pub_people = mDialog.getView(R.id.edt_pub_people);
+        edt_shou_people = mDialog.getView(R.id.edt_shou_people);
+        tv_pingtai_peice = mDialog.getView(R.id.tv_pingtai_peice);
+        TextView tv_sure = mDialog.getView(R.id.tv_sure);
+        TextView tv_cancle = mDialog.getView(R.id.tv_cancle);
+        final LinearLayout layout_jieshou_people = mDialog.getView(R.id.layout_jieshou_people);
+        final LinearLayout layout_all_price = mDialog.getView(R.id.layout_all_price);
+        tv_sure.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                new HttpManager<ResponseBean<SuccessBean>>("Home/MyTask/tuikuan", this)
+                        .addParams("token", MyApplication.getUserToken())
+                        .addParams("id", data.get(position).getId())
+                        .addParams("tuikuan_type", tuiType)
+                        .addParams("ticheng", Double.parseDouble(tv_pingtai_peice.getText().toString())*100+"")
+                        .addParams("zfpt_ticheng", Double.parseDouble(tv_zfpt_price.getText().toString())*100+"")
+                        .addParams("fafang_money",Double.parseDouble(edt_shou_people.getText().toString()) * 100 + "")
+                        .addParams("fabu_money", Double.parseDouble(edt_pub_people.getText().toString()) * 100 + "")
+                        .postRequest(new DialogCallback<ResponseBean<SuccessBean>>((Activity) context) {
+                            @Override
+                            public void onSuccess(Response<ResponseBean<SuccessBean>> response) {
+                                Toast.makeText(context, response.body().msg, Toast.LENGTH_SHORT).show();
+                                onItemClickListener.TuiKuanListener();
+                                mDialog.dismiss();
+                            }
+
+                            @Override
+                            public void onError(Response<ResponseBean<SuccessBean>> response) {
+                                super.onError(response);
+                                Log.d("ReleaseRWZAdapter", response.getException().getMessage() + "--------");
+                            }
+                        });
+            }
+        });
+        tv_cancle.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mDialog.dismiss();
+            }
+        });
+        DecimalFormat df = new java.text.DecimalFormat("0.00");
+        String format = df.format(((Double.parseDouble(data.get(position).getPay_amount()) * 100 - Double.parseDouble(data.get(position).getPay_amount()) * 0.6)) / 100);
+        edt_pub_people.setText(format);
+        edt_shou_people.setText("0");
+        tv_zfpt_price.setText(Double.parseDouble(data.get(position).getPay_amount()) * 0.006 + "");
+        tv_all_price.setText((Double.parseDouble(data.get(position).getPay_amount()) - Double.parseDouble(data.get(position).getPay_amount()) * 0.006) + "");
+        seekbar.setMax((int) Double.parseDouble(data.get(position).getPay_amount())*100-100);
+        seekbar.setProgress((int) Double.parseDouble(data.get(position).getPay_amount())*100);
+        seekbar.setOnSeekBarChangeListener(this);
+        mDialog.getView(R.id.all_price_tuikuan).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                cb_all_parice.setChecked(true);
+                cb_zdy_parice.setChecked(false);
+                all_data_layout.setVisibility(View.VISIBLE);
+                pingtai_layout.setVisibility(View.GONE);
+                layout_jieshou_people.setVisibility(View.GONE);
+                layout_all_price.setVisibility(View.GONE);
+                DecimalFormat df = new java.text.DecimalFormat("0.00");
+                String format = df.format(((Double.parseDouble(data.get(position).getPay_amount()) * 100 - Double.parseDouble(data.get(position).getPay_amount()) * 0.6)) / 100);
+                edt_pub_people.setText(format);
+                edt_shou_people.setText("0");
+//                edt_pub_people.setText((Double.parseDouble(data.get(position).getPay_amount()) - Double.parseDouble(data.get(position).getPay_amount()) * 0.006) + "");
+                tuiType = 1;
+            }
+        });
+        mDialog.getView(R.id.zdy_price_tuikuan).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                cb_all_parice.setChecked(false);
+                cb_zdy_parice.setChecked(true);
+                all_data_layout.setVisibility(View.VISIBLE);
+                pingtai_layout.setVisibility(View.VISIBLE);
+                layout_jieshou_people.setVisibility(View.VISIBLE);
+                layout_all_price.setVisibility(View.VISIBLE);
+                tuiType = 2;
+            }
+        });
+        mDialog.show();
+    }
+
     @Override
     public int getItemCount() {
         return data.size();
+    }
+
+    @Override
+    public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
+        if (cb_all_parice.isChecked()) {
+//            edt_pub_people.setText(seekBar.getProgress() + "");
+//            DecimalFormat df = new java.text.DecimalFormat("0.00");
+//            String format = df.format(Double.parseDouble(tv_all_price.getText().toString()) - seekBar.getProgress());
+//            edt_shou_people.setText(format);
+        } else {
+            DecimalFormat df1 = new java.text.DecimalFormat("0.00");
+            String format2 = df1.format((Double.parseDouble(tv_all_price.getText().toString())*100-(Double.parseDouble(tv_all_price.getText().toString())*100 - seekBar.getProgress()))/100);
+            edt_pub_people.setText(format2);
+            DecimalFormat df = new java.text.DecimalFormat("0.00");
+            String format = df.format(((Double.parseDouble(tv_all_price.getText().toString())*100 - seekBar.getProgress()) * 0.044)/100);
+            tv_pingtai_peice.setText(format);
+            String format1 = df.format(((Double.parseDouble(tv_all_price.getText().toString())*100 - seekBar.getProgress()) - (Double.parseDouble(tv_pingtai_peice.getText().toString())*100))/100);
+            edt_shou_people.setText(format1);
+        }
+    }
+
+    @Override
+    public void onStartTrackingTouch(SeekBar seekBar) {
+
+
+    }
+
+    @Override
+    public void onStopTrackingTouch(SeekBar seekBar) {
+        if (cb_all_parice.isChecked()) {
+//            edt_pub_people.setText(seekBar.getProgress() + "");
+//            DecimalFormat df = new java.text.DecimalFormat("0.00");
+//            String format = df.format(Double.parseDouble(tv_all_price.getText().toString()) - seekBar.getProgress());
+//            edt_shou_people.setText(format);
+        } else {
+            DecimalFormat df1 = new java.text.DecimalFormat("0.00");
+            String format2 = df1.format((Double.parseDouble(tv_all_price.getText().toString())*100-(Double.parseDouble(tv_all_price.getText().toString())*100 - seekBar.getProgress()))/100);
+            edt_pub_people.setText(format2);
+            DecimalFormat df = new java.text.DecimalFormat("0.00");
+            String format = df.format(((Double.parseDouble(tv_all_price.getText().toString())*100 - seekBar.getProgress()) * 0.044)/100);
+            tv_pingtai_peice.setText(format);
+            String format1 = df.format(((Double.parseDouble(tv_all_price.getText().toString())*100 - seekBar.getProgress()) - (Double.parseDouble(tv_pingtai_peice.getText().toString())*100))/100);
+            edt_shou_people.setText(format1);
+        }
     }
 
     class AcceptViewHolder extends RecyclerView.ViewHolder {
@@ -93,22 +296,36 @@ public class AcceptTaskAdapter extends RecyclerView.Adapter {
         ImageView imageView;
 
         LinearLayout mView;
+        LinearLayout layoutJujue;
+        LinearLayout layout_yanqi;
+        TextView tvCause;
+        TextView tvDays;
+        TextView tvYanTime;
+        TextView tuikuan;
+        TextView tvJujue;
 
         public AcceptViewHolder(View itemView) {
             super(itemView);
 
             mView = itemView.findViewById(R.id.item_view_accept_layout);
-
+            layoutJujue = itemView.findViewById(R.id.layout_jujue);
+            tvJujue = itemView.findViewById(R.id.tv_jujue);
+            layout_yanqi = itemView.findViewById(R.id.layout_yanqi);
+            tvCause = itemView.findViewById(R.id.tv_cause);
+            tvDays = itemView.findViewById(R.id.tv_days);
+            tvYanTime = itemView.findViewById(R.id.tv_yanqi_time);
             title = itemView.findViewById(R.id.item_view_accept_title);
             price = itemView.findViewById(R.id.item_view_accept_price);
             content = itemView.findViewById(R.id.item_view_accept_content);
             recyclerView = itemView.findViewById(R.id.item_view_accept_recyclerView);
             imageView = itemView.findViewById(R.id.item_view_accept_success);
-
+            tuikuan = itemView.findViewById(R.id.item_wjd_view_tuikuan);
         }
     }
 
-    public interface OnItemClickListener{
+    public interface OnItemClickListener {
         void onItemClickListener(String taskType, String taskId, String taskState);
+
+        void TuiKuanListener();
     }
 }

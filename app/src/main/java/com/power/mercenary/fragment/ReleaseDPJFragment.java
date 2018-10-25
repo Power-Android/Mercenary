@@ -7,16 +7,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import com.power.mercenary.R;
 import com.power.mercenary.activity.details_appraise_publish.GRPublishAppraiseActivity;
 import com.power.mercenary.activity.details_appraise_publish.GZPublishAppraiseActivity;
 import com.power.mercenary.activity.details_appraise_publish.PTPublishAppraiseActivity;
 import com.power.mercenary.activity.details_appraise_publish.SHPublishAppraiseActivity;
-import com.power.mercenary.activity.details_out_publish.GRPublishOutActivity;
-import com.power.mercenary.activity.details_out_publish.GZPublishOutActivity;
-import com.power.mercenary.activity.details_out_publish.PTPublishOutActivity;
-import com.power.mercenary.activity.details_out_publish.SHPublishOutActivity;
 import com.power.mercenary.adapter.ReleaseYXJAdapter;
 import com.power.mercenary.base.BaseFragment;
 import com.power.mercenary.bean.mytask.PublishTaskBean;
@@ -101,7 +98,10 @@ public class ReleaseDPJFragment extends BaseFragment implements WanRecyclerView.
 
     @Override
     public void appraiseRequestSuccess() {
-
+        Toast.makeText(mContext, "评价成功", Toast.LENGTH_SHORT).show();
+        page = 1;
+        mList.clear();
+        publishPresenter.getPublishTaskList(page, 6);
     }
 
     @Override

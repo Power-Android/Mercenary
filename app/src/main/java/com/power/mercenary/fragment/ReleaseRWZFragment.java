@@ -7,10 +7,6 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.power.mercenary.R;
-import com.power.mercenary.activity.details_appraise_publish.GRPublishAppraiseActivity;
-import com.power.mercenary.activity.details_appraise_publish.GZPublishAppraiseActivity;
-import com.power.mercenary.activity.details_appraise_publish.PTPublishAppraiseActivity;
-import com.power.mercenary.activity.details_appraise_publish.SHPublishAppraiseActivity;
 import com.power.mercenary.activity.details_intask_publish.GRPublishInTaskActivity;
 import com.power.mercenary.activity.details_intask_publish.GZPublishInTaskActivity;
 import com.power.mercenary.activity.details_intask_publish.PTPublishInTaskActivity;
@@ -144,4 +140,5 @@ public class ReleaseRWZFragment extends BaseFragment implements PublishPresenter
                 break;
         }
     }
+
 }

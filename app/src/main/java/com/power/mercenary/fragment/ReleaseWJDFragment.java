@@ -11,10 +11,6 @@ import com.power.mercenary.activity.GRTaskDetailsActivity;
 import com.power.mercenary.activity.GZTaskDetailsActivity;
 import com.power.mercenary.activity.PTTaskDetailsActivity;
 import com.power.mercenary.activity.SHTaskDetailsActivity;
-import com.power.mercenary.activity.details_audit_publish.GRPublishAuditActivity;
-import com.power.mercenary.activity.details_audit_publish.GZPublishAuditActivity;
-import com.power.mercenary.activity.details_audit_publish.PTPublishAuditActivity;
-import com.power.mercenary.activity.details_audit_publish.SHPublishAuditActivity;
 import com.power.mercenary.adapter.task.ReleaseWJDAdapter;
 import com.power.mercenary.base.BaseFragment;
 import com.power.mercenary.bean.mytask.PublishTaskBean;
@@ -117,8 +113,10 @@ public class ReleaseWJDFragment extends BaseFragment implements PublishPresenter
     }
 
     @Override
-    public void xiugai(String id) {
-
+    public void xiugai() {
+        page = 1;
+        mList.clear();
+        publishPresenter.getPublishTaskList(page, 1);
     }
 
     @Override

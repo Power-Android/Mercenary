@@ -345,7 +345,7 @@ public class PubQitaActivity extends BaseActivity implements PubTaskPresenter.Pu
                 String s = MyUtils.listToString(requireList);
                 String s1 = MyUtils.listToString(biaoqianList);
 
-                presenter.publishTask("", taskType, childTaskType, taskNameEt.getText().toString(), s1, "", taskMoneyEt.getText().toString(),
+                presenter.publishTask("", taskType, childTaskType, taskNameEt.getText().toString(), s1, "", (Integer.parseInt(taskMoneyEt.getText().toString())*100)+"",
                         validityTimeEt.getText().toString(), taskDetailEt.getText().toString(), taskMudiEt.getText().toString(), s,
                         "", "", "", "",
                         "", "", "");

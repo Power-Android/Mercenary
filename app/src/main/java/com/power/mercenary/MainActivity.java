@@ -11,6 +11,7 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bigkoo.pickerview.OptionsPickerView;
 import com.bigkoo.pickerview.listener.CustomListener;
@@ -296,7 +297,7 @@ public class MainActivity extends BaseActivity {
             public void onClick(View view) {
                 Intent intent4 = new Intent(MainActivity.this, PubJiankangActivity.class);
                 intent4.putExtra("TaskType", "5");
-                intent4.putExtra("ChildTaskType", "1");
+                intent4.putExtra("ChildTaskType", "17");
                 startActivity(intent4);
                 dialog.dismiss();
             }
@@ -306,7 +307,7 @@ public class MainActivity extends BaseActivity {
             public void onClick(View view) {
                 Intent intent4 = new Intent(MainActivity.this, PubJiankangActivity.class);
                 intent4.putExtra("TaskType", "5");
-                intent4.putExtra("ChildTaskType", "2");
+                intent4.putExtra("ChildTaskType", "16");
                 startActivity(intent4);
                 dialog.dismiss();
             }
@@ -316,7 +317,7 @@ public class MainActivity extends BaseActivity {
             public void onClick(View view) {
                 Intent intent4 = new Intent(MainActivity.this, PubJiankangActivity.class);
                 intent4.putExtra("TaskType", "5");
-                intent4.putExtra("ChildTaskType", "2");
+                intent4.putExtra("ChildTaskType", "15");
                 startActivity(intent4);
                 dialog.dismiss();
             }
@@ -344,7 +345,7 @@ public class MainActivity extends BaseActivity {
             public void onClick(View view) {
                 Intent intent3 = new Intent(MainActivity.this, PubGongzuoActivity.class);
                 intent3.putExtra("TaskType", "4");
-                intent3.putExtra("ChildTaskType", "1");
+                intent3.putExtra("ChildTaskType", "8");
                 startActivity(intent3);
                 dialog.dismiss();
             }
@@ -354,7 +355,7 @@ public class MainActivity extends BaseActivity {
             public void onClick(View view) {
                 Intent intent3 = new Intent(MainActivity.this, PubGongzuoActivity.class);
                 intent3.putExtra("TaskType", "4");
-                intent3.putExtra("ChildTaskType", "2");
+                intent3.putExtra("ChildTaskType", "9");
                 startActivity(intent3);
                 dialog.dismiss();
             }
@@ -364,7 +365,7 @@ public class MainActivity extends BaseActivity {
             public void onClick(View view) {
                 Intent intent3 = new Intent(MainActivity.this, PubGongzuoActivity.class);
                 intent3.putExtra("TaskType", "4");
-                intent3.putExtra("ChildTaskType", "3");
+                intent3.putExtra("ChildTaskType", "10");
                 startActivity(intent3);
                 dialog.dismiss();
             }
@@ -374,7 +375,7 @@ public class MainActivity extends BaseActivity {
             public void onClick(View view) {
                 Intent intent3 = new Intent(MainActivity.this, PubGongzuoActivity.class);
                 intent3.putExtra("TaskType", "4");
-                intent3.putExtra("ChildTaskType", "4");
+                intent3.putExtra("ChildTaskType", "11");
                 startActivity(intent3);
                 dialog.dismiss();
             }
@@ -384,7 +385,7 @@ public class MainActivity extends BaseActivity {
             public void onClick(View view) {
                 Intent intent3 = new Intent(MainActivity.this, PubGongzuoActivity.class);
                 intent3.putExtra("TaskType", "4");
-                intent3.putExtra("ChildTaskType", "5");
+                intent3.putExtra("ChildTaskType", "12");
                 startActivity(intent3);
                 dialog.dismiss();
             }
@@ -412,7 +413,7 @@ public class MainActivity extends BaseActivity {
             public void onClick(View view) {
                 Intent intent2 = new Intent(MainActivity.this, PubGerendingzhiActivity.class);
                 intent2.putExtra("TaskType", "3");
-                intent2.putExtra("ChildTaskType", "1");
+                intent2.putExtra("ChildTaskType", "13");
                 startActivity(intent2);
                 dialog.dismiss();
             }
@@ -422,7 +423,7 @@ public class MainActivity extends BaseActivity {
             public void onClick(View view) {
                 Intent intent2 = new Intent(MainActivity.this, PubGerendingzhiActivity.class);
                 intent2.putExtra("TaskType", "3");
-                intent2.putExtra("ChildTaskType", "2");
+                intent2.putExtra("ChildTaskType", "14");
                 startActivity(intent2);
                 dialog.dismiss();
             }
@@ -459,11 +460,12 @@ public class MainActivity extends BaseActivity {
         dialog.getView(R.id.layout_shenghuo).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(MainActivity.this, PubPaotuiActivity.class);
-                intent.putExtra("TaskType", "1");
-                intent.putExtra("ChildTaskType", "2");
-                startActivity(intent);
-                dialog.dismiss();
+                Toast.makeText(mContext, "接送人暂未开放", Toast.LENGTH_SHORT).show();
+//                Intent intent = new Intent(MainActivity.this, PubPaotuiActivity.class);
+//                intent.putExtra("TaskType", "1");
+//                intent.putExtra("ChildTaskType", "2");
+//                startActivity(intent);
+//                dialog.dismiss();
             }
         });
 
@@ -493,7 +495,7 @@ public class MainActivity extends BaseActivity {
             public void onClick(View view) {
                 Intent intent1 = new Intent(MainActivity.this, PubShenghuoActivity.class);
                 intent1.putExtra("TaskType", "2");
-                intent1.putExtra("ChildTaskType", "1");
+                intent1.putExtra("ChildTaskType", "3");
                 startActivity(intent1);
                 dialog.dismiss();
             }
@@ -503,7 +505,7 @@ public class MainActivity extends BaseActivity {
             public void onClick(View view) {
                 Intent intent1 = new Intent(MainActivity.this, PubShenghuoActivity.class);
                 intent1.putExtra("TaskType", "2");
-                intent1.putExtra("ChildTaskType", "2");
+                intent1.putExtra("ChildTaskType", "4");
                 startActivity(intent1);
                 dialog.dismiss();
             }
@@ -513,7 +515,7 @@ public class MainActivity extends BaseActivity {
             public void onClick(View view) {
                 Intent intent1 = new Intent(MainActivity.this, PubShenghuoActivity.class);
                 intent1.putExtra("TaskType", "2");
-                intent1.putExtra("ChildTaskType", "3");
+                intent1.putExtra("ChildTaskType", "5");
                 startActivity(intent1);
                 dialog.dismiss();
             }
@@ -523,7 +525,7 @@ public class MainActivity extends BaseActivity {
             public void onClick(View view) {
                 Intent intent1 = new Intent(MainActivity.this, PubShenghuoActivity.class);
                 intent1.putExtra("TaskType", "2");
-                intent1.putExtra("ChildTaskType", "4");
+                intent1.putExtra("ChildTaskType", "6");
                 startActivity(intent1);
                 dialog.dismiss();
             }
@@ -533,7 +535,7 @@ public class MainActivity extends BaseActivity {
             public void onClick(View view) {
                 Intent intent1 = new Intent(MainActivity.this, PubShenghuoActivity.class);
                 intent1.putExtra("TaskType", "2");
-                intent1.putExtra("ChildTaskType", "5");
+                intent1.putExtra("ChildTaskType", "7");
                 startActivity(intent1);
                 dialog.dismiss();
             }

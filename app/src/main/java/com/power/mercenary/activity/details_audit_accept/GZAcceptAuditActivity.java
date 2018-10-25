@@ -222,6 +222,15 @@ public class GZAcceptAuditActivity extends BaseActivity implements View.OnClickL
                 PersonalDataActivity.invoke(GZAcceptAuditActivity.this, taskDetailsBean.getPublisher_id());
             }
         });
+        actTaskDetaiilsPrivateMsg.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(GZAcceptAuditActivity.this, PersonalDataActivity.class);
+                intent.putExtra("isShowButton", "no");
+                intent.putExtra("userId", taskDetailsBean.getXuanding().getId());
+                startActivity(intent);
+            }
+        });
     }
 
     private PopupWindow.OnDismissListener onDismissListener = new PopupWindow.OnDismissListener() {

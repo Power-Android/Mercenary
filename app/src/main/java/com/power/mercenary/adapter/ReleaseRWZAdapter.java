@@ -6,6 +6,8 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -26,8 +28,14 @@ public class ReleaseRWZAdapter extends RecyclerView.Adapter {
     private List<PublishTaskBean> data;
 
     private TaskBtnListener listener;
+    private EditText edt_pub_people;
+    private EditText edt_shou_people;
+    private TextView tv_all_price;
+    private CheckBox cb_all_parice;
+    private CheckBox cb_zdy_parice;
+    private TextView tv_pingtai_peice;
 
-    public void setListener(TaskBtnListener listener){
+    public void setListener(TaskBtnListener listener) {
         this.listener = listener;
     }
 
@@ -49,13 +57,16 @@ public class ReleaseRWZAdapter extends RecyclerView.Adapter {
 
             viewHolder.title.setText(data.get(position).getTask_name());
 
-            viewHolder.price.setText("￥" +data.get(position).getPay_amount());
+            viewHolder.price.setText("￥" + data.get(position).getPay_amount());
 
             viewHolder.num.setText("浏览数：" + data.get(position).getView_num() + " 分享数：" + data.get(position).getShare_num());
-
+            if (!data.get(position).getRefuse_cause().equals("")){
+                viewHolder.layout_jujue.setVisibility(View.VISIBLE);
+                viewHolder.tv_weitongguo.setVisibility(View.VISIBLE);
+                viewHolder.tv_jujue.setText(data.get(position).getRefuse_cause());
+            }
             viewHolder.chexiao.setVisibility(View.GONE);
             viewHolder.yaoqing.setVisibility(View.GONE);
-
             viewHolder.mView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -70,10 +81,14 @@ public class ReleaseRWZAdapter extends RecyclerView.Adapter {
         }
     }
 
+
+
     @Override
     public int getItemCount() {
         return data.size();
     }
+
+
 
     class WJDViewHolder extends RecyclerView.ViewHolder {
 
@@ -87,9 +102,14 @@ public class ReleaseRWZAdapter extends RecyclerView.Adapter {
 
         TextView chexiao;
 
+        TextView tuikuan;
+
         TextView yaoqing;
 
         LinearLayout mView;
+        LinearLayout layout_jujue;
+        TextView tv_jujue;
+        TextView tv_weitongguo;
 
         public WJDViewHolder(View itemView) {
             super(itemView);
@@ -99,7 +119,11 @@ public class ReleaseRWZAdapter extends RecyclerView.Adapter {
             recyclerView = itemView.findViewById(R.id.item_wjd_view_recyclerView);
             num = itemView.findViewById(R.id.item_wjd_view_num);
             chexiao = itemView.findViewById(R.id.item_wjd_view_chexiao);
+            tuikuan = itemView.findViewById(R.id.item_wjd_view_tuikuan);
             yaoqing = itemView.findViewById(R.id.item_wjd_view_yaoqing);
+            layout_jujue = itemView.findViewById(R.id.layout_jujue);
+            tv_jujue = itemView.findViewById(R.id.tv_jujue);
+            tv_weitongguo = itemView.findViewById(R.id.tv_weitongguo);
         }
     }
 

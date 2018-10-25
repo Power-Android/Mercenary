@@ -24,6 +24,87 @@ public class PublishTaskBean {
     private String task_status;
     private String task_type;
     private String view_num;
+    private String ticheng;
+    private String zfpt_ticheng ;
+    private String fafang_money;
+    private String fabu_money;
+    private String is_yanqi;
+    private String yanqi_days;
+    private String yanqi_start;
+    private String yanqi_reason;
+    private String refuse_cause;
+
+    public String getRefuse_cause() {
+        return refuse_cause;
+    }
+
+    public void setRefuse_cause(String refuse_cause) {
+        this.refuse_cause = refuse_cause;
+    }
+
+
+    public String getYanqi_days() {
+        return yanqi_days;
+    }
+
+    public void setYanqi_days(String yanqi_days) {
+        this.yanqi_days = yanqi_days;
+    }
+
+    public String getYanqi_start() {
+        return yanqi_start;
+    }
+
+    public void setYanqi_start(String yanqi_start) {
+        this.yanqi_start = yanqi_start;
+    }
+
+    public String getYanqi_reason() {
+        return yanqi_reason;
+    }
+
+    public void setYanqi_reason(String yanqi_reason) {
+        this.yanqi_reason = yanqi_reason;
+    }
+
+    public String getIs_yanqi() {
+        return is_yanqi;
+    }
+
+    public void setIs_yanqi(String is_yanqi) {
+        this.is_yanqi = is_yanqi;
+    }
+    public String getTicheng() {
+        return ticheng;
+    }
+
+    public void setTicheng(String ticheng) {
+        this.ticheng = ticheng;
+    }
+
+    public String getZfpt_ticheng() {
+        return zfpt_ticheng;
+    }
+
+    public void setZfpt_ticheng(String zfpt_ticheng) {
+        this.zfpt_ticheng = zfpt_ticheng;
+    }
+
+    public String getFafang_money() {
+        return fafang_money;
+    }
+
+    public void setFafang_money(String fafang_money) {
+        this.fafang_money = fafang_money;
+    }
+
+    public String getFabu_money() {
+        return fabu_money;
+    }
+
+    public void setFabu_money(String fabu_money) {
+        this.fabu_money = fabu_money;
+    }
 
     public String getTask_type() {
         return task_type;

@@ -224,6 +224,15 @@ public class PTAcceptInTaskActivity extends BaseActivity implements View.OnClick
                 PersonalDataActivity.invoke(PTAcceptInTaskActivity.this, taskDetailsBean.getPublisher_id());
             }
         });
+        actTaskDetaiilsPrivateMsg.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(PTAcceptInTaskActivity.this, PersonalDataActivity.class);
+                intent.putExtra("isShowButton", "no");
+                intent.putExtra("userId",  taskDetailsBean.getXuanding().getId());
+                startActivity(intent);
+            }
+        });
     }
 
     private PopupWindow.OnDismissListener onDismissListener = new PopupWindow.OnDismissListener() {

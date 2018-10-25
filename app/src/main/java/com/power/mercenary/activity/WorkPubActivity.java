@@ -59,7 +59,8 @@ public class WorkPubActivity extends BaseActivity implements TieZiListPresenter.
         setContentView(R.layout.activity_work_pub);
         ButterKnife.bind(this);
         titleBackIv.setVisibility(View.VISIBLE);
-        titleContentTv.setText("工作酒馆");
+        String task_title = getIntent().getStringExtra("task_title");
+        titleContentTv.setText(task_title);
         task_type_child = getIntent().getStringExtra("task_type_child");
         task_type = getIntent().getStringExtra("task_type");
 

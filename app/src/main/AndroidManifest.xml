@@ -373,9 +373,9 @@
 
         <activity android:name=".activity.ShouzeActivity" />
         <activity android:name=".activity.UserShouzeActivity" />
-        <activity android:name=".activity.TuiGuangActivity"></activity>
-        <activity android:name=".MainActivity"></activity>
-
+        <activity android:name=".activity.TuiGuangActivity" />
+        <activity android:name=".MainActivity" />
+        <activity android:name=".activity.CommitUserInfoActivity"></activity>
     </application>
 
 </manifest>

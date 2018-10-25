@@ -389,7 +389,7 @@ public class PubPaotuiActivity extends BaseActivity implements PubTaskPresenter.
                     return;
                 }
                 String s1 = MyUtils.listToString(biaoqianList);
-                presenter.publishTask("", taskType, childTaskType, taskNameEt.getText().toString(), s1, "", moneyEt.getText().toString(),
+                presenter.publishTask("", taskType, childTaskType, taskNameEt.getText().toString(), s1, "", (Integer.parseInt(moneyEt.getText().toString())*100)+"",
                         validityTimeEt.getText().toString(), "", taskMudiEt.getText().toString(), "",
                         goodsNameEt.getText().toString(), numEt.getText().toString(), "", MyUtils.Timetodata(validitySongdaEt.getText().toString()),
                         startAddressTv.getText().toString(), endAddressTv.getText().toString(), biaoqianEt.getText().toString());
