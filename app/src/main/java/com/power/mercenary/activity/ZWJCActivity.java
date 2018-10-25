@@ -22,6 +22,8 @@ import butterknife.OnClick;
 
 /**
  * Created by Administrator on 2018/3/28.
+ *
+ * 自我介绍
  */
 
 public class ZWJCActivity extends BaseActivity implements MyZiLiPresenter.Collection {

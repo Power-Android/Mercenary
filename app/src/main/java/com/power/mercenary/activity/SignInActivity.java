@@ -39,6 +39,8 @@ import io.rong.imlib.RongIMClient;
 
 /**
  * Created by Administrator on 2018/3/29.
+ *
+ * 登陆
  */
 
 public class SignInActivity extends BaseActivity implements View.OnClickListener, LoginPresenter.TokenCallBack, UserPresenter.UserCallBack {

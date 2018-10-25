@@ -25,6 +25,13 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
+
+/**
+ *
+ * 推广守则
+ *
+ */
+
 public class ShouzeActivity extends BaseActivity {
 
     @BindView(R.id.left_back)

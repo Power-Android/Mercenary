@@ -6,7 +6,6 @@
     android:background="@color/white"
     android:orientation="vertical">
 
-
     <View
         android:layout_width="match_parent"
         android:layout_height="10dp"
@@ -70,7 +69,6 @@
             android:text="浏览数：100 分享数：100"
             android:textSize="12sp" />
 
-
         <TextView
             android:id="@+id/item_wjd_view_btn"
             android:layout_width="wrap_content"
@@ -82,8 +80,6 @@
             android:text="上架"
             android:textSize="12sp" />
 
-
     </RelativeLayout>
-
 
 </LinearLayout>

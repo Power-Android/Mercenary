@@ -50,6 +50,8 @@ import io.reactivex.schedulers.Schedulers;
 
 /**
  * Created by Administrator on 2018/3/22.
+ *
+ * 个人信息
  */
 
 public class SetupActivity extends BaseActivity implements View.OnClickListener, UpdataPresenter.UpdataCallBack {

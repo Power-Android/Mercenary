@@ -61,6 +61,8 @@ import butterknife.OnClick;
 
 /**
  * Created by Administrator on 2018/3/29.
+ *
+ * 任务详情
  */
 
 public class SHTaskDetailsActivity extends BaseActivity implements View.OnClickListener, TaskDetailsPresenter.TaskDetailsCallBack, DetailsPeopleAdapter.DetailsPepCallBack {

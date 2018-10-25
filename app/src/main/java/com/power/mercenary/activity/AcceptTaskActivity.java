@@ -31,16 +31,11 @@ import butterknife.ButterKnife;
  */
 public class AcceptTaskActivity extends BaseActivity implements View.OnClickListener {
 
-
     @BindView(R.id.left_back)
     ImageView left_back;
 
     @BindView(R.id.title_text)
     TextView title_text;
-
-
-
-
 
     @BindView(R.id.quan_ll)
     LinearLayout quan_ll;
@@ -181,7 +176,6 @@ public class AcceptTaskActivity extends BaseActivity implements View.OnClickList
         });
 
     }
-
 
     private ViewPager.OnPageChangeListener pageChangeListener = new ViewPager.OnPageChangeListener() {
         @Override

@@ -22,13 +22,21 @@ import butterknife.OnClick;
 
 
 public class WebActivity extends BaseActivity {
+
+
+    /**
+     *
+     * Web页面
+     *
+     *
+     */
+
+
     @BindView(R.id.left_back)
     FrameLayout imgBeak;
     @BindView(R.id.title_text)
     TextView webTitle;
     private WebView webView;
-
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

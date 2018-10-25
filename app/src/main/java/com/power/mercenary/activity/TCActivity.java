@@ -26,6 +26,13 @@ import butterknife.OnClick;
 
 public class TCActivity extends BaseActivity implements MyZiLiPresenter.Collection {
 
+    /**
+     *
+     * 特长页面
+     *
+     */
+
+
     @BindView(R.id.left_back)
     ImageView left_back;
     @BindView(R.id.tv_save)

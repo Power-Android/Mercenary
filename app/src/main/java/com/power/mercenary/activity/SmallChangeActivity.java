@@ -39,6 +39,8 @@ import butterknife.OnClick;
 
 /**
  * Created by Administrator on 2018/3/26.
+ *
+ * 零钱明细
  */
 
 public class SmallChangeActivity extends BaseActivity implements View.OnClickListener, AllPop.InstalledCapacityListener, DistancePop.DistanceSelectorListener, ValuePresenter.ValueCallBack {

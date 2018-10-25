@@ -30,6 +30,8 @@ import butterknife.ButterKnife;
 
 /**
  * Created by Administrator on 2018/3/30.
+ *
+ * 发布任务的管理
  */
 
 public class ReleaseTaskActivity extends BaseActivity implements View.OnClickListener{

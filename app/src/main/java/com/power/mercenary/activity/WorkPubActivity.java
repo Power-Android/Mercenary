@@ -33,6 +33,13 @@ import butterknife.OnClick;
 
 public class WorkPubActivity extends BaseActivity implements TieZiListPresenter.TaskListCallBack, WanRecyclerView.PullRecyclerViewCallBack {
 
+    /**
+     *
+     * item列表
+     *
+     *
+     */
+
     @BindView(R.id.title_back_iv)
     ImageView titleBackIv;
     @BindView(R.id.title_content_tv)

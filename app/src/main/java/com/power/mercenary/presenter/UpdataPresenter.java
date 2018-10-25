@@ -1,6 +1,7 @@
 package com.power.mercenary.presenter;
 
 import android.app.Activity;
+import android.util.Log;
 
 import com.lzy.okgo.model.Response;
 import com.power.mercenary.MyApplication;
@@ -30,6 +31,8 @@ public class UpdataPresenter {
      * @param image
      */
     public void updataUserImg(File image) {
+
+        Log.e("sss",MyApplication.getUserToken()+"");
         new HttpManager<ResponseBean<UserImgInfo>>("Home/UserCenter/imgupload", this)
                 .addParams("token", MyApplication.getUserToken())
                 .addParams("image", image)

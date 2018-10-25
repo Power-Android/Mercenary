@@ -27,6 +27,8 @@ import butterknife.ButterKnife;
 
 /**
  * Created by Administrator on 2018/3/29.
+ *
+ * 注册页面
  */
 
 public class RegisterActivity extends BaseActivity implements View.OnClickListener, LoginPresenter.TokenCallBack {

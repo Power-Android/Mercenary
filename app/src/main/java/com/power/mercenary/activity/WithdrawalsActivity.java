@@ -21,6 +21,8 @@ import butterknife.ButterKnife;
 
 /**
  * Created by Administrator on 2018/3/27.
+ *
+ * 申请提现
  */
 
 public class WithdrawalsActivity extends BaseActivity {
@@ -86,13 +88,10 @@ public class WithdrawalsActivity extends BaseActivity {
         @Override
         public void OnSelectorListener(int type) {
 
-
             withdrawalsPop.dismiss();
 
         }
     };
-
-
 
     public void setShowPop(PopupWindow popupWindow, View view){
         if(popupWindow!=null&&popupWindow.isShowing()){

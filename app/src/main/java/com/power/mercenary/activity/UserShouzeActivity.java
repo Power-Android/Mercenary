@@ -17,6 +17,13 @@ import butterknife.OnClick;
 
 public class UserShouzeActivity extends BaseActivity {
 
+
+    /**
+     *
+     * 用户手册
+     *
+     */
+
     @BindView(R.id.webView)
     WebView webView;
     @BindView(R.id.left_back)

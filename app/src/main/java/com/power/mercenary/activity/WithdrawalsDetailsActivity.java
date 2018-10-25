@@ -14,6 +14,9 @@ import butterknife.ButterKnife;
 
 /**
  * Created by Administrator on 2018/3/27.
+ *
+ *
+ * 提现详情
  */
 
 public class WithdrawalsDetailsActivity extends BaseActivity {

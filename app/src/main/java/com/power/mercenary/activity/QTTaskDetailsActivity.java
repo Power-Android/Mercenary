@@ -33,6 +33,13 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
+
+/**
+ *
+ * 任务详情
+ *
+ */
+
 public class QTTaskDetailsActivity extends BaseActivity implements View.OnClickListener, TaskDetailsPresenter.TaskDetailsCallBack {
 
     @BindView(R.id.recycler_task_tag)

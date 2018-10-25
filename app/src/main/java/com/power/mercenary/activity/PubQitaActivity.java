@@ -29,6 +29,12 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
+/**
+ *
+ * 任务
+ *
+ */
+
 public class PubQitaActivity extends BaseActivity implements PubTaskPresenter.PubTaskCallBack {
 
     @BindView(R.id.title_back_iv)

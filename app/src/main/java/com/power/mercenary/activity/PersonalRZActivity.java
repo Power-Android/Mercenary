@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -202,7 +203,6 @@ public class PersonalRZActivity extends BaseActivity implements UpdataPresenter.
                 .forResult(PictureConfig.CHOOSE_REQUEST);//结果回调onActivityResult code
     }
 
-
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -211,7 +211,10 @@ public class PersonalRZActivity extends BaseActivity implements UpdataPresenter.
                 case PictureConfig.CHOOSE_REQUEST:
                     // 图片选择结果回调
                     selectList = PictureSelector.obtainMultipleResult(data);
+
                     Glide.with(mContext).load(selectList.get(0).getPath()).into(imgIdCard);
+
+                    Log.e("sss",selectList.get(0).getPath()+"");
                     break;
             }
         }
