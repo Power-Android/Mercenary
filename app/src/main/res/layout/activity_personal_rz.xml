@@ -1,257 +1,577 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:layout_width="match_parent"
-              android:orientation="vertical"
-              android:background="@color/bg_color"
-              android:layout_height="match_parent">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bg_color"
+    android:orientation="vertical">
 
 
-    <RelativeLayout
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="10dp"
-        android:background="@color/colorPrimary">
-
-        <ImageView
-            android:id="@+id/left_back"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/title_back_iv"
-            android:layout_centerVertical="true"
-            />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="个人实名认证"
-            android:textColor="#fff"
-            android:textSize="16sp"
-            android:layout_centerInParent="true"/>
-
-        <TextView
-            android:visibility="gone"
-            android:id="@+id/tv_commit"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="提交"
-            android:textColor="#fff"
-            android:textSize="14sp"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"/>
-
-    </RelativeLayout>
-
-    <LinearLayout
-        android:background="#fff"
-        android:paddingLeft="15dip"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingTop="10dp"
-        android:paddingBottom="10dp"
-        android:orientation="horizontal">
-
-        <TextView
-            android:layout_width="60dip"
-            android:layout_height="wrap_content"
-            android:textSize="12sp"
-            android:text="姓名        "
-            android:layout_centerVertical="true"
-            />
+        android:layout_height="match_parent">
 
         <LinearLayout
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
-            <EditText
-                android:background="@null"
-                android:layout_width="0dip"
-                android:layout_weight="1"
+            <RelativeLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textSize="12sp"
-                android:hint="请输入您的姓名"
-                android:layout_centerVertical="true"
-                />
+                android:background="@color/colorPrimary"
+                android:padding="10dp">
+
+                <ImageView
+                    android:id="@+id/left_back"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:src="@drawable/title_back_iv" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:text="个人实名认证"
+                    android:textColor="#fff"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:id="@+id/tv_commit"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:text="提交"
+                    android:textColor="#fff"
+                    android:textSize="14sp"
+                    android:visibility="gone" />
+
+            </RelativeLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#fff"
+                android:orientation="horizontal"
+                android:paddingBottom="10dp"
+                android:paddingLeft="15dip"
+                android:paddingTop="10dp">
+
+                <TextView
+                    android:layout_width="60dip"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:text="姓名        "
+                    android:textSize="12sp" />
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="horizontal">
+
+                    <EditText
+                        android:layout_width="0dip"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_weight="1"
+                        android:id="@+id/ed_user_name"
+                        android:background="@null"
+                        android:hint="请输入您的姓名"
+                        android:textSize="12sp" />
+
+                </LinearLayout>
+            </LinearLayout>
+
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/bg_color" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#fff"
+                android:orientation="horizontal"
+                android:paddingBottom="10dp"
+                android:paddingLeft="15dip"
+                android:paddingTop="10dp">
+
+                <TextView
+                    android:layout_width="60dip"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:text="身份证"
+                    android:textSize="12sp" />
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="horizontal">
+
+                    <EditText
+                        android:id="@+id/ed_idcard_number"
+                        android:layout_width="0dip"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_weight="1"
+                        android:background="@null"
+                        android:hint="请输入身份证号码"
+                        android:textSize="12sp" />
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="15dip"
+                        android:src="@drawable/right_fh" />
+
+                </LinearLayout>
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="10dp"
+                android:background="@color/bg_color" />
+
+            <LinearLayout
+                android:id="@+id/ll_hy"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#fff"
+                android:orientation="horizontal"
+                android:paddingBottom="10dp"
+                android:paddingLeft="15dip"
+                android:paddingTop="10dp">
+
+                <TextView
+                    android:layout_width="60dip"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:text="开户地区"
+                    android:textSize="12sp" />
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="horizontal">
+
+                    <EditText
+                        android:layout_width="0dip"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_weight="1"
+                        android:id="@+id/ed_In_opening_an_account"
+                        android:background="@null"
+                        android:hint="请选择开户省份和城市"
+                        android:textSize="12sp" />
+
+                </LinearLayout>
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/bg_color" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#fff"
+                android:orientation="horizontal"
+                android:paddingBottom="10dp"
+                android:paddingLeft="15dip"
+                android:paddingTop="10dp">
+
+                <TextView
+                    android:layout_width="60dip"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:text="银行卡号"
+                    android:textSize="12sp" />
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="horizontal">
+
+                    <EditText
+                        android:id="@+id/edt_bankcard_number"
+                        android:layout_width="0dip"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_weight="1"
+                        android:background="@null"
+                        android:hint="请输入银行卡号"
+                        android:textSize="12sp" />
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="15dip"
+                        android:src="@drawable/right_fh" />
+
+                </LinearLayout>
+            </LinearLayout>
+
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/bg_color" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#fff"
+                android:orientation="horizontal"
+                android:paddingBottom="10dp"
+                android:paddingLeft="15dip"
+                android:paddingTop="10dp">
+
+                <TextView
+                    android:layout_width="60dip"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:text="开户行"
+                    android:textSize="12sp" />
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="horizontal">
+
+                    <EditText
+                        android:id="@+id/edt_bank_of_deposit"
+                        android:layout_width="0dip"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_weight="1"
+                        android:background="@null"
+                        android:hint="请填写银行卡开户行"
+                        android:textSize="12sp" />
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="15dip"
+                        android:src="@drawable/right_fh" />
+
+                </LinearLayout>
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="10dp"
+                android:background="@color/bg_color" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#fff"
+                android:orientation="horizontal"
+                android:paddingBottom="10dp"
+                android:paddingLeft="15dip"
+                android:paddingTop="10dp">
+
+                <TextView
+                    android:layout_width="60dip"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:text="联系姓名"
+                    android:textSize="12sp" />
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="horizontal">
+
+                    <EditText
+                        android:id="@+id/edt_contact_person_name"
+                        android:layout_width="0dip"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_weight="1"
+                        android:background="@null"
+                        android:hint="请输入联系人姓名,最多20个汉字"
+                        android:textSize="12sp" />
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="15dip"
+                        android:src="@drawable/right_fh" />
+
+                </LinearLayout>
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/bg_color" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#fff"
+                android:orientation="horizontal"
+                android:paddingBottom="10dp"
+                android:paddingLeft="15dip"
+                android:paddingTop="10dp">
+
+                <TextView
+                    android:layout_width="60dip"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:text="联系电话"
+                    android:textSize="12sp" />
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="horizontal">
+
+                    <EditText
+                        android:id="@+id/edt_contact_person_phone"
+                        android:layout_width="0dip"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_weight="1"
+                        android:background="@null"
+                        android:hint="请输入联系人手机号"
+                        android:textSize="12sp" />
+
+                </LinearLayout>
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="10dp"
+                android:background="@color/bg_color" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:orientation="vertical"
+                android:padding="10dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:text="身份证照片"
+                    android:textSize="12sp" />
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <LinearLayout
+                        android:id="@+id/ll_img_Id_Card"
+                        android:layout_width="match_parent"
+                        android:layout_height="180dp"
+                        android:layout_margin="10dp"
+                        android:layout_marginTop="10dp"
+                        android:background="#FFEDEDED"
+                        android:gravity="center"
+                        android:orientation="vertical">
+
+                        <ImageView
+                            android:layout_width="60dp"
+                            android:layout_height="60dp"
+                            android:src="@drawable/sctp_2x" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10dp"
+                            android:text="请上传身份证正面照"
+                            android:textSize="12sp" />
+
+                    </LinearLayout>
+
+                    <com.facebook.drawee.view.SimpleDraweeView
+                        android:id="@+id/img_Id_Card111"
+                        android:layout_width="match_parent"
+                        android:layout_height="180dp"
+                        android:layout_margin="10dp"
+                        android:layout_marginTop="10dp"
+                        android:gravity="center"
+                        android:scaleType="fitXY" />
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <LinearLayout
+                        android:id="@+id/ll_idCard_reverse_side"
+                        android:layout_width="match_parent"
+                        android:layout_height="180dp"
+                        android:layout_margin="10dp"
+                        android:layout_marginTop="10dp"
+                        android:background="#FFEDEDED"
+                        android:gravity="center"
+                        android:orientation="vertical">
+
+                        <ImageView
+                            android:layout_width="60dp"
+                            android:layout_height="60dp"
+                            android:src="@drawable/sctp_2x" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10dp"
+                            android:text="请上传身份证反面照"
+                            android:textSize="12sp" />
+
+                    </LinearLayout>
+
+                    <com.facebook.drawee.view.SimpleDraweeView
+                        android:id="@+id/img_Id_Card_reverse_side"
+                        android:layout_width="match_parent"
+                        android:layout_height="180dp"
+                        android:layout_margin="10dp"
+                        android:layout_marginTop="10dp"
+                        android:gravity="center"
+                        android:scaleType="fitXY" />
+                </RelativeLayout>
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:orientation="vertical"
+                android:padding="10dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:text="银行卡照片"
+                    android:textSize="12sp" />
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <LinearLayout
+                        android:id="@+id/ll_bankCard"
+                        android:layout_width="match_parent"
+                        android:layout_height="180dp"
+                        android:layout_margin="10dp"
+                        android:layout_marginTop="10dp"
+                        android:background="#FFEDEDED"
+                        android:gravity="center"
+                        android:orientation="vertical">
+
+                        <ImageView
+                            android:layout_width="60dp"
+                            android:layout_height="60dp"
+                            android:src="@drawable/sctp_2x" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10dp"
+                            android:text="请上传银行卡正面照"
+                            android:textSize="12sp" />
+
+                    </LinearLayout>
+
+                    <com.facebook.drawee.view.SimpleDraweeView
+                        android:id="@+id/img_bankCard"
+                        android:layout_width="match_parent"
+                        android:layout_height="180dp"
+                        android:layout_margin="10dp"
+                        android:layout_marginTop="10dp"
+                        android:gravity="center"
+                        android:scaleType="fitXY" />
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <LinearLayout
+                        android:id="@+id/ll_idCard_hand_held"
+                        android:layout_width="match_parent"
+                        android:layout_height="180dp"
+                        android:layout_margin="10dp"
+                        android:layout_marginTop="10dp"
+                        android:background="#FFEDEDED"
+                        android:gravity="center"
+                        android:orientation="vertical">
+
+                        <ImageView
+                            android:layout_width="60dp"
+                            android:layout_height="60dp"
+                            android:src="@drawable/sctp_2x" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10dp"
+                            android:text="请上传手持身份证照片"
+                            android:textSize="12sp" />
+
+                    </LinearLayout>
+
+                    <com.facebook.drawee.view.SimpleDraweeView
+                        android:id="@+id/img_in_hand_Id_Card"
+                        android:layout_width="match_parent"
+                        android:layout_height="180dp"
+                        android:layout_margin="10dp"
+                        android:layout_marginTop="10dp"
+                        android:gravity="center"
+                        android:scaleType="fitXY" />
+                </RelativeLayout>
+
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/tv_scz_pz"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:layout_marginTop="30dp"
+                android:background="@drawable/selector_lanse"
+                android:gravity="center"
+                android:paddingBottom="10dp"
+                android:paddingTop="10dp"
+                android:text="提交"
+                android:textColor="@color/white"
+                android:textSize="16sp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dip"
+                android:gravity="center_horizontal"
+                android:text="注：身份证与银行卡必须为同一人所有" />
+
 
         </LinearLayout>
-    </LinearLayout>
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@color/bg_color"/>
-    <LinearLayout
-        android:background="#fff"
-        android:paddingLeft="15dip"
-        android:id="@+id/ll_hy"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingTop="10dp"
-        android:paddingBottom="10dp"
-        android:orientation="horizontal">
-
-        <TextView
-            android:layout_width="60dip"
-            android:layout_height="wrap_content"
-            android:textSize="12sp"
-            android:text="银行卡号"
-            android:layout_centerVertical="true"
-            />
-
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <EditText
-                android:background="@null"
-                android:layout_width="0dip"
-                android:layout_weight="1"
-                android:layout_height="wrap_content"
-                android:textSize="12sp"
-                android:hint="请输入银行卡号码"
-                android:layout_centerVertical="true"
-                />
-
-            <ImageView
-                android:layout_marginRight="15dip"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:src="@drawable/right_fh"/>
-
-        </LinearLayout>
-    </LinearLayout>
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@color/bg_color"/>
-
-    <LinearLayout
-        android:background="#fff"
-        android:paddingLeft="15dip"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingTop="10dp"
-        android:paddingBottom="10dp"
-        android:orientation="horizontal">
-
-        <TextView
-            android:layout_width="60dip"
-            android:layout_height="wrap_content"
-            android:textSize="12sp"
-            android:text="身份证号"
-            android:layout_centerVertical="true"
-            />
-
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <EditText
-                android:id="@+id/edt_idcard_number"
-                android:background="@null"
-                android:layout_width="0dip"
-                android:layout_weight="1"
-                android:layout_height="wrap_content"
-                android:textSize="12sp"
-                android:hint="请输入身份证号码"
-                android:layout_centerVertical="true"
-                />
-
-            <ImageView
-                android:layout_marginRight="15dip"
-
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:src="@drawable/right_fh"/>
-
-        </LinearLayout>
-    </LinearLayout>
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="10dp"
-        android:background="@color/bg_color"/>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/white"
-        android:padding="10dp"
-        android:orientation="vertical">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="12sp"
-            android:text="上传身份证照片"
-            android:layout_centerVertical="true"
-            />
-
-     <RelativeLayout
-         android:layout_width="match_parent"
-         android:layout_height="wrap_content">
-         <LinearLayout
-             android:id="@+id/layout_up"
-             android:layout_width="match_parent"
-             android:layout_height="180dp"
-             android:background="#FFEDEDED"
-             android:gravity="center"
-             android:layout_margin="10dp"
-             android:layout_marginTop="10dp"
-             android:orientation="vertical">
-
-             <ImageView
-                 android:layout_width="60dp"
-                 android:layout_height="60dp"
-                 android:src="@drawable/sctp_2x"/>
-
-             <TextView
-                 android:layout_width="wrap_content"
-                 android:layout_height="wrap_content"
-                 android:textSize="12sp"
-                 android:layout_marginTop="10dp"
-                 android:text="请上传身份证正面照"/>
-
-         </LinearLayout>
-         <ImageView
-             android:scaleType="fitXY"
-             android:id="@+id/img_Id_Card"
-             android:layout_width="match_parent"
-             android:layout_height="180dp"
-             android:gravity="center"
-             android:layout_margin="10dp"
-             android:layout_marginTop="10dp" />
-     </RelativeLayout>
 
 
+    </ScrollView>
 
-    </LinearLayout>
-
-
-    <TextView
-        android:id="@+id/tv_scz_pz"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="提交"
-        android:background="@drawable/selector_lanse"
-        android:textColor="@color/white"
-        android:textSize="16sp"
-        android:gravity="center"
-        android:layout_marginTop="30dp"
-        android:paddingTop="10dp"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
-        android:paddingBottom="10dp"/>
-    <TextView
-        android:layout_marginTop="5dip"
-        android:gravity="center_horizontal"
-        android:text="注：身份证与银行卡必须为同一人所有"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
 
 </LinearLayout>

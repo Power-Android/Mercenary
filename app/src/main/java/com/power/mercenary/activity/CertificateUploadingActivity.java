@@ -49,7 +49,7 @@ public class CertificateUploadingActivity extends BaseActivity implements Updata
 
     @BindView(R.id.tv_zs_sc)
     TextView tv_zs_sc;
-    @BindView(R.id.img_Id_Card)
+    @BindView(R.id.img_Id_Card111)
     ImageView imgIdCard;
     private List<String> cameraList;
     private List<LocalMedia> selectList = new ArrayList<>();

@@ -10,6 +10,8 @@ import android.util.Config;
 import android.util.Log;
 
 import com.baidu.mapapi.SDKInitializer;
+import com.facebook.drawee.backends.pipeline.Fresco;
+import com.lljjcoder.style.citylist.utils.CityListLoader;
 import com.lzy.okgo.OkGo;
 import com.lzy.okgo.cache.CacheEntity;
 import com.lzy.okgo.cache.CacheMode;
@@ -67,6 +69,11 @@ public class MyApplication extends Application {
         ImageLoader.getInstance().init(configuration);
         initRongClound();
         initUM();
+
+        CityListLoader.getInstance().loadProData(this);
+
+        Fresco.initialize(this);
+
     }
 
     private void initUM() {
