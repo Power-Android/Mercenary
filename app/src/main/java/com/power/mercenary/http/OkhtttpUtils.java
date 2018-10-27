@@ -2,6 +2,7 @@ package com.power.mercenary.http;
 
 import android.os.Handler;
 import android.os.Looper;
+import android.util.Log;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -154,6 +155,8 @@ public class OkhtttpUtils {
                     }
                 } catch (IOException e) {
                     e.printStackTrace();
+
+                    Log.e("aaaa",e.getMessage());
                 }
                 if (okCallback != null) {
                     okCallback.onFailure(new Exception("网络异常"));

@@ -1,6 +1,7 @@
 package com.power.mercenary.activity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
@@ -9,6 +10,7 @@ import android.preference.PreferenceActivity;
 import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
+import android.util.Base64;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
@@ -21,6 +23,7 @@ import com.bumptech.glide.Glide;
 import com.facebook.drawee.backends.pipeline.Fresco;
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.google.gson.Gson;
+import com.kongzue.baseokhttp.HttpRequest;
 import com.kongzue.baseokhttp.MultiFileRequest;
 import com.kongzue.baseokhttp.listener.ResponseListener;
 import com.kongzue.baseokhttp.util.Parameter;
@@ -32,9 +35,11 @@ import com.luck.picture.lib.config.PictureConfig;
 import com.luck.picture.lib.config.PictureMimeType;
 import com.luck.picture.lib.entity.LocalMedia;
 import com.power.mercenary.IApi.CertificationApi;
+import com.power.mercenary.MyApplication;
 import com.power.mercenary.R;
 import com.power.mercenary.base.BaseActivity;
 import com.power.mercenary.bean.BankNameBean;
+import com.power.mercenary.bean.CertificationBean;
 import com.power.mercenary.bean.MyZiLiBean;
 import com.power.mercenary.bean.user.UserImgInfo;
 import com.power.mercenary.http.OkhtttpUtils;
@@ -45,6 +50,7 @@ import com.power.mercenary.utils.RetrofitManager;
 import com.wevey.selector.dialog.DialogInterface;
 import com.wevey.selector.dialog.NormalSelectionDialog;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.util.ArrayList;
@@ -116,6 +122,14 @@ public class PersonalRZActivity extends BaseActivity implements UpdataPresenter.
     private String path = Environment.getExternalStorageDirectory() + "/publishedaboutI" + num + "con.png";
 
     private int sum = 0;
+    private String pic1;
+    private String pic2;
+    private String pic3;
+    private String pic4;
+    private List<String> imgList;
+    private CityBean province;
+    private CityBean city;
+    private CityBean area;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -136,40 +150,63 @@ public class PersonalRZActivity extends BaseActivity implements UpdataPresenter.
 
     private void initView() {
 
-        edtBankcardNumber.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+
+        edtBankOfDeposit.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View view, boolean b) {
 
                 if (b) {
-                    //获取焦点
-
-                } else {
-                    //失去焦点
 
                     String bankNumber = edtBankcardNumber.getText().toString().trim();
 
-                    Map<String, String> map = new HashMap<>();
+                    if (bankNumber != "") {
 
-                    map.put("cardNo", bankNumber);
+                        HttpRequest.POST(PersonalRZActivity.this, "http://yb.dashuibei.com/index.php/Home/Index/get_bankname", new Parameter()
+                                        .add("cardNo", bankNumber)
 
-                    OkhtttpUtils.getInstance().doPost("http://yb.dashuibei.com/index.php/Home/Index/get_bankname", map, new OkhtttpUtils.OkCallback() {
-                        @Override
-                        public void onFailure(Exception e) {
+                                , new ResponseListener() {
+                                    @Override
+                                    public void onResponse(String response, Exception error) {
 
-                            Toast.makeText(PersonalRZActivity.this, "请求失败了", Toast.LENGTH_SHORT).show();
+                                        if (error == null) {
 
-                        }
+                                            String s = response.toString();
 
-                        @Override
-                        public void onResponse(String json) {
+                                            Gson gson = new Gson();
 
-                            Gson gson = new Gson();
+                                            BankNameBean bankNameBean = gson.fromJson(s, BankNameBean.class);
 
-                            BankNameBean bankNameBean = gson.fromJson(json, BankNameBean.class);
+                                            edtBankOfDeposit.setText(bankNameBean.getData().getBankname());
 
+                                        } else {
 
-                        }
-                    });
+                                            Toast.makeText(PersonalRZActivity.this, "失败", Toast.LENGTH_SHORT).show();
+
+                                        }
+
+                                    }
+                                });
+
+                    } else {
+
+                        return;
+
+                    }
+
+                }
+
+            }
+        });
+
+        edInOpeningAnAccount.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View view, boolean b) {
+
+                if (b) {
+
+                    //跳转到省份列表
+                    Intent intent = new Intent(PersonalRZActivity.this, ProvinceActivity.class);
+                    startActivityForResult(intent, ProvinceActivity.RESULT_DATA);
 
                 }
 
@@ -178,14 +215,14 @@ public class PersonalRZActivity extends BaseActivity implements UpdataPresenter.
 
     }
 
-    @OnClick({R.id.tv_commit, R.id.tv_scz_pz, R.id.img_Id_Card111, R.id.ll_idCard_hand_held, R.id.ll_idCard_reverse_side, R.id.ll_img_Id_Card, R.id.ll_bankCard, R.id.ed_In_opening_an_account})
+    @OnClick({R.id.tv_commit, R.id.tv_scz_pz, R.id.img_Id_Card111, R.id.ll_idCard_hand_held, R.id.ll_idCard_reverse_side, R.id.ll_img_Id_Card, R.id.ll_bankCard})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.tv_commit:
 
                 break;
             case R.id.tv_scz_pz:
-                if (TextUtils.isEmpty(edtBankcardNumber.getText().toString())) {
+                /*if (TextUtils.isEmpty(edtBankcardNumber.getText().toString())) {
                     Toast.makeText(mContext, "请输入身份证号码", Toast.LENGTH_SHORT).show();
                     return;
                 }
@@ -208,7 +245,124 @@ public class PersonalRZActivity extends BaseActivity implements UpdataPresenter.
                             public void accept(Throwable throwable) {
                                 throwable.printStackTrace();
                             }
-                        });
+                        });*/
+
+
+                if (imgList.size() == 4) {
+
+                    //证明图片已经上传完毕
+
+                    //可以开始请求
+
+                    String userToken = MyApplication.getUserToken();
+                    String userName = edUserName.toString().trim();
+                    String trim = edIdcardNumber.toString().trim();
+                    String trim1 = edtContactPersonName.toString().trim();
+                    String trim2 = edtContactPersonPhone.toString().trim();
+                    String trim3 = edtBankcardNumber.toString().trim();
+                    String trim4 = edtBankOfDeposit.toString().trim();
+                    //需要额外的参数
+/*                    HttpRequest.POST(PersonalRZActivity.this, "http://yb.dashuibei.com/index.php/Home/QmUser/new_register", new Parameter()
+
+                                    .add("token", userToken)
+                                    *//*.add("businessLicence", "ssss")*//*
+                                    .add("name", userName)
+                                    .add("id_card", trim)
+                                    .add("faren_name", userName)
+                                    .add("lianxi_name", trim1)
+                                    .add("lianxi_mobile", trim2)
+                                    .add("yh_card", trim3)
+                                    .add("yh_name", trim1)
+                                    .add("yh_khh", trim4)
+                                    .add("province", province.getName())
+                                    .add("city", city.getName())
+                                    .add("identity_front", imgList.get(0))
+                                    .add("identity_behind", imgList.get(1))
+                                    .add("shouchi_img", imgList.get(2))
+                                    .add("yh_img", imgList.get(3))
+                            , new ResponseListener() {
+                                @Override
+                                public void onResponse(String response, Exception error) {
+
+                                    //Toast.makeText(PersonalRZActivity.this,"ssss",Toast.LENGTH_SHORT).show();
+
+                                    if (error == null) {
+
+                                        String s = response.toString();
+
+                                        Gson gson = new Gson();
+
+                                        CertificationBean certificationBean = gson.fromJson(s, CertificationBean.class);
+
+                                        if ("0".equals(certificationBean.getCode())) {
+
+                                            Toast.makeText(PersonalRZActivity.this, "成功了", Toast.LENGTH_SHORT).show();
+
+                                        } else {
+
+                                            Toast.makeText(PersonalRZActivity.this, error + "", Toast.LENGTH_SHORT).show();
+
+                                        }
+
+                                    }
+
+                                }
+                            });*/
+
+                    Map<String, String> map = new HashMap<>();
+
+                    map.put("token", userToken);
+                    map.put("name", userName);
+                    map.put("id_card", trim);
+                    map.put("businessLicence", "1500000000");
+                    map.put("faren_name", userName);
+                    map.put("lianxi_name", trim1);
+                    map.put("lianxi_mobile", trim2);
+                    map.put("yh_card", trim3);
+                    map.put("yh_name", trim1);
+                    map.put("yh_khh", trim4);
+                    map.put("province", province.getName());
+                    map.put("city", city.getName());
+                    map.put("identity_front", imgList.get(0));
+                    map.put("identity_behind", imgList.get(1));
+                    map.put("shouchi_img", imgList.get(2));
+                    map.put("yh_img", imgList.get(3));
+
+                    OkhtttpUtils.getInstance().doPost("http://yb.dashuibei.com/index.php/Home/QmUser/new_register", map, new OkhtttpUtils.OkCallback() {
+                        @Override
+                        public void onFailure(Exception e) {
+
+                            //Toast.makeText(PersonalRZActivity.this,  e.getMessage(), Toast.LENGTH_SHORT).show();
+
+                        }
+
+                        @Override
+                        public void onResponse(String json) {
+
+                            Gson gson = new Gson();
+
+                            CertificationBean certificationBean = gson.fromJson(json, CertificationBean.class);
+
+                            Log.e("aaa", certificationBean.getCode() + "");
+
+                            if ("0".equals(certificationBean.getCode())) {
+
+                                Toast.makeText(PersonalRZActivity.this, "成功了", Toast.LENGTH_SHORT).show();
+
+                            } else {
+
+                                Toast.makeText(PersonalRZActivity.this, "错误", Toast.LENGTH_SHORT).show();
+
+                            }
+
+                        }
+                    });
+
+
+                } else {
+
+
+                }
 
                 break;
             case R.id.img_Id_Card111:
@@ -266,9 +420,6 @@ public class PersonalRZActivity extends BaseActivity implements UpdataPresenter.
 
                 Toast.makeText(this, "点击了", Toast.LENGTH_SHORT).show();
 
-                //跳转到省份列表
-                Intent intent = new Intent(this, ProvinceActivity.class);
-                startActivityForResult(intent, ProvinceActivity.RESULT_DATA);
 
                 break;
 
@@ -373,11 +524,11 @@ public class PersonalRZActivity extends BaseActivity implements UpdataPresenter.
                     return;
                 }
                 //省份结果
-                CityBean province = data.getParcelableExtra("province");
+                province = data.getParcelableExtra("province");
                 //城市结果
-                CityBean city = data.getParcelableExtra("city");
+                city = data.getParcelableExtra("city");
                 //区域结果
-                CityBean area = data.getParcelableExtra("area");
+                area = data.getParcelableExtra("area");
 
                 edInOpeningAnAccount.setText(province.getName() + city.getName() + area.getName());
 
@@ -416,10 +567,13 @@ public class PersonalRZActivity extends BaseActivity implements UpdataPresenter.
 
             Bitmap bitmap = data.getParcelableExtra("data");
 
+
             if (sum == 1) {
 
                 imgIdCardFront.setImageBitmap(bitmap);
                 sum = 0;
+
+                pic1 = bitmapToString(bitmap);
 
             }
 
@@ -428,12 +582,16 @@ public class PersonalRZActivity extends BaseActivity implements UpdataPresenter.
                 imgIdCardReverseSide.setImageBitmap(bitmap);
                 sum = 0;
 
+                pic2 = bitmapToString(bitmap);
+
             }
 
             if (sum == 3) {
 
                 imgBankCard.setImageBitmap(bitmap);
                 sum = 0;
+
+                pic3 = bitmapToString(bitmap);
 
             }
 
@@ -442,59 +600,16 @@ public class PersonalRZActivity extends BaseActivity implements UpdataPresenter.
                 imgInHandIdCard.setImageBitmap(bitmap);
                 sum = 0;
 
+                pic4 = bitmapToString(bitmap);
+
             }
 
-            File file = new File(getFilesDir().getAbsolutePath());
-            if (!file.exists()) {
-                //如果路径不存在就创建
-                file.mkdirs();
-            }
-            //创建文件
-            File file1 = new File(file, "photo.png");
-            FileOutputStream fileOutputStream;
-            try {
-                //文件输出流
-                fileOutputStream = new FileOutputStream(file1);
+            imgList = new ArrayList<>();
 
-                bitmap.compress(Bitmap.CompressFormat.PNG, 100, fileOutputStream);
-
-                //将bitmap写入文件流
-
-                //刷新此输出流并强制将所有缓冲的输出字节被写出
-                fileOutputStream.flush();
-                fileOutputStream.close();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-
-            //RequestBody封装了文件和文件的类型
-            RequestBody requestBody = RequestBody.create(MediaType.parse("image/*"), file1);
-            // MultipartBody.Part封装了接受的key和文件名字和RequestBody
-            MultipartBody.Part part = MultipartBody.Part.createFormData("image", file1.getName(), requestBody);
-
-
-/*            //需要额外的参数
-            MultiFileRequest.POST(this, "http://yb.dashuibei.com/index.php/Home/QmUser/new_register", new Parameter()
-                            .add("identity_front", "")
-                            .add("identity_behind", "")
-                            .add("shouchi_img", "")
-                            .add("yh_img", "")
-                    , null, new ResponseListener() {
-                        @Override
-                        public void onResponse(String response, Exception error) {
-
-                            if (error == null){
-
-                                Toast.makeText(PersonalRZActivity.this,"ssss",Toast.LENGTH_SHORT).show();
-
-                            }else{
-
-                                Toast.makeText(PersonalRZActivity.this,"失败",Toast.LENGTH_SHORT).show();
-
-                            }
-
-                        }
-                    });*/
+            imgList.add(pic1);
+            imgList.add(pic2);
+            imgList.add(pic3);
+            imgList.add(pic4);
 
         }
 
@@ -528,6 +643,17 @@ public class PersonalRZActivity extends BaseActivity implements UpdataPresenter.
         setResult(1, intent);
         finish();
 
+    }
+
+
+    //把bitmap转换成字符串
+    public static String bitmapToString(Bitmap bitmap) {
+        String string = null;
+        ByteArrayOutputStream btString = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.PNG, 100, btString);
+        byte[] bytes = btString.toByteArray();
+        string = Base64.encodeToString(bytes, Base64.DEFAULT);
+        return string;
     }
 
 }
