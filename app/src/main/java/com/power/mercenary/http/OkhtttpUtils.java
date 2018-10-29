@@ -29,14 +29,6 @@ public class OkhtttpUtils {
 
     private OkhtttpUtils() {
 
-/*        HttpLoggingInterceptor httpLoggingInterceptor = new HttpLoggingInterceptor();
-        httpLoggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);*/
-
-        /*Map<String, String> map = new HashMap<>();
-        map.put("source", "android");
-
-        PublicParamInterceptor publicParamInterceptor = new PublicParamInterceptor(map);*/
-
         //创建一个主线程的handler
         mHandler = new Handler(Looper.getMainLooper());
         mOkHttpClien = new OkHttpClient.Builder()
@@ -156,7 +148,7 @@ public class OkhtttpUtils {
                 } catch (IOException e) {
                     e.printStackTrace();
 
-                    Log.e("aaaa",e.getMessage());
+
                 }
                 if (okCallback != null) {
                     okCallback.onFailure(new Exception("网络异常"));

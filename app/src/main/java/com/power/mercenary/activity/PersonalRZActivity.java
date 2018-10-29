@@ -1,14 +1,20 @@
 package com.power.mercenary.activity;
 
+import android.Manifest;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.preference.PreferenceActivity;
 import android.provider.MediaStore;
+import android.provider.Settings;
 import android.support.annotation.Nullable;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
 import android.util.Base64;
 import android.util.Log;
@@ -46,6 +52,8 @@ import com.power.mercenary.http.OkhtttpUtils;
 import com.power.mercenary.http.ResponseBean;
 import com.power.mercenary.presenter.MyZiLiPresenter;
 import com.power.mercenary.presenter.UpdataPresenter;
+import com.power.mercenary.utils.FileUtilcll;
+import com.power.mercenary.utils.RealPathFromUriUtils;
 import com.power.mercenary.utils.RetrofitManager;
 import com.wevey.selector.dialog.DialogInterface;
 import com.wevey.selector.dialog.NormalSelectionDialog;
@@ -63,11 +71,14 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import id.zelory.compressor.Compressor;
 import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.annotations.NonNull;
 import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
+
+import static com.power.mercenary.utils.RealPathFromUriUtils.getRealPathFromUri;
 
 /**
  * Created by Administrator on 2018/3/28.dd
@@ -117,19 +128,17 @@ public class PersonalRZActivity extends BaseActivity implements UpdataPresenter.
     private List<LocalMedia> selectList = new ArrayList<>();
     private UpdataPresenter presenter;
     private MyZiLiPresenter myZiLiPresenter;
-
     private int num = 0;
     private String path = Environment.getExternalStorageDirectory() + "/publishedaboutI" + num + "con.png";
-
     private int sum = 0;
-    private String pic1;
-    private String pic2;
-    private String pic3;
-    private String pic4;
     private List<String> imgList;
     private CityBean province;
     private CityBean city;
     private CityBean area;
+    private String path4 = "";
+    private String path3 = "";
+    private String path2 = "";
+    private String path1 = "";
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -150,7 +159,6 @@ public class PersonalRZActivity extends BaseActivity implements UpdataPresenter.
 
     private void initView() {
 
-
         edtBankOfDeposit.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View view, boolean b) {
@@ -159,7 +167,7 @@ public class PersonalRZActivity extends BaseActivity implements UpdataPresenter.
 
                     String bankNumber = edtBankcardNumber.getText().toString().trim();
 
-                    if (bankNumber != "") {
+                    if (bankNumber != "" && bankNumber.length() >= 17) {
 
                         HttpRequest.POST(PersonalRZActivity.this, "http://yb.dashuibei.com/index.php/Home/Index/get_bankname", new Parameter()
                                         .add("cardNo", bankNumber)
@@ -247,80 +255,31 @@ public class PersonalRZActivity extends BaseActivity implements UpdataPresenter.
                             }
                         });*/
 
-
+                //证明图片已经选择完毕
+                //可以开始请求
                 if (imgList.size() == 4) {
 
-                    //证明图片已经上传完毕
-
-                    //可以开始请求
-
                     String userToken = MyApplication.getUserToken();
-                    String userName = edUserName.toString().trim();
-                    String trim = edIdcardNumber.toString().trim();
-                    String trim1 = edtContactPersonName.toString().trim();
-                    String trim2 = edtContactPersonPhone.toString().trim();
-                    String trim3 = edtBankcardNumber.toString().trim();
-                    String trim4 = edtBankOfDeposit.toString().trim();
-                    //需要额外的参数
-/*                    HttpRequest.POST(PersonalRZActivity.this, "http://yb.dashuibei.com/index.php/Home/QmUser/new_register", new Parameter()
+                    //Log.e("tagToken", userToken);
+                    String userName = edUserName.getText().toString().trim();
+                    String idCardNumber = edIdcardNumber.getText().toString().trim();
+                    String contactPersonName = edtContactPersonName.getText().toString().trim();
+                    String contactPersonPhone = edtContactPersonPhone.getText().toString().trim();
+                    String bankcardNumber = edtBankcardNumber.getText().toString().trim();
+                    String bankOfDeposit = edtBankOfDeposit.getText().toString().trim();
 
-                                    .add("token", userToken)
-                                    *//*.add("businessLicence", "ssss")*//*
-                                    .add("name", userName)
-                                    .add("id_card", trim)
-                                    .add("faren_name", userName)
-                                    .add("lianxi_name", trim1)
-                                    .add("lianxi_mobile", trim2)
-                                    .add("yh_card", trim3)
-                                    .add("yh_name", trim1)
-                                    .add("yh_khh", trim4)
-                                    .add("province", province.getName())
-                                    .add("city", city.getName())
-                                    .add("identity_front", imgList.get(0))
-                                    .add("identity_behind", imgList.get(1))
-                                    .add("shouchi_img", imgList.get(2))
-                                    .add("yh_img", imgList.get(3))
-                            , new ResponseListener() {
-                                @Override
-                                public void onResponse(String response, Exception error) {
-
-                                    //Toast.makeText(PersonalRZActivity.this,"ssss",Toast.LENGTH_SHORT).show();
-
-                                    if (error == null) {
-
-                                        String s = response.toString();
-
-                                        Gson gson = new Gson();
-
-                                        CertificationBean certificationBean = gson.fromJson(s, CertificationBean.class);
-
-                                        if ("0".equals(certificationBean.getCode())) {
-
-                                            Toast.makeText(PersonalRZActivity.this, "成功了", Toast.LENGTH_SHORT).show();
-
-                                        } else {
-
-                                            Toast.makeText(PersonalRZActivity.this, error + "", Toast.LENGTH_SHORT).show();
-
-                                        }
-
-                                    }
-
-                                }
-                            });*/
-
+                    //开始拼接参数 网络请求
                     Map<String, String> map = new HashMap<>();
 
                     map.put("token", userToken);
                     map.put("name", userName);
-                    map.put("id_card", trim);
-                    map.put("businessLicence", "1500000000");
-                    map.put("faren_name", userName);
-                    map.put("lianxi_name", trim1);
-                    map.put("lianxi_mobile", trim2);
-                    map.put("yh_card", trim3);
-                    map.put("yh_name", trim1);
-                    map.put("yh_khh", trim4);
+                    map.put("id_card", idCardNumber);
+                    //Log.e("tag身份证号", idCardNumber);
+                    map.put("lianxi_name", contactPersonName);
+                    map.put("lianxi_mobile", contactPersonPhone);
+                    map.put("yh_card", bankcardNumber);
+                    map.put("yh_name", contactPersonName);
+                    map.put("yh_khh", bankOfDeposit);
                     map.put("province", province.getName());
                     map.put("city", city.getName());
                     map.put("identity_front", imgList.get(0));
@@ -339,11 +298,18 @@ public class PersonalRZActivity extends BaseActivity implements UpdataPresenter.
                         @Override
                         public void onResponse(String json) {
 
+                            // Toast.makeText(PersonalRZActivity.this, "正在上传...", Toast.LENGTH_SHORT).show();
+
                             Gson gson = new Gson();
 
                             CertificationBean certificationBean = gson.fromJson(json, CertificationBean.class);
 
-                            Log.e("aaa", certificationBean.getCode() + "");
+                            //Toast.makeText(PersonalRZActivity.this, certificationBean.getMessage().getError(), Toast.LENGTH_SHORT).show();
+                            //Toast.makeText(PersonalRZActivity.this, certificationBean.getCode(), Toast.LENGTH_SHORT).show();
+
+                            Log.e("tag1",json);
+                            Log.e("tag2",certificationBean.getCode()+"");
+                            Log.e("tag",certificationBean.getMessage().getError()+"");
 
                             if ("0".equals(certificationBean.getCode())) {
 
@@ -353,14 +319,13 @@ public class PersonalRZActivity extends BaseActivity implements UpdataPresenter.
 
                                 Toast.makeText(PersonalRZActivity.this, "错误", Toast.LENGTH_SHORT).show();
 
+                                //Log.e("a4", certificationBean.getMessage().getError());
                             }
 
                         }
                     });
 
-
                 } else {
-
 
                 }
 
@@ -369,25 +334,21 @@ public class PersonalRZActivity extends BaseActivity implements UpdataPresenter.
                 cameraList = new ArrayList<>();
                 cameraList.add("从相册中选择");
                 cameraList.add("拍照");
-
                 showCamera();
                 sum = 1;
                 break;
 
             //上传手持身份证
             case R.id.ll_idCard_hand_held:
-
                 sum = 4;
                 cameraList = new ArrayList<>();
                 cameraList.add("从相册中选择");
                 cameraList.add("拍照");
                 showCamera();
-
                 break;
 
             //上传银行卡正面
             case R.id.ll_bankCard:
-
                 sum = 3;
                 cameraList = new ArrayList<>();
                 cameraList.add("从相册中选择");
@@ -397,7 +358,6 @@ public class PersonalRZActivity extends BaseActivity implements UpdataPresenter.
 
             //上传身份证反面
             case R.id.ll_idCard_reverse_side:
-
                 sum = 2;
                 cameraList = new ArrayList<>();
                 cameraList.add("从相册中选择");
@@ -407,7 +367,6 @@ public class PersonalRZActivity extends BaseActivity implements UpdataPresenter.
 
             //身份证正面
             case R.id.ll_img_Id_Card:
-
                 sum = 1;
                 cameraList = new ArrayList<>();
                 cameraList.add("从相册中选择");
@@ -419,7 +378,6 @@ public class PersonalRZActivity extends BaseActivity implements UpdataPresenter.
             case R.id.ed_In_opening_an_account:
 
                 Toast.makeText(this, "点击了", Toast.LENGTH_SHORT).show();
-
 
                 break;
 
@@ -443,7 +401,18 @@ public class PersonalRZActivity extends BaseActivity implements UpdataPresenter.
                                 showPhoto();
                                 break;
                             case 1://拍照
-                                requestCamera();
+
+                                //去寻找是否已经有了相机的权限
+                                if (ContextCompat.checkSelfPermission(PersonalRZActivity.this, Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED) {
+                                    //Toast.makeText(PersonalRZActivity.this, "您申请了动态权限", Toast.LENGTH_SHORT).show();    //如果有了相机的权限有调用相机
+
+                                    requestCamera();
+
+                                } else {    //否则去请求相机权限
+                                    ActivityCompat.requestPermissions(PersonalRZActivity.this, new String[]{Manifest.permission.CAMERA}, 100);
+
+                                }
+
                                 break;
                         }
                         dialog.dismiss();
@@ -453,51 +422,6 @@ public class PersonalRZActivity extends BaseActivity implements UpdataPresenter.
                 .build()
                 .setDatas(cameraList)
                 .show();
-    }
-
-    private void requestPhoto() {
-        // 进入相册 以下是例子：不需要的api可以不写
-        PictureSelector.create(PersonalRZActivity.this)
-                .openGallery(PictureMimeType.ofImage())// 全部.PictureMimeType.ofAll()、图片.ofImage()、视频.ofVideo()、音频.ofAudio()
-                .theme(R.style.picture_default_style1)// 主题样式设置 具体参考 values/styles   用法：R.style.picture.white.style
-                .maxSelectNum(1)// 最大图片选择数量
-                .minSelectNum(1)// 最小选择数量
-                .imageSpanCount(4)// 每行显示个数
-                .selectionMode(PictureConfig.SINGLE)// 多选 or 单选 PictureConfig.SINGLE
-                .previewImage(true)// 是否可预览图片
-                .previewVideo(false)// 是否可预览视频
-                .enablePreviewAudio(false) // 是否可播放音频
-                .compressGrade(Luban.THIRD_GEAR)// luban压缩档次，默认3档 Luban.FIRST_GEAR、Luban.CUSTOM_GEAR
-                .isCamera(true)// 是否显示拍照按钮
-                .isZoomAnim(true)// 图片列表点击 缩放效果 默认true
-                //.setOutputCameraPath("/CustomPath")// 自定义拍照保存路径
-                .enableCrop(false)// 是否裁剪
-                .compress(true)// 是否压缩
-                .compressMode(PictureConfig.SYSTEM_COMPRESS_MODE)//系统自带 or 鲁班压缩 PictureConfig.SYSTEM_COMPRESS_MODE or LUBAN_COMPRESS_MODE
-                //.sizeMultiplier(0.5f)// glide 加载图片大小 0~1之间 如设置 .glideOverride()无效
-                .glideOverride(200, 200)// glide 加载宽高，越小图片列表越流畅，但会影响列表图片浏览的清晰度
-//                .withAspectRatio(aspect_ratio_x, aspect_ratio_y)// 裁剪比例 如16:9 3:2 3:4 1:1 可自定义
-                .hideBottomControls(true)// 是否显示uCrop工具栏，默认不显示
-                .isGif(false)// 是否显示gif图片
-                .freeStyleCropEnabled(true)// 裁剪框是否可拖拽
-                .circleDimmedLayer(false)// 是否圆形裁剪
-                .showCropFrame(true)// 是否显示裁剪矩形边框 圆形裁剪时建议设为false
-                .showCropGrid(false)// 是否显示裁剪矩形网格 圆形裁剪时建议设为false
-                .openClickSound(false)// 是否开启点击声音
-//                .selectionMedia(list)// 是否传入已选图片
-//                        .videoMaxSecond(15)
-//                        .videoMinSecond(10)
-                //.previewEggs(false)// 预览图片时 是否增强左右滑动图片体验(图片滑动一半即可看到上一张是否选中)
-                //.cropCompressQuality(90)// 裁剪压缩质量 默认100
-                //.compressMaxKB()//压缩最大值kb compressGrade()为Luban.CUSTOM_GEAR有效
-                //.compressWH() // 压缩宽高比 compressGrade()为Luban.CUSTOM_GEAR有效
-                //.cropWH()// 裁剪宽高比，设置如果大于图片本身宽高则无效
-                //.rotateEnabled() // 裁剪是否可旋转图片
-                //.scaleEnabled()// 裁剪是否可放大缩小图片
-                //.videoQuality()// 视频录制质量 0 or 1
-                //.videoSecond()//显示多少秒以内的视频or音频也可适用
-                //.recordVideoSecond()//录制视频秒数 默认60s
-                .forResult(PictureConfig.CHOOSE_REQUEST);//结果回调onActivityResult code
     }
 
     public void showPhoto() {
@@ -517,6 +441,18 @@ public class PersonalRZActivity extends BaseActivity implements UpdataPresenter.
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == 10 && resultCode == RESULT_OK) {
+            if (ContextCompat.checkSelfPermission(PersonalRZActivity.this, Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED) {
+
+                Toast.makeText(PersonalRZActivity.this, "您同意了,相机权限", Toast.LENGTH_SHORT).show();
+
+                requestCamera();
+
+            } else {
+
+            }
+        }
 
         if (requestCode == ProvinceActivity.RESULT_DATA) {
             if (resultCode == RESULT_OK) {
@@ -562,18 +498,18 @@ public class PersonalRZActivity extends BaseActivity implements UpdataPresenter.
 
         }
 
+        imgList = new ArrayList<>();
+
         //裁剪完后回到设置图片
         if (requestCode == 300 && resultCode == RESULT_OK) {
 
             Bitmap bitmap = data.getParcelableExtra("data");
 
-
             if (sum == 1) {
 
                 imgIdCardFront.setImageBitmap(bitmap);
                 sum = 0;
-
-                pic1 = bitmapToString(bitmap);
+                path1 = FileUtilcll.saveFile(this, "pic1.jpg", bitmap);
 
             }
 
@@ -581,8 +517,7 @@ public class PersonalRZActivity extends BaseActivity implements UpdataPresenter.
 
                 imgIdCardReverseSide.setImageBitmap(bitmap);
                 sum = 0;
-
-                pic2 = bitmapToString(bitmap);
+                path2 = FileUtilcll.saveFile(this, "pic2.jpg", bitmap);
 
             }
 
@@ -590,8 +525,7 @@ public class PersonalRZActivity extends BaseActivity implements UpdataPresenter.
 
                 imgBankCard.setImageBitmap(bitmap);
                 sum = 0;
-
-                pic3 = bitmapToString(bitmap);
+                path3 = FileUtilcll.saveFile(this, "pic3.jpg", bitmap);
 
             }
 
@@ -599,17 +533,19 @@ public class PersonalRZActivity extends BaseActivity implements UpdataPresenter.
 
                 imgInHandIdCard.setImageBitmap(bitmap);
                 sum = 0;
-
-                pic4 = bitmapToString(bitmap);
+                path4 = FileUtilcll.saveFile(this, "pic4.jpg", bitmap);
 
             }
 
-            imgList = new ArrayList<>();
+            imgList.add(path1);
+            imgList.add(path2);
+            imgList.add(path3);
+            imgList.add(path4);
 
-            imgList.add(pic1);
-            imgList.add(pic2);
-            imgList.add(pic3);
-            imgList.add(pic4);
+            Log.e("path",path1);
+            Log.e("path",path2);
+            Log.e("path",path3);
+            Log.e("path",path4);
 
         }
 
@@ -645,15 +581,96 @@ public class PersonalRZActivity extends BaseActivity implements UpdataPresenter.
 
     }
 
+    @Override
+    public void onRequestPermissionsResult
+            (int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
 
-    //把bitmap转换成字符串
-    public static String bitmapToString(Bitmap bitmap) {
-        String string = null;
-        ByteArrayOutputStream btString = new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.PNG, 100, btString);
-        byte[] bytes = btString.toByteArray();
-        string = Base64.encodeToString(bytes, Base64.DEFAULT);
-        return string;
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+
+        switch (requestCode) {
+
+            //如果requestCode为100 就走这里
+
+            case 100:
+
+                //permissions[0].equals(Manifest.permission.CAMERA)
+
+                //grantResults[0] == PackageManager.PERMISSION_GRANTED
+
+                //上面的俩个判断可有可无
+
+                if (permissions[0].equals(Manifest.permission.CAMERA)) {
+
+                    if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+
+                        //如果用户同意了再去打开相机
+
+                        Toast.makeText(PersonalRZActivity.this, "非常感谢您的同意,再会", Toast.LENGTH_SHORT).show();
+
+                        requestCamera();
+
+                    } else {
+
+                        //因为第一次的对话框是系统提供的 从这以后系统不会自动弹出对话框 我们需要自己弹出一个对话框
+
+                        //进行询问的工作
+
+                        startAlertDiaLog();
+
+                    }
+
+                }
+
+                break;
+
+        }
+
+    }
+
+    //当用户第一次不同意权限时 第二次系统将不再有提示框 需要我们手写提示框
+    public void startAlertDiaLog() {
+
+        AlertDialog.Builder alert = new AlertDialog.Builder(PersonalRZActivity.this);
+
+        alert.setTitle("说明");
+
+        alert.setMessage("需要相机权限,去拍照");
+
+        alert.setPositiveButton("立即开启", new android.content.DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(android.content.DialogInterface dialogInterface, int i) {
+
+                startSetting();
+
+            }
+        });
+
+        alert.setNegativeButton("取消", new android.content.DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(android.content.DialogInterface dialogInterface, int i) {
+                Toast.makeText(PersonalRZActivity.this, "当您点击时,会再次询问", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        alert.create();
+
+        alert.show();
+
+    }
+
+    //打开设置 让用户自己打开权限
+    public void startSetting() {
+
+        Intent intent = new Intent();
+
+        intent.setAction(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+
+        Uri uri = Uri.fromParts("package", getPackageName(), null);
+
+        intent.setData(uri);
+
+        startActivityForResult(intent, 10);
+
     }
 
 }
