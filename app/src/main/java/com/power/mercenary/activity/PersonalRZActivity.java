@@ -52,6 +52,7 @@ import com.power.mercenary.http.OkhtttpUtils;
 import com.power.mercenary.http.ResponseBean;
 import com.power.mercenary.presenter.MyZiLiPresenter;
 import com.power.mercenary.presenter.UpdataPresenter;
+import com.power.mercenary.utils.CompressImageUtils;
 import com.power.mercenary.utils.FileUtilcll;
 import com.power.mercenary.utils.RealPathFromUriUtils;
 import com.power.mercenary.utils.RetrofitManager;
@@ -125,7 +126,7 @@ public class PersonalRZActivity extends BaseActivity implements UpdataPresenter.
     @BindView(R.id.tv_scz_pz)
     TextView tvSczPz;
     private List<String> cameraList;
-    private List<LocalMedia> selectList = new ArrayList<>();
+
     private UpdataPresenter presenter;
     private MyZiLiPresenter myZiLiPresenter;
     private int num = 0;
@@ -139,6 +140,9 @@ public class PersonalRZActivity extends BaseActivity implements UpdataPresenter.
     private String path3 = "";
     private String path2 = "";
     private String path1 = "";
+
+
+    private static final String TAG = "PersonalRZActivity";
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -221,6 +225,11 @@ public class PersonalRZActivity extends BaseActivity implements UpdataPresenter.
             }
         });
 
+        imgList = new ArrayList<>();
+        imgList.clear();
+        Log.e(TAG, "onViewClicked: "+imgList.size());
+
+
     }
 
     @OnClick({R.id.tv_commit, R.id.tv_scz_pz, R.id.img_Id_Card111, R.id.ll_idCard_hand_held, R.id.ll_idCard_reverse_side, R.id.ll_img_Id_Card, R.id.ll_bankCard})
@@ -230,43 +239,98 @@ public class PersonalRZActivity extends BaseActivity implements UpdataPresenter.
 
                 break;
             case R.id.tv_scz_pz:
-                /*if (TextUtils.isEmpty(edtBankcardNumber.getText().toString())) {
-                    Toast.makeText(mContext, "请输入身份证号码", Toast.LENGTH_SHORT).show();
-                    return;
-                }
-                if (selectList.size() <= 0) {
-                    Toast.makeText(mContext, "请上传证件照", Toast.LENGTH_SHORT).show();
-                    return;
+
+                //每次点击按钮时,把上一次存放进集合的数据清空
+
+                String userToken = MyApplication.getUserToken();
+                //Log.e("tagToken", userToken);
+                String userName = edUserName.getText().toString().trim();
+                String idCardNumber = edIdcardNumber.getText().toString().trim();
+                String contactPersonName = edtContactPersonName.getText().toString().trim();
+                String contactPersonPhone = edtContactPersonPhone.getText().toString().trim();
+                String bankcardNumber = edtBankcardNumber.getText().toString().trim();
+                String bankOfDeposit = edtBankOfDeposit.getText().toString().trim();
+
+                Log.e("tag4",bankOfDeposit);
+
+                boolean isRequest = true;
+
+                //效验姓名
+                if (TextUtils.isEmpty(userName)) {
+
+                    Toast.makeText(PersonalRZActivity.this, "姓名不能为空", Toast.LENGTH_SHORT);
+                    isRequest = false;
+
                 }
 
-                new Compressor(this)
-                        .compressToFileAsFlowable(new File(selectList.get(0).getPath()))
-                        .subscribeOn(Schedulers.io())
-                        .observeOn(AndroidSchedulers.mainThread())
-                        .subscribe(new Consumer<File>() {
-                            @Override
-                            public void accept(File file) {
-                                presenter.updataUserImg(file);
-                            }
-                        }, new Consumer<Throwable>() {
-                            @Override
-                            public void accept(Throwable throwable) {
-                                throwable.printStackTrace();
-                            }
-                        });*/
+                //效验身份证号
+                if (TextUtils.isEmpty(idCardNumber)) {
+
+                    Toast.makeText(PersonalRZActivity.this, "银行卡号不能为空", Toast.LENGTH_SHORT);
+                    isRequest = false;
+                }
+
+                //效验联系人姓名
+                if (TextUtils.isEmpty(contactPersonName)) {
+
+                    Toast.makeText(PersonalRZActivity.this, "姓名不能为空", Toast.LENGTH_SHORT);
+                    isRequest = false;
+                }
+
+                //效验联系人手机号
+                if (TextUtils.isEmpty(contactPersonPhone)) {
+
+                    Toast.makeText(PersonalRZActivity.this, "手机号不能为空", Toast.LENGTH_SHORT);
+                    isRequest = false;
+                }
+
+                //效验银行卡号
+                if (TextUtils.isEmpty(bankcardNumber)) {
+
+                    Toast.makeText(PersonalRZActivity.this, "银行卡号不能为空", Toast.LENGTH_SHORT);
+                    isRequest = false;
+                }
+
+                //效验开户行
+                if (TextUtils.isEmpty(bankOfDeposit)) {
+
+                    Toast.makeText(PersonalRZActivity.this, "银行卡号不能为空", Toast.LENGTH_SHORT);
+                    isRequest = false;
+                }
+
+                //效验联系人手机号
+                if (contactPersonPhone.length() != 11) {
+
+                    Toast.makeText(PersonalRZActivity.this, "手机号必须为11位数字", Toast.LENGTH_SHORT);
+                    isRequest = false;
+                }
+
+                //效验联系人姓名
+                if (contactPersonName.length() > 20) {
+
+                    Toast.makeText(PersonalRZActivity.this, "姓名不能大于20个汉字", Toast.LENGTH_SHORT);
+                    isRequest = false;
+                }
+
+                //效验银行卡卡号
+                if (bankcardNumber.length() < 16) {
+
+                    Toast.makeText(PersonalRZActivity.this, "卡号不能小于16位数字", Toast.LENGTH_SHORT);
+                    isRequest = false;
+                }
+
+                //效验身份证号
+                if (idCardNumber.length() > 18 || idCardNumber.length() < 18) {
+
+                    Toast.makeText(PersonalRZActivity.this, "身份证号必须为18位", Toast.LENGTH_SHORT);
+                    isRequest = false;
+                }
+
+                Log.e(TAG, "onViewClicked: "+imgList.size() +"    "+isRequest );
 
                 //证明图片已经选择完毕
                 //可以开始请求
-                if (imgList.size() == 4) {
-
-                    String userToken = MyApplication.getUserToken();
-                    //Log.e("tagToken", userToken);
-                    String userName = edUserName.getText().toString().trim();
-                    String idCardNumber = edIdcardNumber.getText().toString().trim();
-                    String contactPersonName = edtContactPersonName.getText().toString().trim();
-                    String contactPersonPhone = edtContactPersonPhone.getText().toString().trim();
-                    String bankcardNumber = edtBankcardNumber.getText().toString().trim();
-                    String bankOfDeposit = edtBankOfDeposit.getText().toString().trim();
+                if (imgList.size() == 4 && isRequest == true) {
 
                     //开始拼接参数 网络请求
                     Map<String, String> map = new HashMap<>();
@@ -278,7 +342,7 @@ public class PersonalRZActivity extends BaseActivity implements UpdataPresenter.
                     map.put("lianxi_name", contactPersonName);
                     map.put("lianxi_mobile", contactPersonPhone);
                     map.put("yh_card", bankcardNumber);
-                    map.put("yh_name", contactPersonName);
+                    map.put("yh_name", userName);
                     map.put("yh_khh", bankOfDeposit);
                     map.put("province", province.getName());
                     map.put("city", city.getName());
@@ -286,6 +350,21 @@ public class PersonalRZActivity extends BaseActivity implements UpdataPresenter.
                     map.put("identity_behind", imgList.get(1));
                     map.put("shouchi_img", imgList.get(2));
                     map.put("yh_img", imgList.get(3));
+
+/*                    Log.e(TAG, "onViewClicked: "+ userToken);
+                    Log.e(TAG, "onViewClicked: "+ userName);
+                    Log.e(TAG, "onViewClicked: "+ idCardNumber);
+                    Log.e(TAG, "onViewClicked: "+ contactPersonName);
+                    Log.e(TAG, "onViewClicked: "+ contactPersonPhone);
+                    Log.e(TAG, "onViewClicked: "+ bankcardNumber);
+                    Log.e(TAG, "onViewClicked: "+ contactPersonName);
+                    Log.e(TAG, "onViewClicked: "+ bankOfDeposit);
+                    Log.e(TAG, "onViewClicked: "+ province.getName());
+                    Log.e(TAG, "onViewClicked: "+ city.getName());
+                    Log.e(TAG, "onViewClicked: "+ imgList.get(0));
+                    Log.e(TAG, "onViewClicked: "+ imgList.get(1));
+                    Log.e(TAG, "onViewClicked: "+ imgList.get(2));
+                    Log.e(TAG, "onViewClicked: "+ imgList.get(3));*/
 
                     OkhtttpUtils.getInstance().doPost("http://yb.dashuibei.com/index.php/Home/QmUser/new_register", map, new OkhtttpUtils.OkCallback() {
                         @Override
@@ -303,13 +382,8 @@ public class PersonalRZActivity extends BaseActivity implements UpdataPresenter.
                             Gson gson = new Gson();
 
                             CertificationBean certificationBean = gson.fromJson(json, CertificationBean.class);
-
-                            //Toast.makeText(PersonalRZActivity.this, certificationBean.getMessage().getError(), Toast.LENGTH_SHORT).show();
-                            //Toast.makeText(PersonalRZActivity.this, certificationBean.getCode(), Toast.LENGTH_SHORT).show();
-
-                            Log.e("tag1",json);
-                            Log.e("tag2",certificationBean.getCode()+"");
-                            Log.e("tag",certificationBean.getMessage().getError()+"");
+                            Log.e("tag1", json);
+                            Log.e("tag2", certificationBean.getCode() + "");
 
                             if ("0".equals(certificationBean.getCode())) {
 
@@ -317,9 +391,10 @@ public class PersonalRZActivity extends BaseActivity implements UpdataPresenter.
 
                             } else {
 
-                                Toast.makeText(PersonalRZActivity.this, "错误", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(PersonalRZActivity.this, certificationBean.getMessage().getResult().getMessage(), Toast.LENGTH_SHORT).show();
 
-                                //Log.e("a4", certificationBean.getMessage().getError());
+                               // Log.e("a4", certificationBean.getMessage().getResult().getMessage());
+
                             }
 
                         }
@@ -498,7 +573,6 @@ public class PersonalRZActivity extends BaseActivity implements UpdataPresenter.
 
         }
 
-        imgList = new ArrayList<>();
 
         //裁剪完后回到设置图片
         if (requestCode == 300 && resultCode == RESULT_OK) {
@@ -507,45 +581,44 @@ public class PersonalRZActivity extends BaseActivity implements UpdataPresenter.
 
             if (sum == 1) {
 
-                imgIdCardFront.setImageBitmap(bitmap);
+                //对图片进行等比例压缩
+                Bitmap newBitmap = CompressImageUtils.pressScaleCompress(bitmap);
+                //把bitmap对象转换为String
+                path1 = FileUtilcll.saveFile(this, "pic1.jpg", newBitmap);
+                //添加到图片的集合
+                imgList.add(path1);
+                //利用Fresco展示图片
+                imgIdCardFront.setImageBitmap(newBitmap);
+                //设值为0 表示清理了进入方法的痕迹
                 sum = 0;
-                path1 = FileUtilcll.saveFile(this, "pic1.jpg", bitmap);
-
             }
 
             if (sum == 2) {
 
-                imgIdCardReverseSide.setImageBitmap(bitmap);
+                Bitmap newBitmap = CompressImageUtils.pressScaleCompress(bitmap);
+                path2 = FileUtilcll.saveFile(this, "pic2.jpg", newBitmap);
+                imgList.add(path2);
+                imgIdCardReverseSide.setImageBitmap(newBitmap);
                 sum = 0;
-                path2 = FileUtilcll.saveFile(this, "pic2.jpg", bitmap);
-
             }
 
             if (sum == 3) {
 
-                imgBankCard.setImageBitmap(bitmap);
+                Bitmap newBitmap = CompressImageUtils.pressScaleCompress(bitmap);
+                path3 = FileUtilcll.saveFile(this, "pic3.jpg", newBitmap);
+                imgBankCard.setImageBitmap(newBitmap);
+                imgList.add(path3);
                 sum = 0;
-                path3 = FileUtilcll.saveFile(this, "pic3.jpg", bitmap);
-
             }
 
             if (sum == 4) {
 
-                imgInHandIdCard.setImageBitmap(bitmap);
+                Bitmap newBitmap = CompressImageUtils.pressScaleCompress(bitmap);
+                path4 = FileUtilcll.saveFile(this, "pic4.jpg", newBitmap);
+                imgInHandIdCard.setImageBitmap(newBitmap);
+                imgList.add(path4);
                 sum = 0;
-                path4 = FileUtilcll.saveFile(this, "pic4.jpg", bitmap);
-
             }
-
-            imgList.add(path1);
-            imgList.add(path2);
-            imgList.add(path3);
-            imgList.add(path4);
-
-            Log.e("path",path1);
-            Log.e("path",path2);
-            Log.e("path",path3);
-            Log.e("path",path4);
 
         }
 
@@ -673,4 +746,10 @@ public class PersonalRZActivity extends BaseActivity implements UpdataPresenter.
 
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+
+    }
 }
