@@ -81,14 +81,10 @@ public class ReleaseRWZAdapter extends RecyclerView.Adapter {
         }
     }
 
-
-
     @Override
     public int getItemCount() {
         return data.size();
     }
-
-
 
     class WJDViewHolder extends RecyclerView.ViewHolder {
 

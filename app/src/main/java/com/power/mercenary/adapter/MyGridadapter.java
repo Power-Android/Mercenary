@@ -28,7 +28,6 @@ public class MyGridadapter extends BaseAdapter {
         zt = new ArrayList<>();
         for(int i=0;i<mlist.size();i++){
 
-
             if(i==0){
                 zt.add(true);
             }else{
@@ -38,7 +37,6 @@ public class MyGridadapter extends BaseAdapter {
         }
 
     }
-
 
     @Override
     public int getCount() {
@@ -78,28 +76,24 @@ public class MyGridadapter extends BaseAdapter {
             view_xian.setVisibility(View.INVISIBLE);
         }
 
-
-
         return view;
     }
 
-    public  void setUpdata(int pos){
+    public  void setUpdata(int pos) {
 
         zt.clear();
-        for(int i=0;i<mlist.size();i++){
+        for (int i = 0; i < mlist.size(); i++) {
 
 
-            if(i==pos){
+            if (i == pos) {
                 zt.add(true);
-            }else{
+            } else {
                 zt.add(false);
             }
 
         }
 
-
         notifyDataSetChanged();
-
 
     }
 

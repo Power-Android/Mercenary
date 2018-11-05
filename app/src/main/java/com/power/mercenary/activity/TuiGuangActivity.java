@@ -16,14 +16,11 @@ import butterknife.OnClick;
 
 public class TuiGuangActivity extends BaseActivity {
 
-
     /**
      *
      * 推广守则
      *
      */
-
-
 
     @BindView(R.id.webView)
     WebView webView;

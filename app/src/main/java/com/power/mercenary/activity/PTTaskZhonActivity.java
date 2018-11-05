@@ -38,8 +38,6 @@ public class PTTaskZhonActivity extends BaseActivity implements View.OnClickList
     @BindView(R.id.recycler_task_tag)
     RecyclerView recycler_task_tag;
 
-
-
     ArrayList<String> mList=new ArrayList<>();
 
     @BindView(R.id.recycler_liu_yan)

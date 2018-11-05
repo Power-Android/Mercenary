@@ -32,7 +32,7 @@ public class UpdataPresenter {
      */
     public void updataUserImg(File image) {
 
-        Log.e("sss",MyApplication.getUserToken()+"");
+        Log.e("sss", MyApplication.getUserToken() + "");
         new HttpManager<ResponseBean<UserImgInfo>>("Home/UserCenter/imgupload", this)
                 .addParams("token", MyApplication.getUserToken())
                 .addParams("image", image)

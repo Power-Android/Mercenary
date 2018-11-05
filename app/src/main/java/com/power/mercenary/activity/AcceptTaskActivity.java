@@ -138,7 +138,6 @@ public class AcceptTaskActivity extends BaseActivity implements View.OnClickList
         list.add(fragment4);
         list.add(fragment5);
 
-
         myAdapter = new MyAdapter(getSupportFragmentManager(),list);
         vp_fbrw.setAdapter(myAdapter);
         vp_fbrw.setOffscreenPageLimit(5);

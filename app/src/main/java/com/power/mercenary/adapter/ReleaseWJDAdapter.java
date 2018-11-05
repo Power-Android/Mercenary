@@ -22,8 +22,6 @@ public class ReleaseWJDAdapter extends BaseQuickAdapter<String, BaseViewHolder> 
     public ReleaseWJDAdapter(@LayoutRes int layoutResId, @Nullable ArrayList<String> data) {
         super(layoutResId, data);
 
-
-
     }
 
     @Override
@@ -41,8 +39,6 @@ public class ReleaseWJDAdapter extends BaseQuickAdapter<String, BaseViewHolder> 
         tagRecyclerView.setAdapter(tagAdapter);
     }
 
-
-
     /**
      * 任务推荐标签Adapter
      */
@@ -57,7 +53,5 @@ public class ReleaseWJDAdapter extends BaseQuickAdapter<String, BaseViewHolder> 
             TextView tagTv = helper.getView(R.id.item_content_tv);
         }
     }
-
-
 
 }

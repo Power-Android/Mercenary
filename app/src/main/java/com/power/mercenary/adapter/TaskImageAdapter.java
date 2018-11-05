@@ -29,9 +29,6 @@ public class TaskImageAdapter extends RecyclerView.Adapter {
         this.context = context;
 
     }
-
-
-
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         return null;

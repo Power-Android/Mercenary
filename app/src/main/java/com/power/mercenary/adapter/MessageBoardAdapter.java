@@ -19,10 +19,6 @@ public class MessageBoardAdapter extends BaseQuickAdapter<MsgListBean, BaseViewH
     public MessageBoardAdapter(@LayoutRes int layoutResId, @Nullable List<MsgListBean> data) {
         super(layoutResId, data);
 
-
-
-
-
     }
 
     @Override

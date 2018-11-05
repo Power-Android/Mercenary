@@ -24,7 +24,6 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-
 /**
  *
  * 任务列表

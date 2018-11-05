@@ -36,7 +36,6 @@
             android:layout_centerVertical="true"/>
     </RelativeLayout>
 
-
     <com.liaoinstan.springview.widget.SpringView
 
         android:id="@+id/springView_rwsx"

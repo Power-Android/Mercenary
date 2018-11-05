@@ -14,20 +14,28 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
 import com.power.mercenary.R;
 import com.power.mercenary.base.BaseActivity;
+import com.power.mercenary.bean.ObtainSecurityCodeBean;
 import com.power.mercenary.bean.user.TokenInfo;
+import com.power.mercenary.http.OkhtttpUtils;
 import com.power.mercenary.presenter.LoginPresenter;
 import com.power.mercenary.utils.CountDownUtils;
 import com.power.mercenary.utils.MyUtils;
 import com.power.mercenary.utils.Urls;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import io.rong.imlib.MD5;
+import retrofit2.http.Url;
 
 /**
  * Created by Administrator on 2018/3/29.
- *
+ * <p>
  * 注册页面
  */
 
@@ -81,6 +89,8 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
 
     private CountDownUtils countDownUtils;
 
+    private static final String TAG = "RegisterActivity";
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -127,14 +137,67 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
                 initRenwutj();
                 break;
             case R.id.tv_people_xieyi:
-                startActivity(new Intent(this,XieyiActivity.class));
+                startActivity(new Intent(this, XieyiActivity.class));
                 break;
             case R.id.tv_hqyzm:
                 if (edtPhone.getText().length() < 11 || edtPhone.getText().equals("")) {
                     Toast.makeText(mContext, "请输入正确的手机号", Toast.LENGTH_SHORT).show();
                     return;
+                } else {
+
+                    String phoneNumber = edtPhone.getText().toString().trim();
+
+                    Map<String, String> map = new HashMap<>();
+
+                    String encrypt = MyUtils.getMD5("mobile=" + phoneNumber + Urls.SECRET);
+
+                    map.put("mobile", phoneNumber);
+
+                    map.put("signature", encrypt);
+
+                    OkhtttpUtils.getInstance().doPost("http://yb.dashuibei.com/index.php/Home/User/sendsms", map, new OkhtttpUtils.OkCallback() {
+                        @Override
+                        public void onFailure(Exception e) {
+
+
+                        }
+
+                        @Override
+                        public void onResponse(String json) {
+
+                            Gson gson = new Gson();
+
+                            Log.e(TAG, "onResponse: " + json);
+
+                            ObtainSecurityCodeBean obtainSecurityCodeBean = gson.fromJson(json, ObtainSecurityCodeBean.class);
+
+
+                            int code = obtainSecurityCodeBean.getCode();
+
+                            if (code == 0) {
+
+                                Toast.makeText(RegisterActivity.this, "将要给您发送验证码,请注意查看", Toast.LENGTH_SHORT).show();
+
+                            } else {
+
+                                Toast.makeText(RegisterActivity.this, obtainSecurityCodeBean.getMsg(), Toast.LENGTH_SHORT).show();
+
+                                Log.e(TAG, "onResponse: " + obtainSecurityCodeBean.getMsg());
+
+                            }
+
+
+                        }
+                    });
+
+
                 }
                 countDownUtils.start();
+
+
+                //拿到用户的手机号 向后台请求 发送验证码
+
+
                 break;
             case R.id.tongcheng_ll:
                 initTongcheng();

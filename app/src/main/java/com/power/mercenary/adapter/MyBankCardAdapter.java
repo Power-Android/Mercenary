@@ -48,7 +48,6 @@ public class MyBankCardAdapter extends BaseAdapter {
             view=View.inflate(mcontext, R.layout.mybankcard_item_view,null);
             viewHodler = new ViewHodler();
 
-
             view.setTag(viewHodler);
         }else{
 
@@ -56,12 +55,10 @@ public class MyBankCardAdapter extends BaseAdapter {
 
         }
 
-
         return view;
     }
 
     class ViewHodler{
-
 
 
     }

@@ -1,26 +1,36 @@
 package com.power.mercenary.fragment;
 
+import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.BaseAdapter;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
+import com.google.gson.Gson;
+import com.power.mercenary.MyApplication;
 import com.power.mercenary.R;
+import com.power.mercenary.activity.CommitUserInfoActivity;
 import com.power.mercenary.activity.GRTaskDetailsActivity;
 import com.power.mercenary.activity.GZTaskDetailsActivity;
 import com.power.mercenary.activity.HomeSearchActivity;
@@ -39,9 +49,11 @@ import com.power.mercenary.bean.HomHotBean;
 import com.power.mercenary.bean.HotSearchBean;
 import com.power.mercenary.bean.MainTaskBean;
 import com.power.mercenary.bean.NineGridTestModel;
+import com.power.mercenary.bean.ObtainUserInfoBean;
 import com.power.mercenary.bean.Testbean;
 import com.power.mercenary.data.EventConstants;
 import com.power.mercenary.event.EventUtils;
+import com.power.mercenary.http.OkhtttpUtils;
 import com.power.mercenary.presenter.HomeSearchPresenter;
 import com.power.mercenary.presenter.MainPresenter;
 import com.power.mercenary.utils.BannerUtils;
@@ -60,7 +72,9 @@ import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -150,6 +164,16 @@ public class HomeFragment extends BaseFragment implements MainPresenter.MainCall
     private ArrayList<Testbean> gridPageList2;
     private int stateNum = -1;
 
+
+    private static final String TAG = "HomeFragment";
+
+
+    private TextView tvConfirm;
+
+    private TextView tvCancle;
+
+    private PopupWindow window;
+
     @Override
     protected View initView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_home, null);
@@ -161,6 +185,8 @@ public class HomeFragment extends BaseFragment implements MainPresenter.MainCall
         mainPresenter.getBannerList(1);
         initData();
         EventBus.getDefault().register(this);
+
+
         return view;
     }
 
@@ -178,6 +204,9 @@ public class HomeFragment extends BaseFragment implements MainPresenter.MainCall
 
     @Override
     protected void initLazyData() {
+
+
+
 
     }
 
@@ -306,6 +335,113 @@ public class HomeFragment extends BaseFragment implements MainPresenter.MainCall
         //-------------------------------结束-------——--------------------------------------------
 
         initRenwutj();
+
+        String userToken = MyApplication.getUserToken();        //获取用户Token
+
+        if (!TextUtils.isEmpty(userToken)) {         //效验用户Token是否为空 为空说明没有登录 没登陆不做任何请求
+
+            //请求用户信息接口  判断是否为空 为空弹出框引导用户完善信息
+            Map<String, String> map = new HashMap<>();
+
+            map.put("token", userToken);
+
+            OkhtttpUtils.getInstance().doPost("http://yb.dashuibei.com/index.php/Home/UserCenter/getinfo", map, new OkhtttpUtils.OkCallback() {
+                @Override
+                public void onFailure(Exception e) {
+
+                }
+
+                @Override
+                public void onResponse(String json) {
+
+                    Gson gson = new Gson();
+
+                    ObtainUserInfoBean obtainUserInfoBean = gson.fromJson(json, ObtainUserInfoBean.class);
+
+                    int code = obtainUserInfoBean.getCode();
+
+                    if (code == 0) {
+
+                        ObtainUserInfoBean.DataBean data = obtainUserInfoBean.getData();        //获取数据类
+                        String head_img = data.getHead_img();       //用户头像
+                        String mobile = data.getMobile();           //用户手机号
+                        String age = data.getAge();                 //用户年龄
+                        String nick_name = data.getNick_name();     //用户昵称
+                        String name = data.getName();               //用户真实姓名
+                        // ||为只有要一个条件满足 都会走下面的代码
+                        if (
+                                TextUtils.isEmpty(head_img)                  //效验头像是否为空
+                                        || TextUtils.isEmpty(mobile)        //效验手机号是否为空
+                                        || TextUtils.isEmpty(age)           //效验年龄是否为空
+                                        || TextUtils.isEmpty(nick_name)     //效验昵称是否为空
+                                        || TextUtils.isEmpty(name)          //效验真是姓名是否为空
+
+                                ) {
+
+                            //引导用户 完善信息
+
+                            //加载布局
+                            View contentView = LayoutInflater.from(getActivity()).inflate(R.layout.go_perfect_myinfo_layout, null, false);
+                            //findViewById
+                            tvConfirm = contentView.findViewById(R.id.window_tv_sure);
+                            tvCancle = contentView.findViewById(R.id.window_tv_cancle);
+                            tvConfirm.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    //Toast.makeText(getActivity(), "您点击了PropupWindow的文字", Toast.LENGTH_SHORT);
+
+                                    window.dismiss();
+                                    setBackgroundAlpha(1.0f);
+                                    Intent intent = new Intent(getActivity(), CommitUserInfoActivity.class);
+                                    startActivity(intent);
+
+                                }
+                            });
+
+                            tvCancle.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View view) {
+                                    //关闭PropupWindow
+                                    window.dismiss();
+                                    setBackgroundAlpha(1.0f);
+
+                                }
+                            });
+
+                            //第一个：布局
+                            // 第二个：布局的宽 自动填充
+                            // 第三:布局的高 自动填充
+                            //PropupWindow 的颜色
+
+                            window = new PopupWindow(contentView, ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+                            window.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                            //是否响应外部点击事件
+                            window.setOutsideTouchable(true);
+                            window.setTouchable(true);
+                            //PropupWindow 显示的地方
+                            window.showAtLocation(contentView, Gravity.CENTER, 0, 0);
+
+                            setBackgroundAlpha(0.8f);
+
+                        }
+
+                    }
+
+                    Log.e(TAG, "onResponse: " + json);
+
+                }
+            });
+
+        }
+
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+
+
     }
 
     @Override
@@ -889,6 +1025,23 @@ public class HomeFragment extends BaseFragment implements MainPresenter.MainCall
             TextView tv_title;
             ImageView icon;
             LinearLayout layout;
+        }
+    }
+
+    private void setBackgroundAlpha(float bgAlpha) {
+        WindowManager.LayoutParams layoutParams = getActivity().getWindow().getAttributes();
+        layoutParams.alpha = bgAlpha;
+        getActivity().getWindow().addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
+        getActivity().getWindow().setAttributes(layoutParams);
+    }
+
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+
+        if (isVisibleToUser){
+
+
         }
     }
 }

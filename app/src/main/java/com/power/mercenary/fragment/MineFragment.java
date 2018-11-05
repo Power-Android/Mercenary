@@ -1,16 +1,22 @@
 package com.power.mercenary.fragment;
 
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.lzy.okgo.model.Response;
@@ -179,14 +185,14 @@ public class MineFragment extends BaseFragment implements UserPresenter.UserCall
         rl_wdtg.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Log.d("MineFragment", MyApplication.getUserToken()+"-------");
-            if (isagree.equals("0")){
-                Intent intent = new Intent(getActivity(), ShouzeActivity.class);
-                startActivity(intent);
-            }else {
-                Intent intent = new Intent(getActivity(), MyExtensionActivity.class);
-                startActivity(intent);
-            }
+                Log.d("MineFragment", MyApplication.getUserToken() + "-------");
+                if (isagree.equals("0")) {
+                    Intent intent = new Intent(getActivity(), ShouzeActivity.class);
+                    startActivity(intent);
+                } else {
+                    Intent intent = new Intent(getActivity(), MyExtensionActivity.class);
+                    startActivity(intent);
+                }
             }
         });
 
@@ -197,7 +203,6 @@ public class MineFragment extends BaseFragment implements UserPresenter.UserCall
 
                 Intent intent = new Intent(getActivity(), MyQualificationsActivity.class);
                 startActivity(intent);
-
 
             }
         });
@@ -273,7 +278,6 @@ public class MineFragment extends BaseFragment implements UserPresenter.UserCall
             }
         });
 
-
         return view;
     }
 
@@ -281,7 +285,6 @@ public class MineFragment extends BaseFragment implements UserPresenter.UserCall
     protected void initLazyData() {
 
     }
-
 
     @Override
     public void onDestroyView() {
@@ -310,28 +313,28 @@ public class MineFragment extends BaseFragment implements UserPresenter.UserCall
                     public void onSuccess(Response<ResponseBean<PublishBean>> response) {
                         if (response != null && response.body() != null && response.body().data != null) {
                             if (response.body().data.getRwz() > 0) {
-                                acceptRwz.setText(response.body().data.getRwz()+"");
+                                acceptRwz.setText(response.body().data.getRwz() + "");
                                 acceptRwz.setVisibility(View.VISIBLE);
                             } else {
                                 acceptRwz.setVisibility(View.GONE);
                             }
 
                             if (response.body().data.getShz() > 0) {
-                                acceptShz.setText(response.body().data.getShz()+"");
+                                acceptShz.setText(response.body().data.getShz() + "");
                                 acceptShz.setVisibility(View.VISIBLE);
                             } else {
                                 acceptShz.setVisibility(View.GONE);
                             }
 
                             if (response.body().data.getDpj() > 0) {
-                                acceptDpj.setText(response.body().data.getDpj()+"");
+                                acceptDpj.setText(response.body().data.getDpj() + "");
                                 acceptDpj.setVisibility(View.VISIBLE);
                             } else {
                                 acceptDpj.setVisibility(View.GONE);
                             }
 
                             if (response.body().data.getWjd() > 0) {
-                                acceptWjd.setText(response.body().data.getWjd()+"");
+                                acceptWjd.setText(response.body().data.getWjd() + "");
                                 acceptWjd.setVisibility(View.VISIBLE);
                             } else {
                                 acceptWjd.setVisibility(View.GONE);
@@ -349,28 +352,28 @@ public class MineFragment extends BaseFragment implements UserPresenter.UserCall
                     public void onSuccess(Response<ResponseBean<AcceptBean>> response) {
                         if (response != null && response.body() != null && response.body().data != null) {
                             if (response.body().data.getRwz() > 0) {
-                                publishRwz.setText(response.body().data.getRwz()+"");
+                                publishRwz.setText(response.body().data.getRwz() + "");
                                 publishRwz.setVisibility(View.VISIBLE);
                             } else {
                                 publishRwz.setVisibility(View.GONE);
                             }
 
                             if (response.body().data.getShz() > 0) {
-                                publishShz.setText(response.body().data.getShz()+"");
+                                publishShz.setText(response.body().data.getShz() + "");
                                 publishShz.setVisibility(View.VISIBLE);
                             } else {
                                 publishShz.setVisibility(View.GONE);
                             }
 
                             if (response.body().data.getYbm() > 0) {
-                                publishYbm.setText(response.body().data.getYbm()+"");
+                                publishYbm.setText(response.body().data.getYbm() + "");
                                 publishYbm.setVisibility(View.VISIBLE);
                             } else {
                                 publishYbm.setVisibility(View.GONE);
                             }
 
                             if (response.body().data.getYwc() > 0) {
-                                publishYwc.setText(response.body().data.getYwc()+"");
+                                publishYwc.setText(response.body().data.getYwc() + "");
                                 publishYwc.setVisibility(View.VISIBLE);
                             } else {
                                 publishYwc.setVisibility(View.GONE);
@@ -384,25 +387,35 @@ public class MineFragment extends BaseFragment implements UserPresenter.UserCall
     public void getUserInfo(UserInfo userInfo) {
         if (userInfo != null) {
             CacheUtils.put(CacheConstants.USERINFO, userInfo);
-            if (!TextUtils.isEmpty(userInfo.getHead_img())) {
+
+            if (!TextUtils.isEmpty(userInfo.getHead_img()) && !TextUtils.isEmpty(userInfo.getNick_name()) &&
+                    !TextUtils.isEmpty(userInfo.money)
+                    ) {
+
+                //加载用户的头像
                 Glide.with(mContext)
                         .load(Urls.BASEIMGURL + userInfo.getHead_img())
                         .into(icon);
-            }
 
-            if (!TextUtils.isEmpty(userInfo.getNick_name())) {
+                //加载用户的名字
                 name.setText(userInfo.getNick_name());
+
+                //加载用户的价值(money)
+                money.setText(userInfo.money);
+
+                isagree = userInfo.isagree;
+
+            } else {
+
             }
 
-            if (!TextUtils.isEmpty(userInfo.money)) {
-                money.setText(userInfo.money);
-            }
-            isagree = userInfo.isagree;
         }
+
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle
+            savedInstanceState) {
         // TODO: inflate a fragment view
         View rootView = super.onCreateView(inflater, container, savedInstanceState);
         unbinder = ButterKnife.bind(this, rootView);
@@ -433,5 +446,23 @@ public class MineFragment extends BaseFragment implements UserPresenter.UserCall
                 startActivity(intent3);
                 break;
         }
+    }
+
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+
+        //刷新用户消息
+        userPresenter.getUserInfo();
+
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+
+
     }
 }

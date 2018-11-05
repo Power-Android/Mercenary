@@ -95,7 +95,6 @@ public abstract class HeaderRecyclerAndFooterWrapperAdapter extends RecyclerView
         }
     }
 
-
     /**
      * 设置某个位置的HeaderView
      *

@@ -181,7 +181,6 @@ public class ReleaseTaskActivity extends BaseActivity implements View.OnClickLis
 
     }
 
-
     private ViewPager.OnPageChangeListener pageChangeListener = new ViewPager.OnPageChangeListener() {
         @Override
         public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
@@ -221,7 +220,6 @@ public class ReleaseTaskActivity extends BaseActivity implements View.OnClickLis
 
         }
     };
-
 
     private void initquanbu() {
         quan_tv.setTextColor(getResources().getColor(R.color.colorPrimary));

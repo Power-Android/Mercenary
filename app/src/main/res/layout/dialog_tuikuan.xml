@@ -11,7 +11,7 @@
         android:layout_height="wrap_content"
         android:background="@drawable/home_white_bg"
         android:orientation="vertical">
-
+<!--333333-->
         <TextView
             android:layout_width="match_parent"
             android:layout_height="50dip"

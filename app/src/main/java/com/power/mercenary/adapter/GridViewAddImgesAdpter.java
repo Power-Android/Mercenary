@@ -92,7 +92,6 @@ public class GridViewAddImgesAdpter extends BaseAdapter {
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
 
-
         ViewHolder viewHolder = null;
         if (convertView == null) {
             convertView = inflater.inflate(R.layout.item_published_grid, parent, false);

@@ -19,7 +19,6 @@ public class DXRAdapter extends BaseQuickAdapter<ApplyListBean, BaseViewHolder> 
     public DXRAdapter(@LayoutRes int layoutResId, @Nullable List<ApplyListBean> data) {
         super(layoutResId, data);
 
-
     }
 
     @Override

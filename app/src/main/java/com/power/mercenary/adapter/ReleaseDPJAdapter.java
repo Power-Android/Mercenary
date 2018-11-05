@@ -23,8 +23,6 @@ public class ReleaseDPJAdapter extends BaseQuickAdapter<String, BaseViewHolder> 
     public ReleaseDPJAdapter(@LayoutRes int layoutResId, @Nullable ArrayList<String> data) {
         super(layoutResId, data);
 
-
-
     }
 
     @Override

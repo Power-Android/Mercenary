@@ -36,7 +36,6 @@ import butterknife.OnClick;
 
 public class TaskStatisticsActivity extends BaseActivity implements StatisticsPresenter.StatisticsCallBack {
 
-
     @BindView(R.id.left_back)
     ImageView left_back;
 

@@ -45,6 +45,7 @@ public class ReleaseSHZAdapter extends RecyclerView.Adapter {
 
     private TaskBtnListener taskBtnListener;
     private int type;
+
     public void setTaskBtnListener(TaskBtnListener taskBtnListener) {
         this.taskBtnListener = taskBtnListener;
     }
@@ -70,27 +71,26 @@ public class ReleaseSHZAdapter extends RecyclerView.Adapter {
                 viewHolder.tv_shenhe.setVisibility(View.GONE);
                 viewHolder.layout_all_price.setVisibility(View.GONE);
                 viewHolder.layout_yanqi.setVisibility(View.VISIBLE);
-                viewHolder.tv_yanqi.setText("延期处理");
+                viewHolder.tv_yanqi.setText("已延期处理");
 //                viewHolder.tv_yanqi.setEnabled(false);
                 viewHolder.layout_yanqi.setVisibility(View.VISIBLE);
                 viewHolder.tvCause.setText(data.get(position).getYanqi_reason());
                 viewHolder.tvDays.setText(data.get(position).getYanqi_days());
                 viewHolder.tvYanTime.setText(MyUtils.getDateToStringTime(data.get(position).getYanqi_start()));
-            }else {
+            } else {
                 viewHolder.layout_all_price.setVisibility(View.VISIBLE);
                 viewHolder.tv_jujue.setVisibility(View.VISIBLE);
                 viewHolder.tv_shenhe.setVisibility(View.VISIBLE);
             }
-            viewHolder.tv_fbpt_price.setText(data.get(position).getZfpt_ticheng()+"元");
-            viewHolder.tv_pt_price.setText(data.get(position).getTicheng()+"元");
-            viewHolder.tv_fb_price.setText(data.get(position).getFabu_money()+"元");
-            viewHolder.tv_js_price.setText(data.get(position).getFafang_money()+"元");
+            viewHolder.tv_fbpt_price.setText(data.get(position).getZfpt_ticheng() + "元");
+            viewHolder.tv_pt_price.setText(data.get(position).getTicheng() + "元");
+            viewHolder.tv_fb_price.setText(data.get(position).getFabu_money() + "元");
+            viewHolder.tv_js_price.setText(data.get(position).getFafang_money() + "元");
             viewHolder.title.setText(data.get(position).getTask_name());
 
             viewHolder.price.setText("￥" + data.get(position).getPay_amount());
 
             viewHolder.content.setText(data.get(position).getTask_description());
-
 
             viewHolder.tv_shenhe.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -117,16 +117,18 @@ public class ReleaseSHZAdapter extends RecyclerView.Adapter {
             viewHolder.tv_jujue.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    type=2;
-                showIssueDialog(position);
+                    type = 2;
+                    showIssueDialog(position);
                 }
             });
         }
     }
+
     private BaseDialog mDialog;
     private BaseDialog.Builder mBuilder;
     private List<String> mlist = new ArrayList<>();
     private boolean isShow;
+
     private void showIssueDialog(final int position) {
         mBuilder = new BaseDialog.Builder(context);
         mDialog = mBuilder.setViewId(R.layout.dialog_jujue)
@@ -148,13 +150,13 @@ public class ReleaseSHZAdapter extends RecyclerView.Adapter {
         tv_sure.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (TextUtils.isEmpty(edt_cause.getText().toString())){
+                if (TextUtils.isEmpty(edt_cause.getText().toString())) {
                     Toast.makeText(context, "请输入未通过原因", Toast.LENGTH_SHORT).show();
                     return;
                 }
                 new HttpManager<ResponseBean<SuccessBean>>("Home/MyTask/shenhe", this)
                         .addParams("token", MyApplication.getUserToken())
-                        .addParams("id",data.get(position).getId())
+                        .addParams("id", data.get(position).getId())
                         .addParams("type", 2)
                         .addParams("refuse_cause", edt_cause.getText().toString())
                         .postRequest(new DialogCallback<ResponseBean<SuccessBean>>((Activity) context) {
@@ -168,7 +170,7 @@ public class ReleaseSHZAdapter extends RecyclerView.Adapter {
                             @Override
                             public void onError(Response<ResponseBean<SuccessBean>> response) {
                                 super.onError(response);
-                                Log.d("ReleaseRWZAdapter", response.getException().getMessage()+"--------");
+                                Log.d("ReleaseRWZAdapter", response.getException().getMessage() + "--------");
                             }
                         });
             }
@@ -181,6 +183,7 @@ public class ReleaseSHZAdapter extends RecyclerView.Adapter {
         });
         mDialog.show();
     }
+
     private void showShenHeDialog(final int position) {
         mBuilder = new BaseDialog.Builder(context);
         mDialog = mBuilder.setViewId(R.layout.dialog_shenhe)
@@ -203,7 +206,7 @@ public class ReleaseSHZAdapter extends RecyclerView.Adapter {
             public void onClick(View view) {
                 new HttpManager<ResponseBean<SuccessBean>>("Home/MyTask/shenhe", this)
                         .addParams("token", MyApplication.getUserToken())
-                        .addParams("id",data.get(position).getId())
+                        .addParams("id", data.get(position).getId())
                         .addParams("type", 1)
                         .addParams("refuse_cause", "")
                         .postRequest(new DialogCallback<ResponseBean<SuccessBean>>((Activity) context) {
@@ -217,7 +220,7 @@ public class ReleaseSHZAdapter extends RecyclerView.Adapter {
                             @Override
                             public void onError(Response<ResponseBean<SuccessBean>> response) {
                                 super.onError(response);
-                                Log.d("ReleaseRWZAdapter", response.getException().getMessage()+"--------");
+                                Log.d("ReleaseRWZAdapter", response.getException().getMessage() + "--------");
                             }
                         });
             }
@@ -230,9 +233,10 @@ public class ReleaseSHZAdapter extends RecyclerView.Adapter {
         });
         mDialog.show();
     }
+
     private void showYanQiDialog(final int position) {
         for (int i = 1; i <= 7; i++) {
-            mlist.add(i+"天");
+            mlist.add(i + "天");
         }
         mBuilder = new BaseDialog.Builder(context);
         mDialog = mBuilder.setViewId(R.layout.dialog_yanqi)
@@ -256,36 +260,36 @@ public class ReleaseSHZAdapter extends RecyclerView.Adapter {
         final RecyclerView timeRecycler = mDialog.getView(R.id.time_recycler);
         timeRecycler.setNestedScrollingEnabled(false);
         timeRecycler.setLayoutManager(new LinearLayoutManager(context));
-         NewbqAdapter  newbqAdapter = new NewbqAdapter(R.layout.yanqi_recycler_item, mlist);
+        NewbqAdapter newbqAdapter = new NewbqAdapter(R.layout.yanqi_recycler_item, mlist);
         timeRecycler.setAdapter(newbqAdapter);
         newbqAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
                 tv_show_num.setText(mlist.get(position));
-               timeRecycler.setVisibility(View.GONE);
+                timeRecycler.setVisibility(View.GONE);
             }
         });
         timeRecycler.setVisibility(View.GONE);
         rl_wdtg.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                    timeRecycler.setVisibility(View.VISIBLE);
+                timeRecycler.setVisibility(View.VISIBLE);
             }
         });
 
         tv_sure.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (TextUtils.isEmpty(edt_cause.getText().toString())){
+                if (TextUtils.isEmpty(edt_cause.getText().toString())) {
                     Toast.makeText(context, "请输入延期原因", Toast.LENGTH_SHORT).show();
                     return;
-                }else if (tv_show_num.getText().toString().equals("请选择延期天数")){
+                } else if (tv_show_num.getText().toString().equals("请选择延期天数")) {
                     Toast.makeText(context, "请选择延期天数", Toast.LENGTH_SHORT).show();
                     return;
                 }
                 new HttpManager<ResponseBean<SuccessBean>>("Home/TaskFaBu/yanqi", this)
                         .addParams("token", MyApplication.getUserToken())
-                        .addParams("id",data.get(position).getId())
+                        .addParams("id", data.get(position).getId())
                         .addParams("yanqi_days", tv_show_num.getText().toString())
                         .addParams("yanqi_reason", edt_cause.getText().toString())
                         .postRequest(new DialogCallback<ResponseBean<SuccessBean>>((Activity) context) {
@@ -299,7 +303,7 @@ public class ReleaseSHZAdapter extends RecyclerView.Adapter {
                             @Override
                             public void onError(Response<ResponseBean<SuccessBean>> response) {
                                 super.onError(response);
-                                Log.d("ReleaseRWZAdapter", response.getException().getMessage()+"--------");
+                                Log.d("ReleaseRWZAdapter", response.getException().getMessage() + "--------");
                             }
                         });
             }
@@ -312,10 +316,12 @@ public class ReleaseSHZAdapter extends RecyclerView.Adapter {
         });
         mDialog.show();
     }
+
     @Override
     public int getItemCount() {
         return data.size();
     }
+
     private class NewbqAdapter extends BaseQuickAdapter<String, BaseViewHolder> {
 
         public NewbqAdapter(int layoutResId, @Nullable List<String> data) {
@@ -324,10 +330,11 @@ public class ReleaseSHZAdapter extends RecyclerView.Adapter {
 
         @Override
         protected void convert(final BaseViewHolder helper, final String item) {
-        helper.setText(R.id.tv_day_nums,item);
+            helper.setText(R.id.tv_day_nums, item);
 
         }
     }
+
     class WJDViewHolder extends RecyclerView.ViewHolder {
 
         TextView title;

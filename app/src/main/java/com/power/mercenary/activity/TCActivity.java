@@ -32,7 +32,6 @@ public class TCActivity extends BaseActivity implements MyZiLiPresenter.Collecti
      *
      */
 
-
     @BindView(R.id.left_back)
     ImageView left_back;
     @BindView(R.id.tv_save)
