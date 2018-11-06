@@ -24,5 +24,8 @@
 
     <color name="tab_text_selected_color">#038eff</color>
     <color name="tab_text_normal_color">#cccccc</color>
+
+    <color name="cyan">#0058EB</color>
+    <color name="light_cyan">#0057EB</color>
 </resources>
 

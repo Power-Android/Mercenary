@@ -141,7 +141,4 @@ dependencies {
 
     implementation 'com.kongzue.baseokhttp:baseokhttp:2.1.2'
 
-
-    compile 'me.leefeng:citypicker:1.0'
-
 }

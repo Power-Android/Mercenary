@@ -1,29 +1,22 @@
 package com.power.mercenary.activity;
 
 import android.Manifest;
-import android.content.ContentResolver;
-import android.content.Context;
-import android.content.CursorLoader;
+import android.app.Dialog;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
-import android.database.Cursor;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
-import android.os.FileUriExposedException;
-import android.preference.PreferenceActivity;
 import android.provider.MediaStore;
 import android.provider.Settings;
 import android.support.annotation.Nullable;
+import android.support.annotation.RequiresApi;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
-import android.util.Base64;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
@@ -34,28 +27,20 @@ import android.widget.Toast;
 
 import com.bigkoo.pickerview.OptionsPickerView;
 import com.bigkoo.pickerview.listener.CustomListener;
-import com.bumptech.glide.Glide;
-import com.facebook.drawee.backends.pipeline.Fresco;
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.google.gson.Gson;
 import com.kongzue.baseokhttp.HttpRequest;
-import com.kongzue.baseokhttp.MultiFileRequest;
 import com.kongzue.baseokhttp.listener.ResponseListener;
 import com.kongzue.baseokhttp.util.Parameter;
+import com.lljjcoder.style.citypickerview.widget.wheel.WheelView;
 import com.lljjcoder.style.citythreelist.CityBean;
-import com.lljjcoder.style.citythreelist.ProvinceActivity;
-import com.luck.picture.lib.PictureSelector;
-import com.luck.picture.lib.compress.Luban;
-import com.luck.picture.lib.config.PictureConfig;
-import com.luck.picture.lib.config.PictureMimeType;
-import com.luck.picture.lib.entity.LocalMedia;
-import com.power.mercenary.IApi.CertificationApi;
 import com.power.mercenary.MainActivity;
 import com.power.mercenary.MyApplication;
 import com.power.mercenary.R;
 import com.power.mercenary.base.BaseActivity;
 import com.power.mercenary.bean.BankNameBean;
 import com.power.mercenary.bean.CertificationBean;
+import com.power.mercenary.bean.GetBankNameBean;
 import com.power.mercenary.bean.GetQmprivnce;
 import com.power.mercenary.bean.MyZiLiBean;
 import com.power.mercenary.bean.UpLoadPicBean;
@@ -66,36 +51,23 @@ import com.power.mercenary.presenter.MyZiLiPresenter;
 import com.power.mercenary.presenter.UpdataPresenter;
 import com.power.mercenary.utils.CompressImageUtils;
 import com.power.mercenary.utils.FileUtilcll;
-import com.power.mercenary.utils.RealPathFromUriUtils;
-import com.power.mercenary.utils.RetrofitManager;
+import com.power.mercenary.utils.OkHttpUtil;
 import com.wevey.selector.dialog.DialogInterface;
 import com.wevey.selector.dialog.NormalSelectionDialog;
 
-import java.io.BufferedOutputStream;
-import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import id.zelory.compressor.Compressor;
-import io.reactivex.Observable;
-import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.annotations.NonNull;
-import io.reactivex.functions.Consumer;
-import io.reactivex.schedulers.Schedulers;
-import me.leefeng.citypicker.CityPicker;
-import me.leefeng.citypicker.CityPickerListener;
+import io.reactivex.internal.operators.maybe.MaybeMap;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.MediaType;
@@ -104,9 +76,6 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
-import retrofit2.http.Url;
-
-import static com.power.mercenary.utils.RealPathFromUriUtils.getRealPathFromUri;
 
 /**
  * Created by Administrator on 2018/3/28.dd
@@ -170,8 +139,10 @@ public class PersonalRZActivity extends BaseActivity implements UpdataPresenter.
     private static final String TAG = "PersonalRZActivity";
     private OptionsPickerView pvCustomOptions;
 
-    private CityPicker cityPicker;
+    //效验字段
+    private boolean isRequest = true;
 
+    private List<String> list;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -230,9 +201,51 @@ public class PersonalRZActivity extends BaseActivity implements UpdataPresenter.
 
                     } else {
 
-                        return;
-
                     }
+
+                    Map<String, String> map = new HashMap<>();
+
+                    OkhtttpUtils.getInstance().doPost("http://yb.dashuibei.com/index.php/Home/Index/get_qmbank", map, new OkhtttpUtils.OkCallback() {
+                        @Override
+                        public void onFailure(Exception e) {
+
+                        }
+
+                        @Override
+                        public void onResponse(String json) {
+
+                            Log.e(TAG, "onResponse: " + json);
+
+                            Gson gson = new Gson();
+
+                            GetBankNameBean getBankNameBean = gson.fromJson(json, GetBankNameBean.class);
+
+                            int code = getBankNameBean.getCode();
+
+                            if (code == 0) {
+
+                                list = new ArrayList<>();
+
+                                //循环出所有的银行的名字
+
+                                List<GetBankNameBean.DataBean> data = getBankNameBean.getData();
+
+                                for (int i = 0; i < data.size(); i++) {
+
+                                    list.add(data.get(i).getBankname());
+
+                                }
+
+                                initPickerViewBank(list);
+
+                            } else {
+
+                                Toast.makeText(PersonalRZActivity.this, getBankNameBean.getMsg(), Toast.LENGTH_SHORT).show();
+
+                            }
+
+                        }
+                    });
 
                 }
 
@@ -246,10 +259,7 @@ public class PersonalRZActivity extends BaseActivity implements UpdataPresenter.
                 //获取焦点的时候请求网络
                 if (b) {
 
-
-                    cityPicker.show();
-
-                   /* final List<String> provinceList = new ArrayList<>();      //省
+                    final List<String> provinceList = new ArrayList<>();      //省
                     final List<List<String>> cityList = new ArrayList<>();    //城市的集合
                     final List<String> childCityList = new ArrayList<>();     //每一个城市
 
@@ -294,13 +304,12 @@ public class PersonalRZActivity extends BaseActivity implements UpdataPresenter.
 
                                 }
 
-                                *//*initPickerView(provinceList, cityList);*//*
+                                initPickerView(provinceList, cityList);
 
                             }
 
                         }
-                    });*/
-
+                    });
 
                 }
 
@@ -312,34 +321,30 @@ public class PersonalRZActivity extends BaseActivity implements UpdataPresenter.
         imgList.clear();
         //Log.e(TAG, "onViewClicked: " + imgList.size());
 
-
-        cityPicker = new CityPicker(PersonalRZActivity.this, new CityPickerListener() {
-            @Override
-            public void getCity(String name) {
-
-                edInOpeningAnAccount.setText(name);
-
-            }
-        });
-
     }
 
-/*    private void initPickerView(final List<String> provinceList, final List<List<String>> cityList) {
+    private void initPickerView(final List<String> provinceList, final List<List<String>> cityList) {
         pvCustomOptions = new OptionsPickerView.Builder(this, new OptionsPickerView.OnOptionsSelectListener() {
             @Override
             public void onOptionsSelect(int options1, int option2, int options3, View v) {
                 //返回的分别是三个级别的选中位置
-                String tx = provinceList.get(options1) +
-                        cityList.get(option2);
+                String tx = provinceList.get(options1) + cityList.get(option2);
 
                 edInOpeningAnAccount.setText(tx);
             }
         })
                 .setLayoutRes(R.layout.city_choice_item, new CustomListener() {
+                    @RequiresApi(api = Build.VERSION_CODES.M)
                     @Override
                     public void customLayout(View v) {
                         final TextView tvSubmit = (TextView) v.findViewById(R.id.tv_finish);
                         final TextView tvCancle = (TextView) v.findViewById(R.id.tv_cancle);
+
+                        final WheelView wheelView = v.findViewById(R.id.options1);
+
+                        int currentItem = wheelView.getCurrentItem();
+
+                        Log.e(TAG, "customLayout: "+currentItem);
 
                         tvSubmit.setOnClickListener(new View.OnClickListener() {
                             @Override
@@ -362,7 +367,6 @@ public class PersonalRZActivity extends BaseActivity implements UpdataPresenter.
                 .setSubmitText("确定")//确定按钮文字
                 .setContentTextSize(20)//设置滚轮文字大小
                 .setLinkage(true)
-
                 .setBgColor(getResources().getColor(R.color.concrete))
                 .setTextColorOut(getResources().getColor(R.color.textColorDrak))
                 .setDividerColor(getResources().getColor(R.color.textColorDrak))
@@ -371,7 +375,56 @@ public class PersonalRZActivity extends BaseActivity implements UpdataPresenter.
         pvCustomOptions.setPicker(provinceList, cityList);//添加数据
         pvCustomOptions.show();
 
-    }*/
+    }
+
+    public void initPickerViewBank(final List<String> bankList) {
+
+        pvCustomOptions = new OptionsPickerView.Builder(this, new OptionsPickerView.OnOptionsSelectListener() {
+            @Override
+            public void onOptionsSelect(int options1, int option2, int options3, View v) {
+                //返回的分别是三个级别的选中位置
+                String tx = bankList.get(options1);
+
+                edtBankOfDeposit.setText(tx);
+            }
+        })
+                .setLayoutRes(R.layout.bank_choice_item_layout, new CustomListener() {
+                    @Override
+                    public void customLayout(View v) {
+                        final TextView tvSubmit = (TextView) v.findViewById(R.id.bank_tv_finish);
+                        final TextView tvCancle = (TextView) v.findViewById(R.id.bank_tv_cancle);
+
+                        tvSubmit.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                pvCustomOptions.returnData();
+                                pvCustomOptions.dismiss();
+                            }
+                        });
+
+                        tvCancle.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                pvCustomOptions.dismiss();
+                            }
+                        });
+                    }
+                })
+                .setSelectOptions(2)//默认选中项
+                .setCancelText("取消")//取消按钮文字
+                .setSubmitText("确定")//确定按钮文字
+                .setContentTextSize(20)//设置滚轮文字大小
+                .setLinkage(true)
+                .setBgColor(getResources().getColor(R.color.concrete))
+                .setTextColorOut(getResources().getColor(R.color.textColorDrak))
+                .setDividerColor(getResources().getColor(R.color.textColorDrak))
+                .setTextColorCenter(getResources().getColor(R.color.black)) //设置选中项文字颜色
+                .build();
+        pvCustomOptions.setPicker(bankList);//添加数据
+        pvCustomOptions.show();
+
+
+    }
 
     @OnClick({R.id.tv_commit, R.id.tv_scz_pz, R.id.img_Id_Card111, R.id.ll_idCard_hand_held, R.id.ll_idCard_reverse_side, R.id.ll_img_Id_Card, R.id.ll_bankCard})
     public void onViewClicked(View view) {
@@ -393,12 +446,10 @@ public class PersonalRZActivity extends BaseActivity implements UpdataPresenter.
 
                 Log.e("tag4", bankOfDeposit);
 
-                boolean isRequest = true;
-
                 //效验姓名
                 if (TextUtils.isEmpty(userName)) {
 
-                    Toast.makeText(PersonalRZActivity.this, "姓名不能为空", Toast.LENGTH_SHORT);
+                    Toast.makeText(PersonalRZActivity.this, "姓名不能为空", Toast.LENGTH_SHORT).show();
                     isRequest = false;
 
                 }
@@ -406,63 +457,63 @@ public class PersonalRZActivity extends BaseActivity implements UpdataPresenter.
                 //效验身份证号
                 if (TextUtils.isEmpty(idCardNumber)) {
 
-                    Toast.makeText(PersonalRZActivity.this, "银行卡号不能为空", Toast.LENGTH_SHORT);
+                    Toast.makeText(PersonalRZActivity.this, "银行卡号不能为空", Toast.LENGTH_SHORT).show();
                     isRequest = false;
                 }
 
                 //效验联系人姓名
                 if (TextUtils.isEmpty(contactPersonName)) {
 
-                    Toast.makeText(PersonalRZActivity.this, "姓名不能为空", Toast.LENGTH_SHORT);
+                    Toast.makeText(PersonalRZActivity.this, "姓名不能为空", Toast.LENGTH_SHORT).show();
                     isRequest = false;
                 }
 
                 //效验联系人手机号
                 if (TextUtils.isEmpty(contactPersonPhone)) {
 
-                    Toast.makeText(PersonalRZActivity.this, "手机号不能为空", Toast.LENGTH_SHORT);
+                    Toast.makeText(PersonalRZActivity.this, "手机号不能为空", Toast.LENGTH_SHORT).show();
                     isRequest = false;
                 }
 
                 //效验银行卡号
                 if (TextUtils.isEmpty(bankcardNumber)) {
 
-                    Toast.makeText(PersonalRZActivity.this, "银行卡号不能为空", Toast.LENGTH_SHORT);
+                    Toast.makeText(PersonalRZActivity.this, "银行卡号不能为空", Toast.LENGTH_SHORT).show();
                     isRequest = false;
                 }
 
                 //效验开户行
                 if (TextUtils.isEmpty(bankOfDeposit)) {
 
-                    Toast.makeText(PersonalRZActivity.this, "银行卡号不能为空", Toast.LENGTH_SHORT);
+                    Toast.makeText(PersonalRZActivity.this, "银行卡号不能为空", Toast.LENGTH_SHORT).show();
                     isRequest = false;
                 }
 
                 //效验联系人手机号
                 if (contactPersonPhone.length() != 11) {
 
-                    Toast.makeText(PersonalRZActivity.this, "手机号必须为11位数字", Toast.LENGTH_SHORT);
+                    Toast.makeText(PersonalRZActivity.this, "手机号必须为11位数字", Toast.LENGTH_SHORT).show();
                     isRequest = false;
                 }
 
                 //效验联系人姓名
                 if (contactPersonName.length() > 20) {
 
-                    Toast.makeText(PersonalRZActivity.this, "姓名不能大于20个汉字", Toast.LENGTH_SHORT);
+                    Toast.makeText(PersonalRZActivity.this, "姓名不能大于20个汉字", Toast.LENGTH_SHORT).show();
                     isRequest = false;
                 }
 
                 //效验银行卡卡号
                 if (bankcardNumber.length() < 16) {
 
-                    Toast.makeText(PersonalRZActivity.this, "卡号不能小于16位数字", Toast.LENGTH_SHORT);
+                    Toast.makeText(PersonalRZActivity.this, "卡号不能小于16位数字", Toast.LENGTH_SHORT).show();
                     isRequest = false;
                 }
 
                 //效验身份证号
                 if (idCardNumber.length() > 18 || idCardNumber.length() < 18) {
 
-                    Toast.makeText(PersonalRZActivity.this, "身份证号必须为18位", Toast.LENGTH_SHORT);
+                    Toast.makeText(PersonalRZActivity.this, "身份证号必须为18位", Toast.LENGTH_SHORT).show();
                     isRequest = false;
                 }
 
@@ -470,7 +521,7 @@ public class PersonalRZActivity extends BaseActivity implements UpdataPresenter.
 
                 //证明图片已经选择完毕
                 //可以开始请求
-                if (imgList.size() == 4 && isRequest == true) {
+                if (isRequest == true) {
 
                     //开始拼接参数 网络请求
                     Map<String, String> map = new HashMap<>();
@@ -970,12 +1021,9 @@ public class PersonalRZActivity extends BaseActivity implements UpdataPresenter.
 
                                             imgList.remove(imgList.size() - 1);
 
-                                            imgList.notifyAll();
-
                                             imgList.add(imgurl);
 
                                             sum = 0;
-
 
                                             isFirst = 0;
 
@@ -996,8 +1044,6 @@ public class PersonalRZActivity extends BaseActivity implements UpdataPresenter.
                                         if (isFirst == 2) {
 
                                             imgList.remove(imgList.size() - 1);
-
-                                            imgList.notifyAll();
 
                                             imgList.add(imgurl);
 
@@ -1022,8 +1068,6 @@ public class PersonalRZActivity extends BaseActivity implements UpdataPresenter.
 
                                             imgList.remove(imgList.size() - 1);
 
-                                            imgList.notifyAll();
-
                                             imgList.add(imgurl);
 
                                             sum = 0;
@@ -1046,8 +1090,6 @@ public class PersonalRZActivity extends BaseActivity implements UpdataPresenter.
                                         if (isFirst == 4) {
 
                                             imgList.remove(imgList.size() - 1);
-
-                                            imgList.notifyAll();
 
                                             imgList.add(imgurl);
 
@@ -1086,15 +1128,6 @@ public class PersonalRZActivity extends BaseActivity implements UpdataPresenter.
             }
         });
 
-    }
-
-    @Override
-    public void onBackPressed() {
-        if (cityPicker.isShow()) {
-            cityPicker.close();
-            return;
-        }
-        super.onBackPressed();
     }
 
 }

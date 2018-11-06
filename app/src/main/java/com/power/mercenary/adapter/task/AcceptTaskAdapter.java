@@ -201,6 +201,40 @@ public class AcceptTaskAdapter extends RecyclerView.Adapter implements SeekBar.O
         tv_all_price.setText((Double.parseDouble(data.get(position).getPay_amount()) - Double.parseDouble(data.get(position).getPay_amount()) * 0.006) + "");
         seekbar.setMax((int) Double.parseDouble(data.get(position).getPay_amount())*100-100);
         seekbar.setProgress((int) Double.parseDouble(data.get(position).getPay_amount())*100);
+
+        seekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
+
+                //修改当进度条改变 有负数的情况
+                int progress = seekBar.getProgress();
+
+                if (progress == 0){
+
+                    seekBar.setProgress(0);
+                }
+
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+                //修改当进度条改变 有负数的情况
+                int progress = seekBar.getProgress();
+
+                if (progress == 0){
+
+                    seekBar.setProgress(0);
+                }
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+
+            }
+        });
+
         seekbar.setOnSeekBarChangeListener(this);
         mDialog.getView(R.id.all_price_tuikuan).setOnClickListener(new View.OnClickListener() {
             @Override
