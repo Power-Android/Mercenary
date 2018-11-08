@@ -22,4 +22,11 @@
         <item>Take the girls tonight</item>
         <item>And sing this sleighing song</item>
     </string-array>
+
+
+    <string name="j_pickerview_cancel">取消</string>
+    <string name="j_pickerview_submit">确定</string>
+
+    <color name="j_wheel_timebtn_nor">#54a3fa</color>
+    <color name="j_wheel_timebtn_pre">#CCCCCC</color>
 </resources>

@@ -1,11 +1,13 @@
 package com.power.mercenary.activity;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
@@ -16,9 +18,13 @@ import android.support.annotation.RequiresApi;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
+import android.text.Editable;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -26,13 +32,13 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bigkoo.pickerview.OptionsPickerView;
+import com.bigkoo.pickerview.lib.WheelView;
 import com.bigkoo.pickerview.listener.CustomListener;
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.google.gson.Gson;
 import com.kongzue.baseokhttp.HttpRequest;
 import com.kongzue.baseokhttp.listener.ResponseListener;
 import com.kongzue.baseokhttp.util.Parameter;
-import com.lljjcoder.style.citypickerview.widget.wheel.WheelView;
 import com.lljjcoder.style.citythreelist.CityBean;
 import com.power.mercenary.MainActivity;
 import com.power.mercenary.MyApplication;
@@ -47,11 +53,14 @@ import com.power.mercenary.bean.UpLoadPicBean;
 import com.power.mercenary.bean.user.UserImgInfo;
 import com.power.mercenary.http.OkhtttpUtils;
 import com.power.mercenary.http.ResponseBean;
+import com.power.mercenary.pickerview.CharacterPickerWindow;
+import com.power.mercenary.pickerview.OnOptionChangedListener;
 import com.power.mercenary.presenter.MyZiLiPresenter;
 import com.power.mercenary.presenter.UpdataPresenter;
 import com.power.mercenary.utils.CompressImageUtils;
 import com.power.mercenary.utils.FileUtilcll;
 import com.power.mercenary.utils.OkHttpUtil;
+import com.power.mercenary.utils.Utils;
 import com.wevey.selector.dialog.DialogInterface;
 import com.wevey.selector.dialog.NormalSelectionDialog;
 
@@ -144,6 +153,11 @@ public class PersonalRZActivity extends BaseActivity implements UpdataPresenter.
 
     private List<String> list;
 
+    final List<String> provinceList = new ArrayList<>();      //省
+    final List<List<String>> cityList = new ArrayList<>();    //城市的集合
+
+    private GetQmprivnce getQmprivnce;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -168,40 +182,6 @@ public class PersonalRZActivity extends BaseActivity implements UpdataPresenter.
             public void onFocusChange(View view, boolean b) {
 
                 if (b) {
-
-                    String bankNumber = edtBankcardNumber.getText().toString().trim();
-
-                    if (bankNumber != "" && bankNumber.length() >= 17) {
-
-                        HttpRequest.POST(PersonalRZActivity.this, "http://yb.dashuibei.com/index.php/Home/Index/get_bankname", new Parameter()
-                                        .add("cardNo", bankNumber)
-
-                                , new ResponseListener() {
-                                    @Override
-                                    public void onResponse(String response, Exception error) {
-
-                                        if (error == null) {
-
-                                            String s = response.toString();
-
-                                            Gson gson = new Gson();
-
-                                            BankNameBean bankNameBean = gson.fromJson(s, BankNameBean.class);
-
-                                            edtBankOfDeposit.setText(bankNameBean.getData().getBankname());
-
-                                        } else {
-
-                                            Toast.makeText(PersonalRZActivity.this, "失败", Toast.LENGTH_SHORT).show();
-
-                                        }
-
-                                    }
-                                });
-
-                    } else {
-
-                    }
 
                     Map<String, String> map = new HashMap<>();
 
@@ -259,57 +239,26 @@ public class PersonalRZActivity extends BaseActivity implements UpdataPresenter.
                 //获取焦点的时候请求网络
                 if (b) {
 
-                    final List<String> provinceList = new ArrayList<>();      //省
-                    final List<List<String>> cityList = new ArrayList<>();    //城市的集合
-                    final List<String> childCityList = new ArrayList<>();     //每一个城市
+                    //选项选择器
+                    CharacterPickerWindow mOptions = new CharacterPickerWindow(PersonalRZActivity.this);
 
-                    Map<String, String> map = new HashMap<>();
+                    //初始化选项数据
+                    mOptions.setPicker(provinceList,cityList);
 
-                    OkhtttpUtils.getInstance().doPost("http://yb.dashuibei.com/index.php/Home/Index/get_qmprivnce", map, new OkhtttpUtils.OkCallback() {
+                    //监听确定选择按钮
+                    mOptions.setOnoptionsSelectListener(new OnOptionChangedListener() {
                         @Override
-                        public void onFailure(Exception e) {
+                        public void onOptionChanged(int options1, int option2, int options3) {
+                            // TODO 处理选择结果
 
-                        }
+                            edInOpeningAnAccount.setText(provinceList.get(options1)+cityList.get(options1).get(option2));
 
-                        @Override
-                        public void onResponse(String json) {
-
-                            Gson gson = new Gson();
-
-                            GetQmprivnce getQmprivnce = gson.fromJson(json, GetQmprivnce.class);
-
-                            int code = getQmprivnce.getCode();
-
-                            if (code == 0) {
-
-                                List<GetQmprivnce.DataBean> data = getQmprivnce.getData();
-
-                                //因为找寻找省下 所有的市 所以需要循环 取出省 市
-
-                                for (int i = 0; i < data.size(); i++) {
-                                    //循环得到每一个省
-                                    provinceList.add(data.get(i).getProvince());
-
-                                    //得到市的集合 循环
-                                    List<GetQmprivnce.DataBean.CityBean> city = data.get(i).getCity();
-
-                                    for (int j = 0; j < city.size(); j++) {
-
-                                        //遍历省下的每一个市 放入集合
-                                        childCityList.add(city.get(j).getCity());
-
-                                    }
-
-                                    cityList.add(childCityList);
-
-                                }
-
-                                initPickerView(provinceList, cityList);
-
-                            }
-
+                            setBackgroundAlpha(1.0f);
                         }
                     });
+                    mOptions.showAtLocation(view, Gravity.BOTTOM, 0, 0);
+
+                    setBackgroundAlpha(0.8f);
 
                 }
 
@@ -319,61 +268,108 @@ public class PersonalRZActivity extends BaseActivity implements UpdataPresenter.
         //每次点击按钮时,把上一次存放进集合的数据清空
         imgList = new ArrayList<>();
         imgList.clear();
-        //Log.e(TAG, "onViewClicked: " + imgList.size());
 
-    }
+        //把省市联动的数据写在外面 点击再去加载数据会造成卡顿
 
-    private void initPickerView(final List<String> provinceList, final List<List<String>> cityList) {
-        pvCustomOptions = new OptionsPickerView.Builder(this, new OptionsPickerView.OnOptionsSelectListener() {
+        Map<String, String> map = new HashMap<>();
+
+        OkhtttpUtils.getInstance().doPost("http://yb.dashuibei.com/index.php/Home/Index/get_qmprivnce", map, new OkhtttpUtils.OkCallback() {
+
             @Override
-            public void onOptionsSelect(int options1, int option2, int options3, View v) {
-                //返回的分别是三个级别的选中位置
-                String tx = provinceList.get(options1) + cityList.get(option2);
+            public void onFailure(Exception e) {
 
-                edInOpeningAnAccount.setText(tx);
             }
-        })
-                .setLayoutRes(R.layout.city_choice_item, new CustomListener() {
-                    @RequiresApi(api = Build.VERSION_CODES.M)
-                    @Override
-                    public void customLayout(View v) {
-                        final TextView tvSubmit = (TextView) v.findViewById(R.id.tv_finish);
-                        final TextView tvCancle = (TextView) v.findViewById(R.id.tv_cancle);
 
-                        final WheelView wheelView = v.findViewById(R.id.options1);
+            @Override
+            public void onResponse(String json) {
 
-                        int currentItem = wheelView.getCurrentItem();
+                Gson gson = new Gson();
 
-                        Log.e(TAG, "customLayout: "+currentItem);
+                getQmprivnce = gson.fromJson(json, GetQmprivnce.class);
 
-                        tvSubmit.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                pvCustomOptions.returnData();
-                                pvCustomOptions.dismiss();
-                            }
-                        });
+                int code = getQmprivnce.getCode();
 
-                        tvCancle.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                pvCustomOptions.dismiss();
-                            }
-                        });
+                if (code == 0) {
+
+                    List<GetQmprivnce.DataBean> data = getQmprivnce.getData();
+
+                    //因为寻找省下 所有的市 所以需要循环 取出省 市
+                    for (int i = 0; i < data.size(); i++) {
+                        //循环得到每一个省
+                        provinceList.add(data.get(i).getProvince());
+
+                        //Log.e(TAG, "onResponse   省: "+ data.get(i).getProvince());
+
+                        //得到市的集合 循环
+                        List<GetQmprivnce.DataBean.CityBean> city = data.get(i).getCity();
+                        List<String> childList = new ArrayList<>();
+                        for (int j = 0; j < city.size(); j++) {
+
+                            //遍历省下的每一个市 放入集合 看看可以吗
+                            childList.add(city.get(j).getCity());
+
+                            //Log.e(TAG, "onResponse   市: "+ city.get(j).getCity());
+
+                        }
+
+                        cityList.add(childList);
+
                     }
-                })
-                .setSelectOptions(2)//默认选中项
-                .setCancelText("取消")//取消按钮文字
-                .setSubmitText("确定")//确定按钮文字
-                .setContentTextSize(20)//设置滚轮文字大小
-                .setLinkage(true)
-                .setBgColor(getResources().getColor(R.color.concrete))
-                .setTextColorOut(getResources().getColor(R.color.textColorDrak))
-                .setDividerColor(getResources().getColor(R.color.textColorDrak))
-                .setTextColorCenter(getResources().getColor(R.color.black)) //设置选中项文字颜色
-                .build();
-        pvCustomOptions.setPicker(provinceList, cityList);//添加数据
-        pvCustomOptions.show();
+
+                }
+
+            }
+        });
+
+        //监听银行卡号的EdText 请求网络
+        edtBankcardNumber.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+                String bankNumber = edtBankcardNumber.getText().toString().trim();
+
+                if (bankNumber.length() == 19){
+
+                    HttpRequest.POST(PersonalRZActivity.this, "http://yb.dashuibei.com/index.php/Home/Index/get_bankname", new Parameter()
+                                    .add("cardNo", bankNumber)
+
+                            , new ResponseListener() {
+                                @Override
+                                public void onResponse(String response, Exception error) {
+
+                                    if (error == null) {
+
+                                        String s = response.toString();
+
+                                        Gson gson = new Gson();
+
+                                        BankNameBean bankNameBean = gson.fromJson(s, BankNameBean.class);
+
+                                        edtBankOfDeposit.setText(bankNameBean.getData().getBankname());
+
+                                    } else {
+
+                                        Toast.makeText(PersonalRZActivity.this, "失败", Toast.LENGTH_SHORT).show();
+
+                                    }
+
+                                }
+                            });
+
+                }
+
+            }
+        });
 
     }
 
@@ -410,11 +406,10 @@ public class PersonalRZActivity extends BaseActivity implements UpdataPresenter.
                         });
                     }
                 })
-                .setSelectOptions(2)//默认选中项
+                .setSelectOptions(0)//默认选中项
                 .setCancelText("取消")//取消按钮文字
                 .setSubmitText("确定")//确定按钮文字
                 .setContentTextSize(20)//设置滚轮文字大小
-                .setLinkage(true)
                 .setBgColor(getResources().getColor(R.color.concrete))
                 .setTextColorOut(getResources().getColor(R.color.textColorDrak))
                 .setDividerColor(getResources().getColor(R.color.textColorDrak))
@@ -422,7 +417,6 @@ public class PersonalRZActivity extends BaseActivity implements UpdataPresenter.
                 .build();
         pvCustomOptions.setPicker(bankList);//添加数据
         pvCustomOptions.show();
-
 
     }
 
@@ -1128,6 +1122,13 @@ public class PersonalRZActivity extends BaseActivity implements UpdataPresenter.
             }
         });
 
+    }
+
+    private void setBackgroundAlpha(float bgAlpha) {
+        WindowManager.LayoutParams layoutParams = PersonalRZActivity.this.getWindow().getAttributes();
+        layoutParams.alpha = bgAlpha;
+        PersonalRZActivity.this.getWindow().addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
+        PersonalRZActivity.this.getWindow().setAttributes(layoutParams);
     }
 
 }

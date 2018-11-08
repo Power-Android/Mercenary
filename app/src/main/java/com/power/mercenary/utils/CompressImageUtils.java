@@ -3,7 +3,6 @@ package com.power.mercenary.utils;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
-import android.os.Environment;
 
 import java.io.ByteArrayOutputStream;
 
