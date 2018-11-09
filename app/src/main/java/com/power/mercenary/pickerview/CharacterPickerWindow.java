@@ -6,9 +6,11 @@ import android.graphics.drawable.BitmapDrawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.PopupWindow;
 
 import com.power.mercenary.R;
+import com.power.mercenary.activity.PersonalRZActivity;
 
 import java.util.List;
 
@@ -22,6 +24,8 @@ public class CharacterPickerWindow extends PopupWindow implements View.OnClickLi
     private OnOptionChangedListener optionsSelectListener;
     private static final String TAG_SUBMIT = "submit";
     private static final String TAG_CANCEL = "cancel";
+    private String tag;
+    private int[] optionsCurrentItems;
 
     public CharacterPickerWindow(Context context) {
         super(context);
@@ -131,18 +135,22 @@ public class CharacterPickerWindow extends PopupWindow implements View.OnClickLi
 
     @Override
     public void onClick(View v) {
-        String tag = (String) v.getTag();
+        tag = (String) v.getTag();
         if (!tag.equals(TAG_CANCEL)) {
             if (optionsSelectListener != null) {
-                int[] optionsCurrentItems = pickerView.getCurrentPositions();
+                optionsCurrentItems = pickerView.getCurrentPositions();
                 optionsSelectListener.onOptionChanged(optionsCurrentItems[0], optionsCurrentItems[1], optionsCurrentItems[2]);
             }
+
         }
         dismiss();
+
     }
 
     public void setOnoptionsSelectListener(
             OnOptionChangedListener optionsSelectListener) {
         this.optionsSelectListener = optionsSelectListener;
     }
+
+
 }

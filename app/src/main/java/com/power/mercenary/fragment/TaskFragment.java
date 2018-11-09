@@ -53,7 +53,6 @@ public class TaskFragment extends BaseFragment implements CollectionPresenter.Co
     @BindView(R.id.mRecycler)
     WanRecyclerView mRecycler;
 
-
     ArrayList<String> mList=new ArrayList<>();
     private CollectionPresenter presenter;
     private List<CollectionBean> mData = new ArrayList<>();
@@ -213,7 +212,6 @@ public class TaskFragment extends BaseFragment implements CollectionPresenter.Co
     protected void initLazyData() {
 
     }
-
 
     @Override
     public void getCollectionTask(List<CollectionBean> response) {

@@ -28,7 +28,6 @@ import com.power.mercenary.activity.PersonalDataActivity;
 import com.power.mercenary.activity.SignInActivity;
 import com.power.mercenary.activity.WebActivity;
 import com.power.mercenary.activity.chat.ChatActivity;
-import com.power.mercenary.activity.details_intask_publish.GRPublishInTaskActivity;
 import com.power.mercenary.adapter.task.DetailsMsgAdapter;
 import com.power.mercenary.adapter.task.DetailsPeopleAdapter;
 import com.power.mercenary.base.BaseActivity;

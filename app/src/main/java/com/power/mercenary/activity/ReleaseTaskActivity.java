@@ -10,9 +10,6 @@ import android.widget.TextView;
 
 import com.power.mercenary.R;
 import com.power.mercenary.adapter.MyAdapter;
-import com.power.mercenary.adapter.ReleaseRWZAdapter;
-import com.power.mercenary.adapter.ReleaseSHZAdapter;
-import com.power.mercenary.adapter.ReleaseWJDAdapter;
 import com.power.mercenary.base.BaseActivity;
 import com.power.mercenary.base.BaseFragment;
 import com.power.mercenary.fragment.ReleaseDPJFragment;

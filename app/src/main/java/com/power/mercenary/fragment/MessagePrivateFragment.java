@@ -6,27 +6,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.bumptech.glide.Glide;
-import com.lzy.okgo.model.Response;
 import com.power.mercenary.MyApplication;
 import com.power.mercenary.R;
 import com.power.mercenary.activity.chat.ChatActivity;
 import com.power.mercenary.adapter.message.MessagePrivateAdapter;
 import com.power.mercenary.base.BaseFragment;
 import com.power.mercenary.bean.MsgPrivateBean;
-import com.power.mercenary.bean.PersonalBean;
-import com.power.mercenary.bean.user.UserInfo;
-import com.power.mercenary.data.CacheConstants;
 import com.power.mercenary.data.EventConstants;
 import com.power.mercenary.event.EventUtils;
-import com.power.mercenary.http.DialogCallback;
-import com.power.mercenary.http.HttpManager;
-import com.power.mercenary.http.JsonCallback;
-import com.power.mercenary.http.ResponseBean;
 import com.power.mercenary.presenter.MessagePresenter;
-import com.power.mercenary.utils.CacheUtils;
-import com.power.mercenary.utils.TUtils;
-import com.power.mercenary.utils.Urls;
 import com.power.mercenary.view.pullrecyclerview.WanRecyclerView;
 
 import org.greenrobot.eventbus.EventBus;
@@ -35,10 +23,6 @@ import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import io.rong.imlib.model.Message;
-import io.rong.imlib.model.MessageContent;
-import io.rong.message.TextMessage;
 
 /**
  * admin  2018/7/23 wan

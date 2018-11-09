@@ -45,7 +45,6 @@ import com.power.mercenary.utils.MercenaryUtils;
 import com.power.mercenary.utils.MyUtils;
 import com.power.mercenary.utils.TUtils;
 import com.power.mercenary.utils.Urls;
-import com.power.mercenary.view.BaseDialog;
 import com.power.mercenary.view.CircleImageView;
 import com.power.mercenary.view.MaxHeightRecyclerView;
 import com.power.mercenary.view.SharingPop;

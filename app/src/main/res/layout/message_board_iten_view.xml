@@ -1,21 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:layout_width="match_parent"
-              android:orientation="vertical"
-              android:background="@color/white"
-              android:layout_height="wrap_content">
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white"
+    android:orientation="vertical">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="10dp"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:padding="10dp">
 
         <com.power.mercenary.view.CircleImageView
             android:id="@+id/item_msgDetails_view_icon"
             android:layout_width="43dp"
             android:layout_height="43dp"
-            android:background="@drawable/moren_2x"/>
+            android:background="@drawable/moren_2x" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -27,23 +27,23 @@
                 android:id="@+id/item_msgDetails_view_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="12sp"/>
+                android:textSize="12sp" />
 
             <TextView
                 android:id="@+id/item_msgDetails_view_time"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="1分钟前"
                 android:layout_marginTop="5dp"
+                android:text="1分钟前"
                 android:textColor="#999"
-                android:textSize="12sp"/>
+                android:textSize="12sp" />
 
             <TextView
                 android:id="@+id/item_msgDetails_view_content"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:textSize="12sp"/>
+                android:textSize="12sp" />
 
         </LinearLayout>
 
@@ -53,6 +53,6 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="@color/bg_color"/>
+        android:background="@color/bg_color" />
 
 </LinearLayout>

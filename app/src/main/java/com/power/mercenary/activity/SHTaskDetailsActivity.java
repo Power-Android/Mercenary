@@ -1,14 +1,12 @@
 package com.power.mercenary.activity;
 
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.NestedScrollView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
-import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.EditText;
@@ -45,7 +43,6 @@ import com.power.mercenary.utils.MercenaryUtils;
 import com.power.mercenary.utils.MyUtils;
 import com.power.mercenary.utils.TUtils;
 import com.power.mercenary.utils.Urls;
-import com.power.mercenary.view.BaseDialog;
 import com.power.mercenary.view.CircleImageView;
 import com.power.mercenary.view.MaxHeightRecyclerView;
 import com.power.mercenary.view.SharingPop;

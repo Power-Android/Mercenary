@@ -1,11 +1,8 @@
 package com.power.mercenary.fragment;
 
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,13 +10,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.liaoinstan.springview.container.DefaultFooter;
-import com.liaoinstan.springview.container.DefaultHeader;
-import com.liaoinstan.springview.widget.SpringView;
 import com.power.mercenary.R;
-import com.power.mercenary.adapter.MsgAdapter;
-import com.power.mercenary.adapter.MyFollowAdapter;
-import com.power.mercenary.adapter.SiliaoAdapter;
 import com.power.mercenary.adapter.frag.FragmentVPagerAdapter;
 import com.power.mercenary.base.BaseFragment;
 

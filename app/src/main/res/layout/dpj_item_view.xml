@@ -79,11 +79,6 @@
                 android:background="@drawable/shape_hk_jx"
                 android:text="评价"/>
 
-
         </RelativeLayout>
-
-
-
-
 
 </LinearLayout>

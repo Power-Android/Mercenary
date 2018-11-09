@@ -8,7 +8,6 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 
@@ -17,10 +16,7 @@ import com.chad.library.adapter.base.BaseViewHolder;
 import com.liaoinstan.springview.container.DefaultFooter;
 import com.liaoinstan.springview.widget.SpringView;
 import com.power.mercenary.R;
-import com.power.mercenary.adapter.DXRAdapter;
-import com.power.mercenary.adapter.MessageBoardAdapter;
 import com.power.mercenary.adapter.TaskImageAdapter;
-import com.power.mercenary.adapter.YBMRAdapter;
 import com.power.mercenary.base.BaseActivity;
 import com.power.mercenary.view.SharingPop;
 

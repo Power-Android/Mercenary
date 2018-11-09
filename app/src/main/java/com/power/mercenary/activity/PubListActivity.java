@@ -1,6 +1,5 @@
 package com.power.mercenary.activity;
 
-import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -17,7 +16,6 @@ import com.chad.library.adapter.base.BaseViewHolder;
 import com.power.mercenary.R;
 import com.power.mercenary.base.BaseActivity;
 import com.power.mercenary.bean.OneCheckBean;
-import com.power.mercenary.fragment.HomeFragment;
 import com.power.mercenary.view.CommonPopupWindow;
 
 import java.util.ArrayList;

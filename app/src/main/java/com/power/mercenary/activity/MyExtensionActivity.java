@@ -1,17 +1,13 @@
 package com.power.mercenary.activity;
 
-import android.content.Context;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
@@ -20,7 +16,6 @@ import android.widget.TextView;
 import com.power.mercenary.MyApplication;
 import com.power.mercenary.R;
 import com.power.mercenary.base.BaseActivity;
-import com.power.mercenary.dialog.ShareDialog;
 import com.power.mercenary.dialog.ShareDialog1;
 import com.power.mercenary.view.SharingPop;
 

@@ -1,20 +1,15 @@
 package com.power.mercenary.activity;
 
 import android.Manifest;
-import android.annotation.SuppressLint;
-import android.app.Dialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.net.Uri;
-import android.os.AsyncTask;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.provider.Settings;
 import android.support.annotation.Nullable;
-import android.support.annotation.RequiresApi;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
@@ -28,18 +23,17 @@ import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bigkoo.pickerview.OptionsPickerView;
-import com.bigkoo.pickerview.lib.WheelView;
 import com.bigkoo.pickerview.listener.CustomListener;
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.google.gson.Gson;
 import com.kongzue.baseokhttp.HttpRequest;
 import com.kongzue.baseokhttp.listener.ResponseListener;
 import com.kongzue.baseokhttp.util.Parameter;
-import com.lljjcoder.style.citythreelist.CityBean;
 import com.power.mercenary.MainActivity;
 import com.power.mercenary.MyApplication;
 import com.power.mercenary.R;
@@ -59,8 +53,6 @@ import com.power.mercenary.presenter.MyZiLiPresenter;
 import com.power.mercenary.presenter.UpdataPresenter;
 import com.power.mercenary.utils.CompressImageUtils;
 import com.power.mercenary.utils.FileUtilcll;
-import com.power.mercenary.utils.OkHttpUtil;
-import com.power.mercenary.utils.Utils;
 import com.wevey.selector.dialog.DialogInterface;
 import com.wevey.selector.dialog.NormalSelectionDialog;
 
@@ -76,7 +68,6 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import io.reactivex.annotations.NonNull;
-import io.reactivex.internal.operators.maybe.MaybeMap;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.MediaType;
@@ -138,9 +129,6 @@ public class PersonalRZActivity extends BaseActivity implements UpdataPresenter.
     private String path = Environment.getExternalStorageDirectory() + "/HeadPortrait" + (num++) + ".jpg";
     private int sum = 0;
     private List<String> imgList;
-    private CityBean province;
-    private CityBean city;
-    private CityBean area;
     private String path4 = "";
     private String path3 = "";
     private String path2 = "";
@@ -236,14 +224,16 @@ public class PersonalRZActivity extends BaseActivity implements UpdataPresenter.
             @Override
             public void onFocusChange(View view, boolean b) {
 
-                //获取焦点的时候请求网络
-                if (b) {
+
+                if (b) {        //获取焦点的时候请求网络
 
                     //选项选择器
-                    CharacterPickerWindow mOptions = new CharacterPickerWindow(PersonalRZActivity.this);
+                    final CharacterPickerWindow mOptions = new CharacterPickerWindow(PersonalRZActivity.this);
 
                     //初始化选项数据
-                    mOptions.setPicker(provinceList,cityList);
+                    mOptions.setPicker(provinceList, cityList);
+
+                    mOptions.setMaxTextSize(16);
 
                     //监听确定选择按钮
                     mOptions.setOnoptionsSelectListener(new OnOptionChangedListener() {
@@ -251,7 +241,7 @@ public class PersonalRZActivity extends BaseActivity implements UpdataPresenter.
                         public void onOptionChanged(int options1, int option2, int options3) {
                             // TODO 处理选择结果
 
-                            edInOpeningAnAccount.setText(provinceList.get(options1)+cityList.get(options1).get(option2));
+                            edInOpeningAnAccount.setText(provinceList.get(options1) + cityList.get(options1).get(option2));
 
                             setBackgroundAlpha(1.0f);
                         }
@@ -259,6 +249,17 @@ public class PersonalRZActivity extends BaseActivity implements UpdataPresenter.
                     mOptions.showAtLocation(view, Gravity.BOTTOM, 0, 0);
 
                     setBackgroundAlpha(0.8f);
+
+                    mOptions.setOnDismissListener(new PopupWindow.OnDismissListener() {
+                        @Override
+                        public void onDismiss() {
+
+                            mOptions.dismiss();
+
+                            setBackgroundAlpha(1.0f);
+
+                        }
+                    });
 
                 }
 
@@ -338,7 +339,7 @@ public class PersonalRZActivity extends BaseActivity implements UpdataPresenter.
 
                 String bankNumber = edtBankcardNumber.getText().toString().trim();
 
-                if (bankNumber.length() == 19){
+                if (bankNumber.length() == 19) {
 
                     HttpRequest.POST(PersonalRZActivity.this, "http://yb.dashuibei.com/index.php/Home/Index/get_bankname", new Parameter()
                                     .add("cardNo", bankNumber)
@@ -436,6 +437,7 @@ public class PersonalRZActivity extends BaseActivity implements UpdataPresenter.
                 String contactPersonPhone = edtContactPersonPhone.getText().toString().trim();
                 String bankcardNumber = edtBankcardNumber.getText().toString().trim();
                 String bankOfDeposit = edtBankOfDeposit.getText().toString().trim();
+                //*******inOpeningAnAccount  开户地区字段不能.trim();(去空) 因为是以 空格分割的字符串
                 String inOpeningAnAccount = edInOpeningAnAccount.getText().toString();
 
                 Log.e("tag4", bankOfDeposit);
@@ -511,33 +513,37 @@ public class PersonalRZActivity extends BaseActivity implements UpdataPresenter.
                     isRequest = false;
                 }
 
-                Log.e(TAG, "onViewClicked: " + imgList.size() + "    " + isRequest);
+                //Log.e(TAG, "onViewClicked: " + imgList.size() + "    " + isRequest);
 
                 //证明图片已经选择完毕
                 //可以开始请求
                 if (isRequest == true) {
 
-                    //开始拼接参数 网络请求
-                    Map<String, String> map = new HashMap<>();
+                    if (imgList.size() >= 4) {
 
-                    map.put("token", userToken);
-                    map.put("name", userName);
-                    map.put("id_card", idCardNumber);
-                    //Log.e("tag身份证号", idCardNumber);
-                    map.put("lianxi_name", contactPersonName);
-                    map.put("lianxi_mobile", contactPersonPhone);
-                    map.put("yh_card", bankcardNumber);
-                    map.put("yh_name", userName);
-                    map.put("yh_khh", bankOfDeposit);
-                    String[] split = inOpeningAnAccount.split("\\s");
-                    map.put("province", split[0]);
-                    map.put("city", split[1]);
-                    map.put("identity_front", imgList.get(0));
-                    map.put("identity_behind", imgList.get(1));
-                    map.put("shouchi_img", imgList.get(2));
-                    map.put("yh_img", imgList.get(3));
+                        //开始拼接参数 网络请求
+                        Map<String, String> map = new HashMap<>();
 
-                    //Log.e(TAG, "onViewClicked  token: " + userToken);
+                        map.put("token", userToken);
+                        map.put("name", userName);
+                        map.put("id_card", idCardNumber);
+                        //Log.e("tag身份证号", idCardNumber);
+                        map.put("lianxi_name", contactPersonName);
+                        map.put("lianxi_mobile", contactPersonPhone);
+                        map.put("yh_card", bankcardNumber);
+                        map.put("yh_name", userName);
+                        map.put("yh_khh", bankOfDeposit);
+                        String[] split = inOpeningAnAccount.split("\\s");       //以空格分割字符串
+                        map.put("province", split[0]);
+                        map.put("city", split[1]);
+                        map.put("identity_front", imgList.get(0));
+                        map.put("identity_behind", imgList.get(1));
+                        map.put("shouchi_img", imgList.get(2));
+                        map.put("yh_img", imgList.get(3));
+
+                        //Log.e(TAG, "onViewClicked  imgList: " + imgList.size());
+
+                        //Log.e(TAG, "onViewClicked  token: " + userToken);
                    /* Log.e(TAG, "onViewClicked: "+ userName);
                     Log.e(TAG, "onViewClicked: "+ idCardNumber);
                     Log.e(TAG, "onViewClicked: "+ contactPersonName);
@@ -547,7 +553,7 @@ public class PersonalRZActivity extends BaseActivity implements UpdataPresenter.
                     Log.e(TAG, "onViewClicked: "+ bankOfDeposit);
                     Log.e(TAG, "onViewClicked: "+ province.getName());
                     Log.e(TAG, "onViewClicked: "+ city.getName());*/
-                    Log.e(TAG, "onViewClicked  token: " + userToken);
+/*                  Log.e(TAG, "onViewClicked  token: " + userToken);
                     Log.e(TAG, "onViewClicked  名字           name: " + userName);
                     Log.e(TAG, "onViewClicked  身份证号       id_card: " + idCardNumber);
                     Log.e(TAG, "onViewClicked  联系人名字     lianxi_name: " + contactPersonName);
@@ -560,46 +566,54 @@ public class PersonalRZActivity extends BaseActivity implements UpdataPresenter.
                     Log.e(TAG, "onViewClicked   身份证正面      identity_front: " + imgList.get(0));
                     Log.e(TAG, "onViewClicked: 身份证反面       identity_behind:" + imgList.get(1));
                     Log.e(TAG, "onViewClicked:  银行卡照片      shouchi_img:" + imgList.get(2));
-                    Log.e(TAG, "onViewClicked:  手持银行卡照片   yh_img:" + imgList.get(3));
+                    Log.e(TAG, "onViewClicked:  手持银行卡照片   yh_img:" + imgList.get(3));*/
 
-                    OkhtttpUtils.getInstance().doPost("http://yb.dashuibei.com/index.php/Home/QmUser/new_register", map, new OkhtttpUtils.OkCallback() {
-                        @Override
-                        public void onFailure(Exception e) {
+                        OkhtttpUtils.getInstance().doPost("http://yb.dashuibei.com/index.php/Home/QmUser/new_register", map, new OkhtttpUtils.OkCallback() {
+                            @Override
+                            public void onFailure(Exception e) {
 
-                            //Toast.makeText(PersonalRZActivity.this,  e.getMessage(), Toast.LENGTH_SHORT).show();
-
-                        }
-
-                        @Override
-                        public void onResponse(String json) {
-
-                            // Toast.makeText(PersonalRZActivity.this, "正在上传...", Toast.LENGTH_SHORT).show();
-
-                            Gson gson = new Gson();
-                            Log.e("tag1", json);
-                            CertificationBean certificationBean = gson.fromJson(json, CertificationBean.class);
-
-                            Log.e("tag2", certificationBean.getCode() + "");
-
-                            if ("0".equals(certificationBean.getCode())) {
-
-                                //Toast.makeText(PersonalRZActivity.this, "成功了", Toast.LENGTH_SHORT).show();
-
-                                //认证完成 跳转页面
-                                Intent intent = new Intent(PersonalRZActivity.this, MainActivity.class);
-
-                                startActivity(intent);
-
-                            } else {
-
-                                //Toast.makeText(PersonalRZActivity.this, certificationBean.getMessage().getResult().getMessage(), Toast.LENGTH_SHORT).show();
+                                //Toast.makeText(PersonalRZActivity.this,  e.getMessage(), Toast.LENGTH_SHORT).show();
 
                             }
 
-                        }
-                    });
+                            @Override
+                            public void onResponse(String json) {
+
+                                Gson gson = new Gson();
+                                Log.e("tag1", json);
+                                CertificationBean certificationBean = gson.fromJson(json, CertificationBean.class);
+
+                                int code = certificationBean.getCode();
+
+                                if (code == 0) {
+
+                                    Toast.makeText(PersonalRZActivity.this, "即将跳转......", Toast.LENGTH_SHORT).show();
+
+                                    //认证完成 跳转页面
+                                    Intent intent = new Intent(PersonalRZActivity.this, MainActivity.class);
+
+                                    startActivity(intent);
+
+                                } else {
+
+                                    Toast.makeText(PersonalRZActivity.this, certificationBean.getMessage().getResult().getMessage(), Toast.LENGTH_SHORT).show();
+
+                                }
+
+                            }
+                        });
+
+                    } else {
+
+                        //Toast.makeText(PersonalRZActivity.this, "请检查您的个人信息是否有误", Toast.LENGTH_SHORT).show();
+
+                    }
 
                 } else {
+
+                    Log.e(TAG, "onViewClicked: " + imgList.size() + "    " + isRequest);
+
+                    Toast.makeText(PersonalRZActivity.this, "请上传照片", Toast.LENGTH_SHORT).show();
 
                 }
 
@@ -912,8 +926,8 @@ public class PersonalRZActivity extends BaseActivity implements UpdataPresenter.
 
     }
 
-    //当用户第一次不同意权限时 第二次系统将不再有提示框 需要我们手写提示框
-    public void startAlertDiaLog() {
+
+    public void startAlertDiaLog() {    //当用户第一次不同意权限时 第二次系统将不再有提示框 需要我们手写提示框
 
         AlertDialog.Builder alert = new AlertDialog.Builder(PersonalRZActivity.this);
 
@@ -943,8 +957,8 @@ public class PersonalRZActivity extends BaseActivity implements UpdataPresenter.
 
     }
 
-    //打开设置 让用户自己打开权限
-    public void startSetting() {
+
+    public void startSetting() {        //打开设置 让用户自己打开权限
 
         Intent intent = new Intent();
 
@@ -1028,7 +1042,7 @@ public class PersonalRZActivity extends BaseActivity implements UpdataPresenter.
                                             imgList.add(imgurl);
 
                                             sum = 0;
-                                            imgurl = "";
+
 
                                         }
 
@@ -1052,7 +1066,6 @@ public class PersonalRZActivity extends BaseActivity implements UpdataPresenter.
                                             imgList.add(imgurl);
 
                                             sum = 0;
-                                            imgurl = "";
 
                                         }
                                     }
@@ -1075,7 +1088,6 @@ public class PersonalRZActivity extends BaseActivity implements UpdataPresenter.
                                             imgList.add(imgurl);
 
                                             sum = 0;
-                                            imgurl = "";
 
                                         }
                                     }
@@ -1098,7 +1110,6 @@ public class PersonalRZActivity extends BaseActivity implements UpdataPresenter.
                                             imgList.add(imgurl);
 
                                             sum = 0;
-                                            imgurl = "";
 
                                         }
                                     }
@@ -1124,7 +1135,7 @@ public class PersonalRZActivity extends BaseActivity implements UpdataPresenter.
 
     }
 
-    private void setBackgroundAlpha(float bgAlpha) {
+    public void setBackgroundAlpha(float bgAlpha) {
         WindowManager.LayoutParams layoutParams = PersonalRZActivity.this.getWindow().getAttributes();
         layoutParams.alpha = bgAlpha;
         PersonalRZActivity.this.getWindow().addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);

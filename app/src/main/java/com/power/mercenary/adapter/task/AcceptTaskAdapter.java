@@ -26,6 +26,7 @@ import com.power.mercenary.bean.mytask.AcceptTaskBean;
 import com.power.mercenary.http.DialogCallback;
 import com.power.mercenary.http.HttpManager;
 import com.power.mercenary.http.ResponseBean;
+import com.power.mercenary.utils.DoubleUtils;
 import com.power.mercenary.utils.MercenaryUtils;
 import com.power.mercenary.utils.MyUtils;
 import com.power.mercenary.view.BaseDialog;
@@ -37,6 +38,9 @@ import java.util.List;
  * admin  2018/7/18 wan
  */
 public class AcceptTaskAdapter extends RecyclerView.Adapter implements SeekBar.OnSeekBarChangeListener {
+
+
+    private static final String TAG = "AcceptTaskAdapter";
 
     private Context context;
     private int state;
@@ -52,6 +56,8 @@ public class AcceptTaskAdapter extends RecyclerView.Adapter implements SeekBar.O
     private BaseDialog mDialog;
     private BaseDialog.Builder mBuilder;
     private int tuiType;
+
+    private TextView tv_pub_name;
 
     public void setOnItemClickListener(OnItemClickListener onItemClickListener) {
         this.onItemClickListener = onItemClickListener;
@@ -148,6 +154,7 @@ public class AcceptTaskAdapter extends RecyclerView.Adapter implements SeekBar.O
                 .builder();
         cb_all_parice = mDialog.getView(R.id.cb_all_parice);
         cb_zdy_parice = mDialog.getView(R.id.cb_zdy_parice);
+        tv_pub_name = mDialog.getView(R.id.tv_pub_name);
         final LinearLayout all_data_layout = mDialog.getView(R.id.all_data_layout);
         final LinearLayout pingtai_layout = mDialog.getView(R.id.pingtai_layout);
         tv_all_price = mDialog.getView(R.id.tv_all_price);
@@ -160,6 +167,9 @@ public class AcceptTaskAdapter extends RecyclerView.Adapter implements SeekBar.O
         TextView tv_cancle = mDialog.getView(R.id.tv_cancle);
         final LinearLayout layout_jieshou_people = mDialog.getView(R.id.layout_jieshou_people);
         final LinearLayout layout_all_price = mDialog.getView(R.id.layout_all_price);
+
+        final String s = tv_zfpt_price.getText().toString();
+
         tv_sure.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -167,9 +177,9 @@ public class AcceptTaskAdapter extends RecyclerView.Adapter implements SeekBar.O
                         .addParams("token", MyApplication.getUserToken())
                         .addParams("id", data.get(position).getId())
                         .addParams("tuikuan_type", tuiType)
-                        .addParams("ticheng", Double.parseDouble(tv_pingtai_peice.getText().toString())*100+"")
-                        .addParams("zfpt_ticheng", Double.parseDouble(tv_zfpt_price.getText().toString())*100+"")
-                        .addParams("fafang_money",Double.parseDouble(edt_shou_people.getText().toString()) * 100 + "")
+                        .addParams("ticheng", Double.parseDouble(tv_pingtai_peice.getText().toString()) * 100 + "")
+                        .addParams("zfpt_ticheng", Double.parseDouble(s) * 100 + "")
+                        .addParams("fafang_money", Double.parseDouble(edt_shou_people.getText().toString()) * 100 + "")
                         .addParams("fabu_money", Double.parseDouble(edt_pub_people.getText().toString()) * 100 + "")
                         .postRequest(new DialogCallback<ResponseBean<SuccessBean>>((Activity) context) {
                             @Override
@@ -197,10 +207,31 @@ public class AcceptTaskAdapter extends RecyclerView.Adapter implements SeekBar.O
         String format = df.format(((Double.parseDouble(data.get(position).getPay_amount()) * 100 - Double.parseDouble(data.get(position).getPay_amount()) * 0.6)) / 100);
         edt_pub_people.setText(format);
         edt_shou_people.setText("0");
-        tv_zfpt_price.setText(Double.parseDouble(data.get(position).getPay_amount()) * 0.006 + "");
+
+        tv_pub_name.setText(data.get(position).getFabu_name());
+
+        double payAmout = Double.parseDouble(data.get(position).getPay_amount());
+        double profit = (Double.parseDouble("0.6"));
+
+        Double mul = DoubleUtils.mul(payAmout, profit);
+
+        double sun = 0;
+
+        sun = mul * (Double.parseDouble("0.01"));
+
+        String profit_Value = DoubleUtils.getValue(sun);
+
+        if (profit_Value.equals("0.00")){
+
+            tv_zfpt_price.setText("("+profit_Value+")");
+
+        }
+
+        tv_zfpt_price.setText(profit_Value);
+
         tv_all_price.setText((Double.parseDouble(data.get(position).getPay_amount()) - Double.parseDouble(data.get(position).getPay_amount()) * 0.006) + "");
-        seekbar.setMax((int) Double.parseDouble(data.get(position).getPay_amount())*100-100);
-        seekbar.setProgress((int) Double.parseDouble(data.get(position).getPay_amount())*100);
+        seekbar.setMax((int) Double.parseDouble(data.get(position).getPay_amount()) * 100 - 100);
+        seekbar.setProgress((int) Double.parseDouble(data.get(position).getPay_amount()) * 100);
 
         seekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
@@ -209,7 +240,7 @@ public class AcceptTaskAdapter extends RecyclerView.Adapter implements SeekBar.O
                 //修改当进度条改变 有负数的情况
                 int progress = seekBar.getProgress();
 
-                if (progress == 0){
+                if (progress == 0) {
 
                     seekBar.setProgress(0);
                 }
@@ -222,7 +253,7 @@ public class AcceptTaskAdapter extends RecyclerView.Adapter implements SeekBar.O
                 //修改当进度条改变 有负数的情况
                 int progress = seekBar.getProgress();
 
-                if (progress == 0){
+                if (progress == 0) {
 
                     seekBar.setProgress(0);
                 }
@@ -282,12 +313,12 @@ public class AcceptTaskAdapter extends RecyclerView.Adapter implements SeekBar.O
 //            edt_shou_people.setText(format);
         } else {
             DecimalFormat df1 = new java.text.DecimalFormat("0.00");
-            String format2 = df1.format((Double.parseDouble(tv_all_price.getText().toString())*100-(Double.parseDouble(tv_all_price.getText().toString())*100 - seekBar.getProgress()))/100);
+            String format2 = df1.format((Double.parseDouble(tv_all_price.getText().toString()) * 100 - (Double.parseDouble(tv_all_price.getText().toString()) * 100 - seekBar.getProgress())) / 100);
             edt_pub_people.setText(format2);
             DecimalFormat df = new java.text.DecimalFormat("0.00");
-            String format = df.format(((Double.parseDouble(tv_all_price.getText().toString())*100 - seekBar.getProgress()) * 0.044)/100);
+            String format = df.format(((Double.parseDouble(tv_all_price.getText().toString()) * 100 - seekBar.getProgress()) * 0.044) / 100);
             tv_pingtai_peice.setText(format);
-            String format1 = df.format(((Double.parseDouble(tv_all_price.getText().toString())*100 - seekBar.getProgress()) - (Double.parseDouble(tv_pingtai_peice.getText().toString())*100))/100);
+            String format1 = df.format(((Double.parseDouble(tv_all_price.getText().toString()) * 100 - seekBar.getProgress()) - (Double.parseDouble(tv_pingtai_peice.getText().toString()) * 100)) / 100);
             edt_shou_people.setText(format1);
         }
     }
@@ -307,12 +338,12 @@ public class AcceptTaskAdapter extends RecyclerView.Adapter implements SeekBar.O
 //            edt_shou_people.setText(format);
         } else {
             DecimalFormat df1 = new java.text.DecimalFormat("0.00");
-            String format2 = df1.format((Double.parseDouble(tv_all_price.getText().toString())*100-(Double.parseDouble(tv_all_price.getText().toString())*100 - seekBar.getProgress()))/100);
+            String format2 = df1.format((Double.parseDouble(tv_all_price.getText().toString()) * 100 - (Double.parseDouble(tv_all_price.getText().toString()) * 100 - seekBar.getProgress())) / 100);
             edt_pub_people.setText(format2);
             DecimalFormat df = new java.text.DecimalFormat("0.00");
-            String format = df.format(((Double.parseDouble(tv_all_price.getText().toString())*100 - seekBar.getProgress()) * 0.044)/100);
+            String format = df.format(((Double.parseDouble(tv_all_price.getText().toString()) * 100 - seekBar.getProgress()) * 0.044) / 100);
             tv_pingtai_peice.setText(format);
-            String format1 = df.format(((Double.parseDouble(tv_all_price.getText().toString())*100 - seekBar.getProgress()) - (Double.parseDouble(tv_pingtai_peice.getText().toString())*100))/100);
+            String format1 = df.format(((Double.parseDouble(tv_all_price.getText().toString()) * 100 - seekBar.getProgress()) - (Double.parseDouble(tv_pingtai_peice.getText().toString()) * 100)) / 100);
             edt_shou_people.setText(format1);
         }
     }
@@ -362,4 +393,6 @@ public class AcceptTaskAdapter extends RecyclerView.Adapter implements SeekBar.O
 
         void TuiKuanListener();
     }
+
+
 }

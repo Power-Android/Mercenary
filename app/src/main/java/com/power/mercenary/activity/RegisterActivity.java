@@ -30,8 +30,6 @@ import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import io.rong.imlib.MD5;
-import retrofit2.http.Url;
 
 /**
  * Created by Administrator on 2018/3/29.

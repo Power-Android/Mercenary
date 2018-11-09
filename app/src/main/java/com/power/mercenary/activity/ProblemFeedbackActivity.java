@@ -3,15 +3,10 @@ package com.power.mercenary.activity;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
-import android.view.Gravity;
 import android.view.View;
-import android.view.Window;
-import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -21,7 +16,6 @@ import com.power.mercenary.R;
 import com.power.mercenary.base.BaseActivity;
 import com.power.mercenary.presenter.FeedBackPresenter;
 import com.power.mercenary.utils.TUtils;
-import com.power.mercenary.view.FKTypePop;
 
 import java.util.ArrayList;
 import java.util.List;

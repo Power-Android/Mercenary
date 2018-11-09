@@ -6,20 +6,17 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.view.View;
-import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.power.mercenary.R;
 import com.power.mercenary.adapter.frag.FragmentVPagerAdapter;
-import com.power.mercenary.adapter.task.TaskStatisticsAdapter;
 import com.power.mercenary.base.BaseActivity;
 import com.power.mercenary.bean.mytask.StatisticsListBean;
 import com.power.mercenary.bean.mytask.StatisticsNumBean;
 import com.power.mercenary.fragment.StatisticsFragment;
 import com.power.mercenary.presenter.StatisticsPresenter;
-import com.power.mercenary.view.pullrecyclerview.WanRecyclerView;
 
 import java.util.ArrayList;
 import java.util.List;

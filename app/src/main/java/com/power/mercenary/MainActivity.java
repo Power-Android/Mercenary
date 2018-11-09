@@ -45,7 +45,6 @@ import butterknife.OnClick;
 
 public class MainActivity extends BaseActivity {
 
-
     @BindView(R.id.fl_content)
     FrameLayout flContent;
     @BindView(R.id.iv_home)

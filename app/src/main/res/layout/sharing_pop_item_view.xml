@@ -140,14 +140,7 @@
                     android:text="微博"/>
             </LinearLayout>
 
-
         </LinearLayout>
-
-
-
-
-
-
 
         <TextView
             android:id="@+id/dialog_share_cancel"
@@ -161,6 +154,5 @@
             android:textSize="16sp"/>
 
     </LinearLayout>
-
 
 </LinearLayout>
