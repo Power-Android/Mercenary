@@ -133,7 +133,7 @@
             android:layout_marginTop="5dip"
             android:paddingBottom="5dip"
             android:paddingTop="5dip"
-            android:visibility="gone"
+
             android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
@@ -173,7 +173,6 @@
         <LinearLayout
             android:paddingTop="5dip"
             android:orientation="horizontal"
-            android:visibility="gone"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
             <LinearLayout
@@ -196,7 +195,7 @@
                 android:orientation="horizontal"
                 android:layout_width="0dip"
                 android:layout_weight="1"
-                android:visibility="gone"
+
                 android:layout_height="wrap_content">
                 <TextView
                     android:text="发布者："

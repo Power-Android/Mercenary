@@ -62,8 +62,12 @@ public class ReleaseRWZAdapter extends RecyclerView.Adapter {
             viewHolder.num.setText("浏览数：" + data.get(position).getView_num() + " 分享数：" + data.get(position).getShare_num());
             if (!data.get(position).getRefuse_cause().equals("")){
                 viewHolder.layout_jujue.setVisibility(View.VISIBLE);
-                viewHolder.tv_weitongguo.setVisibility(View.VISIBLE);
+                //viewHolder.tv_weitongguo.setVisibility(View.VISIBLE);
+
+                //viewHolder.tuikuan.setVisibility(View.VISIBLE);
+
                 viewHolder.tv_jujue.setText(data.get(position).getRefuse_cause());
+
             }
             viewHolder.chexiao.setVisibility(View.GONE);
             viewHolder.yaoqing.setVisibility(View.GONE);

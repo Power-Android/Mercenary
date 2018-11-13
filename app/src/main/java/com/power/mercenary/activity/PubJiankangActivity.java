@@ -349,7 +349,7 @@ public class PubJiankangActivity extends BaseActivity implements PubTaskPresente
                 String s = MyUtils.listToString(requireList);
                 String s1 = MyUtils.listToString(biaoqianList);
 
-                presenter.publishTask("", taskType, childTaskType, taskNameEt.getText().toString(), s1, "", (Integer.parseInt(taskMoneyEt.getText().toString())*100)+"",
+                presenter.publishTask("", taskType, childTaskType, taskNameEt.getText().toString(), s1, "", (Double.parseDouble(taskMoneyEt.getText().toString())*100)+"",
                         "", taskDesEt.getText().toString(), "", s,
                         "", "", "", "",
                         "", "", taskQitaEt.getText().toString());

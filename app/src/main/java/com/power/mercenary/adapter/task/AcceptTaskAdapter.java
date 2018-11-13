@@ -170,6 +170,16 @@ public class AcceptTaskAdapter extends RecyclerView.Adapter implements SeekBar.O
 
         final String s = tv_zfpt_price.getText().toString();
 
+        String[] oldPrice = s.split("\\(");
+
+        String price = oldPrice[0];
+
+        Log.e(TAG, "showIssueDialog: "+price);
+
+        final String[] newPrice = price.split("\\)");
+
+        Log.e(TAG, "showIssueDialog: "+newPrice);
+
         tv_sure.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -178,7 +188,7 @@ public class AcceptTaskAdapter extends RecyclerView.Adapter implements SeekBar.O
                         .addParams("id", data.get(position).getId())
                         .addParams("tuikuan_type", tuiType)
                         .addParams("ticheng", Double.parseDouble(tv_pingtai_peice.getText().toString()) * 100 + "")
-                        .addParams("zfpt_ticheng", Double.parseDouble(s) * 100 + "")
+                        .addParams("zfpt_ticheng", Double.parseDouble(newPrice[0]) * 100 + "")
                         .addParams("fafang_money", Double.parseDouble(edt_shou_people.getText().toString()) * 100 + "")
                         .addParams("fabu_money", Double.parseDouble(edt_pub_people.getText().toString()) * 100 + "")
                         .postRequest(new DialogCallback<ResponseBean<SuccessBean>>((Activity) context) {
@@ -221,13 +231,7 @@ public class AcceptTaskAdapter extends RecyclerView.Adapter implements SeekBar.O
 
         String profit_Value = DoubleUtils.getValue(sun);
 
-        if (profit_Value.equals("0.00")){
-
-            tv_zfpt_price.setText("("+profit_Value+")");
-
-        }
-
-        tv_zfpt_price.setText(profit_Value);
+        tv_zfpt_price.setText("("+profit_Value+")");
 
         tv_all_price.setText((Double.parseDouble(data.get(position).getPay_amount()) - Double.parseDouble(data.get(position).getPay_amount()) * 0.006) + "");
         seekbar.setMax((int) Double.parseDouble(data.get(position).getPay_amount()) * 100 - 100);

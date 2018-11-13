@@ -47,6 +47,7 @@ public class ReleaseSHZFragment  extends BaseFragment implements WanRecyclerView
         wanRecyclerView.setPullRecyclerViewListener(this);
 
         adapter = new ReleaseSHZAdapter(getContext(), mList);
+
         adapter.setTaskBtnListener(this);
         wanRecyclerView.setAdapter(adapter);
 

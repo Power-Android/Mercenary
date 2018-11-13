@@ -97,10 +97,11 @@
             android:layout_centerVertical="true"
             android:orientation="horizontal">
             <TextView
-                android:visibility="gone"
+
                 android:id="@+id/tv_weitongguo"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:visibility="gone"
                 android:layout_marginLeft="5dp"
                 android:layout_marginRight="5dp"
                 android:background="@drawable/shape_hk_jx"
@@ -108,7 +109,7 @@
                 android:text="未通过"
                 android:textSize="12sp" />
             <TextView
-                android:visibility="gone"
+
                 android:id="@+id/item_wjd_view_xiugai"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

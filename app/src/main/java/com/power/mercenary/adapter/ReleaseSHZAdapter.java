@@ -2,6 +2,7 @@ package com.power.mercenary.adapter;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -39,6 +40,10 @@ import java.util.List;
  */
 
 public class ReleaseSHZAdapter extends RecyclerView.Adapter {
+
+
+    private static final String TAG = "ReleaseSHZAdapter";
+
     private Context context;
 
     private List<PublishTaskBean> data;
@@ -82,10 +87,28 @@ public class ReleaseSHZAdapter extends RecyclerView.Adapter {
                 viewHolder.tv_jujue.setVisibility(View.VISIBLE);
                 viewHolder.tv_shenhe.setVisibility(View.VISIBLE);
             }
-            viewHolder.tv_fbpt_price.setText(data.get(position).getZfpt_ticheng() + "元");
-            viewHolder.tv_pt_price.setText(data.get(position).getTicheng() + "元");
-            viewHolder.tv_fb_price.setText(data.get(position).getFabu_money() + "元");
-            viewHolder.tv_js_price.setText(data.get(position).getFafang_money() + "元");
+
+            String zfpt_ticheng = data.get(position).getZfpt_ticheng();
+            String ticheng = data.get(position).getTicheng();
+            String fabu_money = data.get(position).getFabu_money();
+            String fafang_money = data.get(position).getFafang_money();
+
+            //String 转换Double
+            double newZfpt_ticheng = Double.parseDouble(zfpt_ticheng);
+            double newTicheng = Double.parseDouble(ticheng);
+            double newFabu_money = Double.parseDouble(fabu_money);
+            double newFafang_money = Double.parseDouble(fafang_money);
+
+            int number = 100;
+
+            String id = data.get(position).getId();
+
+            Log.e(TAG, "onBindViewHolder: "+id );
+
+            viewHolder.tv_fbpt_price.setText((newZfpt_ticheng / number) + "元");
+            viewHolder.tv_pt_price.setText((newTicheng / number + "元"));
+            viewHolder.tv_fb_price.setText((newFabu_money / number + "元"));
+            viewHolder.tv_js_price.setText((newFafang_money / number + "元"));
             viewHolder.title.setText(data.get(position).getTask_name());
 
             viewHolder.price.setText("￥" + data.get(position).getPay_amount());
@@ -255,6 +278,7 @@ public class ReleaseSHZAdapter extends RecyclerView.Adapter {
         TextView tv_sure = mDialog.getView(R.id.tv_sure);
         TextView tv_cancle = mDialog.getView(R.id.tv_cancle);
         final TextView tv_show_num = mDialog.getView(R.id.tv_show_num);
+
         RelativeLayout rl_wdtg = mDialog.getView(R.id.rl_wdtg);
         final TextView edt_cause = mDialog.getView(R.id.edt_cause);
         final RecyclerView timeRecycler = mDialog.getView(R.id.time_recycler);

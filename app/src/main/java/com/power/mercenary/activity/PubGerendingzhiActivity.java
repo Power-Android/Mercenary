@@ -472,7 +472,7 @@ public class PubGerendingzhiActivity extends BaseActivity implements PubTaskPres
 
                 picNumsPresenter.publishTask(fileList);//上传多张图片
 
-                presenter.publishTask("", taskType, childTaskType, taskNameEt.getText().toString(), s1, imgurl, (Integer.parseInt(taskMoneyEt.getText().toString())*100)+"",
+                presenter.publishTask("", taskType, childTaskType, taskNameEt.getText().toString(), s1, imgurl, (Double.parseDouble(taskMoneyEt.getText().toString())*100)+"",
                         "", taskDesEt.getText().toString(), "", s,
                         "", "", "", "",
                         "", "", "");

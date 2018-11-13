@@ -82,7 +82,7 @@
                         android:text="佣金/元"
                         android:textColor="@color/textColorDrak"/>
                     <EditText
-                        android:inputType="number"
+                        android:inputType="number|numberDecimal"
                         android:id="@+id/task_money_et"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"

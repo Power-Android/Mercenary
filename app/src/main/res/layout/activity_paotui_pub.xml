@@ -117,13 +117,14 @@
                     android:text="佣金/元"
                     android:textColor="@color/textColorDrak"/>
                 <EditText
-                    android:inputType="number"
+
                     android:id="@+id/money_et"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_toRightOf="@+id/view_04"
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="10dp"
+                    android:inputType="number|numberDecimal"
                     android:background="@null"
                     android:hint="请输入佣金金额"
                     android:textColorHint="@color/hint_color"
