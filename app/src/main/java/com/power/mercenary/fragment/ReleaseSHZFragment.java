@@ -2,10 +2,12 @@ package com.power.mercenary.fragment;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.power.mercenary.MyApplication;
 import com.power.mercenary.R;
 import com.power.mercenary.activity.details_audit_publish.GRPublishAuditActivity;
 import com.power.mercenary.activity.details_audit_publish.GZPublishAuditActivity;
@@ -14,12 +16,15 @@ import com.power.mercenary.activity.details_audit_publish.SHPublishAuditActivity
 import com.power.mercenary.adapter.ReleaseSHZAdapter;
 import com.power.mercenary.base.BaseFragment;
 import com.power.mercenary.bean.mytask.PublishTaskBean;
+import com.power.mercenary.http.OkhtttpUtils;
 import com.power.mercenary.presenter.publish.PublishPresenter;
 import com.power.mercenary.utils.TUtils;
 import com.power.mercenary.view.pullrecyclerview.WanRecyclerView;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by Administrator on 2018/3/30.
@@ -27,7 +32,7 @@ import java.util.List;
 
 public class ReleaseSHZFragment  extends BaseFragment implements WanRecyclerView.PullRecyclerViewCallBack, PublishPresenter.PublishCallBack, ReleaseSHZAdapter.TaskBtnListener {
 
-    List<PublishTaskBean> mList=new ArrayList<>();
+    List<PublishTaskBean.DataBean> mList=new ArrayList<>();
 
     private PublishPresenter publishPresenter;
 
@@ -53,6 +58,7 @@ public class ReleaseSHZFragment  extends BaseFragment implements WanRecyclerView
 
         publishPresenter = new PublishPresenter(getActivity(), this);
 
+
         return view;
     }
 
@@ -62,9 +68,10 @@ public class ReleaseSHZFragment  extends BaseFragment implements WanRecyclerView
     }
 
     @Override
-    public void getPublishTaskList(List<PublishTaskBean> datas) {
+    public void getPublishTaskList(List<PublishTaskBean.DataBean> datas) {
         if (datas != null) {
             mList.addAll(datas);
+
             wanRecyclerView.setHasMore(datas.size(), 10);
         } else {
             wanRecyclerView.setHasMore(0, 10);

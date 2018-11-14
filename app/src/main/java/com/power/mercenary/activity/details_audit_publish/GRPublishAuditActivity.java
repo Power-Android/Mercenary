@@ -584,7 +584,7 @@ public class GRPublishAuditActivity extends BaseActivity implements View.OnClick
     }
 
     @Override
-    public void getPublishTaskList(List<PublishTaskBean> datas) {
+    public void getPublishTaskList(List<PublishTaskBean.DataBean> datas) {
 
     }
 

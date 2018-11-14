@@ -33,7 +33,7 @@ import java.util.List;
 public class ReleaseWJDAdapter extends RecyclerView.Adapter {
     private Context context;
 
-    private List<PublishTaskBean> data;
+    private List<PublishTaskBean.DataBean> data1;
 
     private TaskHandleListener listener;
 
@@ -41,9 +41,9 @@ public class ReleaseWJDAdapter extends RecyclerView.Adapter {
         this.listener = listener;
     }
 
-    public ReleaseWJDAdapter(Context context, List<PublishTaskBean> data) {
+    public ReleaseWJDAdapter(Context context, List<PublishTaskBean.DataBean> data) {
         this.context = context;
-        this.data = data;
+        this.data1 = data;
     }
 
     @Override
@@ -57,14 +57,18 @@ public class ReleaseWJDAdapter extends RecyclerView.Adapter {
         if (holder instanceof WJDViewHolder) {
             WJDViewHolder viewHolder = (WJDViewHolder) holder;
 
-            viewHolder.title.setText(data.get(position).getTask_name());
 
-            viewHolder.price.setText("￥" +data.get(position).getPay_amount());
 
-            viewHolder.num.setText("浏览数：" + data.get(position).getView_num() + " 分享数：" + data.get(position).getShare_num());
+
+            viewHolder.title.setText(
+                    data1.get(position).getTask_name());
+
+            viewHolder.price.setText("￥" + data1.get(position).getPay_amount());
+
+            viewHolder.num.setText("浏览数：" + data1.get(position).getView_num() + " 分享数：" + data1.get(position).getShare_num());
 
             viewHolder.recyclerView.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false));
-            TaskListActivity.TagAdapter tagAdapter = new TaskListActivity.TagAdapter(R.layout.item_tag_layout, MercenaryUtils.stringToList(data.get(position).getTask_tag()));
+            TaskListActivity.TagAdapter tagAdapter = new TaskListActivity.TagAdapter(R.layout.item_tag_layout, MercenaryUtils.stringToList(this.data1.get(position).getTask_tag()));
             viewHolder.recyclerView.setAdapter(tagAdapter);
             viewHolder.xiugaiPrice.setVisibility(View.VISIBLE);
             viewHolder.xiugaiPrice.setOnClickListener(new View.OnClickListener() {
@@ -76,21 +80,21 @@ public class ReleaseWJDAdapter extends RecyclerView.Adapter {
             viewHolder.chexiao.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    listener.chexiao(data.get(position).getId(), position);
+                    listener.chexiao(ReleaseWJDAdapter.this.data1.get(position).getId(), position);
                 }
             });
 
             viewHolder.yaoqing.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    listener.yaoqing(data.get(position).getId());
+                    listener.yaoqing(ReleaseWJDAdapter.this.data1.get(position).getId());
                 }
             });
 
             viewHolder.mView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    listener.TaskOnClickViewListener(data.get(position).getId(), position, data.get(position).getTask_type(), data.get(position).getTask_status());
+                    listener.TaskOnClickViewListener(ReleaseWJDAdapter.this.data1.get(position).getId(), position, ReleaseWJDAdapter.this.data1.get(position).getTask_type(), ReleaseWJDAdapter.this.data1.get(position).getTask_status());
                 }
             });
         }
@@ -115,14 +119,14 @@ public class ReleaseWJDAdapter extends RecyclerView.Adapter {
         TextView tv_sure = mDialog.getView(R.id.tv_sure);
         TextView tv_cancle = mDialog.getView(R.id.tv_cancle);
         final TextView edt_price = mDialog.getView(R.id.edt_price);
-        edt_price.setText(data.get(position).getPay_amount()+"");
+        edt_price.setText(data1.get(position).getPay_amount()+"");
         tv_sure.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 double v = Double.parseDouble(edt_price.getText().toString()) * 100;
                 new HttpManager<ResponseBean<SuccessBean>>("Home/TaskFaBu/editprice", this)
                         .addParams("token", MyApplication.getUserToken())
-                        .addParams("id",data.get(position).getId())
+                        .addParams("id",data1.get(position).getId())
                         .addParams("pay_amount", v+"")
                         .postRequest(new DialogCallback<ResponseBean<SuccessBean>>((Activity) context) {
                             @Override
@@ -150,7 +154,7 @@ public class ReleaseWJDAdapter extends RecyclerView.Adapter {
     }
     @Override
     public int getItemCount() {
-        return data.size();
+        return data1.size();
     }
 
     class WJDViewHolder extends RecyclerView.ViewHolder {

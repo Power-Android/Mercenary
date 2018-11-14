@@ -571,7 +571,7 @@ public class GRPublishOutActivity extends BaseActivity implements View.OnClickLi
     }
 
     @Override
-    public void getPublishTaskList(List<PublishTaskBean> datas) {
+    public void getPublishTaskList(List<PublishTaskBean.DataBean> datas) {
 
     }
 

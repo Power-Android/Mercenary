@@ -607,7 +607,7 @@ public class GRPublishAppraiseActivity extends BaseActivity implements View.OnCl
     }
 
     @Override
-    public void getPublishTaskList(List<PublishTaskBean> datas) {
+    public void getPublishTaskList(List<PublishTaskBean.DataBean> datas) {
 
     }
 

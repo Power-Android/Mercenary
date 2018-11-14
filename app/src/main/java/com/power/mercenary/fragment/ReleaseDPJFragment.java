@@ -31,7 +31,7 @@ import java.util.List;
 
 public class ReleaseDPJFragment extends BaseFragment implements WanRecyclerView.PullRecyclerViewCallBack, PublishPresenter.PublishCallBack, ReleaseYXJAdapter.TaskBtnListener {
 
-    List<PublishTaskBean> mList=new ArrayList<>();
+    List<PublishTaskBean.DataBean> mList=new ArrayList<>();
 
     private PublishPresenter publishPresenter;
 
@@ -65,7 +65,7 @@ public class ReleaseDPJFragment extends BaseFragment implements WanRecyclerView.
     }
 
     @Override
-    public void getPublishTaskList(List<PublishTaskBean> datas) {
+    public void getPublishTaskList(List<PublishTaskBean.DataBean> datas) {
         if (datas != null) {
             mList.addAll(datas);
             wanRecyclerView.setHasMore(datas.size(), 10);

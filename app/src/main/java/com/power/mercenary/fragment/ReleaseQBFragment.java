@@ -48,7 +48,7 @@ import java.util.List;
 public class ReleaseQBFragment extends BaseFragment implements PublishPresenter.PublishCallBack, WanRecyclerView.PullRecyclerViewCallBack, ReleaseQBAdapter.OnClickListener {
 
 
-    List<PublishTaskBean> mList = new ArrayList<>();
+    List<PublishTaskBean.DataBean> mList = new ArrayList<>();
 
     private PublishPresenter publishPresenter;
 
@@ -82,7 +82,7 @@ public class ReleaseQBFragment extends BaseFragment implements PublishPresenter.
     }
 
     @Override
-    public void getPublishTaskList(List<PublishTaskBean> datas) {
+    public void getPublishTaskList(List<PublishTaskBean.DataBean> datas) {
         if (datas != null) {
             mList.addAll(datas);
             wanRecyclerView.setHasMore(datas.size(), 10);

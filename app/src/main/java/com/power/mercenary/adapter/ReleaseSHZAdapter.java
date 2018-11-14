@@ -27,13 +27,16 @@ import com.power.mercenary.bean.SuccessBean;
 import com.power.mercenary.bean.mytask.PublishTaskBean;
 import com.power.mercenary.http.DialogCallback;
 import com.power.mercenary.http.HttpManager;
+import com.power.mercenary.http.OkhtttpUtils;
 import com.power.mercenary.http.ResponseBean;
 import com.power.mercenary.utils.MercenaryUtils;
 import com.power.mercenary.utils.MyUtils;
 import com.power.mercenary.view.BaseDialog;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by Administrator on 2018/3/30.
@@ -41,21 +44,21 @@ import java.util.List;
 
 public class ReleaseSHZAdapter extends RecyclerView.Adapter {
 
-
     private static final String TAG = "ReleaseSHZAdapter";
 
     private Context context;
 
-    private List<PublishTaskBean> data;
+    private List<PublishTaskBean.DataBean> data;
 
     private TaskBtnListener taskBtnListener;
     private int type;
+    private PublishTaskBean.DataBean dataBean;
 
     public void setTaskBtnListener(TaskBtnListener taskBtnListener) {
         this.taskBtnListener = taskBtnListener;
     }
 
-    public ReleaseSHZAdapter(Context context, List<PublishTaskBean> data) {
+    public ReleaseSHZAdapter(Context context, List<PublishTaskBean.DataBean> data) {
         this.context = context;
         this.data = data;
     }
@@ -71,27 +74,49 @@ public class ReleaseSHZAdapter extends RecyclerView.Adapter {
         if (holder instanceof WJDViewHolder) {
             WJDViewHolder viewHolder = (WJDViewHolder) holder;
 
-            if (data.get(position).getIs_yanqi().equals("1")) {//是否延期
+
+
+            dataBean = data.get(position);
+
+            viewHolder.ll_refund.setVisibility(View.GONE);
+            viewHolder.ll_receiverRefund.setVisibility(View.GONE);
+
+            if (this.dataBean.getIs_yanqi().equals("1")) {//是否延期
                 viewHolder.tv_jujue.setVisibility(View.GONE);
                 viewHolder.tv_shenhe.setVisibility(View.GONE);
                 viewHolder.layout_all_price.setVisibility(View.GONE);
                 viewHolder.layout_yanqi.setVisibility(View.VISIBLE);
                 viewHolder.tv_yanqi.setText("已延期处理");
 //                viewHolder.tv_yanqi.setEnabled(false);
+                //设置隐藏
+                viewHolder.ll_refund.setVisibility(View.GONE);
+                viewHolder.ll_receiverRefund.setVisibility(View.GONE);
                 viewHolder.layout_yanqi.setVisibility(View.VISIBLE);
-                viewHolder.tvCause.setText(data.get(position).getYanqi_reason());
-                viewHolder.tvDays.setText(data.get(position).getYanqi_days());
-                viewHolder.tvYanTime.setText(MyUtils.getDateToStringTime(data.get(position).getYanqi_start()));
+                viewHolder.tvCause.setText(this.dataBean.getYanqi_reason());
+                viewHolder.tvDays.setText(this.dataBean.getYanqi_days());
+                viewHolder.tvYanTime.setText(MyUtils.getDateToStringTime(this.dataBean.getYanqi_start()));
             } else {
                 viewHolder.layout_all_price.setVisibility(View.VISIBLE);
                 viewHolder.tv_jujue.setVisibility(View.VISIBLE);
                 viewHolder.tv_shenhe.setVisibility(View.VISIBLE);
+
             }
 
-            String zfpt_ticheng = data.get(position).getZfpt_ticheng();
-            String ticheng = data.get(position).getTicheng();
-            String fabu_money = data.get(position).getFabu_money();
-            String fafang_money = data.get(position).getFafang_money();
+            //判断接受者是否选择了退款
+
+            String settle_status = dataBean.getSettle_status();
+
+            if (settle_status.equals("2")){
+
+                viewHolder.ll_refund.setVisibility(View.VISIBLE);
+                viewHolder.ll_receiverRefund.setVisibility(View.VISIBLE);
+
+            }
+
+            String zfpt_ticheng = this.dataBean.getZfpt_ticheng();
+            String ticheng = this.dataBean.getTicheng();
+            String fabu_money = this.dataBean.getFabu_money();
+            String fafang_money = this.dataBean.getFafang_money();
 
             //String 转换Double
             double newZfpt_ticheng = Double.parseDouble(zfpt_ticheng);
@@ -101,19 +126,21 @@ public class ReleaseSHZAdapter extends RecyclerView.Adapter {
 
             int number = 100;
 
-            String id = data.get(position).getId();
+            String id = this.dataBean.getId();
 
             Log.e(TAG, "onBindViewHolder: "+id );
+
+            String task_type = this.dataBean.getTask_type();
 
             viewHolder.tv_fbpt_price.setText((newZfpt_ticheng / number) + "元");
             viewHolder.tv_pt_price.setText((newTicheng / number + "元"));
             viewHolder.tv_fb_price.setText((newFabu_money / number + "元"));
             viewHolder.tv_js_price.setText((newFafang_money / number + "元"));
-            viewHolder.title.setText(data.get(position).getTask_name());
+            viewHolder.title.setText(this.dataBean.getTask_name());
 
-            viewHolder.price.setText("￥" + data.get(position).getPay_amount());
+            viewHolder.price.setText("￥" + this.dataBean.getPay_amount());
 
-            viewHolder.content.setText(data.get(position).getTask_description());
+            viewHolder.content.setText(this.dataBean.getTask_description());
 
             viewHolder.tv_shenhe.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -130,12 +157,12 @@ public class ReleaseSHZAdapter extends RecyclerView.Adapter {
             viewHolder.mView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    taskBtnListener.TaskOnClickViewListener(data.get(position).getId(), position, data.get(position).getTask_type(), data.get(position).getTask_status());
+                    taskBtnListener.TaskOnClickViewListener(ReleaseSHZAdapter.this.dataBean.getId(), position, ReleaseSHZAdapter.this.dataBean.getTask_type(), ReleaseSHZAdapter.this.dataBean.getTask_status());
                 }
             });
 
             viewHolder.recyclerView.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false));
-            TaskListActivity.TagAdapter tagAdapter = new TaskListActivity.TagAdapter(R.layout.item_tag_layout, MercenaryUtils.stringToList(data.get(position).getTask_tag()));
+            TaskListActivity.TagAdapter tagAdapter = new TaskListActivity.TagAdapter(R.layout.item_tag_layout, MercenaryUtils.stringToList(this.dataBean.getTask_tag()));
             viewHolder.recyclerView.setAdapter(tagAdapter);
             viewHolder.tv_jujue.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -179,7 +206,7 @@ public class ReleaseSHZAdapter extends RecyclerView.Adapter {
                 }
                 new HttpManager<ResponseBean<SuccessBean>>("Home/MyTask/shenhe", this)
                         .addParams("token", MyApplication.getUserToken())
-                        .addParams("id", data.get(position).getId())
+                        .addParams("id", dataBean.getId())
                         .addParams("type", 2)
                         .addParams("refuse_cause", edt_cause.getText().toString())
                         .postRequest(new DialogCallback<ResponseBean<SuccessBean>>((Activity) context) {
@@ -229,7 +256,7 @@ public class ReleaseSHZAdapter extends RecyclerView.Adapter {
             public void onClick(View view) {
                 new HttpManager<ResponseBean<SuccessBean>>("Home/MyTask/shenhe", this)
                         .addParams("token", MyApplication.getUserToken())
-                        .addParams("id", data.get(position).getId())
+                        .addParams("id", dataBean.getId())
                         .addParams("type", 1)
                         .addParams("refuse_cause", "")
                         .postRequest(new DialogCallback<ResponseBean<SuccessBean>>((Activity) context) {
@@ -313,7 +340,7 @@ public class ReleaseSHZAdapter extends RecyclerView.Adapter {
                 }
                 new HttpManager<ResponseBean<SuccessBean>>("Home/TaskFaBu/yanqi", this)
                         .addParams("token", MyApplication.getUserToken())
-                        .addParams("id", data.get(position).getId())
+                        .addParams("id", dataBean.getId())
                         .addParams("yanqi_days", tv_show_num.getText().toString())
                         .addParams("yanqi_reason", edt_cause.getText().toString())
                         .postRequest(new DialogCallback<ResponseBean<SuccessBean>>((Activity) context) {
@@ -382,6 +409,8 @@ public class ReleaseSHZAdapter extends RecyclerView.Adapter {
         TextView tvYanTime;
         LinearLayout layout_yanqi;
         LinearLayout layout_all_price;
+        private final LinearLayout ll_refund;
+        private final LinearLayout ll_receiverRefund;
 
         public WJDViewHolder(View itemView) {
             super(itemView);
@@ -399,6 +428,8 @@ public class ReleaseSHZAdapter extends RecyclerView.Adapter {
             tv_js_price = itemView.findViewById(R.id.tv_js_price);
             tvCause = itemView.findViewById(R.id.tv_cause);
             tvDays = itemView.findViewById(R.id.tv_days);
+            ll_refund = itemView.findViewById(R.id.refund);
+            ll_receiverRefund = itemView.findViewById(R.id.receiver_refund);
             tvYanTime = itemView.findViewById(R.id.tv_yanqi_time);
             layout_yanqi = itemView.findViewById(R.id.layout_yanqi);
             layout_all_price = itemView.findViewById(R.id.layout_all_price);

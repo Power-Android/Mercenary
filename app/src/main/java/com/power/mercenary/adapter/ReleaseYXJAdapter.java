@@ -23,19 +23,18 @@ import java.util.List;
 public class ReleaseYXJAdapter extends RecyclerView.Adapter {
     private Context context;
 
-    private List<PublishTaskBean> data;
+    private List<PublishTaskBean.DataBean> data1;
 
     private String btnStr;
 
     private TaskBtnListener taskBtnListener;
-
     public void setTaskBtnListener(TaskBtnListener taskBtnListener){
         this.taskBtnListener = taskBtnListener;
     }
 
-    public ReleaseYXJAdapter(Context context, List<PublishTaskBean> data, String btnStr) {
+    public ReleaseYXJAdapter(Context context, List<PublishTaskBean.DataBean> data, String btnStr) {
         this.context = context;
-        this.data = data;
+        this.data1 = data;
         this.btnStr = btnStr;
     }
 
@@ -50,13 +49,14 @@ public class ReleaseYXJAdapter extends RecyclerView.Adapter {
         if (holder instanceof WJDViewHolder) {
             WJDViewHolder viewHolder = (WJDViewHolder) holder;
 
-            viewHolder.title.setText(data.get(position).getTask_name());
 
-            viewHolder.price.setText("￥" +data.get(position).getPay_amount());
+            viewHolder.title.setText(this.data1.get(position).getTask_name());
+
+            viewHolder.price.setText("￥" + this.data1.get(position).getPay_amount());
 
             viewHolder.btn.setText(btnStr);
 
-            viewHolder.num.setText("浏览数：" + data.get(position).getView_num() + " 分享数：" + data.get(position).getShare_num());
+            viewHolder.num.setText("浏览数：" + this.data1.get(position).getView_num() + " 分享数：" + this.data1.get(position).getShare_num());
 
             viewHolder.btn.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -64,7 +64,7 @@ public class ReleaseYXJAdapter extends RecyclerView.Adapter {
 //                    if (btnStr.equals("评价")) {
 //                        taskBtnListener.TaskOnClickListener(data.get(position).getId(), position);
 //                    } else {
-                        taskBtnListener.TaskOnClick2Listener(data.get(position).getId(), position);
+                        taskBtnListener.TaskOnClick2Listener(ReleaseYXJAdapter.this.data1.get(position).getId(), position);
 //                    }
 
                 }
@@ -73,12 +73,12 @@ public class ReleaseYXJAdapter extends RecyclerView.Adapter {
             viewHolder.mView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    taskBtnListener.TaskOnClickListener(data.get(position).getId(), position, data.get(position).getTask_type(), data.get(position).getTask_status());
+                    taskBtnListener.TaskOnClickListener(ReleaseYXJAdapter.this.data1.get(position).getId(), position, ReleaseYXJAdapter.this.data1.get(position).getTask_type(), ReleaseYXJAdapter.this.data1.get(position).getTask_status());
                 }
             });
 
             viewHolder.recyclerView.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false));
-            TaskListActivity.TagAdapter tagAdapter = new TaskListActivity.TagAdapter(R.layout.item_tag_layout, MercenaryUtils.stringToList(data.get(position).getTask_tag()));
+            TaskListActivity.TagAdapter tagAdapter = new TaskListActivity.TagAdapter(R.layout.item_tag_layout, MercenaryUtils.stringToList(this.data1.get(position).getTask_tag()));
             viewHolder.recyclerView.setAdapter(tagAdapter);
 
         }
@@ -86,7 +86,7 @@ public class ReleaseYXJAdapter extends RecyclerView.Adapter {
 
     @Override
     public int getItemCount() {
-        return data.size();
+        return data1.size();
     }
 
     class WJDViewHolder extends RecyclerView.ViewHolder {

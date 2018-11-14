@@ -25,7 +25,7 @@ import java.util.List;
 public class ReleaseQBAdapter extends RecyclerView.Adapter {
     private Context context;
 
-    private List<PublishTaskBean> datas;
+    private List<PublishTaskBean.DataBean> data;
 
     private OnClickListener onClickListener;
 
@@ -33,15 +33,18 @@ public class ReleaseQBAdapter extends RecyclerView.Adapter {
         this.onClickListener = onClickListener;
     }
 
-    public ReleaseQBAdapter(Context context, List<PublishTaskBean> datas) {
+    public ReleaseQBAdapter(Context context, List<PublishTaskBean.DataBean> datas) {
         this.context = context;
-        this.datas = datas;
+        this.data = datas;
     }
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(context).inflate(R.layout.item_release_task_view, null);
         return new QBViewHolder(view);
+
+
+
     }
 
     @Override
@@ -49,18 +52,21 @@ public class ReleaseQBAdapter extends RecyclerView.Adapter {
         if (holder instanceof  QBViewHolder) {
             QBViewHolder viewHolder = (QBViewHolder) holder;
 
-            viewHolder.title.setText(datas.get(position).getTask_name());
 
-            viewHolder.price.setText("￥" + datas.get(position).getPay_amount());
+
+
+            viewHolder.title.setText(data.get(position).getTask_name());
+
+            viewHolder.price.setText("￥" + data.get(position).getPay_amount());
 
             viewHolder.recyclerView.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false));
-            TaskListActivity.TagAdapter tagAdapter = new TaskListActivity.TagAdapter(R.layout.item_tag_layout, MercenaryUtils.stringToList(datas.get(position).getTask_tag()));
+            TaskListActivity.TagAdapter tagAdapter = new TaskListActivity.TagAdapter(R.layout.item_tag_layout, MercenaryUtils.stringToList(data.get(position).getTask_tag()));
             viewHolder.recyclerView.setAdapter(tagAdapter);
 
-            switch (datas.get(position).getTask_status()) {
+            switch (data.get(position).getTask_status()) {
                 case "1"://未决定
                     viewHolder.wjdLayout.setVisibility(View.VISIBLE);
-                    viewHolder.wjdNum.setText("浏览数：" + datas.get(position).getView_num() + " 分享数：" + datas.get(position).getShare_num());
+                    viewHolder.wjdNum.setText("浏览数：" + data.get(position).getView_num() + " 分享数：" + data.get(position).getShare_num());
 
                     viewHolder.shzLayout.setVisibility(View.GONE);
                     viewHolder.content.setVisibility(View.GONE);
@@ -72,7 +78,7 @@ public class ReleaseQBAdapter extends RecyclerView.Adapter {
                 case "3"://审核中
                     viewHolder.shzLayout.setVisibility(View.VISIBLE);
                     viewHolder.content.setVisibility(View.VISIBLE);
-                    viewHolder.content.setText(datas.get(position).getTask_description());
+                    viewHolder.content.setText(data.get(position).getTask_description());
 
                     viewHolder.wjdLayout.setVisibility(View.GONE);
                     viewHolder.dpjLayout.setVisibility(View.GONE);
@@ -82,7 +88,7 @@ public class ReleaseQBAdapter extends RecyclerView.Adapter {
 
                 case "6"://待评价
                     viewHolder.dpjLayout.setVisibility(View.VISIBLE);
-                    viewHolder.dpjNum.setText("浏览数：" + datas.get(position).getView_num() + " 分享数：" + datas.get(position).getShare_num());
+                    viewHolder.dpjNum.setText("浏览数：" + data.get(position).getView_num() + " 分享数：" + data.get(position).getShare_num());
 
                     viewHolder.wjdLayout.setVisibility(View.GONE);
                     viewHolder.shzLayout.setVisibility(View.GONE);
@@ -93,7 +99,7 @@ public class ReleaseQBAdapter extends RecyclerView.Adapter {
 
                 case "4"://已下架
                     viewHolder.yxjLayout.setVisibility(View.VISIBLE);
-                    viewHolder.yxjNum.setText("浏览数：" + datas.get(position).getView_num() + " 分享数：" + datas.get(position).getShare_num());
+                    viewHolder.yxjNum.setText("浏览数：" + data.get(position).getView_num() + " 分享数：" + data.get(position).getShare_num());
 
                     viewHolder.wjdLayout.setVisibility(View.GONE);
                     viewHolder.shzLayout.setVisibility(View.GONE);
@@ -104,7 +110,7 @@ public class ReleaseQBAdapter extends RecyclerView.Adapter {
 
                 default://任务中
                     viewHolder.rwzLayout.setVisibility(View.VISIBLE);
-                    viewHolder.rwzNum.setText("浏览数：" + datas.get(position).getView_num() + " 分享数：" + datas.get(position).getShare_num());
+                    viewHolder.rwzNum.setText("浏览数：" + data.get(position).getView_num() + " 分享数：" + data.get(position).getShare_num());
 
                     viewHolder.wjdLayout.setVisibility(View.GONE);
                     viewHolder.shzLayout.setVisibility(View.GONE);
@@ -117,42 +123,42 @@ public class ReleaseQBAdapter extends RecyclerView.Adapter {
             viewHolder.wjdCx.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    onClickListener.onClickCXListener(datas.get(position).getId(), position);
+                    onClickListener.onClickCXListener(data.get(position).getId(), position);
                 }
             });
 
             viewHolder.wjdYq.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    onClickListener.onClickYQListener(datas.get(position).getId(), position);
+                    onClickListener.onClickYQListener(data.get(position).getId(), position);
                 }
             });
 
             viewHolder.shzSh.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    onClickListener.onClickSHListener(datas.get(position).getId(), position);
+                    onClickListener.onClickSHListener(data.get(position).getId(), position);
                 }
             });
 
             viewHolder.yxjSj.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    onClickListener.onClickSJListener(datas.get(position).getId(), position);
+                    onClickListener.onClickSJListener(data.get(position).getId(), position);
                 }
             });
 
             viewHolder.dpjPj.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    onClickListener.onClickPJListener(datas.get(position).getId(), position);
+                    onClickListener.onClickPJListener(data.get(position).getId(), position);
                 }
             });
 
             viewHolder.mView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    onClickListener.TaskOnClickViewListener(datas.get(position).getId(), position, datas.get(position).getTask_type(), datas.get(position).getTask_status());
+                    onClickListener.TaskOnClickViewListener(data.get(position).getId(), position, data.get(position).getTask_type(), data.get(position).getTask_status());
                 }
             });
         }
@@ -160,7 +166,7 @@ public class ReleaseQBAdapter extends RecyclerView.Adapter {
 
     @Override
     public int getItemCount() {
-        return datas.size();
+        return data.size();
     }
 
     class QBViewHolder extends RecyclerView.ViewHolder {

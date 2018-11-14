@@ -25,7 +25,7 @@ import java.util.List;
 public class ReleaseRWZAdapter extends RecyclerView.Adapter {
     private Context context;
 
-    private List<PublishTaskBean> data;
+    private List<PublishTaskBean.DataBean> data1;
 
     private TaskBtnListener listener;
     private EditText edt_pub_people;
@@ -39,9 +39,9 @@ public class ReleaseRWZAdapter extends RecyclerView.Adapter {
         this.listener = listener;
     }
 
-    public ReleaseRWZAdapter(Context context, List<PublishTaskBean> data) {
+    public ReleaseRWZAdapter(Context context, List<PublishTaskBean.DataBean> data) {
         this.context = context;
-        this.data = data;
+        this.data1 = data;
     }
 
     @Override
@@ -55,18 +55,18 @@ public class ReleaseRWZAdapter extends RecyclerView.Adapter {
         if (holder instanceof WJDViewHolder) {
             WJDViewHolder viewHolder = (WJDViewHolder) holder;
 
-            viewHolder.title.setText(data.get(position).getTask_name());
+            viewHolder.title.setText(this.data1.get(position).getTask_name());
 
-            viewHolder.price.setText("￥" + data.get(position).getPay_amount());
+            viewHolder.price.setText("￥" + this.data1.get(position).getPay_amount());
 
-            viewHolder.num.setText("浏览数：" + data.get(position).getView_num() + " 分享数：" + data.get(position).getShare_num());
-            if (!data.get(position).getRefuse_cause().equals("")){
+            viewHolder.num.setText("浏览数：" + this.data1.get(position).getView_num() + " 分享数：" + this.data1.get(position).getShare_num());
+            if (!this.data1.get(position).getRefuse_cause().equals("")){
                 viewHolder.layout_jujue.setVisibility(View.VISIBLE);
                 //viewHolder.tv_weitongguo.setVisibility(View.VISIBLE);
 
                 //viewHolder.tuikuan.setVisibility(View.VISIBLE);
 
-                viewHolder.tv_jujue.setText(data.get(position).getRefuse_cause());
+                viewHolder.tv_jujue.setText(this.data1.get(position).getRefuse_cause());
 
             }
             viewHolder.chexiao.setVisibility(View.GONE);
@@ -74,12 +74,12 @@ public class ReleaseRWZAdapter extends RecyclerView.Adapter {
             viewHolder.mView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    listener.TaskOnClickViewListener(data.get(position).getId(), position, data.get(position).getTask_type(), data.get(position).getTask_status());
+                    listener.TaskOnClickViewListener(ReleaseRWZAdapter.this.data1.get(position).getId(), position, ReleaseRWZAdapter.this.data1.get(position).getTask_type(), ReleaseRWZAdapter.this.data1.get(position).getTask_status());
                 }
             });
 
             viewHolder.recyclerView.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false));
-            TaskListActivity.TagAdapter tagAdapter = new TaskListActivity.TagAdapter(R.layout.item_tag_layout, MercenaryUtils.stringToList(data.get(position).getTask_tag()));
+            TaskListActivity.TagAdapter tagAdapter = new TaskListActivity.TagAdapter(R.layout.item_tag_layout, MercenaryUtils.stringToList(this.data1.get(position).getTask_tag()));
             viewHolder.recyclerView.setAdapter(tagAdapter);
 
         }
@@ -87,7 +87,7 @@ public class ReleaseRWZAdapter extends RecyclerView.Adapter {
 
     @Override
     public int getItemCount() {
-        return data.size();
+        return data1.size();
     }
 
     class WJDViewHolder extends RecyclerView.ViewHolder {

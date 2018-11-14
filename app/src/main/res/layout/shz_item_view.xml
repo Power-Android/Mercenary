@@ -1,21 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:layout_width="match_parent"
-              android:orientation="vertical"
-              android:background="@color/white"
-              android:layout_height="wrap_content"
-    android:id="@+id/item_shz_view_layout">
+    android:id="@+id/item_shz_view_layout"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white"
+    android:orientation="vertical">
 
     <View
         android:layout_width="match_parent"
         android:layout_height="10dp"
-        android:background="@color/bg_color"/>
+        android:background="@color/bg_color" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="10dp"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:padding="10dp">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -25,19 +25,19 @@
             <TextView
                 android:id="@+id/item_wjd_view_title"
                 android:layout_width="0dp"
-                android:layout_weight="1"
                 android:layout_height="wrap_content"
+                android:layout_weight="1"
                 android:text="抓娃娃机"
-                android:textSize="14sp"/>
+                android:textSize="14sp" />
 
             <TextView
                 android:id="@+id/item_wjd_view_price"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="20.00"
                 android:gravity="right"
+                android:text="20.00"
                 android:textColor="#FFFFC910"
-                android:textSize="18sp"/>
+                android:textSize="18sp" />
 
         </LinearLayout>
 
@@ -45,224 +45,257 @@
             android:id="@+id/item_wjd_view_content"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="包同城搬运"
-            android:paddingTop="10dp"
             android:paddingRight="10dp"
-            android:textSize="14sp"/>
+            android:paddingTop="10dp"
+            android:text="包同城搬运"
+            android:textSize="14sp" />
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/item_wjd_view_recyclerView"
-            android:layout_marginTop="5dp"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp" />
+
         <LinearLayout
-            android:layout_marginTop="5dip"
-            android:visibility="gone"
             android:id="@+id/layout_yanqi"
-            android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dip"
+            android:orientation="vertical"
+            android:visibility="gone">
+
             <LinearLayout
-                android:orientation="horizontal"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
                 <TextView
-                    android:textColor="#666"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:singleLine="true"
                     android:text="延期原因："
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    android:textColor="#666" />
+
                 <TextView
                     android:id="@+id/tv_cause"
-                    android:textColor="#666"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:singleLine="true"
                     android:text=""
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    android:textColor="#666" />
             </LinearLayout>
+
             <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
                 android:orientation="horizontal"
-                android:visibility="gone"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:visibility="gone">
+
                 <TextView
-                    android:textColor="#666"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:singleLine="true"
                     android:text="延期天数："
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    android:textColor="#666" />
+
                 <TextView
                     android:id="@+id/tv_days"
-                    android:textColor="#666"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:singleLine="true"
                     android:text=""
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    android:textColor="#666" />
             </LinearLayout>
+
             <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_marginBottom="5dp"
                 android:layout_marginTop="5dp"
                 android:orientation="horizontal"
-                android:visibility="gone"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:visibility="gone">
+
                 <TextView
-                    android:textColor="#666"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:singleLine="true"
                     android:text="延期至"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    android:textColor="#666" />
+
                 <TextView
                     android:id="@+id/tv_yanqi_time"
-                    android:textColor="#666"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:singleLine="true"
                     android:text=""
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    android:textColor="#666" />
             </LinearLayout>
 
         </LinearLayout>
+
         <LinearLayout
-            android:visibility="gone"
             android:id="@+id/layout_all_price"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-        <LinearLayout
-            android:layout_marginTop="5dip"
-            android:paddingBottom="5dip"
-            android:paddingTop="5dip"
+            android:visibility="gone">
 
-            android:orientation="horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
             <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dip"
                 android:orientation="horizontal"
-                android:layout_width="0dip"
-                android:layout_weight="1"
-                android:layout_height="wrap_content">
-                <TextView
-                    android:text="支付平台手续费："
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
-                <TextView
-                    android:id="@+id/tv_fbpt_price"
-                    android:text="6元:"
-                    android:layout_width="0dip"
-                    android:layout_weight="1"
-                    android:layout_height="wrap_content" />
-            </LinearLayout>
-            <LinearLayout
-                android:orientation="horizontal"
-                android:layout_width="0dip"
-                android:layout_weight="1"
-                android:layout_height="wrap_content">
-                <TextView
-                    android:text="平台手续费："
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
-                <TextView
-                    android:id="@+id/tv_pt_price"
-                    android:text="6元:"
-                    android:layout_width="0dip"
-                    android:layout_weight="1"
-                    android:layout_height="wrap_content" />
-            </LinearLayout>
-        </LinearLayout>
-        <LinearLayout
-            android:paddingTop="5dip"
-            android:orientation="horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-            <LinearLayout
-                android:orientation="horizontal"
-                android:layout_width="0dip"
-                android:layout_weight="1"
-                android:layout_height="wrap_content">
-                <TextView
-                    android:text="接受者："
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
-                <TextView
-                    android:id="@+id/tv_js_price"
-                    android:text="6元:"
-                    android:layout_width="0dip"
-                    android:layout_weight="1"
-                    android:layout_height="wrap_content" />
-            </LinearLayout>
-            <LinearLayout
-                android:orientation="horizontal"
-                android:layout_width="0dip"
-                android:layout_weight="1"
+                android:id="@+id/refund"
+                android:paddingBottom="5dip"
+                android:paddingTop="5dip"
+                android:visibility="gone"
+                >
 
-                android:layout_height="wrap_content">
-                <TextView
-                    android:text="发布者："
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
-                <TextView
-                    android:id="@+id/tv_fb_price"
-                    android:text="6元:"
+                <LinearLayout
                     android:layout_width="0dip"
+                    android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:layout_height="wrap_content" />
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="支付平台手续费：" />
+
+                    <TextView
+                        android:id="@+id/tv_fbpt_price"
+                        android:layout_width="0dip"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="6元:" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dip"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="horizontal"
+                    >
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="平台手续费：" />
+
+                    <TextView
+                        android:id="@+id/tv_pt_price"
+                        android:layout_width="0dip"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="6元:" />
+                </LinearLayout>
             </LinearLayout>
-        </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:visibility="gone"
+                android:id="@+id/receiver_refund"
+                android:paddingTop="5dip"
+                >
+
+                <LinearLayout
+                    android:layout_width="0dip"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="接受者：" />
+
+                    <TextView
+                        android:id="@+id/tv_js_price"
+                        android:layout_width="0dip"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="6元:" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dip"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="horizontal"
+                    >
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="发布者：" />
+
+                    <TextView
+                        android:id="@+id/tv_fb_price"
+                        android:layout_width="0dip"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="6元:" />
+                </LinearLayout>
+            </LinearLayout>
         </LinearLayout>
     </LinearLayout>
 
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="@color/bg_color"/>
+        android:background="@color/bg_color" />
 
-        <RelativeLayout
-            android:layout_width="match_parent"
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="10dp">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:padding="10dp">
-            <LinearLayout
-                android:layout_alignParentRight="true"
-                android:orientation="horizontal"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
+            android:layout_alignParentRight="true"
+            android:orientation="horizontal">
+
             <TextView
-                android:layout_marginRight="10dip"
                 android:id="@+id/tv_jujue"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="12sp"
-                android:padding="5dp"
+                android:layout_marginRight="10dip"
                 android:background="@drawable/shape_hk_jx"
-                android:text="拒绝"/>
+                android:padding="5dp"
+                android:text="拒绝"
+                android:textSize="12sp" />
 
             <TextView
-                android:layout_marginRight="10dip"
                 android:id="@+id/tv_shenhe"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="12sp"
-                android:padding="5dp"
-                android:background="@drawable/shape_hk_jx"
-                android:text="审核通过"/>
-            <TextView
                 android:layout_marginRight="10dip"
+                android:background="@drawable/shape_hk_jx"
+                android:padding="5dp"
+                android:text="审核通过"
+                android:textSize="12sp" />
+
+            <TextView
                 android:id="@+id/tv_yanqi"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="12sp"
-                android:padding="5dp"
+                android:layout_marginRight="10dip"
                 android:background="@drawable/shape_hk_jx"
-                android:text="延期处理"/>
-            </LinearLayout>
+                android:padding="5dp"
+                android:text="延期处理"
+                android:textSize="12sp" />
+        </LinearLayout>
 
-        </RelativeLayout>
+    </RelativeLayout>
 
 
     <View
         android:layout_width="match_parent"
         android:layout_height="4dp"
-        android:background="@color/bg_color"
-        />
+        android:background="@color/bg_color" />
 
 </LinearLayout>

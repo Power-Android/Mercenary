@@ -148,7 +148,6 @@ public class OkhtttpUtils {
                 } catch (IOException e) {
                     e.printStackTrace();
 
-
                 }
                 if (okCallback != null) {
                     okCallback.onFailure(new Exception("网络异常"));

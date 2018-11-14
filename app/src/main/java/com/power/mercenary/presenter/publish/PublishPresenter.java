@@ -1,16 +1,22 @@
 package com.power.mercenary.presenter.publish;
 
 import android.app.Activity;
+import android.os.Handler;
 
+import com.google.gson.Gson;
 import com.lzy.okgo.model.Response;
 import com.power.mercenary.MyApplication;
+import com.power.mercenary.activity.RegisterActivity;
 import com.power.mercenary.bean.mytask.PublishTaskBean;
 import com.power.mercenary.http.DialogCallback;
 import com.power.mercenary.http.HttpManager;
 import com.power.mercenary.http.JsonCallback;
+import com.power.mercenary.http.OkhtttpUtils;
 import com.power.mercenary.http.ResponseBean;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * admin  2018/7/18 wan
@@ -32,7 +38,7 @@ public class PublishPresenter {
      * @param task_status
      */
     public void getPublishTaskList(int pageNum, int task_status) {
-        new HttpManager<ResponseBean<List<PublishTaskBean>>>("Home/MyTask/publish_list", this)
+/*        new HttpManager<ResponseBean<List<PublishTaskBean>>>("Home/MyTask/publish_list", this)
                 .addParams("token", MyApplication.getUserToken())
                 .addParams("pageNum", pageNum)
                 .addParams("pageSize", 10)
@@ -48,7 +54,40 @@ public class PublishPresenter {
                         super.onError(response);
                         callBack.getPublishTaskListFail();
                     }
-                });
+                });*/
+
+
+        Map<String, String> map = new HashMap<>();
+        map.put("pageNum", pageNum + "");
+        map.put("task_status", task_status + "");
+        map.put("pageSize", 10+"");
+        map.put("token", MyApplication.getUserToken());
+
+        OkhtttpUtils.getInstance().doPost("http://yb.dashuibei.com/index.php/Home/MyTask/publish_list", map, new OkhtttpUtils.OkCallback() {
+            @Override
+            public void onFailure(Exception e) {
+
+
+            }
+
+            @Override
+            public void onResponse(String json) {
+
+                Gson gson = new Gson();
+
+                PublishTaskBean publishTaskBean = gson.fromJson(json, PublishTaskBean.class);
+
+                if (publishTaskBean.getCode() == 0) {
+
+                    List<PublishTaskBean.DataBean> data = publishTaskBean.getData();
+
+                    callBack.getPublishTaskList(data);
+
+                }
+
+            }
+        });
+
     }
 
     /**
@@ -57,7 +96,7 @@ public class PublishPresenter {
      * @param pageNum
      */
     public void getPublishTaskList(int pageNum) {
-        new HttpManager<ResponseBean<List<PublishTaskBean>>>("Home/MyTask/publish_list", this)
+/*        new HttpManager<ResponseBean<List<PublishTaskBean>>>("Home/MyTask/publish_list", this)
                 .addParams("token", MyApplication.getUserToken())
                 .addParams("pageNum", pageNum)
                 .addParams("pageSize", 10)
@@ -72,7 +111,38 @@ public class PublishPresenter {
                         super.onError(response);
                         callBack.getPublishTaskListFail();
                     }
-                });
+                });*/
+
+        Map<String, String> map = new HashMap<>();
+        map.put("pageNum", pageNum + "");
+        map.put("token", MyApplication.getUserToken());
+
+        OkhtttpUtils.getInstance().doPost("http://yb.dashuibei.com/index.php/Home/MyTask/publish_list", map, new OkhtttpUtils.OkCallback() {
+            @Override
+            public void onFailure(Exception e) {
+
+                callBack.getPublishTaskListFail();
+
+            }
+
+            @Override
+            public void onResponse(String json) {
+
+                Gson gson = new Gson();
+
+                PublishTaskBean publishTaskBean = gson.fromJson(json, PublishTaskBean.class);
+
+                if (publishTaskBean.getCode() == 0) {
+
+                    List<PublishTaskBean.DataBean> data = publishTaskBean.getData();
+
+                    callBack.getPublishTaskList(data);
+
+                }
+
+            }
+        });
+
     }
 
     /**
@@ -130,10 +200,11 @@ public class PublishPresenter {
 
     /**
      * pingjia
+     *
      * @param id
      * @param star
      */
-    public void appraiseRequest(String id, int star){
+    public void appraiseRequest(String id, int star) {
         new HttpManager<ResponseBean<Void>>("Home/MyTask/pingjia", this)
                 .addParams("token", MyApplication.getUserToken())
                 .addParams("id", id)
@@ -147,7 +218,7 @@ public class PublishPresenter {
     }
 
     public interface PublishCallBack {
-        void getPublishTaskList(List<PublishTaskBean> datas);
+        void getPublishTaskList(List<PublishTaskBean.DataBean> datas);
 
         void getPublishTaskListFail();
 
