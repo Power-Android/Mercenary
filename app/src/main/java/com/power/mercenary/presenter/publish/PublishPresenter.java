@@ -60,12 +60,19 @@ public class PublishPresenter {
         Map<String, String> map = new HashMap<>();
         map.put("pageNum", pageNum + "");
         map.put("task_status", task_status + "");
-        map.put("pageSize", 10+"");
+        map.put("pageSize", 10 + "");
         map.put("token", MyApplication.getUserToken());
 
         OkhtttpUtils.getInstance().doPost("http://yb.dashuibei.com/index.php/Home/MyTask/publish_list", map, new OkhtttpUtils.OkCallback() {
             @Override
             public void onFailure(Exception e) {
+
+                if (e.getMessage() != "") {
+
+
+                    //callBack.getPublishTaskListFail();
+
+                }
 
 
             }
@@ -82,6 +89,7 @@ public class PublishPresenter {
                     List<PublishTaskBean.DataBean> data = publishTaskBean.getData();
 
                     callBack.getPublishTaskList(data);
+
 
                 }
 
@@ -121,7 +129,15 @@ public class PublishPresenter {
             @Override
             public void onFailure(Exception e) {
 
-                callBack.getPublishTaskListFail();
+                //callBack.getPublishTaskListFail();
+
+                if (e.getMessage() != "") {
+
+
+                    //callBack.getPublishTaskListFail();
+
+                }
+
 
             }
 
@@ -137,6 +153,7 @@ public class PublishPresenter {
                     List<PublishTaskBean.DataBean> data = publishTaskBean.getData();
 
                     callBack.getPublishTaskList(data);
+
 
                 }
 

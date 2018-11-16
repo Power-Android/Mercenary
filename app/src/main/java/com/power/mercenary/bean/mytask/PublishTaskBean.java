@@ -11,7 +11,7 @@ public class PublishTaskBean {
     /**
      * code : 0
      * msg : success
-     * data : [{"id":"335","task_name":"买衣服","task_type":"2","pay_amount":"0.10","task_description":"aaaaaaaaaaaaaa","task_tag":"aaaaaa","task_status":"3","refuse_cause":"","view_num":"0","share_num":"0","is_yanqi":"0","yanqi_days":"0","yanqi_start":"0","yanqi_reason":"","ticheng":"0","zfpt_ticheng":"0","fafang_money":"0","fabu_money":"0","settle_status":"1"},{"id":"307","task_name":"fff","task_type":"1","pay_amount":"10.00","task_description":"","task_tag":"反反复复","task_status":"1","refuse_cause":"","view_num":"0","share_num":"0","is_yanqi":"0","yanqi_days":"0","yanqi_start":"0","yanqi_reason":"","ticheng":"0","zfpt_ticheng":"0","fafang_money":"0","fabu_money":"0","settle_status":"1"},{"id":"300","task_name":"推送测试","task_type":"1","pay_amount":"1.00","task_description":"","task_tag":"咯哦哦","task_status":"1","refuse_cause":"","view_num":"0","share_num":"0","is_yanqi":"0","yanqi_days":"0","yanqi_start":"0","yanqi_reason":"","ticheng":"0","zfpt_ticheng":"0","fafang_money":"0","fabu_money":"0","settle_status":"1"},{"id":"283","task_name":"测试一下金额四舍五入后是否正常","task_type":"6","pay_amount":"1.00","task_description":"任务详情","task_tag":"标签","task_status":"6","refuse_cause":"","view_num":"0","share_num":"0","is_yanqi":"0","yanqi_days":"0","yanqi_start":"0","yanqi_reason":"","ticheng":"1","zfpt_ticheng":"1","fafang_money":"23","fabu_money":"75","settle_status":"2"},{"id":"282","task_name":"任务金额测试","task_type":"6","pay_amount":"1.00","task_description":"任务详情","task_tag":"标签","task_status":"6","refuse_cause":"","view_num":"0","share_num":"0","is_yanqi":"0","yanqi_days":"0","yanqi_start":"0","yanqi_reason":"","ticheng":"3","zfpt_ticheng":"1","fafang_money":"63","fabu_money":"34","settle_status":"2"},{"id":"226","task_name":"jjj","task_type":"1","pay_amount":"55.00","task_description":"","task_tag":"hbv","task_status":"6","refuse_cause":"","view_num":"0","share_num":"0","is_yanqi":"0","yanqi_days":"0","yanqi_start":"0","yanqi_reason":"","ticheng":"0","zfpt_ticheng":"33","fafang_money":"0","fabu_money":"5467","settle_status":"2"},{"id":"218","task_name":"朱佳男发布其他任务测试任务金额","task_type":"6","pay_amount":"100.00","task_description":"任务详情","task_tag":"我是标签","task_status":"6","refuse_cause":"","view_num":"0","share_num":"0","is_yanqi":"1","yanqi_days":"2","yanqi_start":"1539944140","yanqi_reason":"sss","ticheng":"0","zfpt_ticheng":"0","fafang_money":"0","fabu_money":"0","settle_status":"1"},{"id":"198","task_name":"朱佳男测试个人定制-硬件是否能正常展示","task_type":"3","pay_amount":"100.00","task_description":"产品提出审核过的任务不能正常展示 所以测试一下，找找原因","task_tag":"1018,测试","task_status":"6","refuse_cause":"","view_num":"0","share_num":"0","is_yanqi":"0","yanqi_days":"0","yanqi_start":"0","yanqi_reason":"","ticheng":"217","zfpt_ticheng":"60","fafang_money":"4722","fabu_money":"5000","settle_status":"2"}]
+     * data : [{"id":"337","task_name":"测试","task_type":"1","pay_amount":"0.10","task_description":"","task_tag":"wwwwwww","task_status":"3","refuse_cause":"","view_num":"0","share_num":"0","is_yanqi":"0","yanqi_days":"0","yanqi_start":"0","yanqi_end":"0","yanqi_reason":"","ticheng":"0","zfpt_ticheng":"0","fafang_money":"0","fabu_money":"10","settle_status":"2"},{"id":"334","task_name":"ddd","task_type":"1","pay_amount":"0.10","task_description":"","task_tag":"fffffff","task_status":"3","refuse_cause":"","view_num":"0","share_num":"0","is_yanqi":"1","yanqi_days":"2","yanqi_start":"1542265968","yanqi_end":"1542438768","yanqi_reason":"fffff","ticheng":"0","zfpt_ticheng":"0","fafang_money":"0","fabu_money":"10","settle_status":"2"}]
      */
 
     private int code;
@@ -44,12 +44,12 @@ public class PublishTaskBean {
 
     public static class DataBean {
         /**
-         * id : 335
-         * task_name : 买衣服
-         * task_type : 2
+         * id : 337
+         * task_name : 测试
+         * task_type : 1
          * pay_amount : 0.10
-         * task_description : aaaaaaaaaaaaaa
-         * task_tag : aaaaaa
+         * task_description :
+         * task_tag : wwwwwww
          * task_status : 3
          * refuse_cause :
          * view_num : 0
@@ -57,12 +57,13 @@ public class PublishTaskBean {
          * is_yanqi : 0
          * yanqi_days : 0
          * yanqi_start : 0
+         * yanqi_end : 0
          * yanqi_reason :
          * ticheng : 0
          * zfpt_ticheng : 0
          * fafang_money : 0
-         * fabu_money : 0
-         * settle_status : 1
+         * fabu_money : 10
+         * settle_status : 2
          */
 
         private String id;
@@ -78,6 +79,7 @@ public class PublishTaskBean {
         private String is_yanqi;
         private String yanqi_days;
         private String yanqi_start;
+        private String yanqi_end;
         private String yanqi_reason;
         private String ticheng;
         private String zfpt_ticheng;
@@ -187,6 +189,14 @@ public class PublishTaskBean {
 
         public void setYanqi_start(String yanqi_start) {
             this.yanqi_start = yanqi_start;
+        }
+
+        public String getYanqi_end() {
+            return yanqi_end;
+        }
+
+        public void setYanqi_end(String yanqi_end) {
+            this.yanqi_end = yanqi_end;
         }
 
         public String getYanqi_reason() {

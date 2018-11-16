@@ -375,8 +375,22 @@
         <activity android:name=".activity.ShouzeActivity" />
         <activity android:name=".activity.UserShouzeActivity" />
         <activity android:name=".activity.TuiGuangActivity" />
-        <activity android:name=".MainActivity" />
         <activity android:name=".activity.CommitUserInfoActivity"></activity>
+
+        <activity
+            android:name=".MainActivity"
+        android:launchMode="singleTask"
+            android:screenOrientation="portrait"></activity>
+
+        <intent-filter>
+            <action android:name="android.intent.action.VIEW" />
+            <category android:name="android.intent.category.DEFAULT" />
+
+            <data
+                android:host="com.power.mercenary"
+                android:pathPrefix="/push_message"
+                android:scheme="rong" />
+        </intent-filter>
     </application>
 
 </manifest>

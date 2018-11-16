@@ -46,7 +46,7 @@ public class MessageSystemAdapter  extends RecyclerView.Adapter {
         if (holder instanceof TaskViewHolder) {
             TaskViewHolder viewHolder = (TaskViewHolder) holder;
 
-            viewHolder.title.setText(datas.get(position).getNotice_push_name());
+            viewHolder.title.setText(datas.get(position).getNotice_push_content());
 
             long nowTime = System.currentTimeMillis();
             SimpleDateFormat sdf = null;

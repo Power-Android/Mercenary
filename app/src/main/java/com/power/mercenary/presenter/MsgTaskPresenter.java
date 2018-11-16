@@ -26,7 +26,7 @@ public class MsgTaskPresenter {
     }
 
     public void getTaskList(int page){
-        new HttpManager<ResponseBean<List<MsgTaskBean>>>("Home/YbTest/task_message_get", this)
+        new HttpManager<ResponseBean<List<MsgTaskBean>>>("Home/YbTest/task_message_list", this)
                 .addParams("token", MyApplication.getUserToken())
                 .addParams("page", page)
                 .addParams("rows", 20)

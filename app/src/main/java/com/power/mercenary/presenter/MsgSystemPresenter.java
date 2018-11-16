@@ -26,7 +26,7 @@ public class MsgSystemPresenter {
     }
 
     public void getSystemList(int page){
-        new HttpManager<ResponseBean<List<MsgSystemBean>>>("Home/YbTest/notice_get", this)
+        new HttpManager<ResponseBean<List<MsgSystemBean>>>("Home/YbTest/notice_list", this)
                 .addParams("token", MyApplication.getUserToken())
                 .addParams("page", page)
                 .addParams("rows", 20)

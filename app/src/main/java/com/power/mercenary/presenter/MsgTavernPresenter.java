@@ -26,7 +26,7 @@ public class MsgTavernPresenter {
     }
 
     public void getTavernList(int page){
-        new HttpManager<ResponseBean<List<MsgTavernBean>>>("Home/YbTest/post_get", this)
+        new HttpManager<ResponseBean<List<MsgTavernBean>>>("Home/YbTest/post_message_list", this)
                 .addParams("token", MyApplication.getUserToken())
                 .addParams("page", page)
                 .addParams("rows", 20)

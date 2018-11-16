@@ -1,20 +1,26 @@
 package com.power.mercenary.fragment;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.google.gson.Gson;
+import com.power.mercenary.MyApplication;
 import com.power.mercenary.R;
 import com.power.mercenary.activity.chat.ChatPushActivity;
 import com.power.mercenary.adapter.message.MessageSystemAdapter;
 import com.power.mercenary.base.BaseFragment;
 import com.power.mercenary.bean.MsgSystemBean;
+import com.power.mercenary.http.OkhtttpUtils;
 import com.power.mercenary.presenter.MsgSystemPresenter;
 import com.power.mercenary.view.pullrecyclerview.WanRecyclerView;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * admin  2018/7/23 wan
@@ -26,6 +32,8 @@ public class MessageSystemFragment extends BaseFragment implements WanRecyclerVi
     private MessageSystemAdapter adapter;
 
     private MsgSystemPresenter presenter;
+
+    private static final String TAG = "MessageSystemFragment";
 
     private int page = 1;
 
@@ -54,6 +62,8 @@ public class MessageSystemFragment extends BaseFragment implements WanRecyclerVi
 
     @Override
     protected void initLazyData() {
+
+                Log.e(TAG, "onResponse: "+MyApplication.getUserToken() );
 
     }
 
@@ -91,4 +101,5 @@ public class MessageSystemFragment extends BaseFragment implements WanRecyclerVi
     public void getSystemListFail() {
         mRecyclerView.setHasMore(0, 20);
     }
+
 }

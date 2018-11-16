@@ -19,6 +19,7 @@ import android.widget.Toast;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
+import com.google.gson.Gson;
 import com.lzy.okgo.model.Response;
 import com.power.mercenary.MyApplication;
 import com.power.mercenary.R;
@@ -74,8 +75,6 @@ public class ReleaseSHZAdapter extends RecyclerView.Adapter {
         if (holder instanceof WJDViewHolder) {
             WJDViewHolder viewHolder = (WJDViewHolder) holder;
 
-
-
             dataBean = data.get(position);
 
             viewHolder.ll_refund.setVisibility(View.GONE);
@@ -94,7 +93,7 @@ public class ReleaseSHZAdapter extends RecyclerView.Adapter {
                 viewHolder.layout_yanqi.setVisibility(View.VISIBLE);
                 viewHolder.tvCause.setText(this.dataBean.getYanqi_reason());
                 viewHolder.tvDays.setText(this.dataBean.getYanqi_days());
-                viewHolder.tvYanTime.setText(MyUtils.getDateToStringTime(this.dataBean.getYanqi_start()));
+                viewHolder.tvYanTime.setText(MyUtils.getDateToStringTime(this.dataBean.getYanqi_end()));
             } else {
                 viewHolder.layout_all_price.setVisibility(View.VISIBLE);
                 viewHolder.tv_jujue.setVisibility(View.VISIBLE);
@@ -347,6 +346,8 @@ public class ReleaseSHZAdapter extends RecyclerView.Adapter {
                             @Override
                             public void onSuccess(Response<ResponseBean<SuccessBean>> response) {
                                 Toast.makeText(context, response.body().msg, Toast.LENGTH_SHORT).show();
+                               // Log.e(TAG, "onSuccess: "+response.body().data );
+
                                 taskBtnListener.TaskOnClickListener();
                                 mDialog.dismiss();
                             }

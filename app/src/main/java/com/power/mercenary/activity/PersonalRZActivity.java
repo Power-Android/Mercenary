@@ -447,6 +447,11 @@ public class PersonalRZActivity extends BaseActivity implements UpdataPresenter.
 
                     Toast.makeText(PersonalRZActivity.this, "姓名不能为空", Toast.LENGTH_SHORT).show();
                     isRequest = false;
+                    return;
+
+                } else {
+
+                    isRequest = true;
 
                 }
 
@@ -455,6 +460,11 @@ public class PersonalRZActivity extends BaseActivity implements UpdataPresenter.
 
                     Toast.makeText(PersonalRZActivity.this, "银行卡号不能为空", Toast.LENGTH_SHORT).show();
                     isRequest = false;
+                    return;
+                } else {
+
+                    isRequest = true;
+
                 }
 
                 //效验联系人姓名
@@ -462,6 +472,11 @@ public class PersonalRZActivity extends BaseActivity implements UpdataPresenter.
 
                     Toast.makeText(PersonalRZActivity.this, "姓名不能为空", Toast.LENGTH_SHORT).show();
                     isRequest = false;
+                    return;
+                } else {
+
+                    isRequest = true;
+
                 }
 
                 //效验联系人手机号
@@ -469,6 +484,11 @@ public class PersonalRZActivity extends BaseActivity implements UpdataPresenter.
 
                     Toast.makeText(PersonalRZActivity.this, "手机号不能为空", Toast.LENGTH_SHORT).show();
                     isRequest = false;
+                    return;
+                } else {
+
+                    isRequest = true;
+
                 }
 
                 //效验银行卡号
@@ -476,6 +496,11 @@ public class PersonalRZActivity extends BaseActivity implements UpdataPresenter.
 
                     Toast.makeText(PersonalRZActivity.this, "银行卡号不能为空", Toast.LENGTH_SHORT).show();
                     isRequest = false;
+                    return;
+                } else {
+
+                    isRequest = true;
+
                 }
 
                 //效验开户行
@@ -483,6 +508,11 @@ public class PersonalRZActivity extends BaseActivity implements UpdataPresenter.
 
                     Toast.makeText(PersonalRZActivity.this, "银行卡号不能为空", Toast.LENGTH_SHORT).show();
                     isRequest = false;
+                    return;
+                } else {
+
+                    isRequest = true;
+
                 }
 
                 //效验联系人手机号
@@ -490,6 +520,11 @@ public class PersonalRZActivity extends BaseActivity implements UpdataPresenter.
 
                     Toast.makeText(PersonalRZActivity.this, "手机号必须为11位数字", Toast.LENGTH_SHORT).show();
                     isRequest = false;
+                    return;
+                } else {
+
+                    isRequest = true;
+
                 }
 
                 //效验联系人姓名
@@ -497,6 +532,11 @@ public class PersonalRZActivity extends BaseActivity implements UpdataPresenter.
 
                     Toast.makeText(PersonalRZActivity.this, "姓名不能大于20个汉字", Toast.LENGTH_SHORT).show();
                     isRequest = false;
+                    return;
+                } else {
+
+                    isRequest = true;
+
                 }
 
                 //效验银行卡卡号
@@ -504,6 +544,11 @@ public class PersonalRZActivity extends BaseActivity implements UpdataPresenter.
 
                     Toast.makeText(PersonalRZActivity.this, "卡号不能小于16位数字", Toast.LENGTH_SHORT).show();
                     isRequest = false;
+                    return;
+                } else {
+
+                    isRequest = true;
+
                 }
 
                 //效验身份证号
@@ -511,6 +556,11 @@ public class PersonalRZActivity extends BaseActivity implements UpdataPresenter.
 
                     Toast.makeText(PersonalRZActivity.this, "身份证号必须为18位", Toast.LENGTH_SHORT).show();
                     isRequest = false;
+                    return;
+                } else {
+
+                    isRequest = true;
+
                 }
 
                 //Log.e(TAG, "onViewClicked: " + imgList.size() + "    " + isRequest);
@@ -587,7 +637,20 @@ public class PersonalRZActivity extends BaseActivity implements UpdataPresenter.
 
                                 if (code == 0) {
 
-                                    Toast.makeText(PersonalRZActivity.this, "即将跳转......", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(PersonalRZActivity.this, "实名成功,即将跳转......", Toast.LENGTH_SHORT).show();
+
+                                    new Thread(new Runnable() {
+                                        @Override
+                                        public void run() {
+
+                                            try {
+                                                Thread.sleep(2000);
+                                            } catch (InterruptedException e) {
+                                                e.printStackTrace();
+                                            }
+
+                                        }
+                                    }).start();
 
                                     //认证完成 跳转页面
                                     Intent intent = new Intent(PersonalRZActivity.this, MainActivity.class);
@@ -596,7 +659,17 @@ public class PersonalRZActivity extends BaseActivity implements UpdataPresenter.
 
                                 } else {
 
-                                    Toast.makeText(PersonalRZActivity.this, certificationBean.getMessage().getResult().getMessage(), Toast.LENGTH_SHORT).show();
+                                    if (certificationBean.getMessage().getResult().getMessage() != "" | certificationBean.getMessage().getResult().getMessage() != null) {
+
+                                        Toast.makeText(PersonalRZActivity.this, certificationBean.getMessage().getResult().getMessage() + "", Toast.LENGTH_SHORT).show();
+
+                                    } else {
+
+                                        Toast.makeText(PersonalRZActivity.this, "出错了", Toast.LENGTH_SHORT).show();
+
+                                    }
+
+                                    Toast.makeText(PersonalRZActivity.this, "出错了", Toast.LENGTH_SHORT).show();
 
                                 }
 

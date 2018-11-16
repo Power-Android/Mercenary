@@ -13,7 +13,7 @@ import android.widget.TextView;
 public class CountDownUtils extends CountDownTimer {
 	private TextView tv;
 
-	/** 倒计�? **/
+	/** 倒计时 **/
 	public CountDownUtils(long millisInFuture, long countDownInterval,
 			TextView tv) {
 		super(millisInFuture, countDownInterval);// 参数依次为�?�时�?,和计时的时间间隔
