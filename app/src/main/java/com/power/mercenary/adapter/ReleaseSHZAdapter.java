@@ -3,7 +3,10 @@ package com.power.mercenary.adapter;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.support.annotation.Nullable;
+import android.support.annotation.VisibleForTesting;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
@@ -12,8 +15,12 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
+import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -55,6 +62,12 @@ public class ReleaseSHZAdapter extends RecyclerView.Adapter {
     private int type;
     private PublishTaskBean.DataBean dataBean;
 
+
+    private PopupWindow window;
+
+    private List<Integer> list;
+
+
     public void setTaskBtnListener(TaskBtnListener taskBtnListener) {
         this.taskBtnListener = taskBtnListener;
     }
@@ -84,8 +97,25 @@ public class ReleaseSHZAdapter extends RecyclerView.Adapter {
                 viewHolder.tv_jujue.setVisibility(View.GONE);
                 viewHolder.tv_shenhe.setVisibility(View.GONE);
                 viewHolder.layout_all_price.setVisibility(View.GONE);
+
                 viewHolder.layout_yanqi.setVisibility(View.VISIBLE);
+
+
+                //改变Button的文字
                 viewHolder.tv_yanqi.setText("已延期处理");
+
+                //让延期天数 和延期至显示
+
+                viewHolder.ll_yanqi_time.setVisibility(View.VISIBLE);
+                viewHolder.ll_yanqi_to.setVisibility(View.VISIBLE);
+
+
+
+
+
+
+
+
 //                viewHolder.tv_yanqi.setEnabled(false);
                 //设置隐藏
                 viewHolder.ll_refund.setVisibility(View.GONE);
@@ -105,7 +135,7 @@ public class ReleaseSHZAdapter extends RecyclerView.Adapter {
 
             String settle_status = dataBean.getSettle_status();
 
-            if (settle_status.equals("2")){
+            if (settle_status.equals("2")) {
 
                 viewHolder.ll_refund.setVisibility(View.VISIBLE);
                 viewHolder.ll_receiverRefund.setVisibility(View.VISIBLE);
@@ -127,7 +157,7 @@ public class ReleaseSHZAdapter extends RecyclerView.Adapter {
 
             String id = this.dataBean.getId();
 
-            Log.e(TAG, "onBindViewHolder: "+id );
+            Log.e(TAG, "onBindViewHolder: " + id);
 
             String task_type = this.dataBean.getTask_type();
 
@@ -250,6 +280,8 @@ public class ReleaseSHZAdapter extends RecyclerView.Adapter {
                 .builder();
         TextView tv_sure = mDialog.getView(R.id.tv_sure);
         TextView tv_cancle = mDialog.getView(R.id.tv_cancle);
+
+
         tv_sure.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -305,25 +337,53 @@ public class ReleaseSHZAdapter extends RecyclerView.Adapter {
         TextView tv_cancle = mDialog.getView(R.id.tv_cancle);
         final TextView tv_show_num = mDialog.getView(R.id.tv_show_num);
 
+        final Spinner yanqiSpinner = mDialog.getView(R.id.yanqi_spinner);
+
         RelativeLayout rl_wdtg = mDialog.getView(R.id.rl_wdtg);
         final TextView edt_cause = mDialog.getView(R.id.edt_cause);
-        final RecyclerView timeRecycler = mDialog.getView(R.id.time_recycler);
-        timeRecycler.setNestedScrollingEnabled(false);
-        timeRecycler.setLayoutManager(new LinearLayoutManager(context));
+        //final RecyclerView timeRecycler = mDialog.getView(R.id.time_recycler);
+        //timeRecycler.setNestedScrollingEnabled(false);
+        //timeRecycler.setLayoutManager(new LinearLayoutManager(context));
         NewbqAdapter newbqAdapter = new NewbqAdapter(R.layout.yanqi_recycler_item, mlist);
-        timeRecycler.setAdapter(newbqAdapter);
+
+        yanqiSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                //获得选中的天数
+                String selectedItem = (String) yanqiSpinner.getSelectedItem();
+                //判断字符串不等于'请选择延期天数'
+                if (!selectedItem.equals("请选择延期天数")) {
+
+                    tv_show_num.setText(selectedItem);
+
+                } else {
+                    //否侧Toast '请选择天数'
+                    Toast.makeText(context, "请选择天数", Toast.LENGTH_SHORT).show();
+
+                }
+
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
+
+
+        //timeRecycler.setAdapter(newbqAdapter);
         newbqAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
                 tv_show_num.setText(mlist.get(position));
-                timeRecycler.setVisibility(View.GONE);
+                //timeRecycler.setVisibility(View.GONE);
             }
         });
-        timeRecycler.setVisibility(View.GONE);
+        //timeRecycler.setVisibility(View.GONE);
         rl_wdtg.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                timeRecycler.setVisibility(View.VISIBLE);
+                //timeRecycler.setVisibility(View.VISIBLE);
             }
         });
 
@@ -346,7 +406,7 @@ public class ReleaseSHZAdapter extends RecyclerView.Adapter {
                             @Override
                             public void onSuccess(Response<ResponseBean<SuccessBean>> response) {
                                 Toast.makeText(context, response.body().msg, Toast.LENGTH_SHORT).show();
-                               // Log.e(TAG, "onSuccess: "+response.body().data );
+                                // Log.e(TAG, "onSuccess: "+response.body().data );
 
                                 taskBtnListener.TaskOnClickListener();
                                 mDialog.dismiss();
@@ -412,6 +472,8 @@ public class ReleaseSHZAdapter extends RecyclerView.Adapter {
         LinearLayout layout_all_price;
         private final LinearLayout ll_refund;
         private final LinearLayout ll_receiverRefund;
+        private final LinearLayout ll_yanqi_time;
+        private final LinearLayout ll_yanqi_to;
 
         public WJDViewHolder(View itemView) {
             super(itemView);
@@ -428,6 +490,8 @@ public class ReleaseSHZAdapter extends RecyclerView.Adapter {
             tv_fb_price = itemView.findViewById(R.id.tv_fb_price);
             tv_js_price = itemView.findViewById(R.id.tv_js_price);
             tvCause = itemView.findViewById(R.id.tv_cause);
+            ll_yanqi_time = itemView.findViewById(R.id.ll_yanqi_time);
+            ll_yanqi_to = itemView.findViewById(R.id.ll_yanqi_to);
             tvDays = itemView.findViewById(R.id.tv_days);
             ll_refund = itemView.findViewById(R.id.refund);
             ll_receiverRefund = itemView.findViewById(R.id.receiver_refund);
@@ -441,6 +505,19 @@ public class ReleaseSHZAdapter extends RecyclerView.Adapter {
         void TaskOnClickListener();
 
         void TaskOnClickViewListener(String id, int position, String taskType, String taskState);
+    }
+
+
+    public void getData() {
+        list = new ArrayList<>();
+
+        for (int i = 0; i < 50; i++) {
+
+            list.add(i);
+
+        }
+
+
     }
 
 }

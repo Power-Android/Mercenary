@@ -2,6 +2,7 @@ package com.power.mercenary.fragment;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -41,6 +42,8 @@ public class ReleaseSHZFragment  extends BaseFragment implements WanRecyclerView
     private ReleaseSHZAdapter adapter;
 
     private int page = 1;
+
+
 
     @Override
     protected View initView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {

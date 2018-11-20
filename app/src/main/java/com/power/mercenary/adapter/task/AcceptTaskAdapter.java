@@ -235,7 +235,7 @@ public class AcceptTaskAdapter extends RecyclerView.Adapter implements SeekBar.O
 
         tv_all_price.setText((Double.parseDouble(data.get(position).getPay_amount()) - Double.parseDouble(data.get(position).getPay_amount()) * 0.006) + "");
         seekbar.setMax((int) Double.parseDouble(data.get(position).getPay_amount()) * 100 - 100);
-        seekbar.setProgress((int) Double.parseDouble(data.get(position).getPay_amount()) * 100);
+        //seekbar.setProgress((int) Double.parseDouble(data.get(position).getPay_amount()) * 100);
 
         seekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
@@ -249,6 +249,11 @@ public class AcceptTaskAdapter extends RecyclerView.Adapter implements SeekBar.O
                     seekBar.setProgress(0);
                 }
 
+
+
+
+
+
             }
 
             @Override
@@ -257,7 +262,7 @@ public class AcceptTaskAdapter extends RecyclerView.Adapter implements SeekBar.O
                 //修改当进度条改变 有负数的情况
                 int progress = seekBar.getProgress();
 
-                if (progress == 0) {
+                if (progress<0) {
 
                     seekBar.setProgress(0);
                 }

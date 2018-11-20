@@ -63,5 +63,57 @@
 
     </string-array>
 
+    <string-array name="day">
+
+        <item>请选择延期天数</item>
+        <item>1天</item>
+        <item>2天</item>
+        <item>3天</item>
+        <item>4天</item>
+        <item>5天</item>
+        <item>6天</item>
+        <item>7天</item>
+        <item>8天</item>
+        <item>9天</item>
+        <item>10天</item>
+        <item>11天</item>
+        <item>12天</item>
+        <item>13天</item>
+        <item>14天</item>
+        <item>15天</item>
+        <item>16天</item>
+        <item>17天</item>
+        <item>18天</item>
+        <item>19天</item>
+        <item>20天</item>
+        <item>21天</item>
+        <item>22天</item>
+        <item>23天</item>
+        <item>24天</item>
+        <item>25天</item>
+        <item>26天</item>
+        <item>27天</item>
+        <item>28天</item>
+        <item>29天</item>
+        <item>30天</item>
+        <item>31天</item>
+        <item>32天</item>
+        <item>33天</item>
+        <item>34天</item>
+        <item>35天</item>
+        <item>36天</item>
+        <item>37天</item>
+        <item>38天</item>
+        <item>39天</item>
+        <item>40天</item>
+        <item>41天</item>
+        <item>42天</item>
+        <item>43天</item>
+        <item>44天</item>
+        <item>45天</item>
+
+
+    </string-array>
+
 
 </resources>
