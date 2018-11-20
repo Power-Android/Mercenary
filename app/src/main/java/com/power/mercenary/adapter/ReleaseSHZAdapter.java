@@ -100,7 +100,6 @@ public class ReleaseSHZAdapter extends RecyclerView.Adapter {
 
                 viewHolder.layout_yanqi.setVisibility(View.VISIBLE);
 
-
                 //改变Button的文字
                 viewHolder.tv_yanqi.setText("已延期处理");
 
@@ -108,13 +107,6 @@ public class ReleaseSHZAdapter extends RecyclerView.Adapter {
 
                 viewHolder.ll_yanqi_time.setVisibility(View.VISIBLE);
                 viewHolder.ll_yanqi_to.setVisibility(View.VISIBLE);
-
-
-
-
-
-
-
 
 //                viewHolder.tv_yanqi.setEnabled(false);
                 //设置隐藏
@@ -358,7 +350,7 @@ public class ReleaseSHZAdapter extends RecyclerView.Adapter {
 
                 } else {
                     //否侧Toast '请选择天数'
-                    Toast.makeText(context, "请选择天数", Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(context, "请选择天数", Toast.LENGTH_SHORT).show();
 
                 }
 
@@ -507,7 +499,6 @@ public class ReleaseSHZAdapter extends RecyclerView.Adapter {
         void TaskOnClickViewListener(String id, int position, String taskType, String taskState);
     }
 
-
     public void getData() {
         list = new ArrayList<>();
 
@@ -516,7 +507,6 @@ public class ReleaseSHZAdapter extends RecyclerView.Adapter {
             list.add(i);
 
         }
-
 
     }
 

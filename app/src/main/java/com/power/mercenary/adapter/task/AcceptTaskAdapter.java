@@ -98,8 +98,8 @@ public class AcceptTaskAdapter extends RecyclerView.Adapter implements SeekBar.O
                 if (!data.get(position).getRefuse_cause().equals("")) {
                     viewHolder.layoutJujue.setVisibility(View.VISIBLE);
                     viewHolder.tvJujue.setText(data.get(position).getRefuse_cause());
-                    viewHolder.tuikuan.setText("未通过");
-                    viewHolder.tuikuan.setEnabled(false);
+                    viewHolder.tuikuan.setText("退款");
+                    //viewHolder.tuikuan.setEnabled(true);
                 }
             } else if (data.get(position).getTask_status().equals("3")) {//审核中
                 if (data.get(position).getSettle_status().equals("2")) {
@@ -174,11 +174,11 @@ public class AcceptTaskAdapter extends RecyclerView.Adapter implements SeekBar.O
 
         String price = oldPrice[0];
 
-        Log.e(TAG, "showIssueDialog: "+price);
+        Log.e(TAG, "showIssueDialog: " + price);
 
         final String[] newPrice = price.split("\\)");
 
-        Log.e(TAG, "showIssueDialog: "+newPrice);
+        Log.e(TAG, "showIssueDialog: " + newPrice);
 
         tv_sure.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -231,28 +231,49 @@ public class AcceptTaskAdapter extends RecyclerView.Adapter implements SeekBar.O
 
         String profit_Value = DoubleUtils.getValue(sun);
 
-        tv_zfpt_price.setText("("+profit_Value+")");
+        tv_zfpt_price.setText("(" + profit_Value + ")");
+
+        int allPrice = (int) (Double.parseDouble(data.get(position).getPay_amount()) - Double.parseDouble(data.get(position).getPay_amount()) * 0.006);
+
+        //Log.e(TAG, "showIssueDialog: " + allPrice + "");
+
+        int o = (int) (((Double.parseDouble(data.get(position).getPay_amount())) * 100) - 100);
+
+       // Log.d(TAG, "showIssueDialog: " + o);
+
+
+        int seekMaxNumber = 100;
+
+        if (allPrice < 0.9) {
+
+            seekMaxNumber = 9;
+
+        }
+
+        if (allPrice < 99.9 && allPrice > 0.9) {
+
+            seekMaxNumber = 99;
+
+        }
+
+        if (allPrice > 99.9) {
+
+            seekMaxNumber = 100;
+
+        }
 
         tv_all_price.setText((Double.parseDouble(data.get(position).getPay_amount()) - Double.parseDouble(data.get(position).getPay_amount()) * 0.006) + "");
-        seekbar.setMax((int) Double.parseDouble(data.get(position).getPay_amount()) * 100 - 100);
-        //seekbar.setProgress((int) Double.parseDouble(data.get(position).getPay_amount()) * 100);
+        seekbar.setMax(seekMaxNumber);
+        seekbar.setProgress(0);
+
 
         seekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
 
-                //修改当进度条改变 有负数的情况
                 int progress = seekBar.getProgress();
 
-                if (progress == 0) {
-
-                    seekBar.setProgress(0);
-                }
-
-
-
-
-
+                Log.e(TAG, "onProgressChanged: " + progress);
 
             }
 
@@ -262,7 +283,8 @@ public class AcceptTaskAdapter extends RecyclerView.Adapter implements SeekBar.O
                 //修改当进度条改变 有负数的情况
                 int progress = seekBar.getProgress();
 
-                if (progress<0) {
+                Log.e(TAG, "onProgressChanged: " + progress);
+                if (progress < 0) {
 
                     seekBar.setProgress(0);
                 }

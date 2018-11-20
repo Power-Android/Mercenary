@@ -43,8 +43,6 @@ public class ReleaseSHZFragment  extends BaseFragment implements WanRecyclerView
 
     private int page = 1;
 
-
-
     @Override
     protected View initView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
