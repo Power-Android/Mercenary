@@ -5,6 +5,7 @@ import android.print.PrinterId;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Layout;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -55,6 +56,24 @@ public class ReleaseQBAdapter extends RecyclerView.Adapter {
 
             viewHolder.price.setText("￥" + data.get(position).getPay_amount());
 
+            String is_yanqi = data.get(position).getIs_yanqi();
+
+            if (is_yanqi.equals("1")){
+
+                viewHolder.content.setText("延期原因:" + data.get(position).getYanqi_reason());
+
+                viewHolder.shzSh.setText("延期处理");
+
+                viewHolder.shzSh.setEnabled(false);
+
+            }else{
+
+                viewHolder.content.setVisibility(View.GONE);
+
+                viewHolder.shzSh.setEnabled(true);
+
+            }
+
             viewHolder.recyclerView.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false));
             TaskListActivity.TagAdapter tagAdapter = new TaskListActivity.TagAdapter(R.layout.item_tag_layout, MercenaryUtils.stringToList(data.get(position).getTask_tag()));
             viewHolder.recyclerView.setAdapter(tagAdapter);
@@ -69,17 +88,28 @@ public class ReleaseQBAdapter extends RecyclerView.Adapter {
                     viewHolder.dpjLayout.setVisibility(View.GONE);
                     viewHolder.yxjLayout.setVisibility(View.GONE);
                     viewHolder.rwzLayout.setVisibility(View.GONE);
+                    viewHolder.shzSh.setText("未决定");
                     break;
 
                 case "3"://审核中
                     viewHolder.shzLayout.setVisibility(View.VISIBLE);
                     viewHolder.content.setVisibility(View.VISIBLE);
-                    viewHolder.content.setText("延期原因:" + data.get(position).getYanqi_reason());
-                    viewHolder.shzSh.setEnabled(false);
+
                     viewHolder.wjdLayout.setVisibility(View.GONE);
                     viewHolder.dpjLayout.setVisibility(View.GONE);
                     viewHolder.yxjLayout.setVisibility(View.GONE);
                     viewHolder.rwzLayout.setVisibility(View.GONE);
+
+                    if (data.get(position).getIs_yanqi().equals("1")){
+
+                        viewHolder.shzSh.setText("延期处理");
+
+                    }else{
+
+                        viewHolder.shzSh.setText("审核中");
+
+                    }
+
                     break;
 
                 case "6"://待评价
@@ -91,6 +121,8 @@ public class ReleaseQBAdapter extends RecyclerView.Adapter {
                     viewHolder.content.setVisibility(View.GONE);
                     viewHolder.yxjLayout.setVisibility(View.GONE);
                     viewHolder.rwzLayout.setVisibility(View.GONE);
+
+                    viewHolder.shzSh.setText("待评价");
                     break;
 
                 case "4"://已下架
@@ -102,6 +134,8 @@ public class ReleaseQBAdapter extends RecyclerView.Adapter {
                     viewHolder.content.setVisibility(View.GONE);
                     viewHolder.dpjLayout.setVisibility(View.GONE);
                     viewHolder.rwzLayout.setVisibility(View.GONE);
+
+                    viewHolder.shzSh.setText("已下架");
                     break;
 
                 default://任务中
@@ -113,6 +147,8 @@ public class ReleaseQBAdapter extends RecyclerView.Adapter {
                     viewHolder.content.setVisibility(View.GONE);
                     viewHolder.dpjLayout.setVisibility(View.GONE);
                     viewHolder.yxjLayout.setVisibility(View.GONE);
+
+                    viewHolder.shzSh.setText("任务中");
                     break;
             }
 
