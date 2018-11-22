@@ -18,10 +18,14 @@ import com.power.mercenary.MyApplication;
 import com.power.mercenary.R;
 import com.power.mercenary.utils.TUtils;
 import com.umeng.socialize.ShareAction;
+import com.umeng.socialize.UMAuthListener;
+import com.umeng.socialize.UMShareAPI;
 import com.umeng.socialize.UMShareListener;
 import com.umeng.socialize.bean.SHARE_MEDIA;
 import com.umeng.socialize.media.UMImage;
 import com.umeng.socialize.media.UMWeb;
+
+import java.util.Map;
 
 /**
  * admin  2018/7/26 wan
@@ -111,6 +115,11 @@ public class ShareDialog1 extends PopupWindow {
         setFocusable(true);
         // setOutsideTouchable(true);
         update();
+
+
+
+
+
 
     }
 

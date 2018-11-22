@@ -3,6 +3,7 @@ package com.power.mercenary.activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.webkit.WebChromeClient;
@@ -21,10 +22,13 @@ import com.power.mercenary.base.BaseActivity;
 import com.power.mercenary.dialog.ShareDialog1;
 import com.power.mercenary.view.SharingPop;
 import com.umeng.socialize.ShareAction;
+import com.umeng.socialize.UMAuthListener;
 import com.umeng.socialize.UMShareAPI;
 import com.umeng.socialize.UMShareListener;
 import com.umeng.socialize.bean.SHARE_MEDIA;
 import com.umeng.socialize.media.UMImage;
+
+import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -34,6 +38,9 @@ import butterknife.ButterKnife;
  */
 
 public class MyExtensionActivity extends BaseActivity {
+
+
+    private static final String TAG = "MyExtensionActivity";
 
     @BindView(R.id.my_tg_fx)
     TextView my_tg_fx;
@@ -78,6 +85,30 @@ public class MyExtensionActivity extends BaseActivity {
             }
         });
         initWeb();
+
+        UMShareAPI.get(MyExtensionActivity.this).deleteOauth(MyExtensionActivity.this, SHARE_MEDIA.WEIXIN, new UMAuthListener() {
+            @Override
+            public void onStart(SHARE_MEDIA share_media) {
+
+            }
+
+            @Override
+            public void onComplete(SHARE_MEDIA share_media, int i, Map<String, String> map) {
+
+                Log.e(TAG, "onComplete: 成功删除" );
+
+            }
+
+            @Override
+            public void onError(SHARE_MEDIA share_media, int i, Throwable throwable) {
+
+            }
+
+            @Override
+            public void onCancel(SHARE_MEDIA share_media, int i) {
+
+            }
+        });
 
     }
 
