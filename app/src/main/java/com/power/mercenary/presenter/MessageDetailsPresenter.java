@@ -35,6 +35,7 @@ public class MessageDetailsPresenter {
                 .postRequest(new DialogCallback<ResponseBean<MsgDetailsBean>>(activity) {
                     @Override
                     public void onSuccess(Response<ResponseBean<MsgDetailsBean>> response) {
+                        //成功方法的回调
                         callBack.getMessageDetails(response.body().data);
                     }
                 });
