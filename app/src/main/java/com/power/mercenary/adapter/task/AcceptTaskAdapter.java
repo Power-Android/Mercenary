@@ -108,7 +108,8 @@ public class AcceptTaskAdapter extends RecyclerView.Adapter implements SeekBar.O
                     viewHolder.tuikuan.setEnabled(false);
                 }
                 if (data.get(position).getIs_yanqi().equals("1")) {//是否延期
-                    viewHolder.tuikuan.setText("延期处理");
+                    viewHolder.tuikuan.setText("已延期处理");
+                    viewHolder.tuikuan.setVisibility(View.VISIBLE);
                     viewHolder.tuikuan.setEnabled(false);
                     viewHolder.layout_yanqi.setVisibility(View.VISIBLE);
                     viewHolder.tvCause.setText(data.get(position).getYanqi_reason());
