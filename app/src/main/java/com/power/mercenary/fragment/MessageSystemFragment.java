@@ -48,7 +48,6 @@ public class MessageSystemFragment extends BaseFragment implements WanRecyclerVi
         mRecyclerView.setPullRecyclerViewListener(this);
 
         datas = new ArrayList<>();
-
         adapter = new MessageSystemAdapter(getContext(), datas);
         adapter.setOnItemClickListener(this);
 

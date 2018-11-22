@@ -2,6 +2,7 @@ package com.power.mercenary.adapter.message;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -37,27 +38,28 @@ public class MessageSystemAdapter  extends RecyclerView.Adapter {
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(context).inflate(R.layout.msg_item_view, parent, false);
-        return new TaskViewHolder(view);
+        View view = LayoutInflater.from(context).inflate(R.layout.system_msg_item_view, parent, false);
+        return new SystemViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position) {
-        if (holder instanceof TaskViewHolder) {
-            TaskViewHolder viewHolder = (TaskViewHolder) holder;
+        Log.i("ccc", datas.get(0).getUser_id()+"hhhh");
 
-            viewHolder.title.setText(datas.get(position).getNotice_push_content());
-
+        if (holder instanceof SystemViewHolder) {
+            SystemViewHolder viewHolder = (SystemViewHolder) holder;
+            viewHolder.title.setText(datas.get(position).getContent());
             long nowTime = System.currentTimeMillis();
             SimpleDateFormat sdf = null;
-            if (nowTime - datas.get(position).getPush_time() < 1000 * 60 * 60 * 24) {
+            if (nowTime - datas.get(position).getTime() < 1000 * 60 * 60 * 24) {
                 sdf = new SimpleDateFormat("HH:mm");// 1
             } else {
                 sdf = new SimpleDateFormat("MM月dd日 HH:mm");
             }
-            viewHolder.time.setText(sdf.format(new Date(datas.get(position).getPush_time())));
 
-            viewHolder.content.setText(datas.get(position).getNotice_push_content());
+            viewHolder.time.setText(sdf.format(new Date(datas.get(position).getTime())));
+
+            viewHolder.content.setText(datas.get(position).getContent());
 
             viewHolder.layout.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -73,7 +75,7 @@ public class MessageSystemAdapter  extends RecyclerView.Adapter {
         return datas.size();
     }
 
-    class TaskViewHolder extends RecyclerView.ViewHolder {
+    class SystemViewHolder extends RecyclerView.ViewHolder {
 
         private TextView title;
 
@@ -83,12 +85,12 @@ public class MessageSystemAdapter  extends RecyclerView.Adapter {
 
         private LinearLayout layout;
 
-        public TaskViewHolder(View itemView) {
+        public SystemViewHolder(View itemView) {
             super(itemView);
-            layout = itemView.findViewById(R.id.item_messageTask_layout);
-            title = itemView.findViewById(R.id.item_messageTask_title);
-            time = itemView.findViewById(R.id.item_messageTask_time);
-            content = itemView.findViewById(R.id.item_messageTask_content);
+            layout = itemView.findViewById(R.id.item_system_layout);
+            title = itemView.findViewById(R.id.item_system_title);
+            time = itemView.findViewById(R.id.item_system_time);
+            content = itemView.findViewById(R.id.item_system_content);
         }
     }
 
