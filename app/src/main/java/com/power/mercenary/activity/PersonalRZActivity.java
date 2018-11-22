@@ -478,7 +478,6 @@ public class PersonalRZActivity extends BaseActivity implements UpdataPresenter.
                     isRequest = true;
 
                 }
-
                 //效验联系人手机号
                 if (TextUtils.isEmpty(contactPersonPhone)) {
 
@@ -790,7 +789,6 @@ public class PersonalRZActivity extends BaseActivity implements UpdataPresenter.
         Intent it1 = new Intent(Intent.ACTION_PICK);
         it1.setType("image/*");
         startActivityForResult(it1, 200);
-
     }
 
     private void requestCamera() {

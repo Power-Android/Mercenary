@@ -1,6 +1,8 @@
 package com.power.mercenary.presenter;
 
 import android.app.Activity;
+import android.util.Log;
+import android.widget.Toast;
 
 import com.lzy.okgo.model.Response;
 import com.power.mercenary.MyApplication;
@@ -46,7 +48,6 @@ public class TieZiListPresenter {
                     public void onSuccess(Response<ResponseBean<List<TieZiListBean>>> response) {
                         callBack.getTaskList(response.body().data);
                     }
-
                     @Override
                     public void onError(Response<ResponseBean<List<TieZiListBean>>> response) {
                         super.onError(response);
@@ -85,7 +86,7 @@ public class TieZiListPresenter {
                 .postRequest(new DialogCallback<ResponseBean>(activity) {
                     @Override
                     public void onSuccess(Response<ResponseBean> response) {
-                        callBack.getPubPinglun(response.body());
+                        callBack.getPubPinglun((ResponseBean) response.body());
                     }
                 });
     }
