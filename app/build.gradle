@@ -17,7 +17,7 @@ android {
     defaultConfig {
         applicationId "com.power.mercenary"
         minSdkVersion 18
-        targetSdkVersion 26
+        targetSdkVersion 22
         versionCode 1
         versionName "1.0"
         multiDexEnabled true
@@ -92,11 +92,9 @@ dependencies {
     compile 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.22'
     compile 'org.greenrobot:eventbus:3.0.0'
     compile 'com.github.LuckSiege.PictureSelector:picture_library:v2.1.1'
-        //compile 'com.bigkoo:pickerview:1.0.0'
+    //compile 'com.bigkoo:pickerview:1.0.0'
     compile 'com.contrarywind:Android-PickerView:3.2.0'
-
     //compile 'com.contrarywind:Android-PickerView:4.1.6'
-
     compile 'com.liaoinstan.springview:library:1.5.0'
     compile files('libs/universal-image-loader-1.9.4-with-sources.jar')
     compile project(':indexlib')
@@ -111,30 +109,23 @@ dependencies {
     // 此处以JCore 1.2.3 版本为例。
     compile files('libs/BaiduLBS_Android.jar')
     compile 'com.android.support:multidex:1.0.1'
-
     //配置retrofit2.0
     implementation 'com.squareup.retrofit2:retrofit:+'
     implementation 'com.squareup.retrofit2:converter-gson:+'
     //Rxjava2需要依赖
     implementation 'io.reactivex.rxjava2:rxjava:+'
     implementation 'io.reactivex.rxjava2:rxandroid:+'
-
     //让retrofit支持Rxjava2
     implementation 'com.squareup.retrofit2:adapter-rxjava2:+'
-
     //Xbanner
     implementation 'com.xhb:xbanner:1.2.2'
     implementation 'com.nineoldandroids:library:2.4.0'
     implementation 'com.github.bumptech.glide:glide:3.7.0'
     implementation 'jp.wasabeef:glide-transformations:1.0.6'
-
     //Fresco 依赖
     implementation 'com.facebook.fresco:fresco:1.9.0'
     // 支持 GIF 动图，需要添加
     implementation 'com.facebook.fresco:animated-gif:1.9.0'
-
     implementation 'liji.library.dev:citypickerview:3.1.13'
-
     implementation 'com.kongzue.baseokhttp:baseokhttp:2.1.2'
-
 }

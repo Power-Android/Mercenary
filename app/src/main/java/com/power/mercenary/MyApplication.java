@@ -34,6 +34,7 @@ import com.power.mercenary.data.EventConstants;
 import com.power.mercenary.event.EventUtils;
 import com.power.mercenary.utils.CacheUtils;
 import com.power.mercenary.utils.TUtils;
+import com.umeng.commonsdk.UMConfigure;
 import com.umeng.socialize.PlatformConfig;
 import com.umeng.socialize.UMShareAPI;
 
@@ -77,11 +78,15 @@ public class MyApplication extends Application {
     }
 
     private void initUM() {
+
+        UMConfigure.init(this,"5a12384aa40fa3551f0001d1"
+                ,"umeng",UMConfigure.DEVICE_TYPE_PHONE,"");//58edcfeb310c93091c000be2 5965ee00734be40b580001a0
+
         UMShareAPI.get(this);
 
-        PlatformConfig.setWeixin("wxdbbb1928fdfa069d", "69ad4ae853a60921d709dd3125d75351");
-        PlatformConfig.setQQZone("1107775427", "oNQ59nIFsxWijcgv");
-        PlatformConfig.setSinaWeibo("3169663256", "8292350b6a4180157579caa1368c592c", "https://sns.whalecloud.com/sina2/callback");
+        PlatformConfig.setWeixin("wxdc1e388c3822c80b", "3baf1193c85774b3fd9d18447d76cab0");
+        PlatformConfig.setQQZone("100424468", "c7394704798a158208a74ab60104f0ba");
+        PlatformConfig.setSinaWeibo("3921700954", "04b48b094faeb16683c32669824ebdad","http://sns.whalecloud.com");
     }
 
     private void initRongClound() {

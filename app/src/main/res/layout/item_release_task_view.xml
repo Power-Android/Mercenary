@@ -130,7 +130,7 @@
             android:padding="5dp"
             android:layout_centerVertical="true"
             android:background="@drawable/shape_hk_jx"
-            android:text="确认审核"/>
+            android:text="延期处理"/>
     </RelativeLayout>
 
     <RelativeLayout

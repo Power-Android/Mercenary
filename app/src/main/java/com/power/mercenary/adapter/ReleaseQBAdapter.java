@@ -29,7 +29,7 @@ public class ReleaseQBAdapter extends RecyclerView.Adapter {
 
     private OnClickListener onClickListener;
 
-    public void setOnClickListener(OnClickListener onClickListener){
+    public void setOnClickListener(OnClickListener onClickListener) {
         this.onClickListener = onClickListener;
     }
 
@@ -44,16 +44,12 @@ public class ReleaseQBAdapter extends RecyclerView.Adapter {
         return new QBViewHolder(view);
 
 
-
     }
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position) {
-        if (holder instanceof  QBViewHolder) {
+        if (holder instanceof QBViewHolder) {
             QBViewHolder viewHolder = (QBViewHolder) holder;
-
-
-
 
             viewHolder.title.setText(data.get(position).getTask_name());
 
@@ -78,8 +74,8 @@ public class ReleaseQBAdapter extends RecyclerView.Adapter {
                 case "3"://审核中
                     viewHolder.shzLayout.setVisibility(View.VISIBLE);
                     viewHolder.content.setVisibility(View.VISIBLE);
-                    viewHolder.content.setText(data.get(position).getTask_description());
-
+                    viewHolder.content.setText("延期原因:" + data.get(position).getYanqi_reason());
+                    viewHolder.shzSh.setEnabled(false);
                     viewHolder.wjdLayout.setVisibility(View.GONE);
                     viewHolder.dpjLayout.setVisibility(View.GONE);
                     viewHolder.yxjLayout.setVisibility(View.GONE);
@@ -224,13 +220,19 @@ public class ReleaseQBAdapter extends RecyclerView.Adapter {
         }
     }
 
-    public interface OnClickListener{
+    public interface OnClickListener {
         void onClickXGListener(String id, int position);
+
         void onClickCXListener(String id, int position);
+
         void onClickYQListener(String id, int position);
+
         void onClickPJListener(String id, int position);
+
         void onClickSJListener(String id, int position);
+
         void onClickSHListener(String id, int position);
+
         void TaskOnClickViewListener(String id, int position, String taskType, String taskState);
     }
 }

@@ -56,8 +56,6 @@ public class JKTaskZhonDetailsActivity extends BaseActivity implements View.OnCl
     @BindView(R.id.recycler_img)
     RecyclerView recycler_img;
 
-
-
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

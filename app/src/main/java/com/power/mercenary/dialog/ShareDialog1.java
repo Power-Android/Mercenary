@@ -1,8 +1,10 @@
 package com.power.mercenary.dialog;
 
+
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.drawable.ColorDrawable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,6 +12,7 @@ import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.power.mercenary.MyApplication;
 import com.power.mercenary.R;
@@ -24,6 +27,8 @@ import com.umeng.socialize.media.UMWeb;
  * admin  2018/7/26 wan
  */
 public class ShareDialog1 extends PopupWindow {
+
+    private static final String TAG = "ShareDialog1";
 
     private Activity activity;
     private LayoutInflater inflater;
@@ -132,27 +137,34 @@ public class ShareDialog1 extends PopupWindow {
                 .withText("hello")//分享内容
                 .withMedia(image)
                 .withMedia(web)
-                .setCallback(listener)
+                .setCallback(shareListener)
                 .share();
     }
 
     public void showWx( String title, String content) {
+
+        //Log.e(TAG, "showWx: 你进来了" );
+
         UMImage image = new UMImage(activity, "https://ss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=4267222417,1017407570&fm=200&gp=0.jpg");//网络图片
+
         UMImage thumb = new UMImage(activity, R.drawable.yongbingicon);
         image.setThumb(thumb);
         UMWeb web = new UMWeb("http://yb.dashuibei.com/register/extension.html?token="+ MyApplication.getUserToken());
         web.setTitle(title + "");//标题
         web.setThumb(thumb);  //缩略图
         web.setDescription(content + "");//描述
+
+        //Log.e(TAG, "showWx: "+content.length() );
+
         //注意在新浪平台，缩略图属于必传参数，否则会报错
-        ShareAction shareAction = new ShareAction(activity);
-        shareAction
+        new ShareAction(activity)
                 .setPlatform(SHARE_MEDIA.WEIXIN)//传入平台
                 .withText("hello")//分享内容
                 .withMedia(image)
                 .withMedia(web)
-                .setCallback(listener)
+                .setCallback(shareListener)//回调监听器
                 .share();
+
     }
 
     public void showPyq( String title, String content) {
@@ -170,7 +182,7 @@ public class ShareDialog1 extends PopupWindow {
                 .withText("hello")//分享内容
                 .withMedia(image)
                 .withMedia(web)
-                .setCallback(listener)
+                .setCallback(shareListener)
                 .share();
     }
 
@@ -189,7 +201,7 @@ public class ShareDialog1 extends PopupWindow {
                 .withText("hello")//分享内容
                 .withMedia(image)
                 .withMedia(web)
-                .setCallback(listener)
+                .setCallback(shareListener)
                 .share();
     }
 
@@ -208,29 +220,53 @@ public class ShareDialog1 extends PopupWindow {
                 .withText("hello")//分享内容
                 .withMedia(image)
                 .withMedia(web)
-                .setCallback(listener)
+                .setCallback(shareListener)
                 .share();
     }
 
-    UMShareListener listener = new UMShareListener() {
+    private UMShareListener shareListener = new UMShareListener() {
+        /**
+         * @descrption 分享开始的回调
+         * @param platform 平台类型
+         */
         @Override
-        public void onStart(SHARE_MEDIA share_media) {
-            TUtils.showCustom(activity, "onStart");
+        public void onStart(SHARE_MEDIA platform) {
+
+            Log.e(TAG, "onStart:  开始运行" );
+
+
         }
 
+        /**
+         * @descrption 分享成功的回调
+         * @param platform 平台类型
+         */
         @Override
-        public void onResult(SHARE_MEDIA share_media) {
-            TUtils.showCustom(activity, "onSuccess");
+        public void onResult(SHARE_MEDIA platform) {
+
+            Log.e(TAG, "onStart:  成功了" );
+
+            //Toast.makeText(activity,"成功了",Toast.LENGTH_LONG).show();
         }
 
+        /**
+         * @descrption 分享失败的回调
+         * @param platform 平台类型
+         * @param t 错误原因
+         */
         @Override
-        public void onError(SHARE_MEDIA share_media, Throwable throwable) {
-            TUtils.showCustom(activity, "" + throwable.getMessage());
+        public void onError(SHARE_MEDIA platform, Throwable t) {
+            Log.e(TAG, "onStart:  失败了" );
         }
 
+        /**
+         * @descrption 分享取消的回调
+         * @param platform 平台类型
+         */
         @Override
-        public void onCancel(SHARE_MEDIA share_media) {
-            TUtils.showCustom(activity, "取消");
+        public void onCancel(SHARE_MEDIA platform) {
+            Log.e(TAG, "onStart:  取消了" );
+
         }
     };
 }
