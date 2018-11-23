@@ -3,6 +3,7 @@ package com.power.mercenary.adapter;
 import android.content.Context;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -52,10 +53,12 @@ public class ReleaseRWZAdapter extends RecyclerView.Adapter {
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position) {
+
         if (holder instanceof WJDViewHolder) {
             WJDViewHolder viewHolder = (WJDViewHolder) holder;
 
             viewHolder.title.setText(this.data1.get(position).getTask_name());
+            Log.i("qwe", this.data1.get(position).getPay_amount());
 
             viewHolder.price.setText("￥" + this.data1.get(position).getPay_amount());
 

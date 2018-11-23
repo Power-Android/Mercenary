@@ -29,6 +29,7 @@ import com.power.mercenary.http.ResponseBean;
 import com.power.mercenary.utils.DoubleUtils;
 import com.power.mercenary.utils.MercenaryUtils;
 import com.power.mercenary.utils.MyUtils;
+import com.power.mercenary.utils.SharedPreferencesUtils;
 import com.power.mercenary.view.BaseDialog;
 
 import java.text.DecimalFormat;
@@ -41,7 +42,6 @@ public class AcceptTaskAdapter extends RecyclerView.Adapter implements SeekBar.O
 
 
     private static final String TAG = "AcceptTaskAdapter";
-
     private Context context;
     private int state;
     private List<AcceptTaskBean> data;
@@ -56,7 +56,7 @@ public class AcceptTaskAdapter extends RecyclerView.Adapter implements SeekBar.O
     private BaseDialog mDialog;
     private BaseDialog.Builder mBuilder;
     private int tuiType;
-
+    private boolean Zzt = false;
     private TextView tv_pub_name;
 
     public void setOnItemClickListener(OnItemClickListener onItemClickListener) {
@@ -85,7 +85,6 @@ public class AcceptTaskAdapter extends RecyclerView.Adapter implements SeekBar.O
             viewHolder.title.setText(data.get(position).getTask_name());
 
             viewHolder.content.setText(data.get(position).getTask_description());
-
             if (data.get(position).getTask_status().equals("7") || data.get(position).getTask_status().equals("6")) {
                 viewHolder.imageView.setVisibility(View.VISIBLE);
                 if (data.get(position).getSettle_status().equals("3")) {
@@ -95,12 +94,25 @@ public class AcceptTaskAdapter extends RecyclerView.Adapter implements SeekBar.O
                 }
             } else if (data.get(position).getTask_status().equals("2")) {//任务中
                 viewHolder.tuikuan.setVisibility(View.VISIBLE);
-                if (!data.get(position).getRefuse_cause().equals("")) {
+               if (!data.get(position).getRefuse_cause().equals("")) {//拒绝原因不为空的时候进行给控件赋值
                     viewHolder.layoutJujue.setVisibility(View.VISIBLE);
                     viewHolder.tvJujue.setText(data.get(position).getRefuse_cause());
-                    viewHolder.tuikuan.setText("退款");
+                   boolean flag = (boolean) SharedPreferencesUtils.getParam(context, "flag", false);
+                   Log.i(TAG, flag+"");
+                   if (flag==false) {
+
+                           viewHolder.tuikuan.setText("退款");
+
+
+                   } else if(flag==true){
+                       viewHolder.tuikuan.setText("未通过");
+                       viewHolder.tuikuan.setEnabled(false);
+
+
+                   }
+
                     //viewHolder.tuikuan.setEnabled(true);
-                }
+              }
             } else if (data.get(position).getTask_status().equals("3")) {//审核中
                 if (data.get(position).getSettle_status().equals("2")) {
                     viewHolder.tuikuan.setVisibility(View.VISIBLE);
@@ -196,6 +208,7 @@ public class AcceptTaskAdapter extends RecyclerView.Adapter implements SeekBar.O
                             @Override
                             public void onSuccess(Response<ResponseBean<SuccessBean>> response) {
                                 Toast.makeText(context, response.body().msg, Toast.LENGTH_SHORT).show();
+                                SharedPreferencesUtils.setParam(context,"flag",false);
                                 onItemClickListener.TuiKuanListener();
                                 mDialog.dismiss();
                             }

@@ -3,6 +3,7 @@ package com.power.mercenary.activity;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -94,7 +95,7 @@ public class AcceptTaskActivity extends BaseActivity implements View.OnClickList
         title_text.setText("接受任务的管理");
 
         int position = getIntent().getIntExtra("position", 0);
-
+        Log.i("yyy", position+"");
         list = new ArrayList<>();
 
         if (fragment1 == null) {

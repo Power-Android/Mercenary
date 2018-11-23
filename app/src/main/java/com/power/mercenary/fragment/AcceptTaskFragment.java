@@ -3,9 +3,11 @@ package com.power.mercenary.fragment;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.power.mercenary.R;
 import com.power.mercenary.activity.GRTaskDetailsActivity;
@@ -114,7 +116,7 @@ public class AcceptTaskFragment extends BaseFragment implements WanRecyclerView.
 //
 //
 //        }
-
+        Toast.makeText(getActivity(),taskType+"=="+taskId+"---"+taskState,Toast.LENGTH_LONG).show();
         if (TextUtils.equals(taskState, "2")) {
             switch (taskType) {
                 case "1":

@@ -77,11 +77,9 @@ public class MyExtensionActivity extends BaseActivity {
         my_tg_fx.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
                 ShareDialog1 dialog = new ShareDialog1(MyExtensionActivity.this, "佣兵天下", "佣兵旨在为优秀的个人自由创业者提升服务质量，简化沟通，让优秀的创业者更专心的为用户提供更好的服务，更搞笑的打造自己的品牌。");
                 dialog.setOnDismissListener(onDismissListener);
                 setShowPop(dialog, my_tg_fx);
-
             }
         });
         initWeb();

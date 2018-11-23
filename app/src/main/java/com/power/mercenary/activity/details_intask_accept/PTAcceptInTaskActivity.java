@@ -15,6 +15,7 @@ import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.chad.library.adapter.base.BaseQuickAdapter;
@@ -46,6 +47,7 @@ import com.power.mercenary.http.ResponseBean;
 import com.power.mercenary.presenter.TaskDetailsPresenter;
 import com.power.mercenary.utils.MercenaryUtils;
 import com.power.mercenary.utils.MyUtils;
+import com.power.mercenary.utils.SharedPreferencesUtils;
 import com.power.mercenary.utils.TUtils;
 import com.power.mercenary.utils.Urls;
 import com.power.mercenary.view.CircleImageView;
@@ -324,11 +326,11 @@ public class PTAcceptInTaskActivity extends BaseActivity implements View.OnClick
                 break;
 
             case R.id.act_task_detaiils_publishBtn:
+                SharedPreferencesUtils.setParam(PTAcceptInTaskActivity.this,"flag",true);
                 if (!MyApplication.isLogin()) {
                     startActivity(new Intent(this, SignInActivity.class));
                     return;
                 }
-
                 new HttpManager<ResponseBean<Void>>("Home/MyTask/tijiao", this)
                         .addParams("token", MyApplication.getUserToken())
                         .addParams("id", taskId)

@@ -30,6 +30,7 @@ import com.power.mercenary.fragment.HomeFragment;
 import com.power.mercenary.fragment.MessageFragment;
 import com.power.mercenary.fragment.MineFragment;
 import com.power.mercenary.fragment.PubFragment;
+import com.power.mercenary.utils.SharedPreferencesUtils;
 import com.power.mercenary.view.BaseDialog;
 
 import org.greenrobot.eventbus.EventBus;
