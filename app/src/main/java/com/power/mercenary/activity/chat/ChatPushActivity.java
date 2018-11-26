@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
+import android.util.Log;
 import android.widget.FrameLayout;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -52,7 +53,7 @@ public class ChatPushActivity extends BaseActivity implements SpringView.OnFresh
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_chat_push);
+        setContentView(R.layout.activity_chat);
         ButterKnife.bind(this);
 
         title = getIntent().getStringExtra("title");

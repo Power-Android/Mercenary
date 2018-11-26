@@ -5,6 +5,7 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.power.mercenary.MyApplication;
 import com.power.mercenary.R;
@@ -84,7 +85,6 @@ public class MessagePrivateFragment extends BaseFragment implements WanRecyclerV
     @Override
     public void onItemClickListener(MsgPrivateBean msgPrivateBean, int position) {
         presenter.setMessageState(msgPrivateBean.getId());
-
         String[] strings = {"18", "20", "21", "22", "23"};
         String[] imgUrl = {"http://imgsrc.baidu.com/imgad/pic/item/0df3d7ca7bcb0a466e41231d6163f6246b60afb7.jpg", "http://p1.qzone.la/upload/20150218/x5alew4n.jpg", "http://att.bbs.duowan.com/forum/201411/09/152152z6vxvha6kmkwokx6.jpg", "http://imgsrc.baidu.com/forum/pic/item/0b46f21fbe096b63c7397ec70c338744ebf8ac00.jpg", "https://img5.duitang.com/uploads/item/201506/14/20150614205903_85zCv.jpeg"};
         int i = (int) (Math.random() * strings.length);

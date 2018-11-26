@@ -102,7 +102,6 @@ public class ChatActivity extends BaseActivity implements SpringView.OnFreshList
         name = getIntent().getStringExtra("name");
 
         title.setText(name);
-
         CacheUtils.put(CacheConstants.IS_IN_CHAT, userId);
 
         chatPresenter = new ChatPresenter(this, this);

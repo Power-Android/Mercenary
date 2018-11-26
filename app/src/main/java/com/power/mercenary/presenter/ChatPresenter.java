@@ -1,6 +1,8 @@
 package com.power.mercenary.presenter;
 
 import android.app.Activity;
+import android.util.Log;
+import android.widget.Toast;
 
 import com.lzy.okgo.model.Response;
 import com.power.mercenary.MyApplication;
@@ -41,7 +43,7 @@ public class ChatPresenter {
                 });
     }
 
-    public void addMessage(String toUserId, String content){
+    public void addMessage(String toUserId, final String content){
         new HttpManager<ResponseBean<Void>>("Home/YbTest/message_add", this)
                 .addParams("token", MyApplication.getUserToken())
                 .addParams("toUserId", toUserId)
@@ -50,6 +52,7 @@ public class ChatPresenter {
                 .postRequest(new JsonCallback<ResponseBean<Void>>() {
                     @Override
                     public void onSuccess(Response<ResponseBean<Void>> response) {
+
                         TUtils.showCustom(activity, response.body().msg);
                     }
                 });
