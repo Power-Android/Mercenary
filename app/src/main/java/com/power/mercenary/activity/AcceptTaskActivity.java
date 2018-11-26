@@ -95,7 +95,6 @@ public class AcceptTaskActivity extends BaseActivity implements View.OnClickList
         title_text.setText("接受任务的管理");
 
         int position = getIntent().getIntExtra("position", 0);
-        Log.i("yyy", position+"");
         list = new ArrayList<>();
 
         if (fragment1 == null) {

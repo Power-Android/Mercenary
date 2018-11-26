@@ -58,6 +58,7 @@ public class AcceptTaskAdapter extends RecyclerView.Adapter implements SeekBar.O
     private int tuiType;
     private boolean Zzt = false;
     private TextView tv_pub_name;
+    private String text;
 
     public void setOnItemClickListener(OnItemClickListener onItemClickListener) {
         this.onItemClickListener = onItemClickListener;
@@ -100,10 +101,7 @@ public class AcceptTaskAdapter extends RecyclerView.Adapter implements SeekBar.O
                    boolean flag = (boolean) SharedPreferencesUtils.getParam(context, "flag", false);
                    Log.i(TAG, flag+"");
                    if (flag==false) {
-
                            viewHolder.tuikuan.setText("退款");
-
-
                    } else if(flag==true){
                        viewHolder.tuikuan.setText("未通过");
                        viewHolder.tuikuan.setEnabled(false);
@@ -276,7 +274,9 @@ public class AcceptTaskAdapter extends RecyclerView.Adapter implements SeekBar.O
 
         }
 
-        tv_all_price.setText((Double.parseDouble(data.get(position).getPay_amount()) - Double.parseDouble(data.get(position).getPay_amount()) * 0.006) + "");
+      double  NumPrice = (Double.parseDouble(data.get(position).getPay_amount()) - Double.parseDouble(data.get(position).getPay_amount()) * 0.006);
+        double twoDecimal = getTwoDecimal(NumPrice);
+        tv_all_price.setText(twoDecimal+"");
         seekbar.setMax(seekMaxNumber);
         seekbar.setProgress(0);
 
@@ -364,14 +364,13 @@ public class AcceptTaskAdapter extends RecyclerView.Adapter implements SeekBar.O
             String format = df.format(((Double.parseDouble(tv_all_price.getText().toString()) * 100 - seekBar.getProgress()) * 0.044) / 100);
             tv_pingtai_peice.setText(format);
             String format1 = df.format(((Double.parseDouble(tv_all_price.getText().toString()) * 100 - seekBar.getProgress()) - (Double.parseDouble(tv_pingtai_peice.getText().toString()) * 100)) / 100);
+            Log.i(TAG, format1);
             edt_shou_people.setText(format1);
         }
     }
 
     @Override
     public void onStartTrackingTouch(SeekBar seekBar) {
-
-
     }
 
     @Override
@@ -437,6 +436,12 @@ public class AcceptTaskAdapter extends RecyclerView.Adapter implements SeekBar.O
         void onItemClickListener(String taskType, String taskId, String taskState);
 
         void TuiKuanListener();
+    }
+    private double getTwoDecimal(double num) {
+        DecimalFormat dFormat = new DecimalFormat("#.00");
+        String yearString = dFormat.format(num);
+        Double temp = Double.valueOf(yearString);
+        return temp;
     }
 
 

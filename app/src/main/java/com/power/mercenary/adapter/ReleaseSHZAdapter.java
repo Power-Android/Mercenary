@@ -227,7 +227,7 @@ public class ReleaseSHZAdapter extends RecyclerView.Adapter {
                 }
                 new HttpManager<ResponseBean<SuccessBean>>("Home/MyTask/shenhe", this)
                         .addParams("token", MyApplication.getUserToken())
-                        .addParams("id", dataBean.getId())
+                        .addParams("id", data.get(position).getId())
                         .addParams("type", 2)
                         .addParams("refuse_cause", edt_cause.getText().toString())
                         .postRequest(new DialogCallback<ResponseBean<SuccessBean>>((Activity) context) {
@@ -273,13 +273,12 @@ public class ReleaseSHZAdapter extends RecyclerView.Adapter {
         TextView tv_sure = mDialog.getView(R.id.tv_sure);
         TextView tv_cancle = mDialog.getView(R.id.tv_cancle);
 
-
         tv_sure.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 new HttpManager<ResponseBean<SuccessBean>>("Home/MyTask/shenhe", this)
                         .addParams("token", MyApplication.getUserToken())
-                        .addParams("id", dataBean.getId())
+                        .addParams("id", data.get(position).getId())
                         .addParams("type", 1)
                         .addParams("refuse_cause", "")
                         .postRequest(new DialogCallback<ResponseBean<SuccessBean>>((Activity) context) {

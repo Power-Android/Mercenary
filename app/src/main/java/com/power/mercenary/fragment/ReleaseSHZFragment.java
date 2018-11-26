@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.power.mercenary.MyApplication;
 import com.power.mercenary.R;
@@ -70,9 +71,12 @@ public class ReleaseSHZFragment  extends BaseFragment implements WanRecyclerView
 
     @Override
     public void getPublishTaskList(List<PublishTaskBean.DataBean> datas) {
+/*
+        Log.i("oooooo", datas.size()+"");
+*/
         if (datas != null) {
             mList.addAll(datas);
-
+            Log.i("ppppp", "getPublishTaskList: "+mList.size());
             wanRecyclerView.setHasMore(datas.size(), 10);
         } else {
             wanRecyclerView.setHasMore(0, 10);
@@ -109,7 +113,9 @@ public class ReleaseSHZFragment  extends BaseFragment implements WanRecyclerView
     @Override
     public void onRefresh() {
         page = 1;
+
         mList.clear();
+
         publishPresenter.getPublishTaskList(page, 3);
 
     }
@@ -122,8 +128,11 @@ public class ReleaseSHZFragment  extends BaseFragment implements WanRecyclerView
 
     @Override
     public void TaskOnClickListener() {
+/*
+        Toast.makeText(getActivity(),"哈哈哈",Toast.LENGTH_LONG).show();
+*/
         page = 1;
-        mList.clear();
+       mList.clear();
         publishPresenter.getPublishTaskList(page, 3);
     }
 

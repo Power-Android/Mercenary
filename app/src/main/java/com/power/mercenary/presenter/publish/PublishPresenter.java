@@ -2,6 +2,7 @@ package com.power.mercenary.presenter.publish;
 
 import android.app.Activity;
 import android.os.Handler;
+import android.util.Log;
 
 import com.google.gson.Gson;
 import com.lzy.okgo.model.Response;
@@ -56,7 +57,7 @@ public class PublishPresenter {
                     }
                 });*/
 
-
+        Log.i("ooooo", pageNum+task_status+"");
         Map<String, String> map = new HashMap<>();
         map.put("pageNum", pageNum + "");
         map.put("task_status", task_status + "");
