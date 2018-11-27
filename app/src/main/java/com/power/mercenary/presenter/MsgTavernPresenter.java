@@ -1,6 +1,7 @@
 package com.power.mercenary.presenter;
 
 import android.app.Activity;
+import android.util.Log;
 
 import com.lzy.okgo.model.Response;
 import com.power.mercenary.MyApplication;
@@ -26,6 +27,7 @@ public class MsgTavernPresenter {
     }
 
     public void getTavernList(int page){
+
         new HttpManager<ResponseBean<List<MsgTavernBean>>>("Home/YbTest/post_message_list", this)
                 .addParams("token", MyApplication.getUserToken())
                 .addParams("page", page)

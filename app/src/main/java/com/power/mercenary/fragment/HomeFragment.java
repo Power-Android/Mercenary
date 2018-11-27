@@ -23,6 +23,7 @@ import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.chad.library.adapter.base.BaseQuickAdapter;
@@ -501,6 +502,7 @@ public class HomeFragment extends BaseFragment implements MainPresenter.MainCall
 
         @Override
         protected void convert(final BaseViewHolder helper, final HomHotBean item) {
+
             helper.setText(R.id.tv_name, item.getPost_user_name());
             helper.setText(R.id.tv_time, MyUtils.getDateToStringTime(item.getCreate_time()));
             helper.setText(R.id.tv_content, item.getPost_content());
@@ -702,7 +704,7 @@ public class HomeFragment extends BaseFragment implements MainPresenter.MainCall
                     case 3://工作
                         Testbean testbean03 = new Testbean();
                         testbean03.setImg(R.drawable.shishu);
-                        testbean03.setTitle("士");
+                        testbean03.setTitle("仕");
                         gridPageList2.add(testbean03);
                         Testbean testbean13 = new Testbean();
                         testbean13.setImg(R.drawable.nong);

@@ -1,6 +1,7 @@
 package com.power.mercenary.adapter.chat;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -50,11 +51,13 @@ public class ChatPushAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-
         MsgViewHolder vh = null;
         if (convertView == null) {
             vh = new MsgViewHolder();
-            convertView = LayoutInflater.from(context).inflate(R.layout.item_chat_view, null);
+            if (list.size() > 0) {
+                convertView = LayoutInflater.from(context).inflate(R.layout.item_chat_view, null);
+
+            }
             vh.layout = (LinearLayout) convertView.findViewById(R.id.item_chat_lt);
             vh.time = (TextView) convertView.findViewById(R.id.item_chat_time);
             vh.left = (LinearLayout) convertView.findViewById(R.id.item_chat_qipao1);
@@ -103,9 +106,9 @@ public class ChatPushAdapter extends BaseAdapter {
             Glide.with(context)
                     .load(Urls.BASEIMGURL + list.get(position).getLiuyan_user_headimg())
                     .into(vh.leftPhoto);
-
-
             vh.leftContent.setText(list.get(position).getLiuyan_content());
+
+
 
         }
 

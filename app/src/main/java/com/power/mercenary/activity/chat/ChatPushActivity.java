@@ -6,9 +6,11 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.liaoinstan.springview.widget.SpringView;
 import com.power.mercenary.R;
@@ -16,7 +18,9 @@ import com.power.mercenary.adapter.chat.ChatPushAdapter;
 import com.power.mercenary.base.BaseActivity;
 import com.power.mercenary.bean.MsgDetailsBean;
 import com.power.mercenary.presenter.MessageDetailsPresenter;
+import com.power.mercenary.utils.TUtils;
 import com.power.mercenary.view.chatrefresh.ChatRefreshHeader;
+import com.power.mercenary.view.pullrecyclerview.WanRecyclerView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,6 +38,8 @@ public class ChatPushActivity extends BaseActivity implements SpringView.OnFresh
     FrameLayout leftBack;
     @BindView(R.id.title_text)
     TextView titleTv;
+    @BindView(R.id.tp_view)
+    TextView tp_view;
     @BindView(R.id.act_chat_msgList)
     ListView listView;
     @BindView(R.id.act_chat_springView)
@@ -47,26 +53,23 @@ public class ChatPushActivity extends BaseActivity implements SpringView.OnFresh
     private String msgId;
     private String msgType;
     private String tavernType;
-
     MessageDetailsPresenter presenter;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_chat);
+        setContentView(R.layout.activity_chat_push);
         ButterKnife.bind(this);
-
         title = getIntent().getStringExtra("title");
         msgId = getIntent().getStringExtra("msgId");
         msgType = getIntent().getStringExtra("msgType");
         tavernType = getIntent().getStringExtra("tavernType");
-
         String type;
 
         if (!TextUtils.isEmpty(tavernType)) {
             if (TextUtils.equals(tavernType, "1")) {
                 type = "msg";
-            } else if (TextUtils.equals(tavernType, "2")){
+            } else if (TextUtils.equals(tavernType, "2")) {
                 type = "reply";
             }
         }
@@ -77,20 +80,20 @@ public class ChatPushActivity extends BaseActivity implements SpringView.OnFresh
         titleTv.setText(title);
 
         mSpringView = (SpringView) findViewById(R.id.act_chat_springView);
-
         mSpringView.setListener(this);
         mSpringView.setType(SpringView.Type.FOLLOW);
 //        mSpringView.setHeader(new ChatRefreshHeader(mContext));
-
         mList = new ArrayList<>();
         adapter = new ChatPushAdapter(this, mList);
         listView.setAdapter(adapter);
+        listView.setEmptyView(tp_view);
+
 
     }
 
-    @OnClick(R.id.left_back)
-    public void onViewClicked() {
-        finish();
+    @OnClick({R.id.left_back})
+    public void onViewClicked(View view) {
+            finish();
     }
 
     @Override
@@ -103,7 +106,7 @@ public class ChatPushActivity extends BaseActivity implements SpringView.OnFresh
 
     }
 
-    public static void invoke(Context context, String title, String msgId, String msgType, String tavernType){
+    public static void invoke(Context context, String title, String msgId, String msgType, String tavernType) {
         Intent intent = new Intent(context, ChatPushActivity.class);
         intent.putExtra("title", title);
         intent.putExtra("msgId", msgId);
@@ -113,11 +116,15 @@ public class ChatPushActivity extends BaseActivity implements SpringView.OnFresh
     }
 
     @Override
-    public void getMessageDetails(MsgDetailsBean data) {
-        if (data != null) {
-            mList.add(data);
+    public void getMessageDetails(List<MsgDetailsBean> data) {
+
+        if (data!=null) {
+            mList.addAll( data);
+
         }
 
         adapter.notifyDataSetChanged();
     }
+
+
 }

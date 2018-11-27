@@ -54,11 +54,8 @@ public class MessageTavernAdapter  extends RecyclerView.Adapter {
                 sdf = new SimpleDateFormat("MM月dd日 HH:mm");
             }
             viewHolder.time.setText(sdf.format(new Date(datas.get(position).getCreate_time())));
-
             viewHolder.title.setText("酒馆消息");
-
             viewHolder.content.setText(datas.get(position).getLiuyan_content());
-
             if (datas.get(position).getRead_status() != null) {
                 switch (datas.get(position).getRead_status()) {
                     case "1":

@@ -46,9 +46,7 @@ public class MessageTaskFragment extends BaseFragment implements WanRecyclerView
         datas = new ArrayList<>();
         adapter = new MessageTaskAdapter(getContext(), datas);
         adapter.setOnItemClickListener(this);
-
         mRecyclerView.setAdapter(adapter);
-
         presenter = new MsgTaskPresenter(getActivity(), this);
         presenter.getTaskList(page);
 

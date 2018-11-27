@@ -1,11 +1,13 @@
 package com.power.mercenary;
 
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.Gravity;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
@@ -44,7 +46,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class MainActivity extends BaseActivity {
+public class MainActivity extends BaseActivity implements View.OnClickListener {
 
     @BindView(R.id.fl_content)
     FrameLayout flContent;
@@ -93,6 +95,7 @@ public class MainActivity extends BaseActivity {
     private List<String> nextList = new ArrayList<>();
     private int PAOTUI = 101, SHENGHUO = 102, GERENDINGZHI = 103, GONGZUO = 104, JIANKANG = 105;
     private OptionsPickerView pvCustomOptions;
+    private AlertDialog alertDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -101,10 +104,8 @@ public class MainActivity extends BaseActivity {
         ButterKnife.bind(this);
         homeFragment = new HomeFragment();
         addFragments(homeFragment);
-
         EventBus.getDefault().register(this);
     }
-
     private void addFragments(BaseFragment f) {
         // 第一步：得到fragment管理类
         FragmentManager manager = getSupportFragmentManager();
@@ -730,5 +731,46 @@ public class MainActivity extends BaseActivity {
     protected void onDestroy() {
         super.onDestroy();
         EventBus.getDefault().unregister(this);
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {//获取用户是否点击了返回键
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            exit();
+            return false;
+        }
+        return super.onKeyDown(keyCode, event);
+    }
+    private void exit() {
+        //弹出提示框
+        alertExitDialog();
+    }
+
+    private void alertExitDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+        View view = View
+                .inflate(MainActivity.this, R.layout.dialog_shenhe, null);
+        builder.setView(view);
+        builder.setCancelable(true);
+        TextView hint_tv = view.findViewById(R.id.hint_tv);
+        TextView tv_sure = view.findViewById(R.id.tv_sure);
+        TextView tv_cancle = view.findViewById(R.id.tv_cancle);
+        hint_tv.setText("您确定要退出吗？");
+        tv_sure.setOnClickListener(this);
+        tv_cancle.setOnClickListener(this);
+        alertDialog = builder.create();
+        alertDialog.show();
+    }
+    @Override
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.tv_sure:
+                finish();
+                System.exit(0);
+            case R.id.tv_cancle:
+                alertDialog.dismiss();
+
+            break;
+        }
     }
 }

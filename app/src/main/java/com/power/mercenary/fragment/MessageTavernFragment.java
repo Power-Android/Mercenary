@@ -1,6 +1,7 @@
 package com.power.mercenary.fragment;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -33,29 +34,20 @@ public class MessageTavernFragment extends BaseFragment implements WanRecyclerVi
     @Override
     protected View initView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = LayoutInflater.from(mContext).inflate(R.layout.fragment_message_list, null);
-
         mRecyclerView = view.findViewById(R.id.frag_messageList_recyclerView);
         mRecyclerView.setLinearLayout();
         mRecyclerView.setPullRecyclerViewListener(this);
-
         datas = new ArrayList<>();
-
         adapter = new MessageTavernAdapter(getContext(), datas);
         adapter.setOnItemClickListener(this);
-
         mRecyclerView.setAdapter(adapter);
-
         presenter = new MsgTavernPresenter(getActivity(), this);
         presenter.getTavernList(page);
-
         return view;
     }
-
     @Override
     protected void initLazyData() {
-
     }
-
     @Override
     public void onRefresh() {
         page = 1;
@@ -79,6 +71,7 @@ public class MessageTavernFragment extends BaseFragment implements WanRecyclerVi
 
     @Override
     public void getTavernList(List<MsgTavernBean> data) {
+
         if (data != null) {
             datas.addAll(data);
             mRecyclerView.setHasMore(data.size(), 20);

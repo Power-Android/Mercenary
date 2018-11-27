@@ -26,10 +26,8 @@ import butterknife.OnClick;
  */
 
 public class MessageFragment extends BaseFragment implements View.OnClickListener{
-
     @BindView(R.id.left_back)
     ImageView left_back;
-
     @BindView(R.id.title_text)
     TextView title_text;
     @BindView(R.id.renwutj_tv)
@@ -46,28 +44,21 @@ public class MessageFragment extends BaseFragment implements View.OnClickListene
     LinearLayout tongchengLl;
     @BindView(R.id.tuijian_tab_ll)
     LinearLayout tuijianTabLl;
-
     @BindView(R.id.jiuguan_tv)
     TextView jiuguan_tv;
-
     @BindView(R.id.indicator_jiuguan)
     View indicator_jiuguan;
     @BindView(R.id.siliao_tv)
     TextView siliao_tv;
     @BindView(R.id.indicator_siliao)
     View indicator_siliao;
-
     @BindView(R.id.jiuguan_ll)
     LinearLayout jiuguan_ll;
     @BindView(R.id.siliao_ll)
     LinearLayout siliao_ll;
-
     private FragmentVPagerAdapter vPagerAdapter;
-
     private List<Fragment> fragments;
-
     private ViewPager viewPager;
-
     @Override
     protected View initView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_message, null);

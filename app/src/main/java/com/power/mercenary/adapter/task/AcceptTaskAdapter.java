@@ -99,7 +99,6 @@ public class AcceptTaskAdapter extends RecyclerView.Adapter implements SeekBar.O
                     viewHolder.layoutJujue.setVisibility(View.VISIBLE);
                     viewHolder.tvJujue.setText(data.get(position).getRefuse_cause());
                    boolean flag = (boolean) SharedPreferencesUtils.getParam(context, "flag", false);
-                   Log.i(TAG, flag+"");
                    if (flag==false) {
                            viewHolder.tuikuan.setText("退款");
                    } else if(flag==true){
@@ -205,7 +204,6 @@ public class AcceptTaskAdapter extends RecyclerView.Adapter implements SeekBar.O
                         .postRequest(new DialogCallback<ResponseBean<SuccessBean>>((Activity) context) {
                             @Override
                             public void onSuccess(Response<ResponseBean<SuccessBean>> response) {
-                                Toast.makeText(context, response.body().msg, Toast.LENGTH_SHORT).show();
                                 SharedPreferencesUtils.setParam(context,"flag",false);
                                 onItemClickListener.TuiKuanListener();
                                 mDialog.dismiss();

@@ -1,5 +1,6 @@
 package com.power.mercenary.activity;
 
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -17,6 +18,7 @@ import com.luck.picture.lib.PictureSelector;
 import com.luck.picture.lib.config.PictureConfig;
 import com.luck.picture.lib.config.PictureMimeType;
 import com.luck.picture.lib.entity.LocalMedia;
+import com.power.mercenary.MainActivity;
 import com.power.mercenary.MyApplication;
 import com.power.mercenary.R;
 import com.power.mercenary.base.BaseActivity;
@@ -120,6 +122,7 @@ public class SetupActivity extends BaseActivity implements View.OnClickListener,
     private TextView checkView;
 
     private String showAndHide = "hide";
+    private AlertDialog alertDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -254,11 +257,10 @@ public class SetupActivity extends BaseActivity implements View.OnClickListener,
         logout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                MyApplication.loginOut();
-                startActivity(new Intent(SetupActivity.this, SignInActivity.class));
-                finish();
-                removeAllActivitys();
-//                EventBus.getDefault().post(new EventUtils(EventConstants.JUPMP_TO_MAIN));
+
+                //点击退出登录首先弹出自定义的提示框询问用户。以防误触
+                //弹出提示框
+                alertExitDialog();
             }
         });
 
@@ -271,13 +273,9 @@ public class SetupActivity extends BaseActivity implements View.OnClickListener,
         clearCache.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                DataCleanManager.clearAllCache(SetupActivity.this);
 
-                try {
-                    tvCacheNum.setText(DataCleanManager.getTotalCacheSize(SetupActivity.this));
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
+                //点击清除缓存时进行弹框提示用户
+                AlertCleanAllCache();
             }
         });
 
@@ -289,6 +287,56 @@ public class SetupActivity extends BaseActivity implements View.OnClickListener,
         });
 
         EventBus.getDefault().register(this);
+    }
+
+    private void AlertCleanAllCache() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(SetupActivity.this);
+        View view = View
+                .inflate(SetupActivity.this, R.layout.dialog_shenhe, null);
+        builder.setView(view);
+        builder.setCancelable(true);
+        TextView hint_tv = view.findViewById(R.id.hint_tv);
+        TextView tv_sure = view.findViewById(R.id.tv_sure);
+        TextView tv_cancle = view.findViewById(R.id.tv_cancle);
+        hint_tv.setText("您确定要清除缓存吗？");
+        tv_sure.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                DataCleanManager.clearAllCache(SetupActivity.this);
+
+                try {
+                    tvCacheNum.setText(DataCleanManager.getTotalCacheSize(SetupActivity.this));
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                alertDialog.dismiss();
+            }
+        });
+        tv_cancle.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                alertDialog.dismiss();
+            }
+        });
+        alertDialog = builder.create();
+        alertDialog.show();
+    }
+
+    private void alertExitDialog() {//弹出提示框方法
+            AlertDialog.Builder builder = new AlertDialog.Builder(SetupActivity.this);
+            View view = View
+                    .inflate(SetupActivity.this, R.layout.dialog_shenhe, null);
+            builder.setView(view);
+            builder.setCancelable(true);
+            TextView hint_tv = view.findViewById(R.id.hint_tv);
+            TextView tv_sure = view.findViewById(R.id.tv_sure);
+            TextView tv_cancle = view.findViewById(R.id.tv_cancle);
+            hint_tv.setText("您确定要退出登陆吗？");
+            tv_sure.setOnClickListener(this);
+            tv_cancle.setOnClickListener(this);
+            alertDialog = builder.create();
+            alertDialog.show();
+
     }
 
     private void initData() {
@@ -452,6 +500,14 @@ public class SetupActivity extends BaseActivity implements View.OnClickListener,
                 intent = new Intent(SetupActivity.this, ModifyNicknameActivity.class);
 //                startActivity(intent);
                 break;
+            case R.id.tv_sure:
+                MyApplication.loginOut();
+                startActivity(new Intent(SetupActivity.this, SignInActivity.class));
+                finish();
+                removeAllActivitys();
+//                EventBus.getDefault().post(new EventUtils(EventConstants.JUPMP_TO_MAIN));
+            case R.id.tv_cancle:
+                alertDialog.dismiss();
         }
 
     }

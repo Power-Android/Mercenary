@@ -1,6 +1,8 @@
 package com.power.mercenary.presenter;
 
 import android.app.Activity;
+import android.util.Log;
+import android.widget.Toast;
 
 import com.lzy.okgo.model.Response;
 import com.power.mercenary.MyApplication;
@@ -25,24 +27,29 @@ public class MessageDetailsPresenter {
     }
 
     public void getMessageDetails(String type, String post_type, String message_id){
-        new HttpManager<ResponseBean<MsgDetailsBean>>("Home/YbTest/message_info_get", this)
+        new HttpManager<ResponseBean<List<MsgDetailsBean>>>("Home/YbTest/message_info_get", this)
                 .addParams("token", MyApplication.getUserToken())
                 .addParams("type", type)
-                .addParams("post_type", post_type)
+                .addParams("post_type", "")
                 .addParams("message_id", message_id)
                 .addParams("page", "")
                 .addParams("rows", "")
-                .postRequest(new DialogCallback<ResponseBean<MsgDetailsBean>>(activity) {
+                .postRequest(new DialogCallback<ResponseBean<List<MsgDetailsBean>>>(activity) {
                     @Override
-                    public void onSuccess(Response<ResponseBean<MsgDetailsBean>> response) {
+                    public void onSuccess(Response<ResponseBean<List<MsgDetailsBean>>> response) {
                         //成功方法的回调
+                        Log.i("ppppppppppp", "getMessageDetails: "+response.body().data.size());
+
                         callBack.getMessageDetails(response.body().data);
+
                     }
+
+
                 });
     }
 
     public interface DetailsCallBack {
 
-        void getMessageDetails(MsgDetailsBean data);
+        void getMessageDetails(List<MsgDetailsBean> data);
     }
 }

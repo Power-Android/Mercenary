@@ -658,7 +658,7 @@ public class PersonalRZActivity extends BaseActivity implements UpdataPresenter.
 
                                 } else {
 
-                                    if (certificationBean.getMessage().getResult().getMessage() != "" | certificationBean.getMessage().getResult().getMessage() != null) {
+                                    if (certificationBean.getMessage().getResult().getMessage() != null || certificationBean.getMessage().getResult().getMessage() != null) {
 
                                         Toast.makeText(PersonalRZActivity.this, certificationBean.getMessage().getResult().getMessage() + "", Toast.LENGTH_SHORT).show();
 

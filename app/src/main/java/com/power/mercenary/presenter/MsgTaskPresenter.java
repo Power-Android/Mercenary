@@ -35,6 +35,7 @@ public class MsgTaskPresenter {
                     @Override
                     public void onSuccess(Response<ResponseBean<List<MsgTaskBean>>> response) {
                         callBack.getTaskList(response.body().data);
+
                     }
 
                     @Override
