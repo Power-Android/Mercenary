@@ -103,6 +103,7 @@
                     android:layout_width="80dip"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
+
                     android:text="身份证"
                     android:textSize="12sp" />
 
@@ -119,6 +120,7 @@
                         android:layout_centerVertical="true"
                         android:layout_weight="1"
                         android:background="@null"
+                        android:phoneNumber="true"
                         android:hint="请输入身份证号"
                         android:textSize="12sp" />
 
@@ -207,6 +209,7 @@
                         android:layout_centerVertical="true"
                         android:layout_weight="1"
                         android:background="@null"
+                        android:phoneNumber="true"
                         android:hint="请输入银行卡号"
                         android:textSize="12sp" />
 
@@ -349,6 +352,7 @@
                         android:layout_centerVertical="true"
                         android:layout_weight="1"
                         android:background="@null"
+                        android:phoneNumber="true"
                         android:hint="请输入紧急联系人的手机号码"
                         android:textSize="12sp" />
 

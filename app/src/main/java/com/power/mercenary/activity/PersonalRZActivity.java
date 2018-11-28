@@ -53,6 +53,7 @@ import com.power.mercenary.presenter.MyZiLiPresenter;
 import com.power.mercenary.presenter.UpdataPresenter;
 import com.power.mercenary.utils.CompressImageUtils;
 import com.power.mercenary.utils.FileUtilcll;
+import com.power.mercenary.utils.Urls;
 import com.wevey.selector.dialog.DialogInterface;
 import com.wevey.selector.dialog.NormalSelectionDialog;
 
@@ -138,7 +139,8 @@ public class PersonalRZActivity extends BaseActivity implements UpdataPresenter.
 
     //效验字段
     private boolean isRequest = true;
-
+    //标识认证成功和失败的值
+    private boolean RenZflag = true;
     private List<String> list;
 
     final List<String> provinceList = new ArrayList<>();      //省
@@ -291,7 +293,6 @@ public class PersonalRZActivity extends BaseActivity implements UpdataPresenter.
                 int code = getQmprivnce.getCode();
 
                 if (code == 0) {
-
                     List<GetQmprivnce.DataBean> data = getQmprivnce.getData();
 
                     //因为寻找省下 所有的市 所以需要循环 取出省 市
@@ -428,266 +429,12 @@ public class PersonalRZActivity extends BaseActivity implements UpdataPresenter.
 
                 break;
             case R.id.tv_scz_pz:
-
-                String userToken = MyApplication.getUserToken();
-                //Log.e("tagToken", userToken);
-                String userName = edUserName.getText().toString().trim();
-                String idCardNumber = edIdcardNumber.getText().toString().trim();
-                String contactPersonName = edtContactPersonName.getText().toString().trim();
-                String contactPersonPhone = edtContactPersonPhone.getText().toString().trim();
-                String bankcardNumber = edtBankcardNumber.getText().toString().trim();
-                String bankOfDeposit = edtBankOfDeposit.getText().toString().trim();
-                //*******inOpeningAnAccount  开户地区字段不能.trim();(去空) 因为是以 空格分割的字符串
-                String inOpeningAnAccount = edInOpeningAnAccount.getText().toString();
-
-                Log.e("tag4", bankOfDeposit);
-
-                //效验姓名
-                if (TextUtils.isEmpty(userName)) {
-
-                    Toast.makeText(PersonalRZActivity.this, "姓名不能为空", Toast.LENGTH_SHORT).show();
-                    isRequest = false;
-                    return;
-
-                } else {
-
-                    isRequest = true;
-
-                }
-
-                //效验身份证号
-                if (TextUtils.isEmpty(idCardNumber)) {
-
-                    Toast.makeText(PersonalRZActivity.this, "银行卡号不能为空", Toast.LENGTH_SHORT).show();
-                    isRequest = false;
-                    return;
-                } else {
-
-                    isRequest = true;
-
-                }
-
-                //效验联系人姓名
-                if (TextUtils.isEmpty(contactPersonName)) {
-
-                    Toast.makeText(PersonalRZActivity.this, "姓名不能为空", Toast.LENGTH_SHORT).show();
-                    isRequest = false;
-                    return;
-                } else {
-
-                    isRequest = true;
-
-                }
-                //效验联系人手机号
-                if (TextUtils.isEmpty(contactPersonPhone)) {
-
-                    Toast.makeText(PersonalRZActivity.this, "手机号不能为空", Toast.LENGTH_SHORT).show();
-                    isRequest = false;
-                    return;
-                } else {
-
-                    isRequest = true;
-
-                }
-
-                //效验银行卡号
-                if (TextUtils.isEmpty(bankcardNumber)) {
-
-                    Toast.makeText(PersonalRZActivity.this, "银行卡号不能为空", Toast.LENGTH_SHORT).show();
-                    isRequest = false;
-                    return;
-                } else {
-
-                    isRequest = true;
-
-                }
-
-                //效验开户行
-                if (TextUtils.isEmpty(bankOfDeposit)) {
-
-                    Toast.makeText(PersonalRZActivity.this, "银行卡号不能为空", Toast.LENGTH_SHORT).show();
-                    isRequest = false;
-                    return;
-                } else {
-
-                    isRequest = true;
-
-                }
-
-                //效验联系人手机号
-                if (contactPersonPhone.length() != 11) {
-
-                    Toast.makeText(PersonalRZActivity.this, "手机号必须为11位数字", Toast.LENGTH_SHORT).show();
-                    isRequest = false;
-                    return;
-                } else {
-
-                    isRequest = true;
-
-                }
-
-                //效验联系人姓名
-                if (contactPersonName.length() > 20) {
-
-                    Toast.makeText(PersonalRZActivity.this, "姓名不能大于20个汉字", Toast.LENGTH_SHORT).show();
-                    isRequest = false;
-                    return;
-                } else {
-
-                    isRequest = true;
-
-                }
-
-                //效验银行卡卡号
-                if (bankcardNumber.length() < 16) {
-
-                    Toast.makeText(PersonalRZActivity.this, "卡号不能小于16位数字", Toast.LENGTH_SHORT).show();
-                    isRequest = false;
-                    return;
-                } else {
-
-                    isRequest = true;
-
-                }
-
-                //效验身份证号
-                if (idCardNumber.length() > 18 || idCardNumber.length() < 18) {
-
-                    Toast.makeText(PersonalRZActivity.this, "身份证号必须为18位", Toast.LENGTH_SHORT).show();
-                    isRequest = false;
-                    return;
-                } else {
-
-                    isRequest = true;
-
-                }
-
-                //Log.e(TAG, "onViewClicked: " + imgList.size() + "    " + isRequest);
-
-                //证明图片已经选择完毕
-                //可以开始请求
-                if (isRequest == true) {
-
-                    if (imgList.size() >= 4) {
-
-                        //开始拼接参数 网络请求
-                        Map<String, String> map = new HashMap<>();
-
-                        map.put("token", userToken);
-                        map.put("name", userName);
-                        map.put("id_card", idCardNumber);
-                        //Log.e("tag身份证号", idCardNumber);
-                        map.put("lianxi_name", contactPersonName);
-                        map.put("lianxi_mobile", contactPersonPhone);
-                        map.put("yh_card", bankcardNumber);
-                        map.put("yh_name", userName);
-                        map.put("yh_khh", bankOfDeposit);
-                        String[] split = inOpeningAnAccount.split("\\s");       //以空格分割字符串
-                        map.put("province", split[0]);
-                        map.put("city", split[1]);
-                        map.put("identity_front", imgList.get(0));
-                        map.put("identity_behind", imgList.get(1));
-                        map.put("shouchi_img", imgList.get(2));
-                        map.put("yh_img", imgList.get(3));
-
-                        //Log.e(TAG, "onViewClicked  imgList: " + imgList.size());
-
-                        //Log.e(TAG, "onViewClicked  token: " + userToken);
-                   /* Log.e(TAG, "onViewClicked: "+ userName);
-                    Log.e(TAG, "onViewClicked: "+ idCardNumber);
-                    Log.e(TAG, "onViewClicked: "+ contactPersonName);
-                    Log.e(TAG, "onViewClicked: "+ contactPersonPhone);
-                    Log.e(TAG, "onViewClicked: "+ bankcardNumber);
-                    Log.e(TAG, "onViewClicked: "+ contactPersonName);
-                    Log.e(TAG, "onViewClicked: "+ bankOfDeposit);
-                    Log.e(TAG, "onViewClicked: "+ province.getName());
-                    Log.e(TAG, "onViewClicked: "+ city.getName());*/
-/*                  Log.e(TAG, "onViewClicked  token: " + userToken);
-                    Log.e(TAG, "onViewClicked  名字           name: " + userName);
-                    Log.e(TAG, "onViewClicked  身份证号       id_card: " + idCardNumber);
-                    Log.e(TAG, "onViewClicked  联系人名字     lianxi_name: " + contactPersonName);
-                    Log.e(TAG, "onViewClicked  联系人手机号    lianxi_mobile: " + contactPersonPhone);
-                    Log.e(TAG, "onViewClicked  银行卡号        yh_card: " + bankcardNumber);
-                    Log.e(TAG, "onViewClicked  开户人的名字     yh_name: " + userName);
-                    Log.e(TAG, "onViewClicked  开户行          yh_khh: " + bankOfDeposit);
-                    Log.e(TAG, "onViewClicked  省              province: " + split[0]);
-                    Log.e(TAG, "onViewClicked  市              city: " + split[1]);
-                    Log.e(TAG, "onViewClicked   身份证正面      identity_front: " + imgList.get(0));
-                    Log.e(TAG, "onViewClicked: 身份证反面       identity_behind:" + imgList.get(1));
-                    Log.e(TAG, "onViewClicked:  银行卡照片      shouchi_img:" + imgList.get(2));
-                    Log.e(TAG, "onViewClicked:  手持银行卡照片   yh_img:" + imgList.get(3));*/
-
-                        OkhtttpUtils.getInstance().doPost("http://yb.dashuibei.com/index.php/Home/QmUser/new_register", map, new OkhtttpUtils.OkCallback() {
-                            @Override
-                            public void onFailure(Exception e) {
-
-                                //Toast.makeText(PersonalRZActivity.this,  e.getMessage(), Toast.LENGTH_SHORT).show();
-
-                            }
-
-                            @Override
-                            public void onResponse(String json) {
-
-                                Gson gson = new Gson();
-                                Log.e("tag1", json);
-                                CertificationBean certificationBean = gson.fromJson(json, CertificationBean.class);
-
-                                int code = certificationBean.getCode();
-
-                                if (code == 0) {
-
-                                    Toast.makeText(PersonalRZActivity.this, "实名成功,即将跳转......", Toast.LENGTH_SHORT).show();
-
-                                    new Thread(new Runnable() {
-                                        @Override
-                                        public void run() {
-
-                                            try {
-                                                Thread.sleep(2000);
-                                            } catch (InterruptedException e) {
-                                                e.printStackTrace();
-                                            }
-
-                                        }
-                                    }).start();
-
-                                    //认证完成 跳转页面
-                                    Intent intent = new Intent(PersonalRZActivity.this, MainActivity.class);
-
-                                    startActivity(intent);
-
-                                } else {
-
-                                    if (certificationBean.getMessage().getResult().getMessage() != null || certificationBean.getMessage().getResult().getMessage() != null) {
-
-                                        Toast.makeText(PersonalRZActivity.this, certificationBean.getMessage().getResult().getMessage() + "", Toast.LENGTH_SHORT).show();
-
-                                    } else {
-
-                                        Toast.makeText(PersonalRZActivity.this, "出错了", Toast.LENGTH_SHORT).show();
-
-                                    }
-
-                                    Toast.makeText(PersonalRZActivity.this, "出错了", Toast.LENGTH_SHORT).show();
-
-                                }
-
-                            }
-                        });
-
-                    } else {
-
-                        //Toast.makeText(PersonalRZActivity.this, "请检查您的个人信息是否有误", Toast.LENGTH_SHORT).show();
-
-                    }
-
-                } else {
-
-                    Log.e(TAG, "onViewClicked: " + imgList.size() + "    " + isRequest);
-
-                    Toast.makeText(PersonalRZActivity.this, "请上传照片", Toast.LENGTH_SHORT).show();
-
-                }
+               // if (RenZflag){
+
+                    Authen();
+               // }else{
+                  //  Toast.makeText(PersonalRZActivity.this,"请重新检查您的个人信息",Toast.LENGTH_LONG).show();
+              //  }
 
                 break;
             case R.id.img_Id_Card111:
@@ -740,6 +487,215 @@ public class PersonalRZActivity extends BaseActivity implements UpdataPresenter.
                 Toast.makeText(this, "点击了", Toast.LENGTH_SHORT).show();
 
                 break;
+
+        }
+    }
+
+    private void Authen() {
+        String userToken = MyApplication.getUserToken();
+        //Log.e("tagToken", userToken);
+        String userName = edUserName.getText().toString().trim();
+        String idCardNumber = edIdcardNumber.getText().toString().trim();
+        String contactPersonName = edtContactPersonName.getText().toString().trim();
+        String contactPersonPhone = edtContactPersonPhone.getText().toString().trim();
+        String bankcardNumber = edtBankcardNumber.getText().toString().trim();
+        String bankOfDeposit = edtBankOfDeposit.getText().toString().trim();
+        //*******inOpeningAnAccount  开户地区字段不能.trim();(去空) 因为是以 空格分割的字符串
+        String inOpeningAnAccount = edInOpeningAnAccount.getText().toString();
+        String[] split = inOpeningAnAccount.split("\\s");       //以空格分割字符串
+
+        Log.e("tag4", bankOfDeposit);
+
+        //效验姓名
+        if (TextUtils.isEmpty(userName)) {
+            Toast.makeText(PersonalRZActivity.this, "姓名不能为空", Toast.LENGTH_SHORT).show();
+            isRequest = false;
+            return;
+
+        } else {
+
+            isRequest = true;
+
+        }
+
+        //效验身份证号
+        if (TextUtils.isEmpty(idCardNumber)) {
+
+            Toast.makeText(PersonalRZActivity.this, "身份证号不能为空", Toast.LENGTH_SHORT).show();
+            isRequest = false;
+            return;
+        } else {
+
+            isRequest = true;
+
+        }
+        //效验身份证号
+        if (idCardNumber.length() > 18 || idCardNumber.length() < 18) {
+
+            Toast.makeText(PersonalRZActivity.this, "身份证号必须为18位", Toast.LENGTH_SHORT).show();
+            isRequest = false;
+            return;
+        } else {
+
+            isRequest = true;
+
+        }
+
+
+        //效验银行卡号
+        if (TextUtils.isEmpty(bankcardNumber)) {
+
+            Toast.makeText(PersonalRZActivity.this, "银行卡号不能为空", Toast.LENGTH_SHORT).show();
+            isRequest = false;
+            return;
+        } else {
+
+            isRequest = true;
+
+        }
+//效验银行卡卡号
+        if (bankcardNumber.length() < 16) {
+
+            Toast.makeText(PersonalRZActivity.this, "卡号不能小于16位数字", Toast.LENGTH_SHORT).show();
+            isRequest = false;
+            return;
+        } else {
+            isRequest = true;
+        }
+        //效验开户行
+        if (TextUtils.isEmpty(bankOfDeposit)) {
+
+            Toast.makeText(PersonalRZActivity.this, "银行卡号不能为空", Toast.LENGTH_SHORT).show();
+            isRequest = false;
+            return;
+        } else {
+
+            isRequest = true;
+
+        }
+        //效验联系人姓名
+        if (TextUtils.isEmpty(contactPersonName)) {
+
+            Toast.makeText(PersonalRZActivity.this, "姓名不能为空", Toast.LENGTH_SHORT).show();
+            isRequest = false;
+            return;
+        } else {
+
+            isRequest = true;
+
+        }
+        //效验联系人姓名
+        if (contactPersonName.length() > 20) {
+
+            Toast.makeText(PersonalRZActivity.this, "姓名不能大于20个汉字", Toast.LENGTH_SHORT).show();
+            isRequest = false;
+            return;
+        } else {
+
+            isRequest = true;
+
+        }
+
+        //效验联系人手机号
+        if (TextUtils.isEmpty(contactPersonPhone)) {
+
+            Toast.makeText(PersonalRZActivity.this, "手机号不能为空", Toast.LENGTH_SHORT).show();
+            isRequest = false;
+            return;
+        } else {
+
+            isRequest = true;
+
+        }
+        //效验联系人手机号
+        if (contactPersonPhone.length() != 11) {
+
+            Toast.makeText(PersonalRZActivity.this, "手机号必须为11位数字", Toast.LENGTH_SHORT).show();
+            isRequest = false;
+            return;
+        } else {
+
+            isRequest = true;
+
+        }
+
+
+        //Log.e(TAG, "onViewClicked: " + imgList.size() + "    " + isRequest);
+
+        //证明图片已经选择完毕
+        //可以开始请求
+        if (isRequest == true) {
+
+            if (imgList.size() >= 4) {
+
+                //开始拼接参数 网络请求
+                Map<String, String> map = new HashMap<>();
+
+                map.put("token", userToken);
+                map.put("name", userName);
+                map.put("id_card", idCardNumber);
+                //Log.e("tag身份证号", idCardNumber);
+                map.put("lianxi_name", contactPersonName);
+                map.put("lianxi_mobile", contactPersonPhone);
+                map.put("yh_card", bankcardNumber);
+                map.put("yh_name", userName);
+                map.put("yh_khh", bankOfDeposit);
+                map.put("province", split[0]);
+                map.put("city", split[1]);
+                map.put("identity_front", imgList.get(0));
+                map.put("identity_behind", imgList.get(1));
+                map.put("shouchi_img", imgList.get(2));
+                map.put("yh_img", imgList.get(3));
+                Log.i("authon", Urls.BASEIMGURL+imgList.get(2));
+                OkhtttpUtils.getInstance().doPost("http://yb.dashuibei.com/index.php/Home/QmUser/new_register", map, new OkhtttpUtils.OkCallback() {
+                    @Override
+                    public void onFailure(Exception e) {
+
+                        //Toast.makeText(PersonalRZActivity.this,  e.getMessage(), Toast.LENGTH_SHORT).show();
+
+                    }
+
+                    @Override
+                    public void onResponse(String json) {
+
+                        Gson gson = new Gson();
+                        CertificationBean certificationBean = gson.fromJson(json, CertificationBean.class);
+
+                        int code = certificationBean.getCode();
+                        if (code == 0) {
+                          //  RenZflag = false;
+
+                            Toast.makeText(PersonalRZActivity.this, "实名成功,即将跳转......", Toast.LENGTH_SHORT).show();
+
+                            new Thread(new Runnable() {
+                                @Override
+                                public void run() {
+
+                                    try {
+                                        Thread.sleep(2000);
+                                    } catch (InterruptedException e) {
+                                        e.printStackTrace();
+                                    }
+                                }
+                            }).start();
+
+                            //认证完成 跳转页面
+                            Intent intent = new Intent(PersonalRZActivity.this, MainActivity.class);
+
+                            startActivity(intent);
+
+                        } else if (code!=2){
+                                Toast.makeText(PersonalRZActivity.this, certificationBean.getMessage().getResult().getMessage() + "", Toast.LENGTH_SHORT).show();
+                        }else{
+                            Toast.makeText(PersonalRZActivity.this, certificationBean.getMsg(), Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
+            } else {
+                Toast.makeText(PersonalRZActivity.this, "请上传照片", Toast.LENGTH_SHORT).show();
+            }
+        } else {
+            Toast.makeText(PersonalRZActivity.this, "请检查您的个人信息是否有误", Toast.LENGTH_SHORT).show();
 
         }
     }

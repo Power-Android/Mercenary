@@ -453,8 +453,10 @@ public class HomeSearchActivity extends BaseActivity implements View.OnClickList
         protected void convert(BaseViewHolder helper, MainTaskBean.TuijianBean item) {
             TextView titleTv = helper.getView(R.id.item_title_tv);
             TextView contentTv = helper.getView(R.id.item_content_tv);
+            TextView task_type = helper.getView(R.id.item_money_tv);
             RecyclerView tagRecyclerView = helper.getView(R.id.tag_recycler);
             titleTv.setText(item.getTask_name());
+            task_type.setText(searchTv.getText().toString());
             contentTv.setText(item.getTask_description());
 
             tagRecyclerView.setNestedScrollingEnabled(false);
