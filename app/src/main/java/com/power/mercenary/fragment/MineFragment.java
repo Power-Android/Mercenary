@@ -56,37 +56,26 @@ import butterknife.Unbinder;
  */
 
 public class MineFragment extends BaseFragment implements UserPresenter.UserCallBack {
-
-
     @BindView(R.id.tv_sz)
     TextView tvSz;
-
     @BindView(R.id.frag_mine_money)
     TextView money;
-
     @BindView(R.id.ll_wdjz)
     LinearLayout ll_wdjz;
-
     @BindView(R.id.rl_wdgz)
     RelativeLayout rl_wdgz;
-
     @BindView(R.id.rl_wdsc)
     RelativeLayout rl_wdsc;
-
     @BindView(R.id.rl_wdtg)
     RelativeLayout rl_wdtg;
-
     @BindView(R.id.rl_wdzl)
     RelativeLayout rl_wdzl;
-
     @BindView(R.id.tv_jsrw)
     TextView tv_jsrw;
-
     @BindView(R.id.tv_fbrw)
     TextView tv_fbrw;
     @BindView(R.id.rl_cj)
     RelativeLayout rl_cj;
-
     @BindView(R.id.ll_wjd)
     LinearLayout ll_wjd;
     @BindView(R.id.ll_rwz)

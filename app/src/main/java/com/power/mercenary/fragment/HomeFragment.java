@@ -25,6 +25,10 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.baidu.location.BDLocation;
+import com.baidu.location.BDLocationListener;
+import com.baidu.location.LocationClient;
+import com.baidu.location.LocationClientOption;
 import com.bumptech.glide.Glide;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
@@ -60,6 +64,7 @@ import com.power.mercenary.presenter.MainPresenter;
 import com.power.mercenary.utils.BannerUtils;
 import com.power.mercenary.utils.MercenaryUtils;
 import com.power.mercenary.utils.MyUtils;
+import com.power.mercenary.utils.SpUtils;
 import com.power.mercenary.utils.Urls;
 import com.power.mercenary.view.BaseDialog;
 import com.power.mercenary.view.MyPageIndicator;
@@ -174,6 +179,7 @@ public class HomeFragment extends BaseFragment implements MainPresenter.MainCall
     private TextView tvCancle;
 
     private PopupWindow window;
+    private LocationClient mLocClient;
 
     @Override
     protected View initView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -197,6 +203,7 @@ public class HomeFragment extends BaseFragment implements MainPresenter.MainCall
             case EventConstants.TYPE_CITY_SELECT:
                 CitySelectBean selectBean = (CitySelectBean) event.getData();
                 locationTv.setText(selectBean.cityName);
+                SpUtils.putString(getActivity(),"address",selectBean.cityName);
                 tuijianList.clear();
                 mainPresenter.getTaskList(selectBean.cityName);
                 break;
@@ -212,7 +219,7 @@ public class HomeFragment extends BaseFragment implements MainPresenter.MainCall
     }
 
     private void initData() {
-        //---------------------------设置Banner----------------------------------------
+                //---------------------------设置Banner----------------------------------------
         List<Integer> baaaneList = new ArrayList<>();
         baaaneList.add(R.drawable.test_banner);
         baaaneList.add(R.drawable.test_banner);
@@ -434,9 +441,32 @@ public class HomeFragment extends BaseFragment implements MainPresenter.MainCall
             });
 
         }
-
+        initLocation();
     }
 
+    private void initLocation() {
+        mLocClient = new LocationClient(getActivity());
+        LocationClientOption option = new LocationClientOption();
+        option.setLocationMode(LocationClientOption.LocationMode.Hight_Accuracy);// 设置定位模式
+        option.setNeedDeviceDirect(true);// 设置返回结果包含手机的方向
+        option.setOpenGps(true);
+        option.setAddrType("all");// 返回的定位结果包含地址信息
+        option.setCoorType("bd09ll");// 返回的定位结果是百度经纬度,默认值gcj02
+        option.setIsNeedAddress(true);// 返回的定位结果包含地址信息
+        option.setIsNeedLocationPoiList(true);
+        mLocClient.setLocOption(option);
+        mLocClient.start();
+        mLocClient.registerLocationListener(new BDLocationListener() {
+            @Override
+            public void onReceiveLocation(BDLocation bdLocation) {
+                double longitude = bdLocation.getLongitude();
+                double latitude = bdLocation.getLatitude();
+                String country = bdLocation.getCountry();
+                String city = bdLocation.getCity();
+                locationTv.setText(city.replace("市", ""));
+            }
+        });
+    }
     @Override
     public void onResume() {
         super.onResume();

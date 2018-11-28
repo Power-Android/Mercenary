@@ -1,6 +1,7 @@
 package com.power.mercenary.adapter.task;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -14,6 +15,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.lzy.okgo.model.Response;
+import com.power.mercenary.MainActivity;
 import com.power.mercenary.MyApplication;
 import com.power.mercenary.R;
 import com.power.mercenary.activity.TaskListActivity;
@@ -30,12 +32,13 @@ import java.util.List;
 /**
  * admin  2018/7/18 wan
  */
-public class ReleaseWJDAdapter extends RecyclerView.Adapter {
+public class ReleaseWJDAdapter extends RecyclerView.Adapter implements View.OnClickListener {
     private Context context;
 
     private List<PublishTaskBean.DataBean> data1;
 
     private TaskHandleListener listener;
+    private AlertDialog alertDialog;
 
     public void setListener(TaskHandleListener listener){
         this.listener = listener;
@@ -80,7 +83,7 @@ public class ReleaseWJDAdapter extends RecyclerView.Adapter {
             viewHolder.chexiao.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    listener.chexiao(ReleaseWJDAdapter.this.data1.get(position).getId(), position);
+                    alertExitDialog(position);
                 }
             });
 
@@ -99,6 +102,29 @@ public class ReleaseWJDAdapter extends RecyclerView.Adapter {
             });
         }
     }
+
+    private void alertExitDialog(final int position) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        View view = View
+                .inflate(context, R.layout.dialog_shenhe, null);
+        builder.setView(view);
+        builder.setCancelable(true);
+        TextView hint_tv = view.findViewById(R.id.hint_tv);
+        TextView tv_sure = view.findViewById(R.id.tv_sure);
+        TextView tv_cancle = view.findViewById(R.id.tv_cancle);
+        hint_tv.setText("您确定要撤销此任务吗？");
+        tv_sure.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                listener.chexiao(ReleaseWJDAdapter.this.data1.get(position).getId(), position);
+                alertDialog.dismiss();
+            }
+        });
+        tv_cancle.setOnClickListener(this);
+        alertDialog = builder.create();
+        alertDialog.show();
+    }
+
     private BaseDialog mDialog;
     private BaseDialog.Builder mBuilder;
     private void showIssueDialog(final int position) {
@@ -139,7 +165,6 @@ public class ReleaseWJDAdapter extends RecyclerView.Adapter {
                             @Override
                             public void onError(Response<ResponseBean<SuccessBean>> response) {
                                 super.onError(response);
-                                Log.d("ReleaseRWZAdapter", response.getException().getMessage()+"--------");
                             }
                         });
             }
@@ -155,6 +180,17 @@ public class ReleaseWJDAdapter extends RecyclerView.Adapter {
     @Override
     public int getItemCount() {
         return data1.size();
+    }
+
+    @Override
+    public void onClick(View view) {
+        switch (view.getId()) {
+
+            case R.id.tv_cancle:
+                alertDialog.dismiss();
+
+                break;
+        }
     }
 
     class WJDViewHolder extends RecyclerView.ViewHolder {

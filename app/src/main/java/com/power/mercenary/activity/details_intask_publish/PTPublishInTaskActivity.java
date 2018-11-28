@@ -44,6 +44,7 @@ import com.power.mercenary.http.ResponseBean;
 import com.power.mercenary.presenter.TaskDetailsPresenter;
 import com.power.mercenary.utils.MercenaryUtils;
 import com.power.mercenary.utils.MyUtils;
+import com.power.mercenary.utils.SpUtils;
 import com.power.mercenary.utils.TUtils;
 import com.power.mercenary.utils.Urls;
 import com.power.mercenary.view.CircleImageView;
@@ -64,8 +65,6 @@ import butterknife.OnClick;
  */
 
 public class PTPublishInTaskActivity extends BaseActivity implements View.OnClickListener, TaskDetailsPresenter.TaskDetailsCallBack, DetailsPeopleAdapter.DetailsPepCallBack {
-
-
     @BindView(R.id.recycler_task_tag)
     RecyclerView recycler_task_tag;
     @BindView(R.id.recycler_content)
@@ -343,8 +342,8 @@ public class PTPublishInTaskActivity extends BaseActivity implements View.OnClic
                     .into(ivIcon);
 
             tvTitle.setText(datas.getTask_name());
-
-            tvName.setText(datas.getName());
+            String address = SpUtils.getString(PTPublishInTaskActivity.this, "address", "北京");
+            tvName.setText(datas.getName()+"("+address+")");
 
             tvTime.setText(MyUtils.getDateToString(datas.getPublish_time()));
 

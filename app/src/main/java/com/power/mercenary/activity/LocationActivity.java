@@ -5,6 +5,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
@@ -91,7 +92,6 @@ public class LocationActivity extends BaseActivity implements LocationPresenter.
                     public void onClick(View v) {
                         CitySelectBean bean = new CitySelectBean();
                         bean.cityName = locationTv.getText().toString();
-//                        bean.cityId = cityId;
                         EventBus.getDefault().post(new EventUtils(EventConstants.TYPE_CITY_SELECT, bean));
                         finish();
                     }
@@ -209,7 +209,8 @@ public class LocationActivity extends BaseActivity implements LocationPresenter.
                 String country = bdLocation.getCountry();
                 String city = bdLocation.getCity();
                 title.setText("当前城市-" + city.replace("市", ""));
-                locationTv.setText(city.replace("市", ""));
+                Log.i("liubiao", "onReceiveLocation: "+city.replace("市", ""));
+                locationTv.setText(city.replace("市", "")+"市");
             }
         });
     }

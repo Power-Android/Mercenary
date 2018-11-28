@@ -41,6 +41,7 @@ import com.power.mercenary.http.ResponseBean;
 import com.power.mercenary.presenter.TaskDetailsPresenter;
 import com.power.mercenary.utils.MercenaryUtils;
 import com.power.mercenary.utils.MyUtils;
+import com.power.mercenary.utils.SpUtils;
 import com.power.mercenary.utils.TUtils;
 import com.power.mercenary.utils.Urls;
 import com.power.mercenary.view.CircleImageView;
@@ -335,7 +336,7 @@ public class PTTaskDetailsActivity extends BaseActivity implements View.OnClickL
                     .into(ivIcon);
 
             tvTitle.setText(datas.getTask_name());
-
+            String adress = SpUtils.getString(PTTaskDetailsActivity.this, "adress", "ddd");
             tvName.setText(datas.getName());
 
             tvTime.setText(MyUtils.getDateToString(datas.getPublish_time()));
