@@ -33,6 +33,7 @@ public class TaskDetailsBean {
      * task_img : a.jpg,b.jpg
      * other_request : 其他要求
      * name : 发布任务人姓名
+     * "nick_name": "万鑫帐号"
      * head_img : 发布人头像
      * collect : 1
      * * xuanding : {"id":"19","name":"67766767","head_img":"/Uploads/img/19/1531205169669.jpg"}
@@ -59,6 +60,16 @@ public class TaskDetailsBean {
     private String task_img;
     private String other_request;
     private String name;
+
+    public String getNick_name() {
+        return nick_name;
+    }
+
+    public void setNick_name(String nick_name) {
+        this.nick_name = nick_name;
+    }
+
+    private String nick_name;
     private String head_img;
 
     public String getApply() {

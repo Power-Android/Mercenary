@@ -48,6 +48,7 @@ import com.power.mercenary.presenter.TaskDetailsPresenter;
 import com.power.mercenary.presenter.publish.PublishPresenter;
 import com.power.mercenary.utils.MercenaryUtils;
 import com.power.mercenary.utils.MyUtils;
+import com.power.mercenary.utils.SpUtils;
 import com.power.mercenary.utils.TUtils;
 import com.power.mercenary.utils.Urls;
 import com.power.mercenary.view.BaseDialog;
@@ -299,7 +300,8 @@ public class GZPublishAppraiseActivity extends BaseActivity implements View.OnCl
                 break;
             case R.id.iv_right_fx:
                 ShareDialog dialog = new ShareDialog(this, taskDetailsBean.getTask_name(), taskDetailsBean.getTask_description(), taskDetailsBean.getId());
-                dialog.setOnDismissListener(onDismissListener);;
+                dialog.setOnDismissListener(onDismissListener);
+                ;
                 setShowPop(dialog, iv_right_fx);
                 break;
             case R.id.left_back:
@@ -369,8 +371,9 @@ public class GZPublishAppraiseActivity extends BaseActivity implements View.OnCl
 
             tvTitle.setText(datas.getTask_name());
 
-            tvName.setText(datas.getName());
-
+//获取任务所在地
+            String address = SpUtils.getString(this, "address", "");
+            tvName.setText(datas.getNick_name() + "(" + address + ")");
             tvTime.setText(MyUtils.getDateToString(datas.getPublish_time()));
 
             tvPrice.setText("￥" + datas.getPay_amount());
@@ -582,7 +585,7 @@ public class GZPublishAppraiseActivity extends BaseActivity implements View.OnCl
         if (state == 2) {
             //选定 弹个界面
 //            if (TextUtils.equals(MyApplication.getUserId(), publisherId)) {
-                presenter.changePeople(id, state, taskId, avatar, name);
+            presenter.changePeople(id, state, taskId, avatar, name);
 //            } else {
 //                TUtils.showCustom(this, "只有发布者可以更改");
 //            }

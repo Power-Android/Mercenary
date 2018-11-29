@@ -338,7 +338,7 @@ public class SHPublishOutActivity extends BaseActivity implements View.OnClickLi
 
             tvTitle.setText(datas.getTask_name());
 
-            tvName.setText(datas.getName());
+            tvName.setText(datas.getNick_name());
 
             tvTime.setText(MyUtils.getDateToString(datas.getPublish_time()));
 

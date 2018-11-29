@@ -56,33 +56,15 @@ public class ReleaseRWZAdapter extends RecyclerView.Adapter {
 
         if (holder instanceof WJDViewHolder) {
             WJDViewHolder viewHolder = (WJDViewHolder) holder;
-
             viewHolder.title.setText(this.data1.get(position).getTask_name());
-            Log.i("qwe", this.data1.get(position).getPay_amount());
-
             viewHolder.price.setText("￥" + this.data1.get(position).getPay_amount());
-
-
             viewHolder.num.setText("浏览数：" + this.data1.get(position).getView_num() + " 分享数：" + this.data1.get(position).getShare_num());
-
-            //
-
             if (!this.data1.get(position).getRefuse_cause().equals("")){
                 viewHolder.layout_jujue.setVisibility(View.VISIBLE);
-                //viewHolder.tv_weitongguo.setVisibility(View.VISIBLE);
-
-                //viewHolder.tuikuan.setVisibility(View.VISIBLE);
-
-                //viewHolder.tv_weitongguo.setVisibility(View.GONE);
-
                 viewHolder.tv_jujue.setText(this.data1.get(position).getRefuse_cause());
 
             }else{
-
-
-
                 //viewHolder.tuikuan.setVisibility(View.VISIBLE);
-
 
             }
             viewHolder.chexiao.setVisibility(View.GONE);

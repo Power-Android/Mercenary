@@ -345,7 +345,7 @@ public class PTPublishInTaskActivity extends BaseActivity implements View.OnClic
 
             tvTitle.setText(datas.getTask_name());
             String address = SpUtils.getString(PTPublishInTaskActivity.this, "address", "北京");
-            tvName.setText(datas.getName()+"("+address+")");
+            tvName.setText(datas.getNick_name());
 
             tvTime.setText(MyUtils.getDateToString(datas.getPublish_time()));
 

@@ -336,8 +336,8 @@ public class PTTaskDetailsActivity extends BaseActivity implements View.OnClickL
                     .into(ivIcon);
 
             tvTitle.setText(datas.getTask_name());
-            String adress = SpUtils.getString(PTTaskDetailsActivity.this, "adress", "ddd");
-            tvName.setText(datas.getName());
+            String address = SpUtils.getString(PTTaskDetailsActivity.this, "address", "");
+            tvName.setText(datas.getNick_name()+"("+address+")");
 
             tvTime.setText(MyUtils.getDateToString(datas.getPublish_time()));
 

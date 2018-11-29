@@ -231,7 +231,7 @@ public class ChatActivity extends BaseActivity implements SpringView.OnFreshList
                 msgAdapter.notifyDataSetChanged();
                 maxCount++;
                 CacheUtils.put(CacheConstants.MESSAGEID, maxCount);
-                Log.v("======>>", "send user id" + message.getSenderUserId() + " user id " + message.getTargetId());
+                Log.i("shujuku", "send user id" + message.getSenderUserId() + " user id " + message.getTargetId());
                 EventBus.getDefault().post(new EventUtils(EventConstants.TYPE_MESSAGE_SHOW_MINE, message));
             }
 

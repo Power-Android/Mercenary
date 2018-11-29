@@ -46,6 +46,7 @@ import com.power.mercenary.http.ResponseBean;
 import com.power.mercenary.presenter.TaskDetailsPresenter;
 import com.power.mercenary.utils.MercenaryUtils;
 import com.power.mercenary.utils.MyUtils;
+import com.power.mercenary.utils.SpUtils;
 import com.power.mercenary.utils.TUtils;
 import com.power.mercenary.utils.Urls;
 import com.power.mercenary.view.CircleImageView;
@@ -349,8 +350,9 @@ public class SHAcceptSuccessActivity extends BaseActivity implements View.OnClic
 
             tvTitle.setText(datas.getTask_name());
 
-            tvName.setText(datas.getName());
-
+//获取任务所在地
+            String address = SpUtils.getString(this, "address", "");
+            tvName.setText(datas.getNick_name()+"("+address+")");
             tvTime.setText(MyUtils.getDateToString(datas.getPublish_time()));
 
             tvPrice.setText("￥" + datas.getPay_amount());
