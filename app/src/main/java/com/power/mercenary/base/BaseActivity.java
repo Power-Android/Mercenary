@@ -130,7 +130,7 @@ public abstract class BaseActivity extends AppCompatActivity {
         if(popupWindow!=null&&popupWindow.isShowing()){
             popupWindow.dismiss();
         }else{
-            setWindowTranslucence(0.3);
+            setWindowTranslucence(1);
             popupWindow.showAtLocation(view, Gravity.BOTTOM, 0, 0);
         }
     }

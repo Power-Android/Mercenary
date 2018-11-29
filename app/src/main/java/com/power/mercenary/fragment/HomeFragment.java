@@ -203,7 +203,6 @@ public class HomeFragment extends BaseFragment implements MainPresenter.MainCall
             case EventConstants.TYPE_CITY_SELECT:
                 CitySelectBean selectBean = (CitySelectBean) event.getData();
                 locationTv.setText(selectBean.cityName);
-                SpUtils.putString(getActivity(),"address",selectBean.cityName);
                 tuijianList.clear();
                 mainPresenter.getTaskList(selectBean.cityName);
                 break;
@@ -435,13 +434,12 @@ public class HomeFragment extends BaseFragment implements MainPresenter.MainCall
 
                     }
 
-                    Log.e(TAG, "onResponse: " + json);
 
                 }
             });
 
         }
-        initLocation();
+      initLocation();
     }
 
     private void initLocation() {
@@ -464,6 +462,8 @@ public class HomeFragment extends BaseFragment implements MainPresenter.MainCall
                 String country = bdLocation.getCountry();
                 String city = bdLocation.getCity();
                 locationTv.setText(city.replace("市", ""));
+                SpUtils.putString(getActivity(),"address",city.replace("市", ""));
+
             }
         });
     }

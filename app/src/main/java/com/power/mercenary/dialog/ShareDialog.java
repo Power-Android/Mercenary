@@ -106,6 +106,7 @@ public class ShareDialog extends PopupWindow {
         setAnimationStyle(R.style.popwin_anim_style);
         setBackgroundDrawable(new ColorDrawable(activity.getResources().getColor(android.R.color.transparent)));
         setFocusable(true);
+
         // setOutsideTouchable(true);
         update();
 

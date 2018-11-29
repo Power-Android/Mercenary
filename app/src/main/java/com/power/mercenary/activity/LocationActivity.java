@@ -209,7 +209,6 @@ public class LocationActivity extends BaseActivity implements LocationPresenter.
                 String country = bdLocation.getCountry();
                 String city = bdLocation.getCity();
                 title.setText("当前城市-" + city.replace("市", ""));
-                Log.i("liubiao", "onReceiveLocation: "+city.replace("市", ""));
                 locationTv.setText(city.replace("市", "")+"市");
             }
         });

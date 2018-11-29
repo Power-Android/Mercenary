@@ -1,12 +1,15 @@
 package com.power.mercenary.activity.details_intask_publish;
 
 import android.content.Intent;
+import android.graphics.Rect;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.NestedScrollView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
+import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.EditText;
@@ -15,6 +18,7 @@ import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.chad.library.adapter.base.BaseQuickAdapter;
@@ -101,8 +105,6 @@ public class PTPublishInTaskActivity extends BaseActivity implements View.OnClic
     TextView tvTime;
     @BindView(R.id.act_task_detaiils_price)
     TextView tvPrice;
-//    @BindView(R.id.act_task_detaiils_onTime)
-//    TextView tvOnTime;
     @BindView(R.id.act_task_detaiils_itemName)
     TextView tvItemName;
     @BindView(R.id.act_task_detaiils_itemNum)
@@ -298,8 +300,8 @@ public class PTPublishInTaskActivity extends BaseActivity implements View.OnClic
                 initTongcheng();
                 break;
             case R.id.iv_right_fx:
-                ShareDialog dialog = new ShareDialog(this, taskDetailsBean.getTask_name(), taskDetailsBean.getTask_description(), taskDetailsBean.getId());
-                dialog.setOnDismissListener(onDismissListener);;
+                ShareDialog dialog = new ShareDialog(PTPublishInTaskActivity.this, taskDetailsBean.getTask_name(), taskDetailsBean.getTask_description(), taskDetailsBean.getId());
+                dialog.setOnDismissListener(onDismissListener);
                 setShowPop(dialog, iv_right_fx);
                 break;
             case R.id.left_back:
