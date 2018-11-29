@@ -177,7 +177,35 @@
                                 android:layout_height="wrap_content"
                                 android:textColor="#FFFFC910"/>
                         </LinearLayout>
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:layout_marginBottom="@dimen/dp_10"
+                            >
 
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="任务编码"
+                                android:layout_marginLeft="58dp"
+                                android:layout_weight="1"
+                                android:textColor="#999"
+                                android:textSize="12sp"
+                                />
+
+                            <TextView
+                                android:text="任务编码"
+                                android:id="@+id/act_task_detaiils_encoding"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:ellipsize="end"
+                                android:textColor="#999"
+                                android:layout_marginRight="5dp"
+                                android:textSize="12sp"
+
+                                />
+                        </LinearLayout>
                         <android.support.v7.widget.RecyclerView
                             android:id="@+id/recycler_task_tag"
                             android:layout_width="match_parent"

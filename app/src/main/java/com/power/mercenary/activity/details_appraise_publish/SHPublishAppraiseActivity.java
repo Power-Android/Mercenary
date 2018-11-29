@@ -142,7 +142,8 @@ public class SHPublishAppraiseActivity extends BaseActivity implements View.OnCl
 
     @BindView(R.id.left_back)
     ImageView left_back;
-
+    @BindView(R.id.act_task_detaiils_encoding)
+    TextView tvEncoding;
     private int page = 0;
     private int msgPage = 1;
 
@@ -376,6 +377,12 @@ public class SHPublishAppraiseActivity extends BaseActivity implements View.OnCl
 //获取任务所在地
             String address = SpUtils.getString(this, "address", "");
             tvName.setText(datas.getNick_name()+"("+address+")");
+            if (TextUtils.isEmpty(datas.getTask_no())) {
+
+                tvEncoding.setText(datas.getTask_no());
+            } else {
+                tvEncoding.setText(datas.getTask_no());
+            }
             tvTime.setText(MyUtils.getDateToString(datas.getPublish_time()));
 
             tvPrice.setText("￥" + datas.getPay_amount());
@@ -417,52 +424,6 @@ public class SHPublishAppraiseActivity extends BaseActivity implements View.OnCl
             taskState = datas.getTask_status();
 
             publisherId = datas.getPublisher_id();
-
-            //            switch (taskState) {
-//                case "2":
-//                    publishBtn.setText("任务中");
-//                    publishBtn.setOnClickListener(null);
-//                    tuijianTabLl.setVisibility(View.GONE);
-//                    recycler_content.setVisibility(View.GONE);
-//                    actTaskDetailsSMsg.setVisibility(View.VISIBLE);
-//                    if (datas.getXuanding() != null) {
-//                        Glide.with(this)
-//                                .load(datas.getXuanding().getHead_img())
-//                                .into(actTaskDetaiilsPrivateMsg);
-//
-//                        actTaskDetaiilsPrivateName.setText(datas.getXuanding().getName());
-//                    }
-//                    break;
-//                case "3":
-//                    publishBtn.setText("审核中");
-//                    publishBtn.setOnClickListener(null);
-//                    tuijianTabLl.setVisibility(View.GONE);
-//                    recycler_content.setVisibility(View.GONE);
-//                    actTaskDetailsSMsg.setVisibility(View.VISIBLE);
-//                    if (datas.getXuanding() != null) {
-//                        Glide.with(this)
-//                                .load(datas.getXuanding().getHead_img())
-//                                .into(actTaskDetaiilsPrivateMsg);
-//
-//                        actTaskDetaiilsPrivateName.setText(datas.getXuanding().getName());
-//                    }
-//                    break;
-//                case "6":
-//                    publishBtn.setText("待评价");
-//                    publishBtn.setOnClickListener(null);
-//                    tuijianTabLl.setVisibility(View.GONE);
-//                    recycler_content.setVisibility(View.GONE);
-//                    actTaskDetailsSMsg.setVisibility(View.VISIBLE);
-//                    if (datas.getXuanding() != null) {
-//                        Glide.with(this)
-//                                .load(datas.getXuanding().getHead_img())
-//                                .into(actTaskDetaiilsPrivateMsg);
-//
-//                        actTaskDetaiilsPrivateName.setText(datas.getXuanding().getName());
-//                    }
-//                    break;
-//            }
-
             if (datas.getXuanding() != null) {
                 Glide.with(this)
                         .load(Urls.BASEIMGURL + datas.getXuanding().getHead_img())
@@ -506,13 +467,8 @@ public class SHPublishAppraiseActivity extends BaseActivity implements View.OnCl
             msgPage--;
         }
         msgAdapter.notifyDataSetChanged();
-//        if (isFirstLoad) {
-//            scrollView.scrollTo(0, Integer.MAX_VALUE);
-//            isFirstLoad = true;
-//        }
         springView_rwsx.onFinishFreshAndLoad();
     }
-
     @Override
     public void applyRequest() {
         presenter.getApplyList(taskId, page);
@@ -526,16 +482,7 @@ public class SHPublishAppraiseActivity extends BaseActivity implements View.OnCl
             if (response.body().code == 101) {
                 presenter.toPay(taskId);
             } else {
-//                publishBtn.setText("任务中");
-//                publishBtn.setOnClickListener(null);
-//                tuijianTabLl.setVisibility(View.GONE);
-//                recycler_content.setVisibility(View.GONE);
-//                actTaskDetailsSMsg.setVisibility(View.VISIBLE);
-//                Glide.with(this)
-//                        .load(Urls.BASEIMGURL + avatar)
-//                        .into(actTaskDetaiilsPrivateMsg);
-//
-//                actTaskDetaiilsPrivateName.setText(name);
+       actTaskDetaiilsPrivateName.setText(name);
 
                 presenter.getApplyList(taskId, page);
                 TUtils.showCustom(this, "操作成功");

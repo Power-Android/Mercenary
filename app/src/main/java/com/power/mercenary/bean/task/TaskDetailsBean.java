@@ -41,6 +41,17 @@ public class TaskDetailsBean {
 
     private String id;
     private String task_name;
+
+    public String getTask_no() {
+        return task_no;
+    }
+
+    public void setTask_no(String task_no) {
+        this.task_no = task_no;
+    }
+
+    private String  task_no;
+
     private String pay_amount;
     private String publisher_id;
     private String task_person_id;

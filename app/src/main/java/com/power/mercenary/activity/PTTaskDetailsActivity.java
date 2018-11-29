@@ -130,6 +130,10 @@ public class PTTaskDetailsActivity extends BaseActivity implements View.OnClickL
     TextView actTaskDetaiilsPrivateName;
     @BindView(R.id.act_task_detaiils_privateBtn)
     TextView actTaskDetaiilsPrivateBtn;
+    @BindView(R.id.act_task_detaiils_encoding)
+    TextView tvEncoding;
+    @BindView(R.id.act_task_detaiils_msg)
+    EditText actTaskDetaiilsMsg;
     private SharingPop sharingPop;
 
     private int collectionState = 0;
@@ -293,7 +297,8 @@ public class PTTaskDetailsActivity extends BaseActivity implements View.OnClickL
                 break;
             case R.id.iv_right_fx:
                 ShareDialog dialog = new ShareDialog(this, taskDetailsBean.getTask_name(), taskDetailsBean.getTask_description(), taskDetailsBean.getId());
-                dialog.setOnDismissListener(onDismissListener);;
+                dialog.setOnDismissListener(onDismissListener);
+                ;
                 setShowPop(dialog, iv_right_fx);
                 break;
             case R.id.left_back:
@@ -337,8 +342,12 @@ public class PTTaskDetailsActivity extends BaseActivity implements View.OnClickL
 
             tvTitle.setText(datas.getTask_name());
             String address = SpUtils.getString(PTTaskDetailsActivity.this, "address", "");
-            tvName.setText(datas.getNick_name()+"("+address+")");
-
+            tvName.setText(datas.getNick_name() + "(" + address + ")");
+            if (TextUtils.isEmpty(datas.getTask_no())) {
+                tvEncoding.setText("暂无编码");
+            } else {
+                tvEncoding.setText(datas.getTask_no());
+            }
             tvTime.setText(MyUtils.getDateToString(datas.getPublish_time()));
 
             tvPrice.setText("￥" + datas.getPay_amount());
@@ -543,7 +552,7 @@ public class PTTaskDetailsActivity extends BaseActivity implements View.OnClickL
         if (state == 2) {
             //选定 弹个界面
 //            if (TextUtils.equals(MyApplication.getUserId(), publisherId)) {
-                presenter.changePeople(id, state, taskId, avatar, name);
+            presenter.changePeople(id, state, taskId, avatar, name);
 //            } else {
 //                TUtils.showCustom(this, "只有发布者可以更改");
 //            }

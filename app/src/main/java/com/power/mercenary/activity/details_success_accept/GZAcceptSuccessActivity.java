@@ -152,7 +152,8 @@ public class GZAcceptSuccessActivity extends BaseActivity implements View.OnClic
     private List<MsgListBean> msgListBeanList;
 
     private EditText etMsg;
-
+    @BindView(R.id.act_task_detaiils_encoding)
+    TextView tvEncoding;
     private String taskState;
     private String publisherId;
     private TaskDetailsBean taskDetailsBean;
@@ -348,6 +349,12 @@ public class GZAcceptSuccessActivity extends BaseActivity implements View.OnClic
 //获取任务所在地
             String address = SpUtils.getString(this, "address", "");
             tvName.setText(datas.getNick_name()+"("+address+")");
+            if (TextUtils.isEmpty(datas.getTask_no())){
+
+                tvEncoding.setText("暂无任务编码");
+            }else{
+                tvEncoding.setText(datas.getTask_no());
+            }
             tvTime.setText(MyUtils.getDateToString(datas.getPublish_time()));
 
             tvPrice.setText("￥" + datas.getPay_amount());

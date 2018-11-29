@@ -1,15 +1,12 @@
 package com.power.mercenary.activity.details_intask_publish;
 
 import android.content.Intent;
-import android.graphics.Rect;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.NestedScrollView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
-import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.EditText;
@@ -18,7 +15,6 @@ import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.chad.library.adapter.base.BaseQuickAdapter;
@@ -133,6 +129,12 @@ public class PTPublishInTaskActivity extends BaseActivity implements View.OnClic
     TextView actTaskDetaiilsPrivateName;
     @BindView(R.id.act_task_detaiils_privateBtn)
     TextView actTaskDetaiilsPrivateBtn;
+    @BindView(R.id.act_task_detaiils_encoding)
+    TextView tvEncoding;
+    @BindView(R.id.act_task_detaiils_msg)
+    EditText actTaskDetaiilsMsg;
+    @BindView(R.id.act_task_detaiils_collectionBtn_icon)
+    ImageView actTaskDetaiilsCollectionBtnIcon;
     private SharingPop sharingPop;
 
     private int collectionState = 0;
@@ -345,8 +347,13 @@ public class PTPublishInTaskActivity extends BaseActivity implements View.OnClic
 
             tvTitle.setText(datas.getTask_name());
             String address = SpUtils.getString(PTPublishInTaskActivity.this, "address", "北京");
-            tvName.setText(datas.getNick_name());
+            tvName.setText(datas.getNick_name() + "(" + address + ")");
+            if (TextUtils.isEmpty(datas.getTask_no())){
 
+                tvEncoding.setText("暂无任务编码");
+            }else{
+                tvEncoding.setText(datas.getTask_no());
+            }
             tvTime.setText(MyUtils.getDateToString(datas.getPublish_time()));
 
             tvPrice.setText("￥" + datas.getPay_amount());
@@ -554,7 +561,7 @@ public class PTPublishInTaskActivity extends BaseActivity implements View.OnClic
         if (state == 2) {
             //选定 弹个界面
 //            if (TextUtils.equals(MyApplication.getUserId(), publisherId)) {
-                presenter.changePeople(id, state, taskId, avatar, name);
+            presenter.changePeople(id, state, taskId, avatar, name);
 //            } else {
 //                TUtils.showCustom(this, "只有发布者可以更改");
 //            }

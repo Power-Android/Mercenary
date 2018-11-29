@@ -144,7 +144,8 @@ public class PTPublishAppraiseActivity extends BaseActivity implements View.OnCl
 
     @BindView(R.id.left_back)
     ImageView left_back;
-
+    @BindView(R.id.act_task_detaiils_encoding)
+    TextView tvEncoding;
     private int page = 0;
     private int msgPage = 1;
 
@@ -379,7 +380,7 @@ public class PTPublishAppraiseActivity extends BaseActivity implements View.OnCl
             String address = SpUtils.getString(this, "address", "");
             tvName.setText(datas.getNick_name()+"("+address+")");
             tvTime.setText(MyUtils.getDateToString(datas.getPublish_time()));
-
+            tvEncoding.setText(datas.getTask_no());
             tvPrice.setText("￥" + datas.getPay_amount());
 
 //            tvOnTime.setText("任务有效期：" + datas.getValidity_time() + "天");

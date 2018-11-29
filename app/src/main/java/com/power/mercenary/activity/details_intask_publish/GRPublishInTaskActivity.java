@@ -123,7 +123,8 @@ public class GRPublishInTaskActivity extends BaseActivity implements View.OnClic
     TextView actTaskDetaiilsPrivateName;
     @BindView(R.id.act_task_detaiils_privateBtn)
     TextView actTaskDetaiilsPrivateBtn;
-
+    @BindView(R.id.act_task_detaiils_encoding)
+    TextView tvEncoding;
     private SharingPop sharingPop;
 
     private int collectionState = 0;
@@ -348,8 +349,12 @@ public class GRPublishInTaskActivity extends BaseActivity implements View.OnClic
             String address = SpUtils.getString(this, "address", "");
             tvName.setText(datas.getNick_name()+"("+address+")");
             tvTime.setText(MyUtils.getDateToString(datas.getPublish_time()));
+            if (TextUtils.isEmpty(datas.getTask_no())){
 
-            tvPrice.setText("￥" + datas.getPay_amount());
+                tvEncoding.setText("暂无任务编码");
+            }else{
+                tvEncoding.setText(datas.getTask_no());
+            }            tvPrice.setText("￥" + datas.getPay_amount());
 
             collectionState = datas.getCollect();
 

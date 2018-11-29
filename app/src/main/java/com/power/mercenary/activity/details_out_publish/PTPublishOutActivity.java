@@ -46,6 +46,7 @@ import com.power.mercenary.presenter.TaskDetailsPresenter;
 import com.power.mercenary.presenter.publish.PublishPresenter;
 import com.power.mercenary.utils.MercenaryUtils;
 import com.power.mercenary.utils.MyUtils;
+import com.power.mercenary.utils.SpUtils;
 import com.power.mercenary.utils.TUtils;
 import com.power.mercenary.utils.Urls;
 import com.power.mercenary.view.CircleImageView;
@@ -134,6 +135,8 @@ public class PTPublishOutActivity extends BaseActivity implements View.OnClickLi
     TextView actTaskDetaiilsPrivateName;
     @BindView(R.id.act_task_detaiils_privateBtn)
     TextView actTaskDetaiilsPrivateBtn;
+    @BindView(R.id.act_task_detaiils_encoding)
+    TextView tvEncoding;
     private SharingPop sharingPop;
 
     private int collectionState = 0;
@@ -340,8 +343,15 @@ public class PTPublishOutActivity extends BaseActivity implements View.OnClickLi
 
             tvTitle.setText(datas.getTask_name());
 
-            tvName.setText(datas.getNick_name());
+            //获取地址
+            String address = SpUtils.getString(this, "address", "");
+            tvName.setText(datas.getNick_name()+"("+address+")");
+            if (TextUtils.isEmpty(datas.getTask_no())){
 
+                tvEncoding.setText("暂无任务编码");
+            }else{
+                tvEncoding.setText(datas.getTask_no());
+            }
             tvTime.setText(MyUtils.getDateToString(datas.getPublish_time()));
 
             tvPrice.setText("￥" + datas.getPay_amount());

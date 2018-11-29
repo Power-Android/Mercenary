@@ -138,7 +138,8 @@ public class PTAcceptSuccessActivity extends BaseActivity implements View.OnClic
     private SharingPop sharingPop;
 
     private int collectionState = 0;
-
+    @BindView(R.id.act_task_detaiils_encoding)
+    TextView tvEncoding;
     @BindView(R.id.left_back)
     ImageView left_back;
 
@@ -354,6 +355,12 @@ public class PTAcceptSuccessActivity extends BaseActivity implements View.OnClic
 //获取任务所在地
             String address = SpUtils.getString(this, "address", "");
             tvName.setText(datas.getNick_name()+"("+address+")");
+            if (TextUtils.isEmpty(datas.getTask_no())){
+
+                tvEncoding.setText("暂无任务编码");
+            }else{
+                tvEncoding.setText(datas.getTask_no());
+            }
             tvTime.setText(MyUtils.getDateToString(datas.getPublish_time()));
 
             tvPrice.setText("￥" + datas.getPay_amount());

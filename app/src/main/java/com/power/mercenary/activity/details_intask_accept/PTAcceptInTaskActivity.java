@@ -137,6 +137,8 @@ public class PTAcceptInTaskActivity extends BaseActivity implements View.OnClick
     TextView actTaskDetaiilsPrivateName;
     @BindView(R.id.act_task_detaiils_privateBtn)
     TextView actTaskDetaiilsPrivateBtn;
+    @BindView(R.id.act_task_detaiils_encoding)
+    TextView tvEncoding;
     private SharingPop sharingPop;
 
     private int collectionState = 0;
@@ -360,6 +362,11 @@ public class PTAcceptInTaskActivity extends BaseActivity implements View.OnClick
 //获取任务所在地
             String address = SpUtils.getString(this, "address", "");
             tvName.setText(datas.getNick_name()+"("+address+")");
+            if (TextUtils.isEmpty(datas.getTask_no())) {
+                tvEncoding.setText("暂无编码");
+            } else {
+                tvEncoding.setText(datas.getTask_no());
+            }
             tvTime.setText(MyUtils.getDateToString(datas.getPublish_time()));
 
             tvPrice.setText("￥" + datas.getPay_amount());

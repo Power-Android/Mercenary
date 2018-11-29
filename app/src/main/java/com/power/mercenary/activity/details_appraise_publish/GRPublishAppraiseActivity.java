@@ -1,7 +1,6 @@
 package com.power.mercenary.activity.details_appraise_publish;
 
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.NestedScrollView;
@@ -17,7 +16,6 @@ import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.chad.library.adapter.base.BaseQuickAdapter;
@@ -28,7 +26,6 @@ import com.lzy.okgo.model.Response;
 import com.power.mercenary.MyApplication;
 import com.power.mercenary.R;
 import com.power.mercenary.activity.PersonalDataActivity;
-import com.power.mercenary.activity.SHTaskDetailsActivity;
 import com.power.mercenary.activity.SignInActivity;
 import com.power.mercenary.activity.WebActivity;
 import com.power.mercenary.activity.chat.ChatActivity;
@@ -130,6 +127,10 @@ public class GRPublishAppraiseActivity extends BaseActivity implements View.OnCl
     TextView actTaskDetaiilsPrivateName;
     @BindView(R.id.act_task_detaiils_privateBtn)
     TextView actTaskDetaiilsPrivateBtn;
+    @BindView(R.id.act_task_detaiils_encoding)
+    TextView tvEncoding;
+    @BindView(R.id.act_task_detaiils_msg)
+    EditText actTaskDetaiilsMsg;
 
     private SharingPop sharingPop;
 
@@ -306,7 +307,8 @@ public class GRPublishAppraiseActivity extends BaseActivity implements View.OnCl
                 break;
             case R.id.iv_right_fx:
                 ShareDialog dialog = new ShareDialog(this, taskDetailsBean.getTask_name(), taskDetailsBean.getTask_description(), taskDetailsBean.getId());
-                dialog.setOnDismissListener(onDismissListener);;
+                dialog.setOnDismissListener(onDismissListener);
+                ;
                 setShowPop(dialog, iv_right_fx);
                 break;
             case R.id.left_back:
@@ -377,8 +379,8 @@ public class GRPublishAppraiseActivity extends BaseActivity implements View.OnCl
             tvTitle.setText(datas.getTask_name());
             //获取任务所在地
             String address = SpUtils.getString(this, "address", "");
-            tvName.setText(datas.getNick_name()+"("+address+")");
-
+            tvName.setText(datas.getNick_name() + "(" + address + ")");
+            tvEncoding.setText(datas.getTask_no());
             tvTime.setText(MyUtils.getDateToString(datas.getPublish_time()));
 
             tvPrice.setText("￥" + datas.getPay_amount());
@@ -595,7 +597,7 @@ public class GRPublishAppraiseActivity extends BaseActivity implements View.OnCl
         if (state == 2) {
             //选定 弹个界面
 //            if (TextUtils.equals(MyApplication.getUserId(), publisherId)) {
-                presenter.changePeople(id, state, taskId, avatar, name);
+            presenter.changePeople(id, state, taskId, avatar, name);
 //            } else {
 //                TUtils.showCustom(this, "只有发布者可以更改");
 //            }

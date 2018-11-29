@@ -49,6 +49,7 @@ import com.power.mercenary.view.MaxHeightRecyclerView;
 import com.power.mercenary.view.SharingPop;
 
 import org.greenrobot.eventbus.EventBus;
+import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -59,7 +60,7 @@ import butterknife.OnClick;
 
 /**
  * Created by Administrator on 2018/3/29.
- *
+ * <p>
  * 任务详情
  */
 
@@ -129,6 +130,8 @@ public class SHTaskDetailsActivity extends BaseActivity implements View.OnClickL
     TextView actTaskDetaiilsPrivateName;
     @BindView(R.id.act_task_detaiils_privateBtn)
     TextView actTaskDetaiilsPrivateBtn;
+    @BindView(R.id.act_task_detaiils_encoding)
+    TextView tvEncoding;
 
     private SharingPop sharingPop;
 
@@ -294,7 +297,8 @@ public class SHTaskDetailsActivity extends BaseActivity implements View.OnClickL
                 break;
             case R.id.iv_right_fx:
                 ShareDialog dialog = new ShareDialog(this, taskDetailsBean.getTask_name(), taskDetailsBean.getTask_description(), taskDetailsBean.getId());
-                dialog.setOnDismissListener(onDismissListener);;
+                dialog.setOnDismissListener(onDismissListener);
+                ;
                 setShowPop(dialog, iv_right_fx);
                 break;
             case R.id.left_back:
@@ -339,7 +343,12 @@ public class SHTaskDetailsActivity extends BaseActivity implements View.OnClickL
 
 //获取任务所在地
             String address = SpUtils.getString(this, "address", "");
-            tvName.setText(datas.getNick_name()+"("+address+")");
+            tvName.setText(datas.getNick_name() + "(" + address + ")");
+            if (TextUtils.isEmpty(datas.getTask_no())) {
+                tvEncoding.setText("暂无编码");
+            } else {
+                tvEncoding.setText(datas.getTask_no());
+            }
             tvTime.setText(MyUtils.getDateToString(datas.getPublish_time()));
 
             tvPrice.setText("￥" + datas.getPay_amount());
@@ -550,7 +559,7 @@ public class SHTaskDetailsActivity extends BaseActivity implements View.OnClickL
         if (state == 2) {
             //选定 弹个界面
 //            if (TextUtils.equals(MyApplication.getUserId(), publisherId)) {
-                presenter.changePeople(id, state, taskId, avatar, name);
+            presenter.changePeople(id, state, taskId, avatar, name);
 //            } else {
 //                TUtils.showCustom(this, "只有发布者可以更改");
 //            }
