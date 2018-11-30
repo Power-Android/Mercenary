@@ -2,7 +2,11 @@ package com.power.mercenary.dialog;
 
 import android.app.Activity;
 import android.app.Dialog;
+import android.content.ComponentName;
 import android.content.Context;
+import android.content.Intent;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.graphics.drawable.ColorDrawable;
 import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
@@ -12,6 +16,7 @@ import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.power.mercenary.R;
 import com.power.mercenary.utils.TUtils;
@@ -19,8 +24,11 @@ import com.power.mercenary.view.BaseDialog;
 import com.umeng.socialize.ShareAction;
 import com.umeng.socialize.UMShareListener;
 import com.umeng.socialize.bean.SHARE_MEDIA;
+import com.umeng.socialize.editorpage.ShareActivity;
 import com.umeng.socialize.media.UMImage;
 import com.umeng.socialize.media.UMWeb;
+
+import java.util.List;
 
 /**
  * admin  2018/7/26 wan
@@ -76,7 +84,8 @@ public class ShareDialog extends PopupWindow {
         qq.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showQQ(title, content, id);
+               // showQQ(title, content, id);
+                shareQQ(activity,"【我是任务名称"+title+content+"任务编号"+id+"】"+"https://m.tb.cn/h.3mwLpCJ 点击链接，在选择浏览器打开或复制这段描述然后打开佣兵天下APP");
             }
         });
 
@@ -120,7 +129,7 @@ public class ShareDialog extends PopupWindow {
         return defaultView;
     }
 
-    public void showQQ( String title, String content, String id) {
+    public void showQQ( String title, String content, String id) {//因为不支持友盟平台的纯文本分享所以暂时不用
         UMImage image = new UMImage(activity, "https://ss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=4267222417,1017407570&fm=200&gp=0.jpg");//网络图片
         UMImage thumb = new UMImage(activity, R.drawable.yongbingicon);
         image.setThumb(thumb);
@@ -137,6 +146,56 @@ public class ShareDialog extends PopupWindow {
                 .withMedia(web)
                 .setCallback(listener)
                 .share();
+
+
+    }
+    /**
+     * @param mContext 上下文
+     * @param content 要分享的文本
+     * */
+    public static void shareQQ(Context mContext, String content) {
+        if (PlatformUtil.isQQClientAvailable(mContext)) {
+            Intent intent = new Intent("android.intent.action.SEND");
+            intent.setType("text/plain");
+            intent.putExtra(Intent.EXTRA_SUBJECT, "分享");
+            intent.putExtra(Intent.EXTRA_TEXT, content);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            intent.setComponent(new ComponentName("com.tencent.mobileqq", "com.tencent.mobileqq.activity.JumpActivity"));
+            mContext.startActivity(intent);
+        } else {
+            Toast.makeText(mContext, "您需要安装QQ客户端", Toast.LENGTH_LONG).show();
+        }
+    }
+    public static class PlatformUtil {
+        // 是否存在微信客户端
+        public static boolean isWeChatAvailable(Context context) {
+            final PackageManager packageManager = context.getPackageManager();
+            List<PackageInfo> pInfo = packageManager.getInstalledPackages(0);
+            if (pInfo != null) {
+                for (int i = 0; i < pInfo.size(); i++) {
+                    String pn = pInfo.get(i).packageName;
+                    if (pn.equals("com.tencent.mm")) {
+                        return true;
+                    }
+                }
+            }
+            return false;
+        }
+
+        // 是否存在QQ客户端
+        public static boolean isQQClientAvailable(Context context) {
+            final PackageManager packageManager = context.getPackageManager();
+            List<PackageInfo> pinfo = packageManager.getInstalledPackages(0);
+            if (pinfo != null) {
+                for (int i = 0; i < pinfo.size(); i++) {
+                    String pn = pinfo.get(i).packageName;
+                    if (pn.equals("com.tencent.mobileqq")) {
+                        return true;
+                    }
+                }
+            }
+            return false;
+        }
     }
 
     public void showWx( String title, String content, String id) {
