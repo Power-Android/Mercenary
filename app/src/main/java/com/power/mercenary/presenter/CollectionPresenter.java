@@ -1,6 +1,8 @@
 package com.power.mercenary.presenter;
 
 import android.app.Activity;
+import android.util.Log;
+import android.widget.Toast;
 
 import com.lzy.okgo.model.Response;
 import com.power.mercenary.CollectionPeopleBean;
@@ -34,6 +36,7 @@ public class CollectionPresenter {
                 .postRequest(new DialogCallback<ResponseBean<List<CollectionBean>>>(activity) {
                     @Override
                     public void onSuccess(Response<ResponseBean<List<CollectionBean>>> response) {
+
                         callBack.getCollectionTask(response.body().data);
                     }
                 });

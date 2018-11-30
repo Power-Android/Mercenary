@@ -4,6 +4,7 @@ import android.support.annotation.LayoutRes;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
@@ -21,9 +22,9 @@ import java.util.List;
 public class TaskAdapter extends BaseQuickAdapter<CollectionBean, BaseViewHolder> {
 
 
+    private String[] all;
 
-
-public TaskAdapter(@LayoutRes int layoutResId, @Nullable List<CollectionBean> data) {
+    public TaskAdapter(@LayoutRes int layoutResId, @Nullable List<CollectionBean> data) {
         super(layoutResId, data);
 
 
@@ -35,20 +36,18 @@ protected void convert(BaseViewHolder helper, CollectionBean item) {
         helper.setText(R.id.tv_collction_name,item.getTask_name());
         helper.setText(R.id.tv_collction_price,"¥"+item.getPay_amount());
         helper.setText(R.id.tv_collction_table,item.getTask_description());
-
-        String[] all=item.getTask_tag().split("\\|");
-
+            all = item.getTask_tag().split("\\|");
         RecyclerView mRecycler_item = helper.getView(R.id.mRecycler_item);
         mRecycler_item.setNestedScrollingEnabled(false);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(mContext);
         linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
         mRecycler_item.setLayoutManager(linearLayoutManager);
         List<String> tagList = new ArrayList<>();
-        for (int i = 0; i < all.length; i++) {
+    for (int i = 0; i < all.length; i++) {
                 tagList.add(all[i]);
         }
         TagAdapter tagAdapter = new TagAdapter(R.layout.item_tag_layout, tagList);
-        mRecycler_item.setAdapter(tagAdapter);
+       mRecycler_item.setAdapter(tagAdapter);
 
         }
 

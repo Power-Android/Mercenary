@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.power.mercenary.R;
+import com.power.mercenary.activity.chat.ChatActivity;
 import com.power.mercenary.activity.chat.ChatPushActivity;
 import com.power.mercenary.adapter.message.MessageTaskAdapter;
 import com.power.mercenary.base.BaseFragment;
@@ -99,9 +100,10 @@ public class MessageTaskFragment extends BaseFragment implements WanRecyclerView
 
     @Override
     public void onItemClickListener(MsgTaskBean msgTaskBean, int position) {
-        datas.get(position).setRead_status("1");
+        datas.get(position).setRead_state("1");
         adapter.notifyDataSetChanged();
-        ChatPushActivity.invoke(getActivity(), "任务", msgTaskBean.getId(), "task", "");
+
+        ChatActivity.invoke(getActivity(),msgTaskBean.getUser_id(),msgTaskBean.getUser_head_img(),msgTaskBean.getUser_nick_name());
         presenter.setMessageState(msgTaskBean.getId());
     }
 

@@ -3,12 +3,15 @@ package com.power.mercenary.fragment;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.power.mercenary.CollectionPeopleBean;
+import com.power.mercenary.MyApplication;
 import com.power.mercenary.R;
 import com.power.mercenary.activity.GRTaskDetailsActivity;
 import com.power.mercenary.activity.GZTaskDetailsActivity;
@@ -65,6 +68,7 @@ public class TaskFragment extends BaseFragment implements CollectionPresenter.Co
         EventBus.getDefault().register(this);
         presenter = new CollectionPresenter(getActivity(),this);
         presenter.getCollectionTask();
+        Log.i("oklokl", "initView: "+MyApplication.getUserToken());
         initData();
         return view;
     }
