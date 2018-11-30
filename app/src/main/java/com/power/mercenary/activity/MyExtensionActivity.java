@@ -1,9 +1,13 @@
 package com.power.mercenary.activity;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Rect;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.util.Log;
+import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.webkit.WebChromeClient;
@@ -16,18 +20,18 @@ import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.power.mercenary.MyApplication;
 import com.power.mercenary.R;
 import com.power.mercenary.base.BaseActivity;
 import com.power.mercenary.dialog.ShareDialog1;
 import com.power.mercenary.view.SharingPop;
-import com.umeng.socialize.ShareAction;
 import com.umeng.socialize.UMAuthListener;
 import com.umeng.socialize.UMShareAPI;
 import com.umeng.socialize.UMShareListener;
 import com.umeng.socialize.bean.SHARE_MEDIA;
-import com.umeng.socialize.media.UMImage;
 
+import java.io.ByteArrayOutputStream;
 import java.util.Map;
 
 import butterknife.BindView;
@@ -49,6 +53,8 @@ public class MyExtensionActivity extends BaseActivity {
     ImageView left_back;
     @BindView(R.id.webView)
     WebView webView;
+    @BindView(R.id.ig_view)
+    ImageView igView;
 
     private SharingPop sharingPop;
     private LayoutInflater inflater;
@@ -77,7 +83,14 @@ public class MyExtensionActivity extends BaseActivity {
         my_tg_fx.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ShareDialog1 dialog = new ShareDialog1(MyExtensionActivity.this, "佣兵天下", "佣兵旨在为优秀的个人自由创业者提升服务质量，简化沟通，让优秀的创业者更专心的为用户提供更好的服务，更搞笑的打造自己的品牌。");
+                Bitmap bitmap = JtMethod();//截图方法
+               /* ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+                bitmap.compress(Bitmap.CompressFormat.PNG, 100, outputStream);
+                byte[] bytes = outputStream.toByteArray();
+                Glide.with(MyExtensionActivity.this)
+                        .load(bytes)
+                        .into(igView);*/
+                ShareDialog1 dialog = new ShareDialog1(MyExtensionActivity.this, "佣兵天下", "佣兵旨在为优秀的个人自由创业者提升服务质量，简化沟通，让优秀的创业者更专心的为用户提供更好的服务，更搞笑的打造自己的品牌。",bitmap);
                 dialog.setOnDismissListener(onDismissListener);
                 setShowPop(dialog, my_tg_fx);
             }
@@ -93,7 +106,7 @@ public class MyExtensionActivity extends BaseActivity {
             @Override
             public void onComplete(SHARE_MEDIA share_media, int i, Map<String, String> map) {
 
-                Log.e(TAG, "onComplete: 成功删除" );
+                Log.e(TAG, "onComplete: 成功删除");
 
             }
 
@@ -118,10 +131,45 @@ public class MyExtensionActivity extends BaseActivity {
         }
     };
 
-    private void initWeb() {
-        webView.loadUrl("http://yb.dashuibei.com/register/extension.html?token="+ MyApplication.getUserToken());
+    private Bitmap JtMethod() {
+        // 获取windows中最顶层的view
+        View view = getWindow().getDecorView();
+        view.buildDrawingCache();
 
-        WebSettings setTtings= webView.getSettings();
+        // 获取状态栏高度
+        Rect rect = new Rect();
+        view.getWindowVisibleDisplayFrame(rect);
+        int statusBarHeights = rect.top;
+        Display display = getWindowManager().getDefaultDisplay();
+
+        // 获取屏幕宽和高
+        int widths = display.getWidth();
+        int heights = display.getHeight();
+        Log.i("liubiao", "宽" + widths + "高" + heights);
+        // 允许当前窗口保存缓存信息
+        view.setDrawingCacheEnabled(true);
+
+        // 去掉状态栏
+        Bitmap bmp = Bitmap.createBitmap(view.getDrawingCache(), 0,
+                statusBarHeights, widths, heights - statusBarHeights-30);
+
+        ByteArrayOutputStream bos = new ByteArrayOutputStream();
+        bmp.compress(Bitmap.CompressFormat.JPEG, 10, bos);
+
+        byte[] bytes = bos.toByteArray();
+        bmp = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+
+        // 销毁缓存信息
+        view.destroyDrawingCache();
+
+        return bmp;
+
+    }
+
+    private void initWeb() {
+        webView.loadUrl("http://yb.dashuibei.com/register/extension.html?token=" + MyApplication.getUserToken());
+
+        WebSettings setTtings = webView.getSettings();
         //设置可以加载JavaScript的代码
         setTtings.setJavaScriptEnabled(true);
         //优先加载缓存
@@ -130,13 +178,11 @@ public class MyExtensionActivity extends BaseActivity {
         setTtings.setCacheMode(WebSettings.LOAD_NO_CACHE);
 
 
-
-
         //是否支持缩放，true是支持 false是不支持
         setTtings.setSupportZoom(true);
 
         //这个方法使用后，网页就会在自己浏览器中显示出来
-        webView.setWebViewClient(new WebViewClient(){
+        webView.setWebViewClient(new WebViewClient() {
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
                 view.loadUrl(url);
@@ -144,15 +190,15 @@ public class MyExtensionActivity extends BaseActivity {
             }
 
         });
-        webView.setWebChromeClient(new WebChromeClient(){
+        webView.setWebChromeClient(new WebChromeClient() {
             @Override
             public void onProgressChanged(WebView view, int newProgress) {
                 //super.onProgressChanged(view, newProgress);
-                if(newProgress==100){
+                if (newProgress == 100) {
                     //数据加载完毕
 
                     //这里面我们可以将进度条或者对话框dismiss掉
-                }else{
+                } else {
                     //数据正在加载
                     //这里面我们将进度条或者对话框show出来
 
@@ -188,7 +234,7 @@ public class MyExtensionActivity extends BaseActivity {
          */
         @Override
         public void onResult(SHARE_MEDIA platform) {
-            Toast.makeText(MyExtensionActivity.this,"成功了",Toast.LENGTH_LONG).show();
+            Toast.makeText(MyExtensionActivity.this, "成功了", Toast.LENGTH_LONG).show();
         }
 
         /**
@@ -198,7 +244,7 @@ public class MyExtensionActivity extends BaseActivity {
          */
         @Override
         public void onError(SHARE_MEDIA platform, Throwable t) {
-            Toast.makeText(MyExtensionActivity.this,"失败"+t.getMessage(),Toast.LENGTH_LONG).show();
+            Toast.makeText(MyExtensionActivity.this, "失败" + t.getMessage(), Toast.LENGTH_LONG).show();
         }
 
         /**
@@ -207,7 +253,7 @@ public class MyExtensionActivity extends BaseActivity {
          */
         @Override
         public void onCancel(SHARE_MEDIA platform) {
-            Toast.makeText(MyExtensionActivity.this,"取消了",Toast.LENGTH_LONG).show();
+            Toast.makeText(MyExtensionActivity.this, "取消了", Toast.LENGTH_LONG).show();
 
         }
     };

@@ -42,5 +42,9 @@
             android:layout_alignParentRight="true"/>
 
     </RelativeLayout>
-
+    <ImageView
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:id="@+id/ig_view"
+        />
 </RelativeLayout>

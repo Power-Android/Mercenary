@@ -3,6 +3,7 @@ package com.power.mercenary.dialog;
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.graphics.drawable.ColorDrawable;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -45,13 +46,13 @@ public class ShareDialog1 extends PopupWindow {
     private LinearLayout sina;
     private TextView cancel;
 
-    public ShareDialog1(Activity activity, String title, String content) {
+    public ShareDialog1(Activity activity, String title, String content, Bitmap sharebitMap) {
         super(activity);
         this.activity = activity;
-        initPopupWindow(title, content);
+        initPopupWindow(title, content,sharebitMap);
     }
 
-    public void initPopupWindow(final String title, final String content) {
+    public void initPopupWindow(final String title, final String content, final Bitmap sharebitMap) {
         inflater = (LayoutInflater) activity
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         defaultView = inflater.inflate(R.layout.sharing_pop_item_view, null);
@@ -83,7 +84,7 @@ public class ShareDialog1 extends PopupWindow {
         qq.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showQQ(title, content);
+                showQQ(title, content,sharebitMap);
             }
         });
 
@@ -115,12 +116,6 @@ public class ShareDialog1 extends PopupWindow {
         setFocusable(true);
         // setOutsideTouchable(true);
         update();
-
-
-
-
-
-
     }
 
 
@@ -131,8 +126,8 @@ public class ShareDialog1 extends PopupWindow {
         return defaultView;
     }
 
-    public void showQQ( String title, String content) {
-        UMImage image = new UMImage(activity, "https://ss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=4267222417,1017407570&fm=200&gp=0.jpg");//网络图片
+    public void showQQ( String title, String content,Bitmap shareMap) {
+        UMImage image = new UMImage(activity, shareMap);//网络图片
         UMImage thumb = new UMImage(activity, R.drawable.yongbingicon);
         image.setThumb(thumb);
         UMWeb web = new UMWeb("http://yb.dashuibei.com/register/extension.html?token="+ MyApplication.getUserToken());
@@ -145,7 +140,7 @@ public class ShareDialog1 extends PopupWindow {
                 .setPlatform(SHARE_MEDIA.QQ)//传入平台
                 .withText("hello")//分享内容
                 .withMedia(image)
-                .withMedia(web)
+               // .withMedia(web)
                 .setCallback(shareListener)
                 .share();
     }
