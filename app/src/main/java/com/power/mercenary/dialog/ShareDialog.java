@@ -9,6 +9,7 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.graphics.drawable.ColorDrawable;
 import android.support.annotation.NonNull;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -146,8 +147,6 @@ public class ShareDialog extends PopupWindow {
                 .withMedia(web)
                 .setCallback(listener)
                 .share();
-
-
     }
     /**
      * @param mContext 上下文
@@ -216,7 +215,6 @@ public class ShareDialog extends PopupWindow {
                 .setCallback(listener)
                 .share();
     }
-
     public void showPyq( String title, String content, String id) {
         UMImage image = new UMImage(activity, "https://ss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=4267222417,1017407570&fm=200&gp=0.jpg");//网络图片
         UMImage thumb = new UMImage(activity, R.drawable.yongbingicon);

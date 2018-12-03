@@ -1,10 +1,13 @@
 package com.power.mercenary;
 
 import android.app.AlertDialog;
+import android.content.ClipboardManager;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.KeyEvent;
@@ -26,13 +29,16 @@ import com.power.mercenary.activity.PubShenghuoActivity;
 import com.power.mercenary.activity.SignInActivity;
 import com.power.mercenary.base.BaseActivity;
 import com.power.mercenary.base.BaseFragment;
+import com.power.mercenary.bean.task.TaskDetailsBean;
 import com.power.mercenary.data.EventConstants;
 import com.power.mercenary.event.EventUtils;
 import com.power.mercenary.fragment.HomeFragment;
 import com.power.mercenary.fragment.MessageFragment;
 import com.power.mercenary.fragment.MineFragment;
 import com.power.mercenary.fragment.PubFragment;
+import com.power.mercenary.presenter.TaskDetailsPresenter;
 import com.power.mercenary.utils.SharedPreferencesUtils;
+import com.power.mercenary.utils.ShearUtils;
 import com.power.mercenary.view.BaseDialog;
 
 import org.greenrobot.eventbus.EventBus;
@@ -46,7 +52,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class MainActivity extends BaseActivity implements View.OnClickListener {
+public class MainActivity extends BaseActivity implements View.OnClickListener{
 
     @BindView(R.id.fl_content)
     FrameLayout flContent;
@@ -105,7 +111,59 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         homeFragment = new HomeFragment();
         addFragments(homeFragment);
         EventBus.getDefault().register(this);
+
     }
+
+
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        String shearContent = ShearUtils.isShearContent(this);
+        if (null!=shearContent){
+            char c = shearContent.charAt(14);
+            char c1 = shearContent.charAt(15);
+            char c2 = shearContent.charAt(16);
+            Log.i("onRestart", "onRestart: " +c +"---" +c1+"===" + c2);
+
+            String userid =String.valueOf(c);
+            String userid1 =String.valueOf(c1);
+            String userid2 =String.valueOf(c2);
+            String id = userid + userid1 + userid2;
+            Log.i("onRestart", "onRestart: "+ id);
+
+            CreatDialog(id);
+        }
+
+    }
+
+    private void CreatDialog(final String id) {
+        BaseDialog.Builder builder = new BaseDialog.Builder(MainActivity.this);
+        BaseDialog mDialog = builder.setViewId(R.layout.dialog_share)
+                //设置dialogpadding
+                .setPaddingdp(0, 0, 0, 0)
+                //设置显示位置
+                .setGravity(Gravity.CENTER)
+                //设置动画
+
+                //设置dialog的宽高
+                .setWidthHeightpx(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT)
+                //设置触摸dialog外围是否关闭
+                .isOnTouchCanceled(true)
+                //设置监听事件
+                .builder();
+        mDialog.getView(R.id.lookdetails).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(MainActivity.this,id,Toast.LENGTH_LONG).show();
+            }
+        });
+        mDialog.show();
+        ShearUtils.fuShear(this, "");
+
+
+    }
+
     private void addFragments(BaseFragment f) {
         // 第一步：得到fragment管理类
         FragmentManager manager = getSupportFragmentManager();
@@ -715,15 +773,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 tvMine.setTextColor(getResources().getColor(R.color.textcolor_tab));
                 break;
 
-//            case EventConstants.TYPE_REFRESH_MESSAGE:
-//                Message message = (Message) event.getData();
-//                MessageContent content = message.getContent();
-//                if (content instanceof TextMessage) {
-//                    TextMessage textMessage = (TextMessage) content;
-//
-//                    EventBus.getDefault().post(new EventUtils(EventConstants.TYPE_MESSAGE_SHOW));
-//                }
-//                break;
         }
     }
 
@@ -773,4 +822,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
             break;
         }
     }
+
+
 }

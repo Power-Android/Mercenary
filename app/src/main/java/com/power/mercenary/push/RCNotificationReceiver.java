@@ -17,6 +17,6 @@ public class RCNotificationReceiver extends PushMessageReceiver {
     }
     @Override
     public boolean onNotificationMessageClicked(Context context, PushNotificationMessage pushNotificationMessage) {
-        return true;
+        return false;
     }
 }

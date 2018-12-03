@@ -1,6 +1,8 @@
 package com.power.mercenary.base;
 
 import android.app.Activity;
+import android.content.ClipData;
+import android.content.ClipboardManager;
 import android.content.Context;
 import android.graphics.Color;
 import android.os.Build;
@@ -8,6 +10,7 @@ import android.os.Bundle;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.text.TextUtils;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.View;
@@ -18,6 +21,7 @@ import android.widget.Toast;
 
 import com.power.mercenary.R;
 import com.power.mercenary.utils.NetWorkUtils;
+import com.power.mercenary.utils.ShearUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,11 +31,11 @@ import java.util.List;
  * Created by lxk on 2017/6/10.
  */
 
-public abstract class BaseActivity extends AppCompatActivity {
+public abstract class  BaseActivity extends AppCompatActivity {
 
     private static List<Activity> activityList = new ArrayList<>();
     protected Context mContext;
-
+    private static ClipboardManager mClipboardManager;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,6 +47,7 @@ public abstract class BaseActivity extends AppCompatActivity {
         if (!NetWorkUtils.isNetworkConnected(this)){
             Toast.makeText(this, "当前无网络连接，请检查设置", Toast.LENGTH_SHORT).show();
         }
+
     }
 
     @Override
@@ -143,5 +148,19 @@ public abstract class BaseActivity extends AppCompatActivity {
         window.setAttributes(attributes);
 
     }
+    /*public  boolean isShearContent() {
+        if (mContext != null) {
+            mClipboardManager = (ClipboardManager) mContext.getSystemService(CLIPBOARD_SERVICE);
+            ClipData mClipData = mClipboardManager.getPrimaryClip();
+            ClipData.Item item = mClipData.getItemAt(0);
+            if (TextUtils.isEmpty(item.getText().toString())){
+                return false;
 
+            }else{
+                return true;
+
+            }
+        }
+        return false;
+    }*/
 }

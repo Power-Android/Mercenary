@@ -72,8 +72,11 @@ public class MyApplication extends Application {
         initUM();
 
         CityListLoader.getInstance().loadProData(this);
-
         Fresco.initialize(this);
+
+    }
+
+    private void ShearPlate() {
 
     }
 

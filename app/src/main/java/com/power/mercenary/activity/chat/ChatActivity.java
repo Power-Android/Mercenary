@@ -34,6 +34,7 @@ import com.power.mercenary.http.JsonCallback;
 import com.power.mercenary.http.ResponseBean;
 import com.power.mercenary.presenter.ChatPresenter;
 import com.power.mercenary.utils.CacheUtils;
+import com.power.mercenary.utils.ShearUtils;
 import com.power.mercenary.utils.SoftKeyboardTool;
 import com.power.mercenary.utils.TUtils;
 import com.power.mercenary.view.chatrefresh.ChatRefreshHeader;
@@ -286,6 +287,7 @@ public class ChatActivity extends BaseActivity implements SpringView.OnFreshList
             }
         });
     }
+
 
     private void getHistoryList() {
         RongIMClient.getInstance().getRemoteHistoryMessages(Conversation.ConversationType.PRIVATE, userId, historyTime, 40, new RongIMClient.ResultCallback<List<Message>>() {

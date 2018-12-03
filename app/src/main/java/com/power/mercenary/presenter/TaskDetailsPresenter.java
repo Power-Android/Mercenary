@@ -2,6 +2,7 @@ package com.power.mercenary.presenter;
 
 import android.app.Activity;
 import android.util.Log;
+import android.view.View;
 
 import com.lzy.okgo.model.Response;
 import com.power.mercenary.MyApplication;
@@ -29,6 +30,8 @@ public class TaskDetailsPresenter {
         this.activity = activity;
         this.callBack = callBack;
     }
+
+
 
     /**
      * 获取任务详情

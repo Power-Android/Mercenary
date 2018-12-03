@@ -506,7 +506,6 @@ public class GRAcceptInTaskActivity extends BaseActivity implements View.OnClick
 //        }
         springView_rwsx.onFinishFreshAndLoad();
     }
-
     @Override
     public void applyRequest() {
         presenter.getApplyList(taskId, page);
