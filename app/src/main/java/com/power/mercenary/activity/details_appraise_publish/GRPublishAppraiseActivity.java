@@ -7,6 +7,7 @@ import android.support.v4.widget.NestedScrollView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.View;
@@ -184,7 +185,7 @@ public class GRPublishAppraiseActivity extends BaseActivity implements View.OnCl
         ivBtnCollection = (ImageView) findViewById(R.id.act_task_detaiils_collectionBtn_icon);
 
         taskId = getIntent().getStringExtra("taskId");
-
+        Log.i("liubiao", "onCreate: " + taskId);
         msgListBeanList = new ArrayList<>();
         msgAdapter = new DetailsMsgAdapter(this, msgListBeanList);
 

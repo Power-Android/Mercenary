@@ -63,6 +63,17 @@ public class TaskDetailsBean {
     private String task_request;
     private String itemname;
     private String numbers;
+
+    public String getTask_type() {
+        return task_type;
+    }
+
+    public void setTask_type(String task_type) {
+        this.task_type = task_type;
+    }
+
+    private String task_type;
+
     private String transport;
     private String validity_time;
     private String begin_address;

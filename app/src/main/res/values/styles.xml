@@ -10,6 +10,12 @@
         <item name="android:windowAnimationStyle">@style/activityAnimation</item>
         <item name="android:windowIsTranslucent">true</item>
         <item name="android:windowNoTitle">true</item>
+        <!--解决部分机型上传图片到服务器短暂出现手机桌面的BUG -->
+        <item name="android:windowBackground">@color/white</item>
+
+
+
+
     </style>
 
     <!-- activity切换样式 -->

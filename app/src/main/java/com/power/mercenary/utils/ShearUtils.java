@@ -16,17 +16,21 @@ import static android.content.Context.CLIPBOARD_SERVICE;
 public class ShearUtils {
 
     private static ClipboardManager mClipboardManager;
+    private static ClipData.Item item;
 
     public static String isShearContent(Context context) {
         if (context != null) {
             mClipboardManager = (ClipboardManager) context.getSystemService(CLIPBOARD_SERVICE);
             ClipData mClipData = mClipboardManager.getPrimaryClip();
-            ClipData.Item item = mClipData.getItemAt(0);
-            if (TextUtils.isEmpty(item.getText().toString())){
-                return null;
-            }else{
-                return item.getText().toString();
+            if (null != mClipData) {
+                item = mClipData.getItemAt(0);
+                if (TextUtils.isEmpty(item.getText().toString())){
+                    return null;
+                }else{
+                    return item.getText().toString();
+                }
             }
+
         }
         return null;
     }

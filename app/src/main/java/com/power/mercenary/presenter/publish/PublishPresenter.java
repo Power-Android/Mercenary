@@ -57,7 +57,6 @@ public class PublishPresenter {
                     }
                 });*/
 
-        Log.i("ooooo", pageNum+task_status+"");
         Map<String, String> map = new HashMap<>();
         map.put("pageNum", pageNum + "");
         map.put("task_status", task_status + "");

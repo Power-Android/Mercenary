@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
@@ -18,6 +19,7 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.TextView;
@@ -27,6 +29,11 @@ import com.lzy.okgo.model.Response;
 import com.power.mercenary.MainActivity;
 import com.power.mercenary.MyApplication;
 import com.power.mercenary.R;
+import com.power.mercenary.activity.details_appraise_publish.GRPublishAppraiseActivity;
+import com.power.mercenary.activity.details_intask_publish.GRPublishInTaskActivity;
+import com.power.mercenary.activity.details_intask_publish.GZPublishInTaskActivity;
+import com.power.mercenary.activity.details_intask_publish.PTPublishInTaskActivity;
+import com.power.mercenary.activity.details_intask_publish.SHPublishInTaskActivity;
 import com.power.mercenary.bean.task.TaskDetailsBean;
 import com.power.mercenary.http.DialogCallback;
 import com.power.mercenary.http.HttpManager;
@@ -46,12 +53,13 @@ import java.util.regex.Pattern;
  * Created by lxk on 2017/6/10.
  */
 
-public abstract class BaseActivity extends AppCompatActivity {
+public abstract class BaseActivity extends AppCompatActivity  {
 
     private static List<Activity> activityList = new ArrayList<>();
     protected Context mContext;
     private static ClipboardManager mClipboardManager;
     private String id;
+    private BaseDialog mDialog;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -116,7 +124,6 @@ public abstract class BaseActivity extends AppCompatActivity {
     }
 
 
-
     @Override
     protected void onResume() {
         super.onResume();
@@ -138,7 +145,7 @@ public abstract class BaseActivity extends AppCompatActivity {
                         @Override
                         public void onSuccess(Response<ResponseBean<TaskDetailsBean>> response) {
                             if (response.body().data != null)
-                                CreatDialog(response.body().data.getItemname(),response.body().data.getTask_name(),response.body().data.getPay_amount());
+                                CreatDialog(response.body().data.getItemname(), response.body().data.getTask_name(), response.body().data.getPay_amount(),response.body().data.getTask_type());
                         }
                     });
 
@@ -167,9 +174,15 @@ public abstract class BaseActivity extends AppCompatActivity {
         return "";
     }
 
-    private void CreatDialog(String itemname, String task_name, String pay_amount) {
+    private void CreatDialog(String itemname, String task_name, String pay_amount, final String task_type) {
         BaseDialog.Builder builder = new BaseDialog.Builder(this);
-        BaseDialog mDialog = builder.setViewId(R.layout.dialog_share)
+        //设置dialogpadding
+//设置显示位置
+//设置动画
+//设置dialog的宽高
+//设置触摸dialog外围是否关闭
+//设置监听事件
+        mDialog = builder.setViewId(R.layout.dialog_share)
                 //设置dialogpadding
                 .setPaddingdp(0, 0, 0, 0)
                 //设置显示位置
@@ -181,15 +194,58 @@ public abstract class BaseActivity extends AppCompatActivity {
                 .isOnTouchCanceled(true)
                 //设置监听事件
                 .builder();
-        Button view = mDialog.getView(R.id.lookdetails);
+        Button lookdetails_But = mDialog.getView(R.id.lookdetails);
+        ImageView ig_error = mDialog.getView(R.id.error);
         TextView TaskItemName = mDialog.getView(R.id.getItemname);
         TextView payAmount = mDialog.getView(R.id.Pay_amount);
         TextView TaskName = mDialog.getView(R.id.Task_name);
-        TaskItemName.setText("任务名称:"+itemname);
+        TaskItemName.setText("任务名称:" + itemname);
         payAmount.setText("￥" + pay_amount);
-        TaskName.setText("任务目的:"+task_name);
+        TaskName.setText("任务目的:" + task_name);
+        ig_error.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ShearUtils.fuShear(getApplicationContext(), "");
+                mDialog.dismiss();
+
+            }
+        });
+        lookdetails_But.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                switch (task_type) {
+                    case "1":
+                        Intent ptIntent = new Intent(getApplicationContext(), PTPublishInTaskActivity.class);
+                        ptIntent.putExtra("taskId", id);
+                        startActivity(ptIntent);
+                        break;
+
+                    case "2":
+                    case "5":
+                    case "6":
+                        Intent shIntent = new Intent(getApplicationContext(), SHPublishInTaskActivity.class);
+                        shIntent.putExtra("taskId", id);
+                        startActivity(shIntent);
+                        break;
+
+                    case "3":
+                        Intent grIntent = new Intent(getApplicationContext(), GRPublishInTaskActivity.class);
+                        grIntent.putExtra("taskId", id);
+                        startActivity(grIntent);
+                        break;
+
+                    case "4":
+                        Intent gzIntent = new Intent(getApplicationContext(), GZPublishInTaskActivity.class);
+                        gzIntent.putExtra("taskId", id);
+                        startActivity(gzIntent);
+                        break;
+                }
+                ShearUtils.fuShear(getApplicationContext(), "");
+
+                mDialog.dismiss();
+            }
+        });
         mDialog.show();
-        ShearUtils.fuShear(this, "");
     }
 
     /**
@@ -208,6 +264,7 @@ public abstract class BaseActivity extends AppCompatActivity {
             activityList.remove(this);
         }
     }
+
     public static void removeAllActivitys() {
         if (activityList != null && activityList.size() > 0) {
             for (int i = 0; i < activityList.size(); i++) {
@@ -236,7 +293,7 @@ public abstract class BaseActivity extends AppCompatActivity {
         if (popupWindow != null && popupWindow.isShowing()) {
             popupWindow.dismiss();
         } else {
-            setWindowTranslucence(1);
+            setWindowTranslucence(10);
             popupWindow.showAtLocation(view, Gravity.BOTTOM, 0, 0);
         }
     }
@@ -250,5 +307,6 @@ public abstract class BaseActivity extends AppCompatActivity {
         window.setAttributes(attributes);
 
     }
+
 
 }
