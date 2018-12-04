@@ -11,31 +11,48 @@ import android.support.annotation.LayoutRes;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.PopupWindow;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.lzy.okgo.model.Response;
+import com.power.mercenary.MainActivity;
+import com.power.mercenary.MyApplication;
 import com.power.mercenary.R;
+import com.power.mercenary.bean.task.TaskDetailsBean;
+import com.power.mercenary.http.DialogCallback;
+import com.power.mercenary.http.HttpManager;
+import com.power.mercenary.http.ResponseBean;
+import com.power.mercenary.presenter.TaskDetailsPresenter;
 import com.power.mercenary.utils.NetWorkUtils;
 import com.power.mercenary.utils.ShearUtils;
+import com.power.mercenary.view.BaseDialog;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 
 /**
  * Created by lxk on 2017/6/10.
  */
 
-public abstract class  BaseActivity extends AppCompatActivity {
+public abstract class BaseActivity extends AppCompatActivity {
 
     private static List<Activity> activityList = new ArrayList<>();
     protected Context mContext;
     private static ClipboardManager mClipboardManager;
+    private String id;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,28 +61,34 @@ public abstract class  BaseActivity extends AppCompatActivity {
         if (activityList != null) {
             activityList.add(this);
         }
-        if (!NetWorkUtils.isNetworkConnected(this)){
+        if (!NetWorkUtils.isNetworkConnected(this)) {
             Toast.makeText(this, "当前无网络连接，请检查设置", Toast.LENGTH_SHORT).show();
         }
-
     }
+
 
     @Override
     public void setContentView(@LayoutRes int layoutResID) {
         super.setContentView(layoutResID);
     }
 
-    /** 子类可以重写改变状态栏颜色 */
+    /**
+     * 子类可以重写改变状态栏颜色
+     */
     protected int setStatusBarColor() {
         return getColorPrimary();
     }
 
-    /** 子类可以重写决定是否使用透明状态栏 */
+    /**
+     * 子类可以重写决定是否使用透明状态栏
+     */
     protected boolean translucentStatusBar() {
         return false;
     }
 
-    /** 设置状态栏颜色 */
+    /**
+     * 设置状态栏颜色
+     */
     protected void initSystemBarTint() {
         Window window = getWindow();
         if (translucentStatusBar()) {
@@ -92,7 +115,86 @@ public abstract class  BaseActivity extends AppCompatActivity {
         }
     }
 
-    /** 获取主题色 */
+
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        String shearContent = ShearUtils.isShearContent(getApplicationContext());
+        if (null != shearContent) {
+            String rgex = "【(.*?)】";//正则截取的规则
+            List<String> lists = (getSubUtil(shearContent, rgex));
+            String userID = "";
+            for (String string : lists) {
+                userID += string;
+            }
+            if (userID.length() > 4) {
+                id = userID.substring(userID.length() - 3, userID.length());
+            }
+            new HttpManager<ResponseBean<TaskDetailsBean>>("Home/CommonTask/get_taskdetail", this)
+                    .addParams("token", MyApplication.getUserToken())
+                    .addParams("id", id)
+                    .postRequest(new DialogCallback<ResponseBean<TaskDetailsBean>>(this) {
+                        @Override
+                        public void onSuccess(Response<ResponseBean<TaskDetailsBean>> response) {
+                            if (response.body().data != null)
+                                CreatDialog(response.body().data.getItemname(),response.body().data.getTask_name(),response.body().data.getPay_amount());
+                        }
+                    });
+
+        }
+    }
+
+
+    public List<String> getSubUtil(String soap, String rgex) {
+        List<String> list = new ArrayList<String>();
+        Pattern pattern = Pattern.compile(rgex);// 匹配的模式
+        Matcher m = pattern.matcher(soap);
+        while (m.find()) {
+            int i = 1;
+            list.add(m.group(i));
+            i++;
+        }
+        return list;
+    }
+
+    public String getSubUtilSimple(String soap, String rgex) {
+        Pattern pattern = Pattern.compile(rgex);// 匹配的模式
+        Matcher m = pattern.matcher(soap);
+        while (m.find()) {
+            return m.group(1);
+        }
+        return "";
+    }
+
+    private void CreatDialog(String itemname, String task_name, String pay_amount) {
+        BaseDialog.Builder builder = new BaseDialog.Builder(this);
+        BaseDialog mDialog = builder.setViewId(R.layout.dialog_share)
+                //设置dialogpadding
+                .setPaddingdp(0, 0, 0, 0)
+                //设置显示位置
+                .setGravity(Gravity.CENTER)
+                //设置动画
+                //设置dialog的宽高
+                .setWidthHeightpx(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT)
+                //设置触摸dialog外围是否关闭
+                .isOnTouchCanceled(true)
+                //设置监听事件
+                .builder();
+        Button view = mDialog.getView(R.id.lookdetails);
+        TextView TaskItemName = mDialog.getView(R.id.getItemname);
+        TextView payAmount = mDialog.getView(R.id.Pay_amount);
+        TextView TaskName = mDialog.getView(R.id.Task_name);
+        TaskItemName.setText("任务名称:"+itemname);
+        payAmount.setText("￥" + pay_amount);
+        TaskName.setText("任务目的:"+task_name);
+        mDialog.show();
+        ShearUtils.fuShear(this, "");
+    }
+
+    /**
+     * 获取主题色
+     */
     public int getColorPrimary() {
         TypedValue typedValue = new TypedValue();
         getTheme().resolveAttribute(R.attr.colorPrimary, typedValue, true);
@@ -106,7 +208,6 @@ public abstract class  BaseActivity extends AppCompatActivity {
             activityList.remove(this);
         }
     }
-
     public static void removeAllActivitys() {
         if (activityList != null && activityList.size() > 0) {
             for (int i = 0; i < activityList.size(); i++) {
@@ -131,36 +232,23 @@ public abstract class  BaseActivity extends AppCompatActivity {
     }
 
 
-    public void setShowPop(PopupWindow popupWindow, View view){
-        if(popupWindow!=null&&popupWindow.isShowing()){
+    public void setShowPop(PopupWindow popupWindow, View view) {
+        if (popupWindow != null && popupWindow.isShowing()) {
             popupWindow.dismiss();
-        }else{
+        } else {
             setWindowTranslucence(1);
             popupWindow.showAtLocation(view, Gravity.BOTTOM, 0, 0);
         }
     }
+
     //设置Window窗口的透明度
-    public void setWindowTranslucence(double d){
+    public void setWindowTranslucence(double d) {
 
         Window window = getWindow();
         WindowManager.LayoutParams attributes = window.getAttributes();
-        attributes.alpha=(float) d;
+        attributes.alpha = (float) d;
         window.setAttributes(attributes);
 
     }
-    /*public  boolean isShearContent() {
-        if (mContext != null) {
-            mClipboardManager = (ClipboardManager) mContext.getSystemService(CLIPBOARD_SERVICE);
-            ClipData mClipData = mClipboardManager.getPrimaryClip();
-            ClipData.Item item = mClipData.getItemAt(0);
-            if (TextUtils.isEmpty(item.getText().toString())){
-                return false;
 
-            }else{
-                return true;
-
-            }
-        }
-        return false;
-    }*/
 }

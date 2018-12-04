@@ -182,6 +182,8 @@ public class ChatActivity extends BaseActivity implements SpringView.OnFreshList
         }
     }
 
+
+
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onRecevierEvent(EventUtils event) {
         switch (event.getType()) {

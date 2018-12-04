@@ -35,6 +35,7 @@
             android:layout_marginLeft="28dp"
             android:layout_marginTop="22dp"
             android:ellipsize="end"
+            android:id="@+id/getItemname"
             android:text="佣兵天下甲方与乙方的权利与义务的"
             android:textColor="#25292d" />
 
@@ -44,6 +45,7 @@
             android:layout_marginLeft="28dp"
             android:layout_marginTop="12dp"
             android:text="￥660"
+            android:id="@+id/Pay_amount"
             android:textColor="#1DA7FF"
 
             />
@@ -53,6 +55,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="28dp"
             android:layout_marginTop="16dp"
+            android:id="@+id/Task_name"
             android:text="分享主要是为了" />
 
         <Button

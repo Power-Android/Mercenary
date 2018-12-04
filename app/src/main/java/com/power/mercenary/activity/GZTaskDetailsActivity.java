@@ -291,7 +291,7 @@ public class GZTaskDetailsActivity extends BaseActivity implements View.OnClickL
                 initTongcheng();
                 break;
             case R.id.iv_right_fx:
-                ShareDialog dialog = new ShareDialog(this, taskDetailsBean.getTask_name(), taskDetailsBean.getTask_description(), taskDetailsBean.getId());
+                ShareDialog dialog = new ShareDialog(this, taskDetailsBean.getTask_name(), taskDetailsBean.getTask_description(), taskDetailsBean.getId(),taskDetailsBean.getTask_no());
                 dialog.setOnDismissListener(onDismissListener);;
                 setShowPop(dialog, iv_right_fx);
                 break;

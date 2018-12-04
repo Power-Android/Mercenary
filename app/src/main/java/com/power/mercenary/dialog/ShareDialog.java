@@ -9,6 +9,7 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.graphics.drawable.ColorDrawable;
 import android.support.annotation.NonNull;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -47,13 +48,13 @@ public class ShareDialog extends PopupWindow {
     private LinearLayout sina;
     private TextView cancel;
 
-    public ShareDialog(Activity activity, String title, String content, String id) {
+    public ShareDialog(Activity activity, String title, String content, String id,String taskNo) {
         super(activity);
         this.activity = activity;
-        initPopupWindow(title, content, id);
+        initPopupWindow(title, content, id,taskNo);
     }
 
-    public void initPopupWindow(final String title, final String content, final String id) {
+    public void initPopupWindow(final String title, final String content, final String id,final  String taskNo) {
         inflater = (LayoutInflater) activity
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         defaultView = inflater.inflate(R.layout.sharing_pop_item_view, null);
@@ -86,7 +87,12 @@ public class ShareDialog extends PopupWindow {
             @Override
             public void onClick(View v) {
                // showQQ(title, content, id);
-                shareQQ(activity,"【我是任务名称"+title+content+"任务编号"+id+"】"+"https://m.tb.cn/h.3mwLpCJ 点击链接，在选择浏览器打开或复制这段描述然后打开佣兵天下APP");
+                if (!TextUtils.isEmpty(taskNo)) {
+
+                    shareQQ(activity, "【任务名称:" + title + "任务编码:" + taskNo + "任务编号:" + id + "】" + "https://m.tb.cn/h.3mwLpCJ 点击链接，在选择浏览器打开或复制这段描述然后打开佣兵天下APP");
+                } else {
+                    shareQQ(activity, "【任务名称:" + title  + "任务编号:" + id + "】" + "https://m.tb.cn/h.3mwLpCJ 点击链接，在选择浏览器打开或复制这段描述然后打开佣兵天下APP");
+                }
             }
         });
 

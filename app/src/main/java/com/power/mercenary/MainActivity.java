@@ -47,12 +47,14 @@ import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class MainActivity extends BaseActivity implements View.OnClickListener{
+public class MainActivity extends BaseActivity implements View.OnClickListener {
 
     @BindView(R.id.fl_content)
     FrameLayout flContent;
@@ -116,53 +118,9 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
 
 
 
-    @Override
-    protected void onRestart() {
-        super.onRestart();
-        String shearContent = ShearUtils.isShearContent(this);
-        if (null!=shearContent){
-            char c = shearContent.charAt(14);
-            char c1 = shearContent.charAt(15);
-            char c2 = shearContent.charAt(16);
-            Log.i("onRestart", "onRestart: " +c +"---" +c1+"===" + c2);
-
-            String userid =String.valueOf(c);
-            String userid1 =String.valueOf(c1);
-            String userid2 =String.valueOf(c2);
-            String id = userid + userid1 + userid2;
-            Log.i("onRestart", "onRestart: "+ id);
-
-            CreatDialog(id);
-        }
-
-    }
-
-    private void CreatDialog(final String id) {
-        BaseDialog.Builder builder = new BaseDialog.Builder(MainActivity.this);
-        BaseDialog mDialog = builder.setViewId(R.layout.dialog_share)
-                //设置dialogpadding
-                .setPaddingdp(0, 0, 0, 0)
-                //设置显示位置
-                .setGravity(Gravity.CENTER)
-                //设置动画
-
-                //设置dialog的宽高
-                .setWidthHeightpx(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT)
-                //设置触摸dialog外围是否关闭
-                .isOnTouchCanceled(true)
-                //设置监听事件
-                .builder();
-        mDialog.getView(R.id.lookdetails).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Toast.makeText(MainActivity.this,id,Toast.LENGTH_LONG).show();
-            }
-        });
-        mDialog.show();
-        ShearUtils.fuShear(this, "");
 
 
-    }
+
 
     private void addFragments(BaseFragment f) {
         // 第一步：得到fragment管理类
@@ -336,6 +294,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
         });
         mDialog.show();
     }
+
     //健康
     private void showJiankangDialog() {
         final BaseDialog dialog = mBuilder.setViewId(R.layout.dialog_pub_jiankang)
@@ -532,8 +491,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
     }
 
 
-
-
     //生活
     private void showShenghuoDialog() {
         final BaseDialog dialog = mBuilder.setViewId(R.layout.dialog_pub_shenghuo)
@@ -690,7 +647,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
                 } else if (tx.equals("工作")) {
 
 
-
                     Intent intent3 = new Intent(MainActivity.this, PubGongzuoActivity.class);
                     intent3.putExtra("TaskType", "4");
                     if (option2 == 0) {
@@ -790,6 +746,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
         }
         return super.onKeyDown(keyCode, event);
     }
+
     private void exit() {
         //弹出提示框
         alertExitDialog();
@@ -810,6 +767,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
         alertDialog = builder.create();
         alertDialog.show();
     }
+
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
@@ -819,9 +777,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
             case R.id.tv_cancle:
                 alertDialog.dismiss();
 
-            break;
+                break;
         }
     }
-
-
 }

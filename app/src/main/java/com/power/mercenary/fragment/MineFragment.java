@@ -170,7 +170,6 @@ public class MineFragment extends BaseFragment implements UserPresenter.UserCall
         rl_wdtg.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Log.d("MineFragment", MyApplication.getUserToken() + "-------");
                 if (isagree.equals("0")) {
                     Intent intent = new Intent(getActivity(), ShouzeActivity.class);
                     startActivity(intent);
