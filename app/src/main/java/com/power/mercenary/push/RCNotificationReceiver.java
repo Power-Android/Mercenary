@@ -3,6 +3,7 @@ package com.power.mercenary.push;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
+import android.widget.Toast;
 
 import io.rong.push.notification.PushMessageReceiver;
 import io.rong.push.notification.PushNotificationMessage;

@@ -396,7 +396,6 @@
                 android:scheme="rong" />
         </intent-filter>
 
-        <activity android:name=".activity.chat.aaaaa"></activity>
     </application>
 
 </manifest>

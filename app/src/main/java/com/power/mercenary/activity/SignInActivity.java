@@ -223,7 +223,6 @@ public class SignInActivity extends BaseActivity implements View.OnClickListener
                     } else {
                         String md5 = MyUtils.getMD5("mobile=" + edtPassPhone.getText().toString() + "pwd=" + etSignMm.getText().toString() + Urls.SECRET);
                         presenter.getPassLoginInfo(md5, edtPassPhone.getText().toString(), etSignMm.getText().toString());
-                        Log.d("密码登录", md5 + "------");
                     }
                 }
 

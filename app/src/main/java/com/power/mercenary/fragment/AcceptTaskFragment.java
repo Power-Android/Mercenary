@@ -116,7 +116,6 @@ public class AcceptTaskFragment extends BaseFragment implements WanRecyclerView.
 //
 //
 //        }
-        Toast.makeText(getActivity(),taskType+"=="+taskId+"---"+taskState,Toast.LENGTH_LONG).show();
         if (TextUtils.equals(taskState, "2")) {
             switch (taskType) {
                 case "1":

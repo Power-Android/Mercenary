@@ -89,9 +89,9 @@ public class ShareDialog extends PopupWindow {
                // showQQ(title, content, id);
                 if (!TextUtils.isEmpty(taskNo)) {
 
-                    shareQQ(activity, "【任务名称:" + title + "任务编码:" + taskNo + "任务编号:" + id + "】" + "https://m.tb.cn/h.3mwLpCJ 点击链接，在选择浏览器打开或复制这段描述然后打开佣兵天下APP");
+                    shareQQ(activity, "【任务名称:" + title + "任务编码:" + taskNo + "任务编号:" + id + "】" + "http://yb.dashuibei.com/register/detail.html?id="+id+ "点击链接，在选择浏览器打开或复制这段描述然后打开佣兵天下APP");
                 } else {
-                    shareQQ(activity, "【任务名称:" + title  + "任务编号:" + id + "】" + "https://m.tb.cn/h.3mwLpCJ 点击链接，在选择浏览器打开或复制这段描述然后打开佣兵天下APP");
+                    shareQQ(activity, "【任务名称:" + title  + "任务编号:" + id + "】" + "http://yb.dashuibei.com/register/detail.html?id="+id+ " 点击链接，在选择浏览器打开或复制这段描述然后打开佣兵天下APP");
                 }
             }
         });
