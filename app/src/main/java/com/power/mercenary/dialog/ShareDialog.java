@@ -125,10 +125,7 @@ public class ShareDialog extends PopupWindow {
 
         // setOutsideTouchable(true);
         update();
-
     }
-
-
     /**
      * @return pop的View
      */
