@@ -95,21 +95,21 @@ public class AcceptTaskAdapter extends RecyclerView.Adapter implements SeekBar.O
                 }
             } else if (data.get(position).getTask_status().equals("2")) {//任务中
                 viewHolder.tuikuan.setVisibility(View.VISIBLE);
-               if (!data.get(position).getRefuse_cause().equals("")) {//拒绝原因不为空的时候进行给控件赋值
+                if (!data.get(position).getRefuse_cause().equals("")) {//拒绝原因不为空的时候进行给控件赋值
                     viewHolder.layoutJujue.setVisibility(View.VISIBLE);
                     viewHolder.tvJujue.setText(data.get(position).getRefuse_cause());
-                   boolean flag = (boolean) SharedPreferencesUtils.getParam(context, "flag", false);
-                   if (flag==false) {
-                           viewHolder.tuikuan.setText("退款");
-                   } else if(flag==true){
-                       viewHolder.tuikuan.setText("未通过");
-                       viewHolder.tuikuan.setEnabled(false);
+                    boolean flag = (boolean) SharedPreferencesUtils.getParam(context, "flag", false);
+                    if (flag == false) {
+                        viewHolder.tuikuan.setText("退款");
+                    } else if (flag == true) {
+                        viewHolder.tuikuan.setText("未通过");
+                        viewHolder.tuikuan.setEnabled(false);
 
 
-                   }
+                    }
 
                     //viewHolder.tuikuan.setEnabled(true);
-              }
+                }
             } else if (data.get(position).getTask_status().equals("3")) {//审核中
                 if (data.get(position).getSettle_status().equals("2")) {
                     viewHolder.tuikuan.setVisibility(View.VISIBLE);
@@ -183,13 +183,7 @@ public class AcceptTaskAdapter extends RecyclerView.Adapter implements SeekBar.O
         String[] oldPrice = s.split("\\(");
 
         String price = oldPrice[0];
-
-        Log.e(TAG, "showIssueDialog: " + price);
-
         final String[] newPrice = price.split("\\)");
-
-        Log.e(TAG, "showIssueDialog: " + newPrice);
-
         tv_sure.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -204,7 +198,7 @@ public class AcceptTaskAdapter extends RecyclerView.Adapter implements SeekBar.O
                         .postRequest(new DialogCallback<ResponseBean<SuccessBean>>((Activity) context) {
                             @Override
                             public void onSuccess(Response<ResponseBean<SuccessBean>> response) {
-                                SharedPreferencesUtils.setParam(context,"flag",false);
+                                SharedPreferencesUtils.setParam(context, "flag", false);
                                 onItemClickListener.TuiKuanListener();
                                 mDialog.dismiss();
                             }
@@ -212,7 +206,6 @@ public class AcceptTaskAdapter extends RecyclerView.Adapter implements SeekBar.O
                             @Override
                             public void onError(Response<ResponseBean<SuccessBean>> response) {
                                 super.onError(response);
-                                Log.d("ReleaseRWZAdapter", response.getException().getMessage() + "--------");
                             }
                         });
             }
@@ -244,45 +237,25 @@ public class AcceptTaskAdapter extends RecyclerView.Adapter implements SeekBar.O
         tv_zfpt_price.setText("(" + profit_Value + ")");
 
         int allPrice = (int) (Double.parseDouble(data.get(position).getPay_amount()) - Double.parseDouble(data.get(position).getPay_amount()) * 0.006);
-
-        //Log.e(TAG, "showIssueDialog: " + allPrice + "");
-
         int o = (int) (((Double.parseDouble(data.get(position).getPay_amount())) * 100) - 100);
-
-       // Log.d(TAG, "showIssueDialog: " + o);
-
-
         int seekMaxNumber = 100;
-
         if (allPrice < 0.9) {
-
             seekMaxNumber = 9;
-
         }
-
         if (allPrice < 99.9 && allPrice > 0.9) {
-
             seekMaxNumber = 99;
-
         }
-
         if (allPrice > 99.9) {
-
             seekMaxNumber = 100;
-
         }
-
-      double  NumPrice = (Double.parseDouble(data.get(position).getPay_amount()) - Double.parseDouble(data.get(position).getPay_amount()) * 0.006);
+        double NumPrice = (Double.parseDouble(data.get(position).getPay_amount()) - Double.parseDouble(data.get(position).getPay_amount()) * 0.006);
         double twoDecimal = getTwoDecimal(NumPrice);
-        tv_all_price.setText(twoDecimal+"");
+        tv_all_price.setText(twoDecimal + "");
         seekbar.setMax(seekMaxNumber);
         seekbar.setProgress(0);
-
-
-        seekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+      /*  seekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
-
                 int progress = seekBar.getProgress();
 
                 Log.e(TAG, "onProgressChanged: " + progress);
@@ -307,7 +280,7 @@ public class AcceptTaskAdapter extends RecyclerView.Adapter implements SeekBar.O
             public void onStopTrackingTouch(SeekBar seekBar) {
 
             }
-        });
+        });*/
 
         seekbar.setOnSeekBarChangeListener(this);
         mDialog.getView(R.id.all_price_tuikuan).setOnClickListener(new View.OnClickListener() {
@@ -349,22 +322,18 @@ public class AcceptTaskAdapter extends RecyclerView.Adapter implements SeekBar.O
 
     @Override
     public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
-        if (cb_all_parice.isChecked()) {
-//            edt_pub_people.setText(seekBar.getProgress() + "");
-//            DecimalFormat df = new java.text.DecimalFormat("0.00");
-//            String format = df.format(Double.parseDouble(tv_all_price.getText().toString()) - seekBar.getProgress());
-//            edt_shou_people.setText(format);
-        } else {
+        if (cb_zdy_parice.isChecked()) {
             DecimalFormat df1 = new java.text.DecimalFormat("0.00");
             String format2 = df1.format((Double.parseDouble(tv_all_price.getText().toString()) * 100 - (Double.parseDouble(tv_all_price.getText().toString()) * 100 - seekBar.getProgress())) / 100);
-            edt_pub_people.setText(format2);
+            edt_pub_people.setText(format2);//发布人金额
             DecimalFormat df = new java.text.DecimalFormat("0.00");
             String format = df.format(((Double.parseDouble(tv_all_price.getText().toString()) * 100 - seekBar.getProgress()) * 0.044) / 100);
-            tv_pingtai_peice.setText(format);
+            tv_pingtai_peice.setText(format);//平台金额
             String format1 = df.format(((Double.parseDouble(tv_all_price.getText().toString()) * 100 - seekBar.getProgress()) - (Double.parseDouble(tv_pingtai_peice.getText().toString()) * 100)) / 100);
-            Log.i(TAG, format1);
-            edt_shou_people.setText(format1);
+            edt_shou_people.setText(format1);//接受者金额
+
         }
+
     }
 
     @Override
@@ -435,6 +404,7 @@ public class AcceptTaskAdapter extends RecyclerView.Adapter implements SeekBar.O
 
         void TuiKuanListener();
     }
+
     private double getTwoDecimal(double num) {
         DecimalFormat dFormat = new DecimalFormat("#.00");
         String yearString = dFormat.format(num);

@@ -53,6 +53,7 @@ import java.util.regex.Pattern;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import io.rong.imlib.RongIMClient;
 
 public class MainActivity extends BaseActivity implements View.OnClickListener {
 
@@ -114,14 +115,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         addFragments(homeFragment);
         EventBus.getDefault().register(this);
 
+
     }
-
-
-
-
-
-
-
     private void addFragments(BaseFragment f) {
         // 第一步：得到fragment管理类
         FragmentManager manager = getSupportFragmentManager();
@@ -780,4 +775,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 break;
         }
     }
+    //推送
+
 }

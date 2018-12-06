@@ -16,6 +16,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
 import com.liaoinstan.springview.container.DefaultHeader;
 import com.liaoinstan.springview.widget.SpringView;
 import com.lzy.okgo.model.Response;
@@ -101,13 +102,12 @@ public class ChatActivity extends BaseActivity implements SpringView.OnFreshList
         imgUrls = getIntent().getStringExtra("imgUrls");
 
         name = getIntent().getStringExtra("name");
-
         title.setText(name);
         CacheUtils.put(CacheConstants.IS_IN_CHAT, userId);
-
         chatPresenter = new ChatPresenter(this, this);
 //        chatPresenter.getUserInfo(userId);
-
+        Intent intent = getIntent();
+        getPushMessage(intent);//推送
         mList = new ArrayList<>();
         msgAdapter = new ChatMsgAdapter(this, mList);
         listView.setAdapter(msgAdapter);
@@ -158,6 +158,25 @@ public class ChatActivity extends BaseActivity implements SpringView.OnFreshList
         EventBus.getDefault().register(this);
     }
 
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        getPushMessage(intent);
+    }
+
+    private void getPushMessage(Intent intent) {
+        if (intent != null && intent.getData() != null && intent.getData().getScheme().equals("rong")) {
+            //该条消息的推送内容
+            String content = intent.getData().getQueryParameter("pushContent");
+            //标识该推送消息的唯一 Id。
+            String id = intent.getData().getQueryParameter("pushId");
+            //用户自定义参数 json 格式，解析后用户可根据自己定义的 Key 、Value 值进行业务处理。
+            String extra = intent.getData().getQueryParameter("extra");
+            //只有收到系统消息和不落地 push 消息的时候，pushId 不为 null。而且这两种消息只能通过 server 来发送，客户端发送不了。
+           //RongIMClient.recordNotificationEvent(id);
+            //RongIM.getInstance().getRongIMClient().recordNotificationEvent(id);
+        }
+    }
     @OnClick({R.id.left_back, R.id.right_btn, R.id.act_chat_send})
     public void onViewClicked(View view) {
         switch (view.getId()) {
@@ -234,7 +253,8 @@ public class ChatActivity extends BaseActivity implements SpringView.OnFreshList
                 msgAdapter.notifyDataSetChanged();
                 maxCount++;
                 CacheUtils.put(CacheConstants.MESSAGEID, maxCount);
-                EventBus.getDefault().post(new EventUtils(EventConstants.TYPE_MESSAGE_SHOW_MINE, message));
+                //在MessagePrivateFragment接收但是注释掉了
+              //  EventBus.getDefault().post(new EventUtils(EventConstants.TYPE_MESSAGE_SHOW_MINE, message));
             }
 
             @Override

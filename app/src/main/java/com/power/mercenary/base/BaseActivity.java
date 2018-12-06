@@ -29,11 +29,26 @@ import com.lzy.okgo.model.Response;
 import com.power.mercenary.MainActivity;
 import com.power.mercenary.MyApplication;
 import com.power.mercenary.R;
+import com.power.mercenary.activity.GRTaskDetailsActivity;
+import com.power.mercenary.activity.GZTaskDetailsActivity;
+import com.power.mercenary.activity.PTTaskDetailsActivity;
+import com.power.mercenary.activity.SHTaskDetailsActivity;
 import com.power.mercenary.activity.details_appraise_publish.GRPublishAppraiseActivity;
+import com.power.mercenary.activity.details_appraise_publish.GZPublishAppraiseActivity;
+import com.power.mercenary.activity.details_appraise_publish.PTPublishAppraiseActivity;
+import com.power.mercenary.activity.details_appraise_publish.SHPublishAppraiseActivity;
+import com.power.mercenary.activity.details_audit_publish.GRPublishAuditActivity;
+import com.power.mercenary.activity.details_audit_publish.GZPublishAuditActivity;
+import com.power.mercenary.activity.details_audit_publish.PTPublishAuditActivity;
+import com.power.mercenary.activity.details_audit_publish.SHPublishAuditActivity;
 import com.power.mercenary.activity.details_intask_publish.GRPublishInTaskActivity;
 import com.power.mercenary.activity.details_intask_publish.GZPublishInTaskActivity;
 import com.power.mercenary.activity.details_intask_publish.PTPublishInTaskActivity;
 import com.power.mercenary.activity.details_intask_publish.SHPublishInTaskActivity;
+import com.power.mercenary.activity.details_out_publish.GRPublishOutActivity;
+import com.power.mercenary.activity.details_out_publish.GZPublishOutActivity;
+import com.power.mercenary.activity.details_out_publish.PTPublishOutActivity;
+import com.power.mercenary.activity.details_out_publish.SHPublishOutActivity;
 import com.power.mercenary.bean.task.TaskDetailsBean;
 import com.power.mercenary.http.DialogCallback;
 import com.power.mercenary.http.HttpManager;
@@ -145,7 +160,7 @@ public abstract class BaseActivity extends AppCompatActivity  {
                         @Override
                         public void onSuccess(Response<ResponseBean<TaskDetailsBean>> response) {
                             if (response.body().data != null)
-                                CreatDialog(response.body().data.getItemname(), response.body().data.getTask_name(), response.body().data.getPay_amount(),response.body().data.getTask_type());
+                                CreatDialog(response.body().data.getItemname(), response.body().data.getTask_name(), response.body().data.getPay_amount(),response.body().data.getTask_type(),response.body().data.getTask_status());
                         }
                     });
 
@@ -174,14 +189,8 @@ public abstract class BaseActivity extends AppCompatActivity  {
         return "";
     }
 
-    private void CreatDialog(String itemname, String task_name, String pay_amount, final String task_type) {
+    private void CreatDialog(String itemname, String task_name, String pay_amount, final String task_type, final String task_state) {
         BaseDialog.Builder builder = new BaseDialog.Builder(this);
-        //设置dialogpadding
-//设置显示位置
-//设置动画
-//设置dialog的宽高
-//设置触摸dialog外围是否关闭
-//设置监听事件
         mDialog = builder.setViewId(R.layout.dialog_share)
                 //设置dialogpadding
                 .setPaddingdp(0, 0, 0, 0)
@@ -211,34 +220,156 @@ public abstract class BaseActivity extends AppCompatActivity  {
             }
         });
         lookdetails_But.setOnClickListener(new View.OnClickListener() {
-            @Override
+/*
+           通过任务的task_state判断当前分享任务处于什么状态，分别判断进行跳转
+           1  未决定
+          2  任务中
+          3  审核中
+          4  已下架
+           6  待评价
+*/
+                  @Override
             public void onClick(View view) {
-                switch (task_type) {
-                    case "1":
-                        Intent ptIntent = new Intent(getApplicationContext(), PTPublishInTaskActivity.class);
-                        ptIntent.putExtra("taskId", id);
-                        startActivity(ptIntent);
-                        break;
+                if (TextUtils.equals(task_state, "2")) {
+                    switch (task_type) {
+                        case "1":
+                            Intent ptIntent = new Intent(getApplicationContext(), PTPublishInTaskActivity.class);
+                            ptIntent.putExtra("taskId", id);
+                            startActivity(ptIntent);
+                            break;
 
-                    case "2":
-                    case "5":
-                    case "6":
-                        Intent shIntent = new Intent(getApplicationContext(), SHPublishInTaskActivity.class);
-                        shIntent.putExtra("taskId", id);
-                        startActivity(shIntent);
-                        break;
+                        case "2":
+                        case "5":
+                        case "6":
+                            Intent shIntent = new Intent(getApplicationContext(), SHPublishInTaskActivity.class);
+                            shIntent.putExtra("taskId", id);
+                            startActivity(shIntent);
+                            break;
 
-                    case "3":
-                        Intent grIntent = new Intent(getApplicationContext(), GRPublishInTaskActivity.class);
-                        grIntent.putExtra("taskId", id);
-                        startActivity(grIntent);
-                        break;
+                        case "3":
+                            Intent grIntent = new Intent(getApplicationContext(), GRPublishInTaskActivity.class);
+                            grIntent.putExtra("taskId", id);
+                            startActivity(grIntent);
+                            break;
 
-                    case "4":
-                        Intent gzIntent = new Intent(getApplicationContext(), GZPublishInTaskActivity.class);
-                        gzIntent.putExtra("taskId", id);
-                        startActivity(gzIntent);
-                        break;
+                        case "4":
+                            Intent gzIntent = new Intent(getApplicationContext(), GZPublishInTaskActivity.class);
+                            gzIntent.putExtra("taskId", id);
+                            startActivity(gzIntent);
+                            break;
+                    }
+                } else if (TextUtils.equals(task_state, "3")) {
+                    switch (task_type) {
+                        case "1":
+                            Intent ptIntent = new Intent(getApplicationContext(), PTPublishAuditActivity.class);
+                            ptIntent.putExtra("taskId", id);
+                            startActivity(ptIntent);
+                            break;
+
+                        case "2":
+                        case "5":
+                        case "6":
+                            Intent shIntent = new Intent(getApplicationContext(), SHPublishAuditActivity.class);
+                            shIntent.putExtra("taskId", id);
+                            startActivity(shIntent);
+                            break;
+
+                        case "3":
+                            Intent grIntent = new Intent(getApplicationContext(), GRPublishAuditActivity.class);
+                            grIntent.putExtra("taskId", id);
+                            startActivity(grIntent);
+                            break;
+
+                        case "4":
+                            Intent gzIntent = new Intent(getApplicationContext(), GZPublishAuditActivity.class);
+                            gzIntent.putExtra("taskId", id);
+                            startActivity(gzIntent);
+                            break;
+                    }
+                } else if (TextUtils.equals(task_state, "6")) {
+                    switch (task_type) {
+                        case "1":
+                            Intent ptIntent = new Intent(getApplicationContext(), PTPublishAppraiseActivity.class);
+                            ptIntent.putExtra("taskId", id);
+                            startActivity(ptIntent);
+                            break;
+
+                        case "2":
+                        case "5":
+                        case "6":
+                            Intent shIntent = new Intent(getApplicationContext(), SHPublishAppraiseActivity.class);
+                            shIntent.putExtra("taskId", id);
+                            startActivity(shIntent);
+                            break;
+
+                        case "3":
+                            Intent grIntent = new Intent(getApplicationContext(), GRPublishAppraiseActivity.class);
+                            grIntent.putExtra("taskId", id);
+                            startActivity(grIntent);
+                            break;
+
+                        case "4":
+                            Intent gzIntent = new Intent(getApplicationContext(), GZPublishAppraiseActivity.class);
+                            gzIntent.putExtra("taskId", id);
+                            startActivity(gzIntent);
+                            break;
+                    }
+                } else if (TextUtils.equals(task_state, "4")) {
+                    switch (task_type) {
+                        case "1":
+                            Intent ptIntent = new Intent(getApplicationContext(), PTPublishOutActivity.class);
+                            ptIntent.putExtra("taskId", id);
+                            startActivity(ptIntent);
+                            break;
+
+                        case "2":
+                        case "5":
+                        case "6":
+                            Intent shIntent = new Intent(getApplicationContext(), SHPublishOutActivity.class);
+                            shIntent.putExtra("taskId", id);
+                            startActivity(shIntent);
+                            break;
+
+                        case "3":
+                            Intent grIntent = new Intent(getApplicationContext(), GRPublishOutActivity.class);
+                            grIntent.putExtra("taskId", id);
+                            startActivity(grIntent);
+                            break;
+
+                        case "4":
+                            Intent gzIntent = new Intent(getApplicationContext(), GZPublishOutActivity.class);
+                            gzIntent.putExtra("taskId", id);
+                            startActivity(gzIntent);
+                            break;
+                    }
+                } else {
+                    switch (task_type) {
+                        case "1":
+                            Intent ptIntent = new Intent(getApplicationContext(), PTTaskDetailsActivity.class);
+                            ptIntent.putExtra("taskId", id);
+                            startActivity(ptIntent);
+                            break;
+
+                        case "2":
+                        case "5":
+                        case "6":
+                            Intent shIntent = new Intent(getApplicationContext(), SHTaskDetailsActivity.class);
+                            shIntent.putExtra("taskId", id);
+                            startActivity(shIntent);
+                            break;
+
+                        case "3":
+                            Intent grIntent = new Intent(getApplicationContext(), GRTaskDetailsActivity.class);
+                            grIntent.putExtra("taskId", id);
+                            startActivity(grIntent);
+                            break;
+
+                        case "4":
+                            Intent gzIntent = new Intent(getApplicationContext(), GZTaskDetailsActivity.class);
+                            gzIntent.putExtra("taskId", id);
+                            startActivity(gzIntent);
+                            break;
+                    }
                 }
                 ShearUtils.fuShear(getApplicationContext(), "");
 
