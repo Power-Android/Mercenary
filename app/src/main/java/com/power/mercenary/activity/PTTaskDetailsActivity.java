@@ -7,6 +7,7 @@ import android.support.v4.widget.NestedScrollView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.EditText;
@@ -384,54 +385,17 @@ public class PTTaskDetailsActivity extends BaseActivity implements View.OnClickL
                     break;
             }
 
-//            switch (taskState) {
-//                case "2":
-//                    publishBtn.setText("任务中");
-//                    publishBtn.setOnClickListener(null);
-//                    tuijianTabLl.setVisibility(View.GONE);
-//                    recycler_content.setVisibility(View.GONE);
-//                    actTaskDetailsSMsg.setVisibility(View.VISIBLE);
-//                    if (datas.getXuanding() != null) {
-//                        Glide.with(this)
-//                                .load(datas.getXuanding().getHead_img())
-//                                .into(actTaskDetaiilsPrivateMsg);
-//
-//                        actTaskDetaiilsPrivateName.setText(datas.getXuanding().getName());
-//                    }
-//                    break;
-//                case "3":
-//                    publishBtn.setText("审核中");
-//                    publishBtn.setOnClickListener(null);
-//                    tuijianTabLl.setVisibility(View.GONE);
-//                    recycler_content.setVisibility(View.GONE);
-//                    actTaskDetailsSMsg.setVisibility(View.VISIBLE);
-//                    if (datas.getXuanding() != null) {
-//                        Glide.with(this)
-//                                .load(datas.getXuanding().getHead_img())
-//                                .into(actTaskDetaiilsPrivateMsg);
-//
-//                        actTaskDetaiilsPrivateName.setText(datas.getXuanding().getName());
-//                    }
-//                    break;
-//                case "6":
-//                    publishBtn.setText("待评价");
-//                    publishBtn.setOnClickListener(null);
-//                    tuijianTabLl.setVisibility(View.GONE);
-//                    recycler_content.setVisibility(View.GONE);
-//                    actTaskDetailsSMsg.setVisibility(View.VISIBLE);
-//                    if (datas.getXuanding() != null) {
-//                        Glide.with(this)
-//                                .load(datas.getXuanding().getHead_img())
-//                                .into(actTaskDetaiilsPrivateMsg);
-//
-//                        actTaskDetaiilsPrivateName.setText(datas.getXuanding().getName());
-//                    }
-//                    break;
-//            }
+            if (datas.getApply().equals("1") ) {
 
-            if (datas.getApply().equals("1")) {
                 publishBtn.setText("已报名");
                 publishBtn.setOnClickListener(null);
+            }else{
+                if (datas.getTask_shaixuan().equals("0")) {
+                    publishBtn.setText("我要接单");
+                }else{
+                    publishBtn.setText("我要报名");
+
+                }
             }
         }
     }

@@ -775,6 +775,4 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 break;
         }
     }
-    //推送
-
 }

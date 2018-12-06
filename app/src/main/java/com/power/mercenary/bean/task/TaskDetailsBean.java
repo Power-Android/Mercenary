@@ -12,13 +12,13 @@ public class TaskDetailsBean {
      * publisher_id : 1
      * publish_time : 0
      * task_status : 0 用户发布后台还没有审核通过
-     *               1 审核通过在报名中 未决定
-     *               2 已选定，任务中
-     *               3 用户完成等待发布者审核 ，审核中
-     *               4 用户下架任务
-     *               5 后台审核未通过
-     *               6 发布者审核通过，待评价 。
-     *               7 已评价
+     * 1 审核通过在报名中 未决定
+     * 2 已选定，任务中
+     * 3 用户完成等待发布者审核 ，审核中
+     * 4 用户下架任务
+     * 5 后台审核未通过
+     * 6 发布者审核通过，待评价 。
+     * 7 已评价
      * task_tag : 简单,便宜
      * task_description : 任务详情
      * task_purpose : 任务目的
@@ -50,8 +50,17 @@ public class TaskDetailsBean {
         this.task_no = task_no;
     }
 
-    private String  task_no;
+    private String task_no;
 
+    public String getTask_shaixuan() {
+        return task_shaixuan;
+    }
+
+    public void setTask_shaixuan(String task_shaixuan) {
+        this.task_shaixuan = task_shaixuan;
+    }
+
+    private String task_shaixuan;
     private String pay_amount;
     private String publisher_id;
     private String task_person_id;
