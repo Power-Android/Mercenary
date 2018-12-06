@@ -9,9 +9,10 @@ import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
-import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -32,13 +33,11 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 /**
- *
  * 任务
- *
  */
 
 
-public class PubShenghuoActivity extends BaseActivity implements PubTaskPresenter.PubTaskCallBack {
+public class PubShenghuoActivity extends BaseActivity implements PubTaskPresenter.PubTaskCallBack, RadioGroup.OnCheckedChangeListener {
 
     @BindView(R.id.title_back_iv)
     ImageView titleBackIv;
@@ -56,8 +55,8 @@ public class PubShenghuoActivity extends BaseActivity implements PubTaskPresente
     RecyclerView requireRecycler;
     @BindView(R.id.add_require_tv)
     TextView addRequireTv;
-    @BindView(R.id.checkbox)
-    CheckBox checkbox;
+    @BindView(R.id.Rb)
+    RadioButton checkbox;
     @BindView(R.id.task_money_et)
     EditText taskMoneyEt;
     @BindView(R.id.validity_time_et)
@@ -86,6 +85,10 @@ public class PubShenghuoActivity extends BaseActivity implements PubTaskPresente
     RecyclerView newbiaoqianRecycler;
     @BindView(R.id.add_newbiaoqian_tv)
     TextView addNewbiaoqianTv;
+    @BindView(R.id.Rb_no)
+    RadioButton checkboxNo;
+    @BindView(R.id.saixuan_Rg)
+    RadioGroup saixuanRg;
     private ArrayList<String> requireList;
     private ArrayList<String> biaoqianList;
     private RequireAdapter requireAdapter;
@@ -97,21 +100,22 @@ public class PubShenghuoActivity extends BaseActivity implements PubTaskPresente
     private String taskType;
     private String childTaskType;
     private NewbqAdapter newbqAdapter;
+    private String task_shaixuan;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_shenghuo_pub);
         ButterKnife.bind(this);
-
         taskType = getIntent().getStringExtra("TaskType");
         childTaskType = getIntent().getStringExtra("ChildTaskType");
-        Log.d("PubShenghuoActivity", taskType + "--------" + childTaskType + "------");
         initView();
         presenter = new PubTaskPresenter(this, this);
     }
 
     private void initView() {
+        saixuanRg.setOnCheckedChangeListener(this);
+
         taskMudiEt.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -163,9 +167,6 @@ public class PubShenghuoActivity extends BaseActivity implements PubTaskPresente
         requireRecycler.setLayoutManager(new LinearLayoutManager(mContext));
         requireAdapter = new RequireAdapter(R.layout.item_require_layout, requireList);
         requireRecycler.setAdapter(requireAdapter);
-
-
-
         biaoqianList = new ArrayList<>();
         biaoqianList.add("");
         newbiaoqianRecycler.setNestedScrollingEnabled(false);
@@ -180,6 +181,17 @@ public class PubShenghuoActivity extends BaseActivity implements PubTaskPresente
         Toast.makeText(mContext, "成功", Toast.LENGTH_SHORT).show();
     }
 
+    @Override
+    public void onCheckedChanged(RadioGroup radioGroup, int i) {
+        switch (i) {
+            case R.id.Rb:
+                task_shaixuan = "1";
+                break;
+            case R.id.Rb_no:
+                task_shaixuan = "0";
+                break;
+        }
+    }
 
 
     private class RequireAdapter extends BaseQuickAdapter<String, BaseViewHolder> {
@@ -276,7 +288,7 @@ public class PubShenghuoActivity extends BaseActivity implements PubTaskPresente
 
 
     @OnClick({R.id.title_back_iv, R.id.title_content_right_tv, R.id.add_require_tv, R.id.add_biaoqian_tv,
-            R.id.del_biaoqian_tv, R.id.detail_zishu_tv,R.id.add_newbiaoqian_tv})
+            R.id.del_biaoqian_tv, R.id.detail_zishu_tv, R.id.add_newbiaoqian_tv})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.title_back_iv:
@@ -330,8 +342,8 @@ public class PubShenghuoActivity extends BaseActivity implements PubTaskPresente
                  */
                 String s = MyUtils.listToString(requireList);
                 String s1 = MyUtils.listToString(biaoqianList);
-
-                presenter.publishTask("", taskType, childTaskType, taskNameEt.getText().toString(), s1, "",(Double.parseDouble(taskMoneyEt.getText().toString())*100)+"",
+                //判断筛选与不筛选按钮的状态是否选中0无需筛选接单人 1筛选接单人
+                presenter.publishTask("", taskType, childTaskType, task_shaixuan, taskNameEt.getText().toString(), s1, "", (Double.parseDouble(taskMoneyEt.getText().toString()) * 100) + "",
                         validityTimeEt.getText().toString(), taskDetailEt.getText().toString(), taskMudiEt.getText().toString(), s,
                         "", "", "", "1530961214",
                         "开始地址", "目的地址", "");

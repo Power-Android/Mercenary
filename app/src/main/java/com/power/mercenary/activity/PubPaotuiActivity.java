@@ -10,6 +10,7 @@ import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -388,8 +389,9 @@ public class PubPaotuiActivity extends BaseActivity implements PubTaskPresenter.
                     Toast.makeText(mContext, "请输入任务标签", Toast.LENGTH_SHORT).show();
                     return;
                 }
+
                 String s1 = MyUtils.listToString(biaoqianList);
-                presenter.publishTask("", taskType, childTaskType, taskNameEt.getText().toString(), s1, "", (Double.parseDouble(moneyEt.getText().toString())*100)+"",
+                presenter.publishTask("", taskType, childTaskType,"", taskNameEt.getText().toString(), s1, "", (Double.parseDouble(moneyEt.getText().toString())*100)+"",
                         validityTimeEt.getText().toString(), "", taskMudiEt.getText().toString(), "",
                         goodsNameEt.getText().toString(), numEt.getText().toString(), "", MyUtils.Timetodata(validitySongdaEt.getText().toString()),
                         startAddressTv.getText().toString(), endAddressTv.getText().toString(), biaoqianEt.getText().toString());

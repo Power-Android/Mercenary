@@ -14,6 +14,7 @@ import android.widget.AdapterView;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -45,7 +46,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class PubGerendingzhiActivity extends BaseActivity implements PubTaskPresenter.PubTaskCallBack, PicNumsPresenter.PubTaskCallBack {
+public class PubGerendingzhiActivity extends BaseActivity implements PubTaskPresenter.PubTaskCallBack, PicNumsPresenter.PubTaskCallBack, RadioGroup.OnCheckedChangeListener {
 
     @BindView(R.id.title_back_iv)
     ImageView titleBackIv;
@@ -55,8 +56,10 @@ public class PubGerendingzhiActivity extends BaseActivity implements PubTaskPres
     TextView titleContentRightTv;
     @BindView(R.id.task_name_et)
     EditText taskNameEt;
-    @BindView(R.id.checkbox)
+    @BindView(R.id.Rb)
     CheckBox checkbox;
+    @BindView(R.id.Rb_no)
+    CheckBox checkbox_no;
     @BindView(R.id.task_money_et)
     EditText taskMoneyEt;
     @BindView(R.id.require_recycler)
@@ -87,6 +90,8 @@ public class PubGerendingzhiActivity extends BaseActivity implements PubTaskPres
     RecyclerView newbiaoqianRecycler;
     @BindView(R.id.add_newbiaoqian_tv)
     TextView addNewbiaoqianTv;
+    @BindView(R.id.saixuan_Rg)
+    RadioGroup saixuanRg;
     private ArrayList<String> requireList;
     private ArrayList<String> biaoqianList;
     private RequireAdapter requireAdapter;
@@ -108,6 +113,7 @@ public class PubGerendingzhiActivity extends BaseActivity implements PubTaskPres
     private String imgurl;
     private ArrayList<String> mpostUrl = new ArrayList<>();
     private NewbqAdapter newbqAdapter;
+    private String task_shaixuan = "1";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -121,6 +127,7 @@ public class PubGerendingzhiActivity extends BaseActivity implements PubTaskPres
     }
 
     private void initView() {
+        saixuanRg.setOnCheckedChangeListener(this);
         taskDesEt.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -184,6 +191,19 @@ public class PubGerendingzhiActivity extends BaseActivity implements PubTaskPres
         }
         imgurl = MyUtils.listToString(mpostUrl);
     }
+
+    @Override
+    public void onCheckedChanged(RadioGroup radioGroup, int i) {
+        switch (i) {
+            case R.id.Rb:
+                task_shaixuan = "1";
+                break;
+            case R.id.Rb_no:
+                task_shaixuan = "0";
+                break;
+        }
+    }
+
     private class NewbqAdapter extends BaseQuickAdapter<String, BaseViewHolder> {
 
         public NewbqAdapter(int layoutResId, @Nullable List<String> data) {
@@ -469,10 +489,11 @@ public class PubGerendingzhiActivity extends BaseActivity implements PubTaskPres
                 String s = MyUtils.listToString(requireList);
                 String s1 = MyUtils.listToString(biaoqianList);
 //                String s2 = MyUtils.listToString(fileList);
+                //判断筛选与不筛选按钮的状态是否选中0无需筛选接单人 1筛选接单人
 
                 picNumsPresenter.publishTask(fileList);//上传多张图片
 
-                presenter.publishTask("", taskType, childTaskType, taskNameEt.getText().toString(), s1, imgurl, (Double.parseDouble(taskMoneyEt.getText().toString())*100)+"",
+                presenter.publishTask("", taskType, childTaskType, task_shaixuan,taskNameEt.getText().toString(), s1, imgurl, (Double.parseDouble(taskMoneyEt.getText().toString())*100)+"",
                         "", taskDesEt.getText().toString(), "", s,
                         "", "", "", "",
                         "", "", "");

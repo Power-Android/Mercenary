@@ -192,11 +192,8 @@ public class HomeFragment extends BaseFragment implements MainPresenter.MainCall
         mainPresenter.getBannerList(1);
         initData();
         EventBus.getDefault().register(this);
-
-
         return view;
     }
-
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onRecevierEvent(EventUtils event) {
         switch (event.getType()) {

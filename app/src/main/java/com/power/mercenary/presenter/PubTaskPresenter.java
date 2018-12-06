@@ -45,15 +45,16 @@ public class PubTaskPresenter {
      * @param end_address      目的地址
      * @param other_request    其它要求
      */
-    public void publishTask(String task_city,String task_type, String task_type_child, String task_name, String task_tag, String task_img, String pay_amount,
+    public void publishTask(String task_city,String task_type, String task_type_child,String task_shaixuan, String task_name, String task_tag, String task_img, String pay_amount,
                             String validity_time, String task_description, String task_purpose, String task_request, String itemname,
                             String numbers, String transport, String delivery_time, String begin_address, String end_address, String other_request) {
 
-        new HttpManager<ResponseBean<Void>>("Home/Task/addtask", this)
+        new HttpManager<ResponseBean<Void>>("Home/Task/newaddtask", this)
                 .addParams("token", MyApplication.getUserToken())
                 .addParams("task_city", task_city)
                 .addParams("task_type", task_type)
                 .addParams("task_type_child", task_type_child)
+                .addParams("task_shaixuan", task_shaixuan)
                 .addParams("task_name", task_name)
                 .addParams("task_tag", task_tag)
                 .addParams("task_img", task_img)
