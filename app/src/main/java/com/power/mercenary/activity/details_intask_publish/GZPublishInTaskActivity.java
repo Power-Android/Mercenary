@@ -526,7 +526,7 @@ public class GZPublishInTaskActivity extends BaseActivity implements View.OnClic
 
     @Override
     public void toPayRequest(PayBean data) {
-        WebActivity.invoke(this, data.getUrl(), getString(R.string.pay_title));
+        WebActivity.invoke(this,data.getUrl(), getString(R.string.pay_title));
     }
 
     @OnClick({R.id.act_task_detaiils_collectionBtn, R.id.act_task_detaiils_complainBtn})

@@ -5,9 +5,6 @@ package com.power.mercenary.bean;
  */
 public class PayBean {
 
-    /**
-     * url : https://plus.yeepay.com/cashier/cashier/show?externalno=ODCSM201808031055340563JbIZxI&isWhiteMerchant=true
-     */
 
     private String url;
 
@@ -18,4 +15,5 @@ public class PayBean {
     public void setUrl(String url) {
         this.url = url;
     }
+
 }

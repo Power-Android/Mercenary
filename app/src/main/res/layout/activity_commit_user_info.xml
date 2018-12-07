@@ -83,12 +83,19 @@
                         android:gravity="center_vertical"
                         android:orientation="horizontal">
 
-                        <com.power.mercenary.view.CircleImageView
+                      <!--  <com.power.mercenary.view.CircleImageView
                             android:id="@+id/act_setUp_icon"
                             android:layout_width="50dp"
                             android:layout_height="50dp"
                             android:background="@drawable/perch_avatar"
-                            android:scaleType="centerCrop" />
+                            android:scaleType="centerCrop" />-->
+                        <ImageView
+                            android:id="@+id/act_setUp_icon"
+                            android:layout_width="50dp"
+                            android:layout_height="50dp"
+                            android:src="@drawable/perch_avatar"
+                            android:scaleType="centerCrop"
+                            />
 
                         <ImageView
                             android:layout_width="wrap_content"

@@ -8,6 +8,7 @@ import android.support.v4.widget.NestedScrollView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.View;
@@ -314,7 +315,7 @@ public class GZTaskDetailsActivity extends BaseActivity implements View.OnClickL
                     return;
                 }
 
-                if (!TextUtils.equals(MyApplication.getUserId(), publisherId)) {
+                if (!TextUtils.equals(MyApplication.getUserId(), publisherId)  ) {
                     presenter.applyRequest(taskId, "", "");
                 } else {
                     TUtils.showCustom(this, "发布者自己不能报名");
@@ -478,7 +479,7 @@ public class GZTaskDetailsActivity extends BaseActivity implements View.OnClickL
 
     @Override
     public void toPayRequest(PayBean data) {
-        WebActivity.invoke(this, data.getUrl(), getString(R.string.pay_title));
+        WebActivity.invoke(this,data.getUrl(), getString(R.string.pay_title));
     }
 
     @OnClick({R.id.act_task_detaiils_collectionBtn, R.id.act_task_detaiils_complainBtn})

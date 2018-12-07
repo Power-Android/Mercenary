@@ -46,7 +46,7 @@ public class WebActivity extends BaseActivity {
         String result = getIntent().getStringExtra("result");
         String title = getIntent().getStringExtra("title");
         webView = (WebView) findViewById(R.id.webView);
-        webTitle.setText("详情");
+        webTitle.setText("商品支付");
         WebSettings webSettings = webView.getSettings();
         webSettings.setJavaScriptEnabled(true);
         webView.setWebChromeClient(new WebChromeClient() {
@@ -74,20 +74,15 @@ public class WebActivity extends BaseActivity {
             }
         });
         webView.loadUrl(result);
-
-
     }
-
     @OnClick(R.id.left_back)
     public void onViewClicked() {
         finish();
     }
-
     public static void invoke(Context context, String result, String title){
         Intent intent = new Intent(context, WebActivity.class);
         intent.putExtra("result", result);
         intent.putExtra("title", title);
         context.startActivity(intent);
-
     }
 }

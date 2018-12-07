@@ -14,6 +14,7 @@ import android.widget.AdapterView;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -26,12 +27,22 @@ import com.luck.picture.lib.compress.Luban;
 import com.luck.picture.lib.config.PictureConfig;
 import com.luck.picture.lib.config.PictureMimeType;
 import com.luck.picture.lib.entity.LocalMedia;
+import com.lzy.okgo.model.Response;
 import com.power.mercenary.R;
 import com.power.mercenary.adapter.GridViewAddImgesAdpter;
 import com.power.mercenary.base.BaseActivity;
+import com.power.mercenary.bean.PayBean;
 import com.power.mercenary.bean.PicNumsBean;
+import com.power.mercenary.bean.mytask.PublishTaskBean;
+import com.power.mercenary.bean.task.ApplyListBean;
+import com.power.mercenary.bean.task.MsgBean;
+import com.power.mercenary.bean.task.MsgListBean;
+import com.power.mercenary.bean.task.TaskDetailsBean;
+import com.power.mercenary.http.ResponseBean;
 import com.power.mercenary.presenter.PicNumsPresenter;
 import com.power.mercenary.presenter.PubTaskPresenter;
+import com.power.mercenary.presenter.TaskDetailsPresenter;
+import com.power.mercenary.presenter.publish.PublishPresenter;
 import com.power.mercenary.utils.MyUtils;
 import com.power.mercenary.view.BaseDialog;
 import com.power.mercenary.view.MyGridView;
@@ -46,7 +57,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class PubGerendingzhiActivity extends BaseActivity implements PubTaskPresenter.PubTaskCallBack, PicNumsPresenter.PubTaskCallBack, RadioGroup.OnCheckedChangeListener {
+public class PubGerendingzhiActivity extends BaseActivity implements PubTaskPresenter.PubTaskCallBack, PicNumsPresenter.PubTaskCallBack, RadioGroup.OnCheckedChangeListener,PublishPresenter.PublishCallBack ,TaskDetailsPresenter.TaskDetailsCallBack {
 
     @BindView(R.id.title_back_iv)
     ImageView titleBackIv;
@@ -57,9 +68,9 @@ public class PubGerendingzhiActivity extends BaseActivity implements PubTaskPres
     @BindView(R.id.task_name_et)
     EditText taskNameEt;
     @BindView(R.id.Rb)
-    CheckBox checkbox;
+    RadioButton checkbox;
     @BindView(R.id.Rb_no)
-    CheckBox checkbox_no;
+    RadioButton checkbox_no;
     @BindView(R.id.task_money_et)
     EditText taskMoneyEt;
     @BindView(R.id.require_recycler)
@@ -202,6 +213,85 @@ public class PubGerendingzhiActivity extends BaseActivity implements PubTaskPres
                 task_shaixuan = "0";
                 break;
         }
+    }
+
+    @Override
+    public void getTaskDetails(TaskDetailsBean datas) {
+
+    }
+
+    @Override
+    public void publishMsg(MsgBean datas) {
+
+    }
+
+    @Override
+    public void getApplyList(List<ApplyListBean> datas) {
+
+    }
+
+    @Override
+    public void getMsgList(List<MsgListBean> datas) {
+
+    }
+
+    @Override
+    public void applyRequest() {
+
+    }
+
+    @Override
+    public void changePeople(Response<ResponseBean<Void>> response, String avatar, String name) {
+
+    }
+
+    @Override
+    public void changeCollection() {
+
+    }
+
+    @Override
+    public void getMsgListFail() {
+
+    }
+
+    @Override
+    public void toPayRequest(PayBean data) {
+        WebActivity.invoke(this,data.getUrl(),"");
+        finish();
+        Toast.makeText(this,"发布成功",Toast.LENGTH_LONG).show();
+    }
+
+    @Override
+    public void getPublishTaskList(List<PublishTaskBean.DataBean> datas) {
+        //请求支付接口
+        TaskDetailsPresenter taskDetailsPresenter = new TaskDetailsPresenter(this, this);
+        taskDetailsPresenter.toPay(datas.get(0).getId());
+    }
+
+    @Override
+    public void getPublishTaskListFail() {
+
+    }
+
+    @Override
+    public void putTaskRequestSuccess(int position) {
+
+    }
+
+    @Override
+    public void outTaskRequestSuccess(int position) {
+
+    }
+
+    @Override
+    public void auditTaskRequestSuccess(int type, int position) {
+
+    }
+
+    @Override
+    public void appraiseRequestSuccess() {
+
     }
 
     private class NewbqAdapter extends BaseQuickAdapter<String, BaseViewHolder> {
@@ -535,12 +625,20 @@ public class PubGerendingzhiActivity extends BaseActivity implements PubTaskPres
 
     @Override
     public void publishTask() {
-        Toast.makeText(mContext, "发布成功", Toast.LENGTH_SHORT).show();
-        finish();
+        if (TextUtils.equals(task_shaixuan,"0")){
+            Toast.makeText(mContext, "请先支付", Toast.LENGTH_SHORT).show();
+            //发发布完任务之后请求自己发布的任务的接口获取任务的id
+            PublishPresenter publishPresenter = new PublishPresenter(this, this);
+            publishPresenter.getPublishTaskList(1);
+        }else{
+            finish();
+            Toast.makeText(this,"发布完成",Toast.LENGTH_LONG).show();
+        }
     }
 
     @Override
     public void testTask() {
+
     }
 
 }

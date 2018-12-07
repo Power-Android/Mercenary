@@ -19,9 +19,19 @@ import android.widget.Toast;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
+import com.lzy.okgo.model.Response;
 import com.power.mercenary.R;
 import com.power.mercenary.base.BaseActivity;
+import com.power.mercenary.bean.PayBean;
+import com.power.mercenary.bean.mytask.PublishTaskBean;
+import com.power.mercenary.bean.task.ApplyListBean;
+import com.power.mercenary.bean.task.MsgBean;
+import com.power.mercenary.bean.task.MsgListBean;
+import com.power.mercenary.bean.task.TaskDetailsBean;
+import com.power.mercenary.http.ResponseBean;
 import com.power.mercenary.presenter.PubTaskPresenter;
+import com.power.mercenary.presenter.TaskDetailsPresenter;
+import com.power.mercenary.presenter.publish.PublishPresenter;
 import com.power.mercenary.utils.MyUtils;
 
 import java.util.ArrayList;
@@ -37,7 +47,7 @@ import butterknife.OnClick;
  */
 
 
-public class PubShenghuoActivity extends BaseActivity implements PubTaskPresenter.PubTaskCallBack, RadioGroup.OnCheckedChangeListener {
+public  class PubShenghuoActivity extends BaseActivity implements PubTaskPresenter.PubTaskCallBack, RadioGroup.OnCheckedChangeListener,PublishPresenter.PublishCallBack ,TaskDetailsPresenter.TaskDetailsCallBack{
 
     @BindView(R.id.title_back_iv)
     ImageView titleBackIv;
@@ -100,8 +110,7 @@ public class PubShenghuoActivity extends BaseActivity implements PubTaskPresente
     private String taskType;
     private String childTaskType;
     private NewbqAdapter newbqAdapter;
-    private String task_shaixuan;
-
+    private String task_shaixuan="1";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -111,6 +120,7 @@ public class PubShenghuoActivity extends BaseActivity implements PubTaskPresente
         childTaskType = getIntent().getStringExtra("ChildTaskType");
         initView();
         presenter = new PubTaskPresenter(this, this);
+
     }
 
     private void initView() {
@@ -119,7 +129,6 @@ public class PubShenghuoActivity extends BaseActivity implements PubTaskPresente
         taskMudiEt.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
             }
 
             @Override
@@ -191,6 +200,86 @@ public class PubShenghuoActivity extends BaseActivity implements PubTaskPresente
                 task_shaixuan = "0";
                 break;
         }
+    }
+
+    @Override
+    public void getPublishTaskList(List<PublishTaskBean.DataBean> datas) {
+        //请求支付接口
+        TaskDetailsPresenter taskDetailsPresenter = new TaskDetailsPresenter(this, this);
+        taskDetailsPresenter.toPay(datas.get(0).getId());
+
+    }
+
+    @Override
+    public void getPublishTaskListFail() {
+
+    }
+
+    @Override
+    public void putTaskRequestSuccess(int position) {
+
+    }
+
+    @Override
+    public void outTaskRequestSuccess(int position) {
+
+    }
+
+    @Override
+    public void auditTaskRequestSuccess(int type, int position) {
+
+    }
+
+    @Override
+    public void appraiseRequestSuccess() {
+
+    }
+
+    @Override
+    public void getTaskDetails(TaskDetailsBean datas) {
+
+    }
+
+    @Override
+    public void publishMsg(MsgBean datas) {
+
+    }
+
+    @Override
+    public void getApplyList(List<ApplyListBean> datas) {
+
+    }
+
+    @Override
+    public void getMsgList(List<MsgListBean> datas) {
+
+    }
+
+    @Override
+    public void applyRequest() {
+
+    }
+
+    @Override
+    public void changePeople(Response<ResponseBean<Void>> response, String avatar, String name) {
+
+    }
+
+    @Override
+    public void changeCollection() {
+
+    }
+
+    @Override
+    public void getMsgListFail() {
+
+    }
+
+    @Override
+    public void toPayRequest(PayBean data) {
+            WebActivity.invoke(this,data.getUrl(),"");
+            finish();
+            Toast.makeText(this,"发布成功",Toast.LENGTH_LONG).show();
     }
 
 
@@ -342,11 +431,10 @@ public class PubShenghuoActivity extends BaseActivity implements PubTaskPresente
                  */
                 String s = MyUtils.listToString(requireList);
                 String s1 = MyUtils.listToString(biaoqianList);
-                //判断筛选与不筛选按钮的状态是否选中0无需筛选接单人 1筛选接单人
-                presenter.publishTask("", taskType, childTaskType, task_shaixuan, taskNameEt.getText().toString(), s1, "", (Double.parseDouble(taskMoneyEt.getText().toString()) * 100) + "",
-                        validityTimeEt.getText().toString(), taskDetailEt.getText().toString(), taskMudiEt.getText().toString(), s,
-                        "", "", "", "1530961214",
-                        "开始地址", "目的地址", "");
+                    presenter.publishTask("", taskType, childTaskType, task_shaixuan, taskNameEt.getText().toString(), s1, "", (Double.parseDouble(taskMoneyEt.getText().toString()) * 100) + "",
+                            validityTimeEt.getText().toString(), taskDetailEt.getText().toString(), taskMudiEt.getText().toString(), s,
+                            "", "", "", "1530961214",
+                            "开始地址", "目的地址", "");
                 break;
             case R.id.add_require_tv:
                 requireList.add("");
@@ -367,8 +455,16 @@ public class PubShenghuoActivity extends BaseActivity implements PubTaskPresente
 
     @Override
     public void publishTask() {
-        Toast.makeText(mContext, "发布成功", Toast.LENGTH_SHORT).show();
-        finish();
+        if (TextUtils.equals(task_shaixuan,"0")){
+            Toast.makeText(mContext, "请先支付", Toast.LENGTH_SHORT).show();
+            //发发布完任务之后请求自己发布的任务的接口获取任务的id
+            PublishPresenter publishPresenter = new PublishPresenter(this, this);
+            publishPresenter.getPublishTaskList(1);
+        }else{
+            finish();
+            Toast.makeText(this,"发布完成",Toast.LENGTH_LONG).show();
+        }
+
     }
 
 }

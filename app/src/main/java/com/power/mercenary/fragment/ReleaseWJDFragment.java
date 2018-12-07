@@ -137,7 +137,6 @@ public class ReleaseWJDFragment extends BaseFragment implements PublishPresenter
                 ptIntent.putExtra("taskId", id);
                 startActivity(ptIntent);
                 break;
-
             case "2":
             case "5":
             case "6":

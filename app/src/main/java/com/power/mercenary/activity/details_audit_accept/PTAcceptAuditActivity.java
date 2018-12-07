@@ -528,7 +528,7 @@ public class PTAcceptAuditActivity extends BaseActivity implements View.OnClickL
 
     @Override
     public void toPayRequest(PayBean data) {
-        WebActivity.invoke(this, data.getUrl(), getString(R.string.pay_title));
+        WebActivity.invoke(this,data.getUrl(), getString(R.string.pay_title));
     }
 
     @OnClick({R.id.act_task_detaiils_collectionBtn, R.id.act_task_detaiils_complainBtn})

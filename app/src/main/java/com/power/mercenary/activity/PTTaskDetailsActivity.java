@@ -453,17 +453,6 @@ public class PTTaskDetailsActivity extends BaseActivity implements View.OnClickL
             if (response.body().code == 101) {
                 presenter.toPay(taskId);
             } else {
-//                publishBtn.setText("任务中");
-//                publishBtn.setOnClickListener(null);
-//                tuijianTabLl.setVisibility(View.GONE);
-//                recycler_content.setVisibility(View.GONE);
-//                actTaskDetailsSMsg.setVisibility(View.VISIBLE);
-//                Glide.with(this)
-//                        .load(Urls.BASEIMGURL + avatar)
-//                        .into(actTaskDetaiilsPrivateMsg);
-//
-//                actTaskDetaiilsPrivateName.setText(name);
-
                 presenter.getApplyList(taskId, page);
                 TUtils.showCustom(this, "操作成功");
             }

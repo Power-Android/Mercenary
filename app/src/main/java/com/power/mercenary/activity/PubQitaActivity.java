@@ -19,9 +19,19 @@ import android.widget.Toast;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
+import com.lzy.okgo.model.Response;
 import com.power.mercenary.R;
 import com.power.mercenary.base.BaseActivity;
+import com.power.mercenary.bean.PayBean;
+import com.power.mercenary.bean.mytask.PublishTaskBean;
+import com.power.mercenary.bean.task.ApplyListBean;
+import com.power.mercenary.bean.task.MsgBean;
+import com.power.mercenary.bean.task.MsgListBean;
+import com.power.mercenary.bean.task.TaskDetailsBean;
+import com.power.mercenary.http.ResponseBean;
 import com.power.mercenary.presenter.PubTaskPresenter;
+import com.power.mercenary.presenter.TaskDetailsPresenter;
+import com.power.mercenary.presenter.publish.PublishPresenter;
 import com.power.mercenary.utils.MyUtils;
 
 import java.util.ArrayList;
@@ -37,7 +47,7 @@ import butterknife.OnClick;
  *
  */
 
-public class PubQitaActivity extends BaseActivity implements PubTaskPresenter.PubTaskCallBack, RadioGroup.OnCheckedChangeListener {
+public class PubQitaActivity extends BaseActivity implements PubTaskPresenter.PubTaskCallBack, RadioGroup.OnCheckedChangeListener,PublishPresenter.PublishCallBack ,TaskDetailsPresenter.TaskDetailsCallBack  {
     @BindView(R.id.saixuan_Rg)
     RadioGroup saixuanRg;
     @BindView(R.id.title_back_iv)
@@ -176,8 +186,15 @@ public class PubQitaActivity extends BaseActivity implements PubTaskPresenter.Pu
 
     @Override
     public void publishTask() {
-        Toast.makeText(mContext, "发布成功", Toast.LENGTH_SHORT).show();
-        finish();
+        if (TextUtils.equals(task_shaixuan,"0")){
+            Toast.makeText(mContext, "请先支付", Toast.LENGTH_SHORT).show();
+            //发发布完任务之后请求自己发布的任务的接口获取任务的id
+            PublishPresenter publishPresenter = new PublishPresenter(this, this);
+            publishPresenter.getPublishTaskList(1);
+        }else{
+            finish();
+            Toast.makeText(this,"发布完成",Toast.LENGTH_LONG).show();
+        }
     }
 
     @Override
@@ -195,6 +212,85 @@ public class PubQitaActivity extends BaseActivity implements PubTaskPresenter.Pu
                 task_shaixuan = "0";
                 break;
         }
+
+    }
+
+    @Override
+    public void getTaskDetails(TaskDetailsBean datas) {
+
+    }
+
+    @Override
+    public void publishMsg(MsgBean datas) {
+
+    }
+
+    @Override
+    public void getApplyList(List<ApplyListBean> datas) {
+
+    }
+
+    @Override
+    public void getMsgList(List<MsgListBean> datas) {
+
+    }
+
+    @Override
+    public void applyRequest() {
+
+    }
+
+    @Override
+    public void changePeople(Response<ResponseBean<Void>> response, String avatar, String name) {
+
+    }
+
+    @Override
+    public void changeCollection() {
+
+    }
+
+    @Override
+    public void getMsgListFail() {
+
+    }
+
+    @Override
+    public void toPayRequest(PayBean data) {
+        WebActivity.invoke(this,data.getUrl(),"");
+        finish();
+        Toast.makeText(this,"发布成功",Toast.LENGTH_LONG).show();
+    }
+
+    @Override
+    public void getPublishTaskList(List<PublishTaskBean.DataBean> datas) {
+        //请求支付接口
+        TaskDetailsPresenter taskDetailsPresenter = new TaskDetailsPresenter(this, this);
+        taskDetailsPresenter.toPay(datas.get(0).getId());
+    }
+
+    @Override
+    public void getPublishTaskListFail() {
+
+    }
+
+    @Override
+    public void putTaskRequestSuccess(int position) {
+
+    }
+
+    @Override
+    public void outTaskRequestSuccess(int position) {
+
+    }
+
+    @Override
+    public void auditTaskRequestSuccess(int type, int position) {
+
+    }
+
+    @Override
+    public void appraiseRequestSuccess() {
 
     }
 

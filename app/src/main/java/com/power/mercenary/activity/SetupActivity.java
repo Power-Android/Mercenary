@@ -52,7 +52,7 @@ import io.reactivex.schedulers.Schedulers;
 
 /**
  * Created by Administrator on 2018/3/22.
- *
+ * <p>
  * 个人信息
  */
 
@@ -323,19 +323,19 @@ public class SetupActivity extends BaseActivity implements View.OnClickListener,
     }
 
     private void alertExitDialog() {//弹出提示框方法
-            AlertDialog.Builder builder = new AlertDialog.Builder(SetupActivity.this);
-            View view = View
-                    .inflate(SetupActivity.this, R.layout.dialog_shenhe, null);
-            builder.setView(view);
-            builder.setCancelable(true);
-            TextView hint_tv = view.findViewById(R.id.hint_tv);
-            TextView tv_sure = view.findViewById(R.id.tv_sure);
-            TextView tv_cancle = view.findViewById(R.id.tv_cancle);
-            hint_tv.setText("您确定要退出登陆吗？");
-            tv_sure.setOnClickListener(this);
-            tv_cancle.setOnClickListener(this);
-            alertDialog = builder.create();
-            alertDialog.show();
+        AlertDialog.Builder builder = new AlertDialog.Builder(SetupActivity.this);
+        View view = View
+                .inflate(SetupActivity.this, R.layout.dialog_shenhe, null);
+        builder.setView(view);
+        builder.setCancelable(true);
+        TextView hint_tv = view.findViewById(R.id.hint_tv);
+        TextView tv_sure = view.findViewById(R.id.tv_sure);
+        TextView tv_cancle = view.findViewById(R.id.tv_cancle);
+        hint_tv.setText("您确定要退出登陆吗？");
+        tv_sure.setOnClickListener(this);
+        tv_cancle.setOnClickListener(this);
+        alertDialog = builder.create();
+        alertDialog.show();
 
     }
 
@@ -345,12 +345,12 @@ public class SetupActivity extends BaseActivity implements View.OnClickListener,
         if (userInfo == null)
             return;
 
-        if (!TextUtils.isEmpty(userInfo.getHead_img())) {
+        if (!TextUtils.isEmpty(userInfo.getHead_img())) {//上传头像成功之后的占位图
             Glide.with(mContext)
                     .load(Urls.BASEIMGURL + userInfo.getHead_img())
                     .into(icon);
-        }
 
+        }
         if (!TextUtils.isEmpty(userInfo.getAge())) {
             tvAge.setText(userInfo.getAge());
             pvCustomOptions.setSelectOptions(Integer.parseInt(userInfo.getAge()));
