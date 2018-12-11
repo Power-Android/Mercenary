@@ -11,6 +11,7 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.power.mercenary.R;
 import com.power.mercenary.bean.CollectionBean;
+import com.power.mercenary.utils.MercenaryUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,16 +37,15 @@ protected void convert(BaseViewHolder helper, CollectionBean item) {
         helper.setText(R.id.tv_collction_name,item.getTask_name());
         helper.setText(R.id.tv_collction_price,"¥"+item.getPay_amount());
         helper.setText(R.id.tv_collction_table,item.getTask_description());
-            all = item.getTask_tag().split("\\|");
-        RecyclerView mRecycler_item = helper.getView(R.id.mRecycler_item);
+    List<String> tagList = MercenaryUtils.stringToList(item.getTask_tag());
+
+
+    RecyclerView mRecycler_item = helper.getView(R.id.mRecycler_item);
         mRecycler_item.setNestedScrollingEnabled(false);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(mContext);
         linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
         mRecycler_item.setLayoutManager(linearLayoutManager);
-        List<String> tagList = new ArrayList<>();
-    for (int i = 0; i < all.length; i++) {
-                tagList.add(all[i]);
-        }
+
         TagAdapter tagAdapter = new TagAdapter(R.layout.item_tag_layout, tagList);
        mRecycler_item.setAdapter(tagAdapter);
 

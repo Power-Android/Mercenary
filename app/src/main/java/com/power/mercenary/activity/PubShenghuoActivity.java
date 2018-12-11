@@ -36,6 +36,7 @@ import com.power.mercenary.presenter.PubTaskPresenter;
 import com.power.mercenary.presenter.TaskDetailsPresenter;
 import com.power.mercenary.presenter.publish.PublishPresenter;
 import com.power.mercenary.utils.MyUtils;
+import com.power.mercenary.utils.TUtils;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -113,7 +114,7 @@ public  class PubShenghuoActivity extends BaseActivity implements PubTaskPresent
     private String taskType;
     private String childTaskType;
     private NewbqAdapter newbqAdapter;
-    private String task_shaixuan="1";
+    private String task_shaixuan;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -402,6 +403,10 @@ public  class PubShenghuoActivity extends BaseActivity implements PubTaskPresent
                 } else if (requireList.size() == 1 && requireList.get(0).equals("")) {
                     Toast.makeText(mContext, "请输入任务要求", Toast.LENGTH_SHORT).show();
                     return;
+                }else if (checkbox.isChecked() == false && checkboxNo.isChecked()==false) {
+                    TUtils.showCustom(this,"请选择筛选要求");
+                    return;
+
                 } else if (TextUtils.isEmpty(taskMoneyEt.getText().toString())) {
                     Toast.makeText(mContext, "请输入佣金金额", Toast.LENGTH_SHORT).show();
                     return;
@@ -415,6 +420,7 @@ public  class PubShenghuoActivity extends BaseActivity implements PubTaskPresent
                     Toast.makeText(mContext, "请输入任务详情介绍", Toast.LENGTH_SHORT).show();
                     return;
                 }
+
                 /**
                  * 发布任务
                  *
@@ -466,7 +472,7 @@ public  class PubShenghuoActivity extends BaseActivity implements PubTaskPresent
             Toast.makeText(mContext, "请先支付", Toast.LENGTH_SHORT).show();
             //发发布完任务之后请求自己发布的任务的接口获取任务的id
             PublishPresenter publishPresenter = new PublishPresenter(this, this);
-            publishPresenter.getPublishTaskList(1);
+            publishPresenter.getPublishTaskList(10);
         }else{
             finish();
             Toast.makeText(this,"发布完成",Toast.LENGTH_LONG).show();

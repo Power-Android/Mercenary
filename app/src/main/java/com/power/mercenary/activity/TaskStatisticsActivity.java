@@ -323,7 +323,7 @@ public class TaskStatisticsActivity extends BaseActivity implements StatisticsPr
     public void getTaskStatisticsPublishNum(StatisticsNumBean data) {
         if (data != null) {
             actTaskStarNum1.setText(data.getOne() + "");
-            actTaskStarNum2.setText(data.getTow() + "");
+            actTaskStarNum2.setText(data.gettwo() + "");
             actTaskStarNum3.setText(data.getThree() + "");
             actTaskStarNum4.setText(data.getFore() + "");
             actTaskStarNum5.setText(data.getFive() + "");
@@ -335,7 +335,7 @@ public class TaskStatisticsActivity extends BaseActivity implements StatisticsPr
     public void getTaskStatisticsAcceptNum(StatisticsNumBean data) {
         if (data != null) {
             actTaskStarNum1.setText(data.getOne() + "");
-            actTaskStarNum2.setText(data.getTow() + "");
+            actTaskStarNum2.setText(data.gettwo() + "");
             actTaskStarNum3.setText(data.getThree() + "");
             actTaskStarNum4.setText(data.getFore() + "");
             actTaskStarNum5.setText(data.getFive() + "");

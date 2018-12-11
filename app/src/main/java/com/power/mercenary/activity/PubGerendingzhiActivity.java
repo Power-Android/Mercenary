@@ -43,6 +43,7 @@ import com.power.mercenary.presenter.PubTaskPresenter;
 import com.power.mercenary.presenter.TaskDetailsPresenter;
 import com.power.mercenary.presenter.publish.PublishPresenter;
 import com.power.mercenary.utils.MyUtils;
+import com.power.mercenary.utils.TUtils;
 import com.power.mercenary.view.BaseDialog;
 import com.power.mercenary.view.MyGridView;
 import com.wevey.selector.dialog.DialogInterface;
@@ -536,7 +537,11 @@ public class PubGerendingzhiActivity extends BaseActivity implements PubTaskPres
                 if (TextUtils.isEmpty(taskNameEt.getText().toString())) {
                     Toast.makeText(mContext, "请输入定制物品", Toast.LENGTH_SHORT).show();
                     return;
-                } else if (TextUtils.isEmpty(taskMoneyEt.getText().toString())) {
+                } else if (checkbox.isChecked()==false && checkbox_no.isChecked()==false){
+                    TUtils.showCustom(this,"请选择筛选要求");
+                    return;
+
+                }else if (TextUtils.isEmpty(taskMoneyEt.getText().toString())) {
                     Toast.makeText(mContext, "请输入佣金金额", Toast.LENGTH_SHORT).show();
                     return;
                 } else if (requireList.size() == 1 && requireList.get(0).equals("")) {

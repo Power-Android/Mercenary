@@ -1,6 +1,7 @@
 package com.power.mercenary;
 
 import android.app.AlertDialog;
+import android.app.Application;
 import android.content.ClipboardManager;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -601,8 +602,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
             @Override
             public void onOptionsSelect(int options1, int option2, int options3, View v) {
                 //返回的分别是三个级别的选中位置
-                Log.d("MainActivity", "options1:" + options1 + "-----");
-                Log.d("MainActivity", "options2:" + option2 + "-----");
                 String tx = data.get(options1);
                 if (tx.equals("跑腿")) {
                     Intent intent = new Intent(MainActivity.this, PubPaotuiActivity.class);

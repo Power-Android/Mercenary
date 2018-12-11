@@ -68,7 +68,6 @@ public class TaskFragment extends BaseFragment implements CollectionPresenter.Co
         EventBus.getDefault().register(this);
         presenter = new CollectionPresenter(getActivity(),this);
         presenter.getCollectionTask();
-        Log.i("oklokl", "initView: "+MyApplication.getUserToken());
         initData();
         return view;
     }

@@ -37,7 +37,7 @@
             android:text="佣兵团"
             android:textColor="@color/white"
             android:textSize="14sp"
-            android:visibility="gone"/>
+            android:visibility="gone" />
     </RelativeLayout>
 
     <LinearLayout
@@ -45,9 +45,9 @@
         android:layout_height="wrap_content"
         android:background="@color/colorPrimary"
         android:orientation="horizontal"
-        android:paddingBottom="10dp"
+        android:paddingTop="10dp"
 
-        android:paddingTop="10dp">
+        android:paddingBottom="10dp">
 
         <LinearLayout
             android:layout_width="0dp"
@@ -81,14 +81,14 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="5dp"
                     android:background="@drawable/shape_bs_jx"
-                    android:paddingBottom="2dp"
                     android:paddingLeft="5dp"
-                    android:paddingRight="5dp"
                     android:paddingTop="2dp"
+                    android:paddingRight="5dp"
+                    android:paddingBottom="2dp"
                     android:text="未缴纳"
                     android:textColor="@color/white"
                     android:textSize="11sp"
-                    android:visibility="gone"/>
+                    android:visibility="gone" />
             </LinearLayout>
         </LinearLayout>
 
@@ -104,14 +104,14 @@
                 android:layout_width="130dip"
                 android:layout_height="50dip"
                 android:layout_alignParentRight="true"
+                android:layout_marginBottom="10dip"
                 android:background="@drawable/shape_left_yj"
                 android:gravity="center"
-                android:layout_marginBottom="10dip"
                 android:orientation="vertical"
-                android:paddingBottom="5dp"
                 android:paddingLeft="25dp"
+                android:paddingTop="5dp"
                 android:paddingRight="20dp"
-                android:paddingTop="5dp">
+                android:paddingBottom="5dp">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -121,11 +121,11 @@
                     android:textSize="13sp" />
 
                 <TextView
-                    android:text="200000"
                     android:id="@+id/frag_mine_money"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="5dp"
+                    android:text="200000"
                     android:textColor="@color/white"
                     android:textSize="12sp" />
             </LinearLayout>
@@ -169,8 +169,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:paddingBottom="10dp"
-            android:paddingTop="10dp">
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp">
 
             <LinearLayout
                 android:id="@+id/ll_wjd"
@@ -189,23 +189,24 @@
                     <ImageView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:src="@drawable/wjd_2x"
                         android:layout_centerInParent="true"
-                        />
+                        android:src="@drawable/wjd_2x" />
 
                     <TextView
                         android:id="@+id/mine_accept_wjd"
+                        android:layout_width="18dp"
+                        android:layout_height="18dp"
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginBottom="@dimen/dp_15"
+                        android:background="@drawable/mine_message_hint"
+                        android:gravity="center"
                         android:textColor="@color/red"
                         android:textSize="10sp"
-                        android:gravity="center"
-                        android:layout_width="12dp"
-                        android:layout_height="12dp"
-                            android:background="@drawable/mine_message_hint"
-                        android:layout_marginLeft="20dp"
-                        android:visibility="gone"
+
                         />
 
                 </RelativeLayout>
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -232,20 +233,21 @@
                     <ImageView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:src="@drawable/rwz_2x"
                         android:layout_centerInParent="true"
-                        />
+                        android:src="@drawable/rwz_2x" />
 
                     <TextView
                         android:id="@+id/mine_accept_rwz"
+                        android:layout_width="18dp"
+                        android:layout_height="18dp"
+                        android:layout_marginLeft="20dp"
+                        android:background="@drawable/mine_message_hint"
+                        android:gravity="center"
+                        android:layout_marginBottom="@dimen/dp_15"
+
                         android:textColor="@color/red"
                         android:textSize="10sp"
-                        android:gravity="center"
-                        android:layout_width="12dp"
-                        android:layout_height="12dp"
-                        android:background="@drawable/mine_message_hint"
-                        android:layout_marginLeft="20dp"
-                        android:visibility="gone"  />
+                        android:visibility="gone" />
 
                 </RelativeLayout>
 
@@ -275,19 +277,19 @@
                     <ImageView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:src="@drawable/shz_2x"
                         android:layout_centerInParent="true"
-                        />
+                        android:src="@drawable/shz_2x" />
 
                     <TextView
                         android:id="@+id/mine_accept_shz"
+                        android:layout_width="18dp"
+                        android:layout_height="18dp"
+                        android:layout_marginLeft="20dp"
+                        android:background="@drawable/mine_message_hint"
+                        android:gravity="center"
+                        android:layout_marginBottom="@dimen/dp_15"
                         android:textColor="@color/red"
                         android:textSize="10sp"
-                        android:gravity="center"
-                        android:layout_width="12dp"
-                        android:layout_height="12dp"
-                        android:background="@drawable/mine_message_hint"
-                        android:layout_marginLeft="20dp"
                         android:visibility="gone" />
 
                 </RelativeLayout>
@@ -318,20 +320,21 @@
                     <ImageView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:src="@drawable/dpj_2x"
                         android:layout_centerInParent="true"
-                        />
+                        android:src="@drawable/dpj_2x" />
 
                     <TextView
                         android:id="@+id/mine_accept_dpj"
+                        android:layout_width="18dp"
+                        android:layout_height="18dp"
+                        android:layout_marginLeft="20dp"
+                        android:background="@drawable/mine_message_hint"
+                        android:gravity="center"
                         android:textColor="@color/red"
                         android:textSize="10sp"
-                        android:gravity="center"
-                        android:layout_width="12dp"
-                        android:layout_height="12dp"
-                        android:background="@drawable/mine_message_hint"
-                        android:layout_marginLeft="20dp"
-                        android:visibility="gone"  />
+                        android:layout_marginBottom="@dimen/dp_15"
+
+                        android:visibility="gone" />
 
                 </RelativeLayout>
 
@@ -386,8 +389,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:paddingBottom="10dp"
-            android:paddingTop="10dp">
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp">
 
             <LinearLayout
                 android:id="@+id/frag_mine_ybm"
@@ -405,21 +408,21 @@
                     <ImageView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:src="@drawable/ybm_2x"
                         android:layout_centerInParent="true"
-                        />
+                        android:src="@drawable/ybm_2x" />
 
                     <TextView
                         android:id="@+id/mine_publish_ybm"
+                        android:layout_width="18dp"
+                        android:layout_height="18dp"
+                        android:layout_marginLeft="20dp"
+                        android:background="@drawable/mine_message_hint"
+                        android:gravity="center"
                         android:textColor="@color/red"
                         android:textSize="10sp"
-                        android:gravity="center"
-                        android:layout_width="12dp"
-                        android:layout_height="12dp"
-                        android:background="@drawable/mine_message_hint"
-                        android:layout_marginLeft="20dp"
-                        android:visibility="gone"
-                        />
+                        android:layout_marginBottom="@dimen/dp_15"
+
+                        android:visibility="gone" />
 
                 </RelativeLayout>
 
@@ -449,19 +452,20 @@
                     <ImageView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:src="@drawable/rwz_2x"
                         android:layout_centerInParent="true"
-                        />
+                        android:src="@drawable/rwz_2x" />
 
                     <TextView
                         android:id="@+id/mine_publish_rwz"
+                        android:layout_width="18dp"
+                        android:layout_height="18dp"
+                        android:layout_marginLeft="20dp"
+                        android:background="@drawable/mine_message_hint"
+                        android:gravity="center"
                         android:textColor="@color/red"
                         android:textSize="10sp"
-                        android:gravity="center"
-                        android:layout_width="12dp"
-                        android:layout_height="12dp"
-                        android:background="@drawable/mine_message_hint"
-                        android:layout_marginLeft="20dp"
+                        android:layout_marginBottom="@dimen/dp_15"
+
                         android:visibility="gone" />
 
                 </RelativeLayout>
@@ -492,22 +496,24 @@
                     <ImageView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:src="@drawable/shz_2x"
                         android:layout_centerInParent="true"
-                        />
+                        android:src="@drawable/shz_2x" />
 
                     <TextView
                         android:id="@+id/mine_publish_shz"
+                        android:layout_width="18dp"
+                        android:layout_height="18dp"
+                        android:layout_marginLeft="20dp"
+                        android:background="@drawable/mine_message_hint"
+                        android:gravity="center"
                         android:textColor="@color/red"
                         android:textSize="10sp"
-                        android:gravity="center"
-                        android:layout_width="12dp"
-                        android:layout_height="12dp"
-                        android:background="@drawable/mine_message_hint"
-                        android:layout_marginLeft="20dp"
+                        android:layout_marginBottom="@dimen/dp_15"
+
                         android:visibility="gone" />
 
                 </RelativeLayout>
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -534,22 +540,24 @@
                     <ImageView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:src="@drawable/complete"
                         android:layout_centerInParent="true"
-                        />
+                        android:src="@drawable/complete" />
 
                     <TextView
                         android:id="@+id/mine_publish_ywc"
+                        android:layout_width="18dp"
+                        android:layout_height="18dp"
+                        android:layout_marginLeft="20dp"
+                        android:background="@drawable/mine_message_hint"
+                        android:gravity="center"
+                        android:layout_marginBottom="@dimen/dp_15"
+
                         android:textColor="@color/red"
                         android:textSize="10sp"
-                        android:gravity="center"
-                        android:layout_width="12dp"
-                        android:layout_height="12dp"
-                        android:background="@drawable/mine_message_hint"
-                        android:layout_marginLeft="20dp"
                         android:visibility="gone" />
 
                 </RelativeLayout>
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -576,8 +584,8 @@
             android:id="@+id/rl_wdsc"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingBottom="13dp"
-            android:paddingTop="13dp">
+            android:paddingTop="13dp"
+            android:paddingBottom="13dp">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -594,18 +602,18 @@
         </RelativeLayout>
 
         <View
-            android:visibility="gone"
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:background="#FFF5F5F5" />
+            android:background="#FFF5F5F5"
+            android:visibility="gone" />
 
         <RelativeLayout
-            android:visibility="gone"
             android:id="@+id/rl_wdgz"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:paddingTop="13dp"
             android:paddingBottom="13dp"
-            android:paddingTop="13dp">
+            android:visibility="gone">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -616,8 +624,8 @@
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
                 android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
                 android:src="@drawable/right_fh" />
         </RelativeLayout>
 
@@ -630,8 +638,8 @@
             android:id="@+id/rl_wdtg"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingBottom="13dp"
-            android:paddingTop="13dp">
+            android:paddingTop="13dp"
+            android:paddingBottom="13dp">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -656,8 +664,8 @@
             android:id="@+id/rl_cj"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingBottom="13dp"
-            android:paddingTop="13dp">
+            android:paddingTop="13dp"
+            android:paddingBottom="13dp">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -682,8 +690,8 @@
             android:id="@+id/rl_wdzl"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingBottom="13dp"
-            android:paddingTop="13dp">
+            android:paddingTop="13dp"
+            android:paddingBottom="13dp">
 
             <TextView
                 android:layout_width="wrap_content"

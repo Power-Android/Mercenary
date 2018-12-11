@@ -5,10 +5,12 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.power.mercenary.MyApplication;
@@ -119,16 +121,13 @@ public class PersonalDataActivity extends BaseActivity implements View.OnClickLi
         layout_show_btn= (LinearLayout) findViewById(R.id.layout_show_btn);
         if (getIntent()!=null){
           String  isShowButton = getIntent().getStringExtra("isShowButton");
-          if (isShowButton.equals("no")){
+          if (null==isShowButton){
               layout_show_btn.setVisibility(View.GONE);
           }else {
               layout_show_btn.setVisibility(View.VISIBLE);
           }
         }
         userId = getIntent().getStringExtra("userId");
-
-
-
         name = (TextView) findViewById(R.id.act_personal_name);
 
         icon = (CircleImageView) findViewById(R.id.act_personal_icon);

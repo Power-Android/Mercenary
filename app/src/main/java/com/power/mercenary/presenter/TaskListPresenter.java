@@ -1,6 +1,7 @@
 package com.power.mercenary.presenter;
 
 import android.app.Activity;
+import android.util.Log;
 
 import com.lzy.okgo.model.Response;
 import com.power.mercenary.MyApplication;

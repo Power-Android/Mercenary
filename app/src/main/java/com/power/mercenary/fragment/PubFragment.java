@@ -18,6 +18,7 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.power.mercenary.R;
 import com.power.mercenary.activity.PostDetailActivity;
+import com.power.mercenary.activity.WebActivity;
 import com.power.mercenary.activity.WorkPubActivity;
 import com.power.mercenary.base.BaseFragment;
 import com.power.mercenary.bean.BannerBean;
@@ -28,9 +29,11 @@ import com.power.mercenary.bean.TieZiListBean;
 import com.power.mercenary.http.ResponseBean;
 import com.power.mercenary.presenter.MainPresenter;
 import com.power.mercenary.presenter.TieZiListPresenter;
+import com.power.mercenary.utils.BannerUtils;
 import com.power.mercenary.utils.Urls;
 import com.power.mercenary.view.FluidLayout;
 import com.youth.banner.Banner;
+import com.youth.banner.listener.OnBannerListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -64,8 +67,6 @@ public class PubFragment extends BaseFragment implements TieZiListPresenter.Task
     @BindView(R.id.layout_hottuijian)
     LinearLayout layoutHottuijian;
     Unbinder unbinder1;
-    @BindView(R.id.img_banner)
-    ImageView imgBanner;
     private int scrollPosition;
     private List<String> hotNameList = new ArrayList<>();
     private String task_type = "0";
@@ -281,17 +282,21 @@ public class PubFragment extends BaseFragment implements TieZiListPresenter.Task
 
     @Override
     public void getBannerList(List<BannerBean> datas) {
-//        bannerBeans = datas;
-//        List<String> bannerList = new ArrayList<>();
-//        if (datas != null) {
-//            for (int i = 0; i < datas.size(); i++) {
-//                bannerList.add(Urls.BASEIMGURL + datas.get(i).getPic());
-//            }
-//        }
-        if (datas!=null&&datas.size()>0){
-            Glide.with(mContext).load(Urls.BASEIMGURL + datas.get(0).getPic()).into(imgBanner);
-        }
-//        BannerUtils.startBanner(banner, bannerList);
+       bannerBeans = datas;
+        Log.i("getBannerList", "getBannerList: "+datas.size());
+       List<String> bannerList = new ArrayList<>();
+       if (datas != null) {
+           for (int i = 0; i < datas.size(); i++) {
+               bannerList.add(Urls.BASEIMGURL + datas.get(i).getPic());
+           }
+       }
+       BannerUtils.startBanner(banner, bannerList);
+        banner.setOnBannerListener(new OnBannerListener() {
+            @Override
+            public void OnBannerClick(int position) {
+                WebActivity.invoke(mContext, bannerBeans.get(position).getUrl(), "详情");
+            }
+        });
     }
 
     private class ContentAdapter extends BaseQuickAdapter<TieZiListBean, BaseViewHolder> {
@@ -302,7 +307,7 @@ public class PubFragment extends BaseFragment implements TieZiListPresenter.Task
 
         @Override
         protected void convert(BaseViewHolder helper, TieZiListBean item) {
-            helper.setText(R.id.item_title_tv, "热门推荐")
+            helper.setText(R.id.item_title_tv, item.getPost_user_name())
                     .setText(R.id.item_content_tv, item.getPost_content())
                     .setText(R.id.item_num_tv, item.getCount());
         }

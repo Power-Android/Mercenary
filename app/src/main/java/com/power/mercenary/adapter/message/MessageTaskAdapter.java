@@ -50,7 +50,7 @@ public class MessageTaskAdapter extends RecyclerView.Adapter {
         if (holder instanceof TaskViewHolder) {
             TaskViewHolder viewHolder = (TaskViewHolder) holder;
 
-            viewHolder.title.setText(datas.get(position).getTask_name());
+            viewHolder.title.setText(datas.get(position).getUser_nick_name());
             //将十位的时间戳通过调用方法转换为正常时间格式
             String phptime = PhpTimeUtils.phptime(datas.get(position).getPush_time());
             viewHolder.time.setText(phptime);

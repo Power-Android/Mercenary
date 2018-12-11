@@ -7,7 +7,7 @@ public class StatisticsNumBean {
 
     /**
      * one : 1
-     * tow : 0
+     * two : 0
      * three : 5
      * fore : 0
      * five : 0
@@ -15,7 +15,7 @@ public class StatisticsNumBean {
      */
 
     private int one;
-    private int tow;
+    private int two;
     private int three;
     private int fore;
     private int five;
@@ -29,12 +29,12 @@ public class StatisticsNumBean {
         this.one = one;
     }
 
-    public int getTow() {
-        return tow;
+    public int gettwo() {
+        return two;
     }
 
-    public void setTow(int tow) {
-        this.tow = tow;
+    public void settwo(int two) {
+        this.two = two;
     }
 
     public int getThree() {
