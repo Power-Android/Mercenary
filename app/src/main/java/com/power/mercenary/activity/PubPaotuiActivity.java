@@ -134,9 +134,6 @@ public class PubPaotuiActivity extends BaseActivity implements PubTaskPresenter.
         for (int i = 1; i <= 31; i++) {
             dayList.add(i + "日");
         }
-
-        Log.d("PubPaotuiActivity", MyApplication.getUserToken() + "--------");
-
         taskMudiEt.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {

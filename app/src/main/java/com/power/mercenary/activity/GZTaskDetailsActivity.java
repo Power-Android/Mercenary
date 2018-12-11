@@ -1,15 +1,12 @@
 package com.power.mercenary.activity;
 
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.NestedScrollView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
-import android.util.Log;
-import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.EditText;
@@ -315,8 +312,13 @@ public class GZTaskDetailsActivity extends BaseActivity implements View.OnClickL
                     return;
                 }
 
-                if (!TextUtils.equals(MyApplication.getUserId(), publisherId)  ) {
-                    presenter.applyRequest(taskId, "", "");
+                if (!TextUtils.equals(MyApplication.getUserId(), publisherId)) {
+                    if (TextUtils.equals(publishBtn.getText().toString(),"我要报名")){
+
+                        presenter.applyRequest(taskId, "", "");
+                    }else if(TextUtils.equals(publishBtn.getText().toString(),"我要接单")){
+                        TUtils.showCustom(this,"我不用自己报名直接接单");
+                    }
                 } else {
                     TUtils.showCustom(this, "发布者自己不能报名");
                 }
@@ -480,6 +482,11 @@ public class GZTaskDetailsActivity extends BaseActivity implements View.OnClickL
     @Override
     public void toPayRequest(PayBean data) {
         WebActivity.invoke(this,data.getUrl(), getString(R.string.pay_title));
+    }
+
+    @Override
+    public void AddJiedan() {
+
     }
 
     @OnClick({R.id.act_task_detaiils_collectionBtn, R.id.act_task_detaiils_complainBtn})

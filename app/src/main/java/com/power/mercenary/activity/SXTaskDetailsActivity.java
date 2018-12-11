@@ -263,6 +263,11 @@ public class SXTaskDetailsActivity extends BaseActivity implements View.OnClickL
 
     }
 
+    @Override
+    public void AddJiedan() {
+
+    }
+
     /**
      * 任务推荐标签Adapter
      */

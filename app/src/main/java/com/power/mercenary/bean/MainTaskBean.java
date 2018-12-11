@@ -45,7 +45,15 @@ public class MainTaskBean {
         private String pay_amount;
         private String task_description;
         private String task_tag;
+        private String task_type_name;
 
+        public String getTask_type_name() {
+            return task_type_name;
+        }
+
+        public void setTask_type_name(String task_type_name) {
+            this.task_type_name = task_type_name;
+        }
 
         public String getTask_status() {
             return task_status;

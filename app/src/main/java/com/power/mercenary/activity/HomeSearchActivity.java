@@ -456,7 +456,7 @@ public class HomeSearchActivity extends BaseActivity implements View.OnClickList
             TextView task_type = helper.getView(R.id.item_money_tv);
             RecyclerView tagRecyclerView = helper.getView(R.id.tag_recycler);
             titleTv.setText(item.getTask_name());
-            task_type.setText(searchTv.getText().toString());
+            task_type.setText(item.getTask_type_name());
             contentTv.setText(item.getTask_description());
 
             tagRecyclerView.setNestedScrollingEnabled(false);

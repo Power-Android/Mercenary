@@ -151,7 +151,6 @@ public class PublishPresenter {
                 if (publishTaskBean.getCode() == 0) {
 
                     List<PublishTaskBean.DataBean> data = publishTaskBean.getData();
-
                     callBack.getPublishTaskList(data);
 
 

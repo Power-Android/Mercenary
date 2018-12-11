@@ -239,6 +239,11 @@ public class PubJiankangActivity extends BaseActivity implements PubTaskPresente
     }
 
     @Override
+    public void AddJiedan() {
+
+    }
+
+    @Override
     public void getPublishTaskList(List<PublishTaskBean.DataBean> datas) {
         //请求支付接口
         TaskDetailsPresenter taskDetailsPresenter = new TaskDetailsPresenter(this, this);

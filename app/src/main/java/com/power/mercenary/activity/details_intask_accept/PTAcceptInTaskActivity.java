@@ -15,7 +15,6 @@ import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.chad.library.adapter.base.BaseQuickAdapter;
@@ -546,6 +545,11 @@ public class PTAcceptInTaskActivity extends BaseActivity implements View.OnClick
     @Override
     public void toPayRequest(PayBean data) {
         WebActivity.invoke(this, data.getUrl(), getString(R.string.pay_title));
+    }
+
+    @Override
+    public void AddJiedan() {
+
     }
 
     @OnClick({R.id.act_task_detaiils_collectionBtn, R.id.act_task_detaiils_complainBtn})

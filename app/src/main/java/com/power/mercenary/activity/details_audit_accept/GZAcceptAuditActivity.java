@@ -531,6 +531,11 @@ public class GZAcceptAuditActivity extends BaseActivity implements View.OnClickL
         WebActivity.invoke(this, data.getUrl(), getString(R.string.pay_title));
     }
 
+    @Override
+    public void AddJiedan() {
+
+    }
+
     @OnClick({R.id.act_task_detaiils_collectionBtn, R.id.act_task_detaiils_complainBtn})
     public void onViewClicked(View view) {
         switch (view.getId()) {

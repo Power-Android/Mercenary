@@ -1,14 +1,12 @@
 package com.power.mercenary.activity;
 
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.NestedScrollView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
-import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.EditText;
@@ -294,7 +292,7 @@ public class GRTaskDetailsActivity extends BaseActivity implements View.OnClickL
                 initTongcheng();
                 break;
             case R.id.iv_right_fx:
-                ShareDialog dialog = new ShareDialog(this, taskDetailsBean.getTask_name(), taskDetailsBean.getTask_description(), taskDetailsBean.getId(),taskDetailsBean.getTask_no());
+                ShareDialog dialog = new ShareDialog(this, taskDetailsBean.getTask_name(), taskDetailsBean.getTask_description(), taskDetailsBean.getId(), taskDetailsBean.getTask_no());
                 dialog.setOnDismissListener(onDismissListener);
                 setShowPop(dialog, iv_right_fx);
                 break;
@@ -318,7 +316,12 @@ public class GRTaskDetailsActivity extends BaseActivity implements View.OnClickL
                 }
 
                 if (!TextUtils.equals(MyApplication.getUserId(), publisherId)) {
-                    presenter.applyRequest(taskId, "", "");
+                    if (TextUtils.equals(publishBtn.getText().toString(), "我要报名")) {
+
+                        presenter.applyRequest(taskId, "", "");
+                    } else if (TextUtils.equals(publishBtn.getText().toString(), "我要接单")) {
+                        TUtils.showCustom(this, "我不用自己报名直接接单");
+                    }
                 } else {
                     TUtils.showCustom(this, "发布者自己不能报名");
                 }
@@ -340,7 +343,7 @@ public class GRTaskDetailsActivity extends BaseActivity implements View.OnClickL
 
 //获取任务所在地
             String address = SpUtils.getString(this, "address", "");
-            tvName.setText(datas.getNick_name()+"("+address+")");
+            tvName.setText(datas.getNick_name() + "(" + address + ")");
             if (TextUtils.isEmpty(datas.getTask_no())) {
                 tvEncoding.setText("暂无编码");
             } else {
@@ -383,18 +386,18 @@ public class GRTaskDetailsActivity extends BaseActivity implements View.OnClickL
 
             publisherId = datas.getPublisher_id();
 
-            if (datas.getApply().equals("1") ) {
+            if (datas.getApply().equals("1")) {
 
                 publishBtn.setText("已报名");
                 publishBtn.setOnClickListener(null);
-            }else{
-                if (datas.getTask_shaixuan().equals("0")) {
-                    publishBtn.setText("我要接单");
-                }else{
-                    publishBtn.setText("我要报名");
-
-                }
             }
+            if (datas.getTask_shaixuan().equals("0")) {
+                publishBtn.setText("我要接单");
+            } else {
+                publishBtn.setText("我要报名");
+
+            }
+
 
             NineGridTestModel model1 = new NineGridTestModel();
 
@@ -461,17 +464,6 @@ public class GRTaskDetailsActivity extends BaseActivity implements View.OnClickL
             if (response.body().code == 101) {
                 presenter.toPay(taskId);
             } else {
-//                publishBtn.setText("任务中");
-//                publishBtn.setOnClickListener(null);
-//                tuijianTabLl.setVisibility(View.GONE);
-//                recycler_content.setVisibility(View.GONE);
-//                actTaskDetailsSMsg.setVisibility(View.VISIBLE);
-//                Glide.with(this)
-//                        .load(Urls.BASEIMGURL + avatar)
-//                        .into(actTaskDetaiilsPrivateMsg);
-//
-//                actTaskDetaiilsPrivateName.setText(name);
-
                 presenter.getApplyList(taskId, page);
                 TUtils.showCustom(this, "操作成功");
             }
@@ -491,6 +483,11 @@ public class GRTaskDetailsActivity extends BaseActivity implements View.OnClickL
     @Override
     public void toPayRequest(PayBean data) {
         WebActivity.invoke(this, data.getUrl(), getString(R.string.pay_title));
+    }
+
+    @Override
+    public void AddJiedan() {
+
     }
 
     @OnClick({R.id.act_task_detaiils_collectionBtn, R.id.act_task_detaiils_complainBtn})
@@ -524,7 +521,7 @@ public class GRTaskDetailsActivity extends BaseActivity implements View.OnClickL
         if (state == 2) {
             //选定 弹个界面
 //            if (TextUtils.equals(MyApplication.getUserId(), publisherId)) {
-                presenter.changePeople(id, state, taskId, avatar, name);
+            presenter.changePeople(id, state, taskId, avatar, name);
 //            } else {
 //                TUtils.showCustom(this, "只有发布者可以更改");
 //            }

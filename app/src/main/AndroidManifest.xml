@@ -28,27 +28,12 @@
             </intent-filter>
         </activity>
 
-        <service
+       <!-- <service
             android:name="cn.jpush.android.service.PushService"
             android:process=":multiprocess"
-            tools:node="replace" />
-
-        <!-- <receiver -->
-        <!-- android:name=".push.MPushReceiver" -->
-        <!-- android:enabled="true" -->
-        <!-- android:exported="false"> -->
-        <!-- <intent-filter> -->
-        <!-- <action android:name="cn.jpush.android.intent.REGISTRATION" /> -->
-        <!-- <action android:name="cn.jpush.android.intent.MESSAGE_RECEIVED" /> -->
-        <!-- <action android:name="cn.jpush.android.intent.NOTIFICATION_RECEIVED" /> -->
-        <!-- <action android:name="cn.jpush.android.intent.NOTIFICATION_OPENED" /> -->
-        <!-- <action android:name="cn.jpush.android.intent.NOTIFICATION_CLICK_ACTION" /> -->
-        <!-- <action android:name="cn.jpush.android.intent.CONNECTION" /> -->
+            tools:node="replace" />-->
 
 
-        <!-- <category android:name="com.power.mercenary" /> -->
-        <!-- </intent-filter> -->
-        <!-- </receiver> -->
 
         <provider
             android:name="android.support.v4.content.FileProvider"
@@ -184,8 +169,7 @@
         <activity android:name=".activity.PostDetailActivity" />
         <activity android:name=".activity.PubListActivity" />
         <activity android:name=".activity.XieyiActivity" />
-        <!-- <activity android:name=".activity.SignInActivity" -->
-        <!-- android:launchMode="singleTask"/> -->
+
         <activity android:name=".activity.MapAddressActivity" />
         <activity
             android:name=".activity.AcceptTaskActivity"
@@ -286,7 +270,7 @@
                     android:pathPrefix="/conversation/"
                     android:scheme="rong" />
             </intent-filter>
-            <intent-filter>
+           <!-- <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
                 <category android:name="android.intent.category.DEFAULT" />
 
@@ -294,7 +278,7 @@
                     android:host="com.power.mercenary"
                     android:pathPrefix="/push_message"
                     android:scheme="rong" />
-            </intent-filter>
+            </intent-filter>-->
         </activity>
         <activity
             android:name=".activity.chat.ChatDetailsActivity"
@@ -317,6 +301,8 @@
             android:name="com.baidu.lbsapi.API_KEY"
             android:value="ll4x3TgUDXsdkghFMqDXqCMpubFBllYq" />
         <!-- 百度地图结束 -->
+
+
 
 
         <!-- 友盟第三方登录及分享start -->

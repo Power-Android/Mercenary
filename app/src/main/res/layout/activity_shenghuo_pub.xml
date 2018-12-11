@@ -166,7 +166,6 @@
                             android:layout_height="17dp"
                             android:background="@drawable/pub_check_selector"
                             android:button="@null"
-                            android:checked="true"
                             android:gravity="center_vertical" />
 
                         <TextView

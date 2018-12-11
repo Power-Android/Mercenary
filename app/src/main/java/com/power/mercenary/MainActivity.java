@@ -220,9 +220,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                     startActivity(new Intent(this, SignInActivity.class));
                     return;
                 }
-//                ShowPickerView();
                 showIssueDialog();
-
                 break;
         }
     }
@@ -748,19 +746,26 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     }
 
     private void alertExitDialog() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
-        View view = View
-                .inflate(MainActivity.this, R.layout.dialog_shenhe, null);
-        builder.setView(view);
-        builder.setCancelable(true);
-        TextView hint_tv = view.findViewById(R.id.hint_tv);
-        TextView tv_sure = view.findViewById(R.id.tv_sure);
-        TextView tv_cancle = view.findViewById(R.id.tv_cancle);
+        BaseDialog.Builder builder = new BaseDialog.Builder(this);
+        mDialog = builder.setViewId(R.layout.dialog_shenhe)
+                //设置dialogpadding
+                .setPaddingdp(0, 0, 0, 0)
+                //设置显示位置
+                .setGravity(Gravity.CENTER)
+                //设置动画
+                //设置dialog的宽高
+                .setWidthHeightpx(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT)
+                //设置触摸dialog外围是否关闭
+                .isOnTouchCanceled(true)
+                //设置监听事件
+                .builder();
+        TextView hint_tv = mDialog.getView(R.id.hint_tv);
+        TextView tv_sure = mDialog.getView(R.id.tv_sure);
+        TextView tv_cancle = mDialog.getView(R.id.tv_cancle);
         hint_tv.setText("您确定要退出吗？");
         tv_sure.setOnClickListener(this);
         tv_cancle.setOnClickListener(this);
-        alertDialog = builder.create();
-        alertDialog.show();
+        mDialog.show();
     }
 
     @Override
@@ -770,7 +775,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 finish();
                 System.exit(0);
             case R.id.tv_cancle:
-                alertDialog.dismiss();
+                mDialog.dismiss();
 
                 break;
         }

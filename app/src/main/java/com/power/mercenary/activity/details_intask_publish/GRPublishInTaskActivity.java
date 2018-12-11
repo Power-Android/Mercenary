@@ -28,7 +28,6 @@ import com.power.mercenary.activity.PersonalDataActivity;
 import com.power.mercenary.activity.SignInActivity;
 import com.power.mercenary.activity.WebActivity;
 import com.power.mercenary.activity.chat.ChatActivity;
-import com.power.mercenary.activity.details_intask_accept.GRAcceptInTaskActivity;
 import com.power.mercenary.adapter.task.DetailsMsgAdapter;
 import com.power.mercenary.adapter.task.DetailsPeopleAdapter;
 import com.power.mercenary.base.BaseActivity;
@@ -540,6 +539,11 @@ public class GRPublishInTaskActivity extends BaseActivity implements View.OnClic
     @Override
     public void toPayRequest(PayBean data) {
         WebActivity.invoke(this, data.getUrl(), getString(R.string.pay_title));
+    }
+
+    @Override
+    public void AddJiedan() {
+
     }
 
     @OnClick({R.id.act_task_detaiils_collectionBtn, R.id.act_task_detaiils_complainBtn})

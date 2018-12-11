@@ -65,6 +65,7 @@ import com.power.mercenary.utils.BannerUtils;
 import com.power.mercenary.utils.MercenaryUtils;
 import com.power.mercenary.utils.MyUtils;
 import com.power.mercenary.utils.SpUtils;
+import com.power.mercenary.utils.TUtils;
 import com.power.mercenary.utils.Urls;
 import com.power.mercenary.view.BaseDialog;
 import com.power.mercenary.view.MyPageIndicator;
@@ -173,7 +174,6 @@ public class HomeFragment extends BaseFragment implements MainPresenter.MainCall
 
     private static final String TAG = "HomeFragment";
 
-
     private TextView tvConfirm;
 
     private TextView tvCancle;
@@ -224,8 +224,7 @@ public class HomeFragment extends BaseFragment implements MainPresenter.MainCall
         banner.setOnBannerListener(new OnBannerListener() {
             @Override
             public void OnBannerClick(int position) {
-//                TUtils.showShort(mContext, bannerBeans.get(position).getUrl());
-                WebActivity.invoke(mContext, bannerBeans.get(position).getUrl(), "");
+                WebActivity.invoke(mContext, bannerBeans.get(position).getUrl(), "详情");
             }
         });
         //----------------------------结束---------------------------------------------

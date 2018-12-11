@@ -1,7 +1,6 @@
 package com.power.mercenary.activity.details_appraise_publish;
 
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.NestedScrollView;
@@ -554,6 +553,11 @@ public class GZPublishAppraiseActivity extends BaseActivity implements View.OnCl
     @Override
     public void toPayRequest(PayBean data) {
         WebActivity.invoke(this,data.getUrl(), getString(R.string.pay_title));
+    }
+
+    @Override
+    public void AddJiedan() {
+
     }
 
     @OnClick({R.id.act_task_detaiils_collectionBtn, R.id.act_task_detaiils_complainBtn})

@@ -49,7 +49,6 @@ import com.power.mercenary.view.MaxHeightRecyclerView;
 import com.power.mercenary.view.SharingPop;
 
 import org.greenrobot.eventbus.EventBus;
-import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -321,7 +320,12 @@ public class SHTaskDetailsActivity extends BaseActivity implements View.OnClickL
                 }
 
                 if (!TextUtils.equals(MyApplication.getUserId(), publisherId)) {
-                    presenter.applyRequest(taskId, "", "");
+                    if (TextUtils.equals(publishBtn.getText().toString(),"我要报名")){
+
+                        presenter.applyRequest(taskId, "", "");
+                    }else if(TextUtils.equals(publishBtn.getText().toString(),"我要接单")){
+                        presenter.Addjiedan(taskId);
+                    }
                 } else {
                     TUtils.showCustom(this, "发布者自己不能报名");
                 }
@@ -439,10 +443,7 @@ public class SHTaskDetailsActivity extends BaseActivity implements View.OnClickL
             msgPage--;
         }
         msgAdapter.notifyDataSetChanged();
-//        if (isFirstLoad) {
-//            scrollView.scrollTo(0, Integer.MAX_VALUE);
-//            isFirstLoad = true;
-//        }
+
         springView_rwsx.onFinishFreshAndLoad();
     }
 
@@ -459,16 +460,6 @@ public class SHTaskDetailsActivity extends BaseActivity implements View.OnClickL
             if (response.body().code == 101) {
                 presenter.toPay(taskId);
             } else {
-//                publishBtn.setText("任务中");
-//                publishBtn.setOnClickListener(null);
-//                tuijianTabLl.setVisibility(View.GONE);
-//                recycler_content.setVisibility(View.GONE);
-//                actTaskDetailsSMsg.setVisibility(View.VISIBLE);
-//                Glide.with(this)
-//                        .load(Urls.BASEIMGURL + avatar)
-//                        .into(actTaskDetaiilsPrivateMsg);
-//
-//                actTaskDetaiilsPrivateName.setText(name);
 
                 presenter.getApplyList(taskId, page);
                 TUtils.showCustom(this, "操作成功");
@@ -489,6 +480,13 @@ public class SHTaskDetailsActivity extends BaseActivity implements View.OnClickL
     @Override
     public void toPayRequest(PayBean data) {
         WebActivity.invoke(this, data.getUrl(), getString(R.string.pay_title));
+    }
+
+    @Override
+    public void AddJiedan() {
+
+            TUtils.showCustom(this,"操作成功");
+            publishBtn.setText("已接单");
     }
 
     @OnClick({R.id.act_task_detaiils_collectionBtn, R.id.act_task_detaiils_complainBtn})

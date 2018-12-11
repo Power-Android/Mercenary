@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -32,6 +33,7 @@ import com.power.mercenary.utils.CacheUtils;
 import com.power.mercenary.utils.DataCleanManager;
 import com.power.mercenary.utils.Urls;
 import com.power.mercenary.view.AgePop;
+import com.power.mercenary.view.BaseDialog;
 import com.power.mercenary.view.SelectorPop;
 import com.power.mercenary.view.SwitchButton;
 
@@ -123,6 +125,7 @@ public class SetupActivity extends BaseActivity implements View.OnClickListener,
 
     private String showAndHide = "hide";
     private AlertDialog alertDialog;
+    private BaseDialog mDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -290,14 +293,22 @@ public class SetupActivity extends BaseActivity implements View.OnClickListener,
     }
 
     private void AlertCleanAllCache() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(SetupActivity.this);
-        View view = View
-                .inflate(SetupActivity.this, R.layout.dialog_shenhe, null);
-        builder.setView(view);
-        builder.setCancelable(true);
-        TextView hint_tv = view.findViewById(R.id.hint_tv);
-        TextView tv_sure = view.findViewById(R.id.tv_sure);
-        TextView tv_cancle = view.findViewById(R.id.tv_cancle);
+        BaseDialog.Builder builder = new BaseDialog.Builder(this);
+        mDialog = builder.setViewId(R.layout.dialog_shenhe)
+                //设置dialogpadding
+                .setPaddingdp(0, 0, 0, 0)
+                //设置显示位置
+                .setGravity(Gravity.CENTER)
+                //设置动画
+                //设置dialog的宽高
+                .setWidthHeightpx(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT)
+                //设置触摸dialog外围是否关闭
+                .isOnTouchCanceled(true)
+                //设置监听事件
+                .builder();
+        TextView hint_tv = mDialog.getView(R.id.hint_tv);
+        TextView tv_sure = mDialog.getView(R.id.tv_sure);
+        TextView tv_cancle = mDialog.getView(R.id.tv_cancle);
         hint_tv.setText("您确定要清除缓存吗？");
         tv_sure.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -309,33 +320,40 @@ public class SetupActivity extends BaseActivity implements View.OnClickListener,
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
-                alertDialog.dismiss();
+                mDialog.dismiss();
             }
         });
         tv_cancle.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                alertDialog.dismiss();
+                mDialog.dismiss();
             }
         });
-        alertDialog = builder.create();
-        alertDialog.show();
+
+        mDialog.show();
     }
 
     private void alertExitDialog() {//弹出提示框方法
-        AlertDialog.Builder builder = new AlertDialog.Builder(SetupActivity.this);
-        View view = View
-                .inflate(SetupActivity.this, R.layout.dialog_shenhe, null);
-        builder.setView(view);
-        builder.setCancelable(true);
-        TextView hint_tv = view.findViewById(R.id.hint_tv);
-        TextView tv_sure = view.findViewById(R.id.tv_sure);
-        TextView tv_cancle = view.findViewById(R.id.tv_cancle);
+        BaseDialog.Builder builder = new BaseDialog.Builder(this);
+        mDialog = builder.setViewId(R.layout.dialog_shenhe)
+                //设置dialogpadding
+                .setPaddingdp(0, 0, 0, 0)
+                //设置显示位置
+                .setGravity(Gravity.CENTER)
+                //设置动画
+                //设置dialog的宽高
+                .setWidthHeightpx(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT)
+                //设置触摸dialog外围是否关闭
+                .isOnTouchCanceled(true)
+                //设置监听事件
+                .builder();
+        TextView hint_tv = mDialog.getView(R.id.hint_tv);
+        TextView tv_sure = mDialog.getView(R.id.tv_sure);
+        TextView tv_cancle = mDialog.getView(R.id.tv_cancle);
         hint_tv.setText("您确定要退出登陆吗？");
         tv_sure.setOnClickListener(this);
         tv_cancle.setOnClickListener(this);
-        alertDialog = builder.create();
-        alertDialog.show();
+        mDialog.show();
 
     }
 
@@ -507,7 +525,7 @@ public class SetupActivity extends BaseActivity implements View.OnClickListener,
                 removeAllActivitys();
 //                EventBus.getDefault().post(new EventUtils(EventConstants.JUPMP_TO_MAIN));
             case R.id.tv_cancle:
-                alertDialog.dismiss();
+                mDialog.dismiss();
         }
 
     }

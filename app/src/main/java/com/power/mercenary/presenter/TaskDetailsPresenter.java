@@ -2,7 +2,6 @@ package com.power.mercenary.presenter;
 
 import android.app.Activity;
 import android.util.Log;
-import android.view.View;
 
 import com.lzy.okgo.model.Response;
 import com.power.mercenary.MyApplication;
@@ -133,7 +132,23 @@ public class TaskDetailsPresenter {
                     }
                 });
     }
+    /**
+     * 用户接单
+     * token
+     * 任务id
+     */
+    public void Addjiedan(String taskId) {
+        new HttpManager<ResponseBean<Void>>("Home/Apply/add_jiedan", this)
+                .addParams("token", MyApplication.getUserToken())
+                .addParams("id", taskId)
+                .postRequest(new DialogCallback<ResponseBean<Void>>(activity) {
+                    @Override
+                    public void onSuccess(Response<ResponseBean<Void>> response) {
 
+                        callBack.AddJiedan();
+                    }
+                });
+    }
     /**
      * 报名人操作
      *  @param id
@@ -202,5 +217,6 @@ public class TaskDetailsPresenter {
         void getMsgListFail();
 
         void toPayRequest(PayBean data);
+        void AddJiedan();
     }
 }

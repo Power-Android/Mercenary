@@ -11,7 +11,6 @@ import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RadioButton;
@@ -260,6 +259,11 @@ public class PubGerendingzhiActivity extends BaseActivity implements PubTaskPres
         WebActivity.invoke(this,data.getUrl(),"");
         finish();
         Toast.makeText(this,"发布成功",Toast.LENGTH_LONG).show();
+    }
+
+    @Override
+    public void AddJiedan() {
+
     }
 
     @Override

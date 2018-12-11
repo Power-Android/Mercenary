@@ -417,52 +417,6 @@ public class GRPublishAppraiseActivity extends BaseActivity implements View.OnCl
             taskState = datas.getTask_status();
 
             publisherId = datas.getPublisher_id();
-
-            //            switch (taskState) {
-//                case "2":
-//                    publishBtn.setText("任务中");
-//                    publishBtn.setOnClickListener(null);
-//                    tuijianTabLl.setVisibility(View.GONE);
-//                    recycler_content.setVisibility(View.GONE);
-//                    actTaskDetailsSMsg.setVisibility(View.VISIBLE);
-//                    if (datas.getXuanding() != null) {
-//                        Glide.with(this)
-//                                .load(datas.getXuanding().getHead_img())
-//                                .into(actTaskDetaiilsPrivateMsg);
-//
-//                        actTaskDetaiilsPrivateName.setText(datas.getXuanding().getName());
-//                    }
-//                    break;
-//                case "3":
-//                    publishBtn.setText("审核中");
-//                    publishBtn.setOnClickListener(null);
-//                    tuijianTabLl.setVisibility(View.GONE);
-//                    recycler_content.setVisibility(View.GONE);
-//                    actTaskDetailsSMsg.setVisibility(View.VISIBLE);
-//                    if (datas.getXuanding() != null) {
-//                        Glide.with(this)
-//                                .load(datas.getXuanding().getHead_img())
-//                                .into(actTaskDetaiilsPrivateMsg);
-//
-//                        actTaskDetaiilsPrivateName.setText(datas.getXuanding().getName());
-//                    }
-//                    break;
-//                case "6":
-//                    publishBtn.setText("待评价");
-//                    publishBtn.setOnClickListener(null);
-//                    tuijianTabLl.setVisibility(View.GONE);
-//                    recycler_content.setVisibility(View.GONE);
-//                    actTaskDetailsSMsg.setVisibility(View.VISIBLE);
-//                    if (datas.getXuanding() != null) {
-//                        Glide.with(this)
-//                                .load(datas.getXuanding().getHead_img())
-//                                .into(actTaskDetaiilsPrivateMsg);
-//
-//                        actTaskDetaiilsPrivateName.setText(datas.getXuanding().getName());
-//                    }
-//                    break;
-//            }
-
             if (datas.getXuanding() != null) {
                 Glide.with(this)
                         .load(Urls.BASEIMGURL + datas.getXuanding().getHead_img())
@@ -565,6 +519,13 @@ public class GRPublishAppraiseActivity extends BaseActivity implements View.OnCl
     @Override
     public void toPayRequest(PayBean data) {
         WebActivity.invoke(this, data.getUrl(), getString(R.string.pay_title));
+    }
+
+    @Override
+    public void AddJiedan() {
+
+            TUtils.showCustom(this,"操作成功");
+            publishBtn.setText("已接单");
     }
 
     @OnClick({R.id.act_task_detaiils_collectionBtn, R.id.act_task_detaiils_complainBtn})

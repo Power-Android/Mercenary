@@ -46,7 +46,7 @@ public class WebActivity extends BaseActivity {
         String result = getIntent().getStringExtra("result");
         String title = getIntent().getStringExtra("title");
         webView = (WebView) findViewById(R.id.webView);
-        webTitle.setText("商品支付");
+        webTitle.setText(title);
         WebSettings webSettings = webView.getSettings();
         webSettings.setJavaScriptEnabled(true);
         webView.setWebChromeClient(new WebChromeClient() {

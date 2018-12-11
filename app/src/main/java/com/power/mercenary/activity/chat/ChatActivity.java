@@ -58,6 +58,7 @@ import io.rong.imlib.model.Conversation;
 import io.rong.imlib.model.Message;
 import io.rong.imlib.model.MessageContent;
 import io.rong.message.TextMessage;
+import io.rong.push.notification.PushNotificationMessage;
 
 /**
  * admin  2018/7/23 wan
@@ -167,7 +168,7 @@ public class ChatActivity extends BaseActivity implements SpringView.OnFreshList
     private void getPushMessage(Intent intent) {
         if (intent != null && intent.getData() != null && intent.getData().getScheme().equals("rong")) {
             //该条消息的推送内容
-            String content = intent.getData().getQueryParameter("pushContent");
+            String content = intent.getData().getQueryParameter("pushData");
             //标识该推送消息的唯一 Id。
             String id = intent.getData().getQueryParameter("pushId");
             //用户自定义参数 json 格式，解析后用户可根据自己定义的 Key 、Value 值进行业务处理。
@@ -177,6 +178,7 @@ public class ChatActivity extends BaseActivity implements SpringView.OnFreshList
             //RongIM.getInstance().getRongIMClient().recordNotificationEvent(id);
         }
     }
+
     @OnClick({R.id.left_back, R.id.right_btn, R.id.act_chat_send})
     public void onViewClicked(View view) {
         switch (view.getId()) {

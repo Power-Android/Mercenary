@@ -7,7 +7,6 @@ import android.support.v4.widget.NestedScrollView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.EditText;
@@ -63,8 +62,6 @@ import butterknife.OnClick;
  */
 
 public class PTTaskDetailsActivity extends BaseActivity implements View.OnClickListener, TaskDetailsPresenter.TaskDetailsCallBack, DetailsPeopleAdapter.DetailsPepCallBack {
-
-
     @BindView(R.id.recycler_task_tag)
     RecyclerView recycler_task_tag;
     @BindView(R.id.recycler_content)
@@ -323,7 +320,12 @@ public class PTTaskDetailsActivity extends BaseActivity implements View.OnClickL
                 }
 
                 if (!TextUtils.equals(MyApplication.getUserId(), publisherId)) {
-                    presenter.applyRequest(taskId, "", "");
+                    if (TextUtils.equals(publishBtn.getText().toString(),"我要报名")){
+
+                        presenter.applyRequest(taskId, "", "");
+                    }else if(TextUtils.equals(publishBtn.getText().toString(),"我要接单")){
+                        presenter.Addjiedan(taskId);
+                    }
                 } else {
                     TUtils.showCustom(this, "发布者自己不能报名");
                 }
@@ -414,9 +416,7 @@ public class PTTaskDetailsActivity extends BaseActivity implements View.OnClickL
         etMsg.setText("");
         TUtils.showCustom(this, "发表成功");
     }
-
     @Override
-
     public void getApplyList(List<ApplyListBean> datas) {
         if (datas != null) {
             peopleAdapter = new DetailsPeopleAdapter(this, datas, page);
@@ -472,6 +472,12 @@ public class PTTaskDetailsActivity extends BaseActivity implements View.OnClickL
     @Override
     public void toPayRequest(PayBean data) {
         WebActivity.invoke(this, data.getUrl(), getString(R.string.pay_title));
+    }
+
+    @Override
+    public void AddJiedan() {
+        TUtils.showCustom(this,"操作成功");
+        publishBtn.setText("已接单");
     }
 
     @OnClick({R.id.act_task_detaiils_collectionBtn, R.id.act_task_detaiils_complainBtn})

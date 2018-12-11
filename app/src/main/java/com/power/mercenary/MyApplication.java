@@ -48,6 +48,7 @@ import io.rong.imlib.model.Conversation;
 import io.rong.imlib.model.Message;
 import io.rong.imlib.model.MessageContent;
 import io.rong.message.TextMessage;
+import io.rong.push.notification.PushNotificationMessage;
 import okhttp3.OkHttpClient;
 
 /**
@@ -79,6 +80,7 @@ public class MyApplication extends Application {
     private void ShearPlate() {
 
     }
+
 
     private void initUM() {
 

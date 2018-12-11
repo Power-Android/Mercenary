@@ -20,6 +20,7 @@ import android.widget.Toast;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.lzy.okgo.model.Response;
+import com.power.mercenary.MyApplication;
 import com.power.mercenary.R;
 import com.power.mercenary.base.BaseActivity;
 import com.power.mercenary.bean.PayBean;
@@ -28,6 +29,8 @@ import com.power.mercenary.bean.task.ApplyListBean;
 import com.power.mercenary.bean.task.MsgBean;
 import com.power.mercenary.bean.task.MsgListBean;
 import com.power.mercenary.bean.task.TaskDetailsBean;
+import com.power.mercenary.http.DialogCallback;
+import com.power.mercenary.http.HttpManager;
 import com.power.mercenary.http.ResponseBean;
 import com.power.mercenary.presenter.PubTaskPresenter;
 import com.power.mercenary.presenter.TaskDetailsPresenter;
@@ -280,9 +283,13 @@ public  class PubShenghuoActivity extends BaseActivity implements PubTaskPresent
             WebActivity.invoke(this,data.getUrl(),"");
             finish();
             Toast.makeText(this,"发布成功",Toast.LENGTH_LONG).show();
+
     }
 
+    @Override
+    public void AddJiedan() {
 
+    }
     private class RequireAdapter extends BaseQuickAdapter<String, BaseViewHolder> {
 
         public RequireAdapter(int layoutResId, @Nullable List<String> data) {
