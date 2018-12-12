@@ -166,17 +166,10 @@ public class ChatActivity extends BaseActivity implements SpringView.OnFreshList
     }
 
     private void getPushMessage(Intent intent) {
-        if (intent != null && intent.getData() != null && intent.getData().getScheme().equals("rong")) {
-            //该条消息的推送内容
-            String content = intent.getData().getQueryParameter("pushData");
-            //标识该推送消息的唯一 Id。
-            String id = intent.getData().getQueryParameter("pushId");
-            //用户自定义参数 json 格式，解析后用户可根据自己定义的 Key 、Value 值进行业务处理。
-            String extra = intent.getData().getQueryParameter("extra");
-            //只有收到系统消息和不落地 push 消息的时候，pushId 不为 null。而且这两种消息只能通过 server 来发送，客户端发送不了。
-           //RongIMClient.recordNotificationEvent(id);
-            //RongIM.getInstance().getRongIMClient().recordNotificationEvent(id);
-        }
+        if (intent == null || intent.getData() == null)
+            return;
+        //push
+       // if (intent.getData().ge)
     }
 
     @OnClick({R.id.left_back, R.id.right_btn, R.id.act_chat_send})

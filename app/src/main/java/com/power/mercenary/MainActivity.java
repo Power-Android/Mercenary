@@ -728,8 +728,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     protected void onDestroy() {
         super.onDestroy();
         EventBus.getDefault().unregister(this);
-    }
 
+    }
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {//获取用户是否点击了返回键
         if (keyCode == KeyEvent.KEYCODE_BACK) {

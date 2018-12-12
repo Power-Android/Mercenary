@@ -63,6 +63,8 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import io.rong.push.notification.PushNotificationMessage;
+
 
 /**
  * Created by lxk on 2017/6/10.
@@ -395,6 +397,7 @@ public abstract class BaseActivity extends AppCompatActivity  {
             activityList.remove(this);
         }
     }
+
 
     public static void removeAllActivitys() {
         if (activityList != null && activityList.size() > 0) {

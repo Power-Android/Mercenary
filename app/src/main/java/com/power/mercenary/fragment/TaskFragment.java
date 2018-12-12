@@ -92,120 +92,124 @@ public class TaskFragment extends BaseFragment implements CollectionPresenter.Co
                 String taskType = mData.get(position).getTask_type();
                 String taskId = mData.get(position).getId();
                 String taskState = mData.get(position).getTask_status();
-                if (TextUtils.equals(taskState, "2")) {
-                    switch (taskType) {
-                        case "1":
-                            Intent ptIntent = new Intent(mContext, PTAcceptInTaskActivity.class);
-                            ptIntent.putExtra("taskId", taskId);
-                            startActivity(ptIntent);
-                            break;
+                if (!TextUtils.isEmpty(taskType) && !TextUtils.isEmpty(taskId) && !TextUtils.isEmpty(taskState)) {
+                    if (TextUtils.equals(taskState, "2")) {
+                        switch (taskType) {
+                            case "1":
+                                Intent ptIntent = new Intent(mContext, PTAcceptInTaskActivity.class);
+                                ptIntent.putExtra("taskId", taskId);
+                                startActivity(ptIntent);
+                                break;
 
-                        case "2":
-                        case "5":
-                        case "6":
-                            Intent shIntent = new Intent(mContext, SHAcceptInTaskActivity.class);
-                            shIntent.putExtra("taskId", taskId);
-                            startActivity(shIntent);
-                            break;
+                            case "2":
+                            case "5":
+                            case "6":
+                                Intent shIntent = new Intent(mContext, SHAcceptInTaskActivity.class);
+                                shIntent.putExtra("taskId", taskId);
+                                startActivity(shIntent);
+                                break;
 
-                        case "3":
-                            Intent grIntent = new Intent(mContext, GRAcceptInTaskActivity.class);
-                            grIntent.putExtra("taskId", taskId);
-                            startActivity(grIntent);
-                            break;
+                            case "3":
+                                Intent grIntent = new Intent(mContext, GRAcceptInTaskActivity.class);
+                                grIntent.putExtra("taskId", taskId);
+                                startActivity(grIntent);
+                                break;
 
-                        case "4":
-                            Intent gzIntent = new Intent(mContext, GZAcceptInTaskActivity.class);
-                            gzIntent.putExtra("taskId", taskId);
-                            startActivity(gzIntent);
-                            break;
+                            case "4":
+                                Intent gzIntent = new Intent(mContext, GZAcceptInTaskActivity.class);
+                                gzIntent.putExtra("taskId", taskId);
+                                startActivity(gzIntent);
+                                break;
+                        }
+
+                    } else if (TextUtils.equals(taskState, "3")) {
+                        switch (taskType) {
+                            case "1":
+                                Intent ptIntent = new Intent(mContext, PTAcceptAuditActivity.class);
+                                ptIntent.putExtra("taskId", taskId);
+                                startActivity(ptIntent);
+                                break;
+
+                            case "2":
+                            case "5":
+                            case "6":
+                                Intent shIntent = new Intent(mContext, SHAcceptAuditActivity.class);
+                                shIntent.putExtra("taskId", taskId);
+                                startActivity(shIntent);
+                                break;
+
+                            case "3":
+                                Intent grIntent = new Intent(mContext, GRAcceptAuditActivity.class);
+                                grIntent.putExtra("taskId", taskId);
+                                startActivity(grIntent);
+                                break;
+
+                            case "4":
+                                Intent gzIntent = new Intent(mContext, GZAcceptAuditActivity.class);
+                                gzIntent.putExtra("taskId", taskId);
+                                startActivity(gzIntent);
+                                break;
+                        }
+
+                    } else if (TextUtils.equals(taskState, "6") || TextUtils.equals(taskState, "7")) {
+                        switch (taskType) {
+                            case "1":
+                                Intent ptIntent = new Intent(mContext, PTAcceptSuccessActivity.class);
+                                ptIntent.putExtra("taskId", taskId);
+                                startActivity(ptIntent);
+                                break;
+
+                            case "2":
+                            case "5":
+                            case "6":
+                                Intent shIntent = new Intent(mContext, SHAcceptSuccessActivity.class);
+                                shIntent.putExtra("taskId", taskId);
+                                startActivity(shIntent);
+                                break;
+
+                            case "3":
+                                Intent grIntent = new Intent(mContext, GRAcceptSuccessActivity.class);
+                                grIntent.putExtra("taskId", taskId);
+                                startActivity(grIntent);
+                                break;
+
+                            case "4":
+                                Intent gzIntent = new Intent(mContext, GZAcceptSuccessActivity.class);
+                                gzIntent.putExtra("taskId", taskId);
+                                startActivity(gzIntent);
+                                break;
+                        }
+                    } else {
+                        switch (taskType) {
+                            case "1":
+                                Intent ptIntent = new Intent(mContext, PTTaskDetailsActivity.class);
+                                ptIntent.putExtra("taskId", taskId);
+                                startActivity(ptIntent);
+                                break;
+
+                            case "2":
+                            case "5":
+                            case "6":
+                                Intent shIntent = new Intent(mContext, SHTaskDetailsActivity.class);
+                                shIntent.putExtra("taskId", taskId);
+                                startActivity(shIntent);
+                                break;
+
+                            case "3":
+                                Intent grIntent = new Intent(mContext, GRTaskDetailsActivity.class);
+                                grIntent.putExtra("taskId", taskId);
+                                startActivity(grIntent);
+                                break;
+
+                            case "4":
+                                Intent gzIntent = new Intent(mContext, GZTaskDetailsActivity.class);
+                                gzIntent.putExtra("taskId", taskId);
+                                startActivity(gzIntent);
+                                break;
+                        }
                     }
-
-                } else if (TextUtils.equals(taskState, "3")) {
-                    switch (taskType) {
-                        case "1":
-                            Intent ptIntent = new Intent(mContext, PTAcceptAuditActivity.class);
-                            ptIntent.putExtra("taskId", taskId);
-                            startActivity(ptIntent);
-                            break;
-
-                        case "2":
-                        case "5":
-                        case "6":
-                            Intent shIntent = new Intent(mContext, SHAcceptAuditActivity.class);
-                            shIntent.putExtra("taskId", taskId);
-                            startActivity(shIntent);
-                            break;
-
-                        case "3":
-                            Intent grIntent = new Intent(mContext, GRAcceptAuditActivity.class);
-                            grIntent.putExtra("taskId", taskId);
-                            startActivity(grIntent);
-                            break;
-
-                        case "4":
-                            Intent gzIntent = new Intent(mContext, GZAcceptAuditActivity.class);
-                            gzIntent.putExtra("taskId", taskId);
-                            startActivity(gzIntent);
-                            break;
-                    }
-
-                } else if (TextUtils.equals(taskState, "6") || TextUtils.equals(taskState, "7")) {
-                    switch (taskType) {
-                        case "1":
-                            Intent ptIntent = new Intent(mContext, PTAcceptSuccessActivity.class);
-                            ptIntent.putExtra("taskId", taskId);
-                            startActivity(ptIntent);
-                            break;
-
-                        case "2":
-                        case "5":
-                        case "6":
-                            Intent shIntent = new Intent(mContext, SHAcceptSuccessActivity.class);
-                            shIntent.putExtra("taskId", taskId);
-                            startActivity(shIntent);
-                            break;
-
-                        case "3":
-                            Intent grIntent = new Intent(mContext, GRAcceptSuccessActivity.class);
-                            grIntent.putExtra("taskId", taskId);
-                            startActivity(grIntent);
-                            break;
-
-                        case "4":
-                            Intent gzIntent = new Intent(mContext, GZAcceptSuccessActivity.class);
-                            gzIntent.putExtra("taskId", taskId);
-                            startActivity(gzIntent);
-                            break;
-                    }
-                } else {
-                    switch (taskType) {
-                        case "1":
-                            Intent ptIntent = new Intent(mContext, PTTaskDetailsActivity.class);
-                            ptIntent.putExtra("taskId", taskId);
-                            startActivity(ptIntent);
-                            break;
-
-                        case "2":
-                        case "5":
-                        case "6":
-                            Intent shIntent = new Intent(mContext, SHTaskDetailsActivity.class);
-                            shIntent.putExtra("taskId", taskId);
-                            startActivity(shIntent);
-                            break;
-
-                        case "3":
-                            Intent grIntent = new Intent(mContext, GRTaskDetailsActivity.class);
-                            grIntent.putExtra("taskId", taskId);
-                            startActivity(grIntent);
-                            break;
-
-                        case "4":
-                            Intent gzIntent = new Intent(mContext, GZTaskDetailsActivity.class);
-                            gzIntent.putExtra("taskId", taskId);
-                            startActivity(gzIntent);
-                            break;
-                    }
+                }else{
+                    Toast.makeText(getActivity(),"此条目为空条目,暂不提供详细信息",Toast.LENGTH_LONG).show();
                 }
             }
         });

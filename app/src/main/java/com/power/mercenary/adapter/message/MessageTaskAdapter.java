@@ -54,6 +54,7 @@ public class MessageTaskAdapter extends RecyclerView.Adapter {
             //将十位的时间戳通过调用方法转换为正常时间格式
             String phptime = PhpTimeUtils.phptime(datas.get(position).getPush_time());
             viewHolder.time.setText(phptime);
+            Log.i("ghghgh", "onBindViewHolder: "+datas.get(position).getRead_state());
             if (datas.get(position).getRead_state() != null) {
                 switch (datas.get(position).getRead_state()) {
                     case "1":

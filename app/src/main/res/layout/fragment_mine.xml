@@ -11,7 +11,7 @@
         android:layout_height="wrap_content"
         android:background="@color/colorPrimary"
         android:gravity="center_vertical"
-        android:padding="10dp">
+        android:padding="@dimen/dp_10">
 
         <TextView
             android:id="@+id/tv_sz"
@@ -45,9 +45,9 @@
         android:layout_height="wrap_content"
         android:background="@color/colorPrimary"
         android:orientation="horizontal"
-        android:paddingTop="10dp"
+        android:paddingTop="@dimen/dp_10"
 
-        android:paddingBottom="10dp">
+        android:paddingBottom="@dimen/dp_10">
 
         <LinearLayout
             android:layout_width="0dp"
@@ -58,15 +58,15 @@
 
             <com.power.mercenary.view.CircleImageView
                 android:id="@+id/frag_mine_icon"
-                android:layout_width="42dp"
-                android:layout_height="42dp"
-                android:layout_marginLeft="10dp"
+                android:layout_width="@dimen/dp_42"
+                android:layout_height="@dimen/dp_42"
+                android:layout_marginLeft="@dimen/dp_10"
                 android:background="@drawable/perch_avatar" />
 
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
+                android:layout_marginLeft="@dimen/dp_10"
                 android:orientation="vertical">
 
                 <TextView
@@ -79,12 +79,12 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp"
+                    android:layout_marginTop="@dimen/dp_5"
                     android:background="@drawable/shape_bs_jx"
-                    android:paddingLeft="5dp"
-                    android:paddingTop="2dp"
-                    android:paddingRight="5dp"
-                    android:paddingBottom="2dp"
+                    android:paddingLeft="@dimen/dp_5"
+                    android:paddingTop="@dimen/dp_2"
+                    android:paddingRight="@dimen/dp_5"
+                    android:paddingBottom="@dimen/dp_2"
                     android:text="未缴纳"
                     android:textColor="@color/white"
                     android:textSize="11sp"
@@ -93,7 +93,7 @@
         </LinearLayout>
 
         <RelativeLayout
-            android:layout_width="0dp"
+            android:layout_width="@dimen/dp_0"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:layout_weight="1"
@@ -101,17 +101,17 @@
 
             <LinearLayout
                 android:id="@+id/ll_wdjz"
-                android:layout_width="130dip"
-                android:layout_height="50dip"
+                android:layout_width="@dimen/dp_130"
+                android:layout_height="@dimen/dp_50"
                 android:layout_alignParentRight="true"
-                android:layout_marginBottom="10dip"
+                android:layout_marginBottom="@dimen/dp_10"
                 android:background="@drawable/shape_left_yj"
                 android:gravity="center"
                 android:orientation="vertical"
-                android:paddingLeft="25dp"
-                android:paddingTop="5dp"
-                android:paddingRight="20dp"
-                android:paddingBottom="5dp">
+                android:paddingLeft="@dimen/dp_25"
+                android:paddingTop="@dimen/dp_5"
+                android:paddingRight="@dimen/dp_20"
+                android:paddingBottom="@dimen/dp_5">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -124,7 +124,7 @@
                     android:id="@+id/frag_mine_money"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp"
+                    android:layout_marginTop="@dimen/dp_5"
                     android:text="200000"
                     android:textColor="@color/white"
                     android:textSize="12sp" />
@@ -135,14 +135,14 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="@dimen/dp_10"
         android:background="@color/white"
         android:orientation="vertical">
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="10dp">
+            android:padding="@dimen/dp_10">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -162,19 +162,19 @@
 
         <View
             android:layout_width="match_parent"
-            android:layout_height="1dp"
+            android:layout_height="@dimen/dp_1"
             android:background="#FFF5F5F5" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:paddingTop="10dp"
-            android:paddingBottom="10dp">
+            android:paddingTop="@dimen/dp_10"
+            android:paddingBottom="@dimen/dp_10">
 
             <LinearLayout
                 android:id="@+id/ll_wjd"
-                android:layout_width="0dp"
+                android:layout_width="@dimen/dp_0"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="center"
@@ -194,15 +194,14 @@
 
                     <TextView
                         android:id="@+id/mine_accept_wjd"
-                        android:layout_width="18dp"
-                        android:layout_height="18dp"
-                        android:layout_marginLeft="20dp"
-                        android:layout_marginBottom="@dimen/dp_15"
+                        android:layout_width="@dimen/dp_18"
+                        android:layout_height="@dimen/dp_18"
                         android:background="@drawable/mine_message_hint"
                         android:gravity="center"
                         android:textColor="@color/red"
                         android:textSize="10sp"
-
+                        android:layout_marginLeft="@dimen/dp_20"
+                       android:visibility="gone"
                         />
 
                 </RelativeLayout>
@@ -210,7 +209,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
+                    android:layout_marginTop="@dimen/dp_10"
                     android:text="未决定"
                     android:textColor="#999"
                     android:textSize="13sp" />
@@ -238,13 +237,11 @@
 
                     <TextView
                         android:id="@+id/mine_accept_rwz"
-                        android:layout_width="18dp"
-                        android:layout_height="18dp"
-                        android:layout_marginLeft="20dp"
+                        android:layout_width="@dimen/dp_18"
+                        android:layout_height="@dimen/dp_18"
+                        android:layout_marginLeft="@dimen/dp_20"
                         android:background="@drawable/mine_message_hint"
                         android:gravity="center"
-                        android:layout_marginBottom="@dimen/dp_15"
-
                         android:textColor="@color/red"
                         android:textSize="10sp"
                         android:visibility="gone" />
@@ -254,7 +251,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
+                    android:layout_marginTop="@dimen/dp_10"
                     android:text="任务中"
                     android:textColor="#999"
                     android:textSize="13sp" />
@@ -282,22 +279,22 @@
 
                     <TextView
                         android:id="@+id/mine_accept_shz"
-                        android:layout_width="18dp"
-                        android:layout_height="18dp"
-                        android:layout_marginLeft="20dp"
+                        android:layout_width="@dimen/dp_18"
+                        android:layout_height="@dimen/dp_18"
+                        android:layout_marginLeft="@dimen/dp_20"
                         android:background="@drawable/mine_message_hint"
                         android:gravity="center"
-                        android:layout_marginBottom="@dimen/dp_15"
                         android:textColor="@color/red"
                         android:textSize="10sp"
-                        android:visibility="gone" />
+                        android:visibility="gone"
+                         />
 
                 </RelativeLayout>
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
+                    android:layout_marginTop="@dimen/dp_10"
                     android:text="审核中"
                     android:textColor="#999"
                     android:textSize="13sp" />
@@ -325,14 +322,13 @@
 
                     <TextView
                         android:id="@+id/mine_accept_dpj"
-                        android:layout_width="18dp"
-                        android:layout_height="18dp"
-                        android:layout_marginLeft="20dp"
+                        android:layout_width="@dimen/dp_18"
+                        android:layout_height="@dimen/dp_18"
+                        android:layout_marginLeft="@dimen/dp_20"
                         android:background="@drawable/mine_message_hint"
                         android:gravity="center"
                         android:textColor="@color/red"
                         android:textSize="10sp"
-                        android:layout_marginBottom="@dimen/dp_15"
 
                         android:visibility="gone" />
 
@@ -341,7 +337,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
+                    android:layout_marginTop="@dimen/dp_10"
                     android:text="待评价"
                     android:textColor="#999"
                     android:textSize="13sp" />
@@ -413,14 +409,13 @@
 
                     <TextView
                         android:id="@+id/mine_publish_ybm"
-                        android:layout_width="18dp"
-                        android:layout_height="18dp"
-                        android:layout_marginLeft="20dp"
+                        android:layout_width="@dimen/dp_18"
+                        android:layout_height="@dimen/dp_18"
+                        android:layout_marginLeft="@dimen/dp_20"
                         android:background="@drawable/mine_message_hint"
                         android:gravity="center"
                         android:textColor="@color/red"
                         android:textSize="10sp"
-                        android:layout_marginBottom="@dimen/dp_15"
 
                         android:visibility="gone" />
 
@@ -429,7 +424,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
+                    android:layout_marginTop="@dimen/dp_10"
                     android:text="已报名"
                     android:textColor="#999"
                     android:textSize="13sp" />
@@ -457,14 +452,13 @@
 
                     <TextView
                         android:id="@+id/mine_publish_rwz"
-                        android:layout_width="18dp"
-                        android:layout_height="18dp"
-                        android:layout_marginLeft="20dp"
+                        android:layout_width="@dimen/dp_18"
+                        android:layout_height="@dimen/dp_18"
+                        android:layout_marginLeft="@dimen/dp_20"
                         android:background="@drawable/mine_message_hint"
                         android:gravity="center"
                         android:textColor="@color/red"
                         android:textSize="10sp"
-                        android:layout_marginBottom="@dimen/dp_15"
 
                         android:visibility="gone" />
 
@@ -473,7 +467,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
+                    android:layout_marginTop="@dimen/dp_10"
                     android:text="任务中"
                     android:textColor="#999"
                     android:textSize="13sp" />
@@ -501,14 +495,13 @@
 
                     <TextView
                         android:id="@+id/mine_publish_shz"
-                        android:layout_width="18dp"
-                        android:layout_height="18dp"
-                        android:layout_marginLeft="20dp"
+                        android:layout_width="@dimen/dp_18"
+                        android:layout_height="@dimen/dp_18"
+                        android:layout_marginLeft="@dimen/dp_20"
                         android:background="@drawable/mine_message_hint"
                         android:gravity="center"
                         android:textColor="@color/red"
                         android:textSize="10sp"
-                        android:layout_marginBottom="@dimen/dp_15"
 
                         android:visibility="gone" />
 
@@ -517,7 +510,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
+                    android:layout_marginTop="@dimen/dp_10"
                     android:text="审核中"
                     android:textColor="#999"
                     android:textSize="13sp" />
@@ -545,12 +538,11 @@
 
                     <TextView
                         android:id="@+id/mine_publish_ywc"
-                        android:layout_width="18dp"
-                        android:layout_height="18dp"
-                        android:layout_marginLeft="20dp"
+                        android:layout_width="@dimen/dp_18"
+                        android:layout_height="@dimen/dp_18"
+                        android:layout_marginLeft="@dimen/dp_20"
                         android:background="@drawable/mine_message_hint"
                         android:gravity="center"
-                        android:layout_marginBottom="@dimen/dp_15"
 
                         android:textColor="@color/red"
                         android:textSize="10sp"
@@ -561,7 +553,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
+                    android:layout_marginTop="@dimen/dp_10"
                     android:text="已完成"
                     android:textColor="#999"
                     android:textSize="13sp" />
@@ -574,18 +566,18 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="@dimen/dp_10"
         android:background="@color/white"
         android:orientation="vertical"
-        android:paddingLeft="10dp"
-        android:paddingRight="10dp">
+        android:paddingLeft="@dimen/dp_10"
+        android:paddingRight="@dimen/dp_10">
 
         <RelativeLayout
             android:id="@+id/rl_wdsc"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingTop="13dp"
-            android:paddingBottom="13dp">
+            android:paddingTop="@dimen/dp_13"
+            android:paddingBottom="@dimen/dp_13">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -603,7 +595,7 @@
 
         <View
             android:layout_width="match_parent"
-            android:layout_height="1dp"
+            android:layout_height="@dimen/dp_1"
             android:background="#FFF5F5F5"
             android:visibility="gone" />
 
@@ -611,8 +603,8 @@
             android:id="@+id/rl_wdgz"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingTop="13dp"
-            android:paddingBottom="13dp"
+            android:paddingTop="@dimen/dp_13"
+            android:paddingBottom="@dimen/dp_13"
             android:visibility="gone">
 
             <TextView
@@ -631,15 +623,15 @@
 
         <View
             android:layout_width="match_parent"
-            android:layout_height="1dp"
+            android:layout_height="@dimen/dp_1"
             android:background="#FFF5F5F5" />
 
         <RelativeLayout
             android:id="@+id/rl_wdtg"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingTop="13dp"
-            android:paddingBottom="13dp">
+            android:paddingTop="@dimen/dp_13"
+            android:paddingBottom="@dimen/dp_13">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -657,15 +649,15 @@
 
         <View
             android:layout_width="match_parent"
-            android:layout_height="1dp"
+            android:layout_height="@dimen/dp_1"
             android:background="#FFF5F5F5" />
 
         <RelativeLayout
             android:id="@+id/rl_cj"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingTop="13dp"
-            android:paddingBottom="13dp">
+            android:paddingTop="@dimen/dp_13"
+            android:paddingBottom="@dimen/dp_13">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -683,15 +675,15 @@
 
         <View
             android:layout_width="match_parent"
-            android:layout_height="1dp"
+            android:layout_height="@dimen/dp_1"
             android:background="#FFF5F5F5" />
 
         <RelativeLayout
             android:id="@+id/rl_wdzl"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingTop="13dp"
-            android:paddingBottom="13dp">
+            android:paddingTop="@dimen/dp_13"
+            android:paddingBottom="@dimen/dp_13">
 
             <TextView
                 android:layout_width="wrap_content"

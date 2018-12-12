@@ -75,12 +75,9 @@ public class TaskListPresenter {
                     }
                 });
     }
-
     public interface TaskListCallBack {
         void getTaskList(List<TaskListBean> datas);
-
         void getTaskDetails(TaskDetailsBean datas);
-
         void getListFail();
     }
 }
