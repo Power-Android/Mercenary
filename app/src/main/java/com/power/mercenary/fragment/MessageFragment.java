@@ -1,8 +1,14 @@
 package com.power.mercenary.fragment;
 
+import android.os.Build;
 import android.os.Bundle;
+import android.os.RemoteException;
+import android.service.carrier.CarrierMessagingService;
+import android.support.annotation.NonNull;
+import android.support.annotation.RequiresApi;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,6 +26,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import io.rong.imlib.RongIMClient;
 
 /**
  * Created by power on 2018/3/21.
@@ -59,6 +66,7 @@ public class MessageFragment extends BaseFragment implements View.OnClickListene
     private FragmentVPagerAdapter vPagerAdapter;
     private List<Fragment> fragments;
     private ViewPager viewPager;
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP_MR1)
     @Override
     protected View initView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_message, null);
@@ -117,6 +125,19 @@ public class MessageFragment extends BaseFragment implements View.OnClickListene
         renwutjLl.setOnClickListener(this);
         tongchengLl.setOnClickListener(this);
 
+        //获取未读消息数
+        RongIMClient.getInstance().getTotalUnreadCount(new RongIMClient.ResultCallback<Integer>() {
+            @Override
+            public void onSuccess(Integer integer) {
+                Integer mMessageUnreadCount = integer;
+                Log.i("tttttttttttttt", "onSuccess: "+mMessageUnreadCount);
+            }
+
+            @Override
+            public void onError(RongIMClient.ErrorCode errorCode) {
+
+            }
+        });
         return view;
     }
 

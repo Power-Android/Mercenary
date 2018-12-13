@@ -1,5 +1,7 @@
 package com.power.mercenary.bean.user;
 
+import android.util.Log;
+
 /**
  * admin  2018/7/5 wan
  */
@@ -35,6 +37,9 @@ public class UserInfo {
      */
 
     private String id;
+
+
+
     private String nick_name;
     private String name;
     private String age;

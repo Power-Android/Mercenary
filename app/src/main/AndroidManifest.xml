@@ -11,7 +11,6 @@
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
-
     <application
         android:name=".MyApplication"
         android:allowBackup="true"
@@ -27,12 +26,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
-       <!-- <service
-            android:name="cn.jpush.android.service.PushService"
-            android:process=":multiprocess"
-            tools:node="replace" />-->
-
 
 
         <provider
@@ -274,7 +267,6 @@
            <!-- <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
                 <category android:name="android.intent.category.DEFAULT" />
-
                 <data
                     android:host="com.power.mercenary"
                     android:pathPrefix="/push_message"
@@ -302,10 +294,6 @@
             android:name="com.baidu.lbsapi.API_KEY"
             android:value="ll4x3TgUDXsdkghFMqDXqCMpubFBllYq" />
         <!-- 百度地图结束 -->
-
-
-
-
         <!-- 友盟第三方登录及分享start -->
         <meta-data
             android:name="UMENG_APPKEY"

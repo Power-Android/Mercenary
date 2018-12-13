@@ -9,9 +9,13 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.power.mercenary.R;
 import com.power.mercenary.bean.MsgTaskBean;
+import com.power.mercenary.utils.GlideImageLoader;
 import com.power.mercenary.utils.PhpTimeUtils;
+import com.power.mercenary.utils.Urls;
+import com.power.mercenary.view.CircleImageView;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -54,18 +58,17 @@ public class MessageTaskAdapter extends RecyclerView.Adapter {
             //将十位的时间戳通过调用方法转换为正常时间格式
             String phptime = PhpTimeUtils.phptime(datas.get(position).getPush_time());
             viewHolder.time.setText(phptime);
-            Log.i("ghghgh", "onBindViewHolder: "+datas.get(position).getRead_state());
             if (datas.get(position).getRead_state() != null) {
                 switch (datas.get(position).getRead_state()) {
                     case "1":
-                        viewHolder.state.setVisibility(View.GONE);
-                        break;
-                    case "0":
                         viewHolder.state.setVisibility(View.VISIBLE);
+                        break;
+                    case "2":
+                        viewHolder.state.setVisibility(View.GONE);
                         break;
                 }
             }
-
+            Glide.with(context).load(Urls.BASEIMGURL +datas.get(position).getUser_head_img()).into(viewHolder.task_msg_icon);
             viewHolder.content.setText(datas.get(position).getContent());
 
             viewHolder.layout.setOnClickListener(new View.OnClickListener() {
@@ -84,6 +87,7 @@ public class MessageTaskAdapter extends RecyclerView.Adapter {
 
     class TaskViewHolder extends RecyclerView.ViewHolder {
 
+        private CircleImageView task_msg_icon;
         private TextView title;
 
         private TextView time;
@@ -101,6 +105,7 @@ public class MessageTaskAdapter extends RecyclerView.Adapter {
             time = itemView.findViewById(R.id.item_messageTask_time);
             content = itemView.findViewById(R.id.item_messageTask_content);
             state = itemView.findViewById(R.id.item_messagePrivate_hint);
+            task_msg_icon = itemView.findViewById(R.id.item_messagePrivate_icon);
         }
     }
 

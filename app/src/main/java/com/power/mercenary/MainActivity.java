@@ -1,8 +1,11 @@
 package com.power.mercenary;
 
+import android.app.ActivityManager;
 import android.app.AlertDialog;
 import android.app.Application;
 import android.content.ClipboardManager;
+import android.content.ComponentName;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -115,9 +118,16 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         homeFragment = new HomeFragment();
         addFragments(homeFragment);
         EventBus.getDefault().register(this);
+        boolean applicationBroughtToBackground = isApplicationBroughtToBackground(this);
+        Log.i("liubiAO",""+applicationBroughtToBackground);
 
 
     }
+
+    public static boolean isApplicationBroughtToBackground(final Context context) {
+        return false;
+    }
+
     private void addFragments(BaseFragment f) {
         // 第一步：得到fragment管理类
         FragmentManager manager = getSupportFragmentManager();

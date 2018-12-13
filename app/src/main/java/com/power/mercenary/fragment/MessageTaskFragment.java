@@ -100,11 +100,11 @@ public class MessageTaskFragment extends BaseFragment implements WanRecyclerView
 
     @Override
     public void onItemClickListener(MsgTaskBean msgTaskBean, int position) {
-        datas.get(position).setRead_state("1");
+        presenter.setMessageState(msgTaskBean.getId());
+        ChatActivity.invoke(getActivity(),msgTaskBean.getUser_id(),msgTaskBean.getUser_head_img(),msgTaskBean.getUser_nick_name());
+        datas.get(position).setRead_state("2");
         adapter.notifyDataSetChanged();
 
-        ChatActivity.invoke(getActivity(),msgTaskBean.getUser_id(),msgTaskBean.getUser_head_img(),msgTaskBean.getUser_nick_name());
-        presenter.setMessageState(msgTaskBean.getId());
     }
 
     @Override

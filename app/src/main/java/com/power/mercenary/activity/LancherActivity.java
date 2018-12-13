@@ -37,44 +37,5 @@ public class LancherActivity extends BaseActivity {
         }, 1500);
     }
 
-//    private void go() {
-//        OkGo.get(MyContants.BASEURL+"Startpage/startPage")
-//                .tag(LancherActivity.this)
-//                .execute(new StringCallback() {
-//                    @Override
-//                    public void onSuccess(String s, Call call, Response response) {
-//                        Gson gson = new Gson();
-//                        LauncherBean launcherBean = new Gson().fromJson(s, LauncherBean.class);
-//                        if (launcherBean != null && launcherBean.getDatas() != null && launcherBean.getDatas().getImg1() != null) {
-//                            String img3 = launcherBean.getDatas().getImg1();
-//                            Glide.with(LancherActivity.this).load(img3)
-//                                    .into(iv_launcher);
-//                        }
-//
-//                        mHandler.postDelayed(new Runnable() {
-//                            @Override
-//                            public void run() {
-//                                boolean guide = SpUtils.getBoolean(LancherActivity.this, "guide", false);
-//                                if (!guide) {
-//                                    Intent intent = new Intent(LancherActivity.this, GuidePageActivity.class);
-//                                    startActivity(intent);
-//                                    finish();
-//
-//                                } else {
-//                                    Intent intent = new Intent(LancherActivity.this, MainActivity.class);
-//                                    startActivity(intent);
-//                                    finish();
-//
-//                                }
-//                            }
-//                        }, 1500);
-//                    }
-//
-//                    @Override
-//                    public void onError(Call call, Response response, Exception e) {
-//                        Toast.makeText(LancherActivity.this, "请检查网络或重试", Toast.LENGTH_SHORT).show();
-//                        Log.e("请求失败", "失败原因：" + response);
-//                    }
-//                });
-//    }
+
 }

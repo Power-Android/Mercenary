@@ -13,13 +13,19 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
 import com.power.mercenary.R;
 import com.power.mercenary.base.BaseActivity;
+import com.power.mercenary.bean.ObtainSecurityCodeBean;
 import com.power.mercenary.bean.user.TokenInfo;
+import com.power.mercenary.http.OkhtttpUtils;
 import com.power.mercenary.presenter.LoginPresenter;
 import com.power.mercenary.utils.CountDownUtils;
 import com.power.mercenary.utils.MyUtils;
 import com.power.mercenary.utils.Urls;
+
+import java.util.HashMap;
+import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -106,7 +112,7 @@ public class ForgetPasswordActivity extends BaseActivity implements LoginPresent
         } else {
             String md5 = MyUtils.getMD5("code=" + edtCode.getText().toString() + "mobile=" + edtPhone.getText().toString() + "pwd=" + et_wj_mm.getText().toString() + Urls.SECRET);
             Log.d("RegisterActivityMD5", md5 + "------");
-            presenter.ForgetPassrInfo(md5, "1234", edtPhone.getText().toString(), et_wj_mm.getText().toString());
+            presenter.ForgetPassrInfo(md5, edtCode.getText().toString(), edtPhone.getText().toString(), et_wj_mm.getText().toString());
         }
     }
 
@@ -141,6 +147,49 @@ public class ForgetPasswordActivity extends BaseActivity implements LoginPresent
         if (edtPhone.getText().length() < 11 || edtPhone.getText().equals("")) {
             Toast.makeText(mContext, "请输入正确的手机号", Toast.LENGTH_SHORT).show();
             return;
+        }{
+            String phoneNumber = edtPhone.getText().toString().trim();
+
+            Map<String, String> map = new HashMap<>();
+
+            String encrypt = MyUtils.getMD5("mobile=" + phoneNumber + Urls.SECRET);
+
+            map.put("mobile", phoneNumber);
+
+            map.put("signature", encrypt);
+
+            OkhtttpUtils.getInstance().doPost("http://yb.dashuibei.com/index.php/Home/User/sendsms", map, new OkhtttpUtils.OkCallback() {
+                @Override
+                public void onFailure(Exception e) {
+
+
+                }
+
+                @Override
+                public void onResponse(String json) {
+
+                    Gson gson = new Gson();
+
+
+                    ObtainSecurityCodeBean obtainSecurityCodeBean = gson.fromJson(json, ObtainSecurityCodeBean.class);
+
+
+                    int code = obtainSecurityCodeBean.getCode();
+
+                    if (code == 0) {
+
+                        Toast.makeText(ForgetPasswordActivity.this, "将要给您发送验证码,请注意查看", Toast.LENGTH_SHORT).show();
+
+                    } else {
+
+                        Toast.makeText(ForgetPasswordActivity.this, obtainSecurityCodeBean.getMsg(), Toast.LENGTH_SHORT).show();
+
+
+                    }
+
+
+                }
+            });
         }
         countDownUtils.start();
     }

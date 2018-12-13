@@ -165,7 +165,6 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
 
                             Gson gson = new Gson();
 
-                            Log.e(TAG, "onResponse: " + json);
 
                             ObtainSecurityCodeBean obtainSecurityCodeBean = gson.fromJson(json, ObtainSecurityCodeBean.class);
 
@@ -180,7 +179,6 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
 
                                 Toast.makeText(RegisterActivity.this, obtainSecurityCodeBean.getMsg(), Toast.LENGTH_SHORT).show();
 
-                                Log.e(TAG, "onResponse: " + obtainSecurityCodeBean.getMsg());
 
                             }
 
@@ -237,7 +235,6 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
             return;
         } else {
             String md5 = MyUtils.getMD5("code=" + edtCode.getText().toString() + "mobile=" + edtPhone.getText().toString() + "pwd=" + edtNewPass.getText().toString() + "user_type=" + loginType + Urls.SECRET);
-            Log.d("RegisterActivityMD5", md5 + "------");
             presenter.getUserInfo(md5, edtCode.getText().toString(), edtPhone.getText().toString(), "0", edtNewPass.getText().toString());
         }
     }
@@ -256,7 +253,6 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
             Intent intent = new Intent(RegisterActivity.this, CommitUserInfoActivity.class);
             startActivity(intent);
         }
-        Log.d("RegisterActivityToken", userInfo.token + "--------");
     }
 
     @Override

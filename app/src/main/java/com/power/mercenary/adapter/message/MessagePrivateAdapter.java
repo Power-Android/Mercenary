@@ -3,6 +3,7 @@ package com.power.mercenary.adapter.message;
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -71,7 +72,6 @@ public class MessagePrivateAdapter extends RecyclerView.Adapter {
                         .into(viewHolder.icon);
 
                 viewHolder.title.setText(datas.get(position).getFromuser_name());
-
                 switch (datas.get(position).getRead_status()) {
                     case "1":
                         viewHolder.mHint.setVisibility(View.GONE);

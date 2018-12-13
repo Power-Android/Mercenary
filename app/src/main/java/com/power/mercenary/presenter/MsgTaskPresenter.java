@@ -55,7 +55,6 @@ public class MsgTaskPresenter {
                 .postRequest(new JsonCallback<ResponseBean<Void>>() {
                     @Override
                     public void onSuccess(Response<ResponseBean<Void>> response) {
-
                     }
                 });
 

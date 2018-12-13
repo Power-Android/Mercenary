@@ -1,10 +1,14 @@
 package com.power.mercenary;
 
+import android.app.Activity;
 import android.app.Application;
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.multidex.MultiDex;
+import android.text.LoginFilter;
 import android.text.TextUtils;
 import android.util.Config;
 import android.util.Log;
@@ -37,9 +41,11 @@ import com.power.mercenary.utils.TUtils;
 import com.umeng.commonsdk.UMConfigure;
 import com.umeng.socialize.PlatformConfig;
 import com.umeng.socialize.UMShareAPI;
+import com.xiaomi.mipush.sdk.PushMessageReceiver;
 
 import org.greenrobot.eventbus.EventBus;
 
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 
@@ -50,6 +56,8 @@ import io.rong.imlib.model.MessageContent;
 import io.rong.message.TextMessage;
 import io.rong.push.notification.PushNotificationMessage;
 import okhttp3.OkHttpClient;
+
+import static io.rong.push.notification.PushNotificationMessage.*;
 
 /**
  * Created by Administrator on 2017/8/24.
@@ -81,11 +89,29 @@ public class MyApplication extends Application {
 
     }
 
+    @Override
+    public void onTrimMemory(int level) {//判断程序是否处于后台的判断方法
+        super.onTrimMemory(level);
+        if (level == TRIM_MEMORY_UI_HIDDEN) {
+            PushNotificationMessage pushNotificationMessage = transformToPushMessage(PushNotificationMessage.CREATOR);
+            sendNotification(getApplicationContext(),pushNotificationMessage);
+        }
+    }
 
+    //发送通知。如果使用 IMLib 开发，当应用在后台需要弹后台通知时，可以直接调用此函数弹出通知。
+    public static void sendNotification(Context context, PushNotificationMessage notificationMessage) {
+
+    }
+    PushNotificationMessage transformToPushMessage(Creator<PushNotificationMessage> content) {
+
+        PushNotificationMessage pushMsg = new PushNotificationMessage();
+        pushMsg.setPushContent(String.valueOf(content));
+        return pushMsg;
+    }
     private void initUM() {
 
-        UMConfigure.init(this,"5a12384aa40fa3551f0001d1"
-                ,"umeng",UMConfigure.DEVICE_TYPE_PHONE,"");//58edcfeb310c93091c000be2 5965ee00734be40b580001a0
+        UMConfigure.init(this, "5a12384aa40fa3551f0001d1"
+                , "umeng", UMConfigure.DEVICE_TYPE_PHONE, "");//58edcfeb310c93091c000be2 5965ee00734be40b580001a0
 
         UMShareAPI.get(this);
 
@@ -93,7 +119,7 @@ public class MyApplication extends Application {
 
         PlatformConfig.setWeixin("wxdc1e388c3822c80b", "3baf1193c85774b3fd9d18447d76cab0");
         PlatformConfig.setQQZone("100424468", "c7394704798a158208a74ab60104f0ba");
-        PlatformConfig.setSinaWeibo("3921700954", "04b48b094faeb16683c32669824ebdad","http://sns.whalecloud.com");
+        PlatformConfig.setSinaWeibo("3921700954", "04b48b094faeb16683c32669824ebdad", "http://sns.whalecloud.com");
     }
 
     private void initRongClound() {
@@ -105,17 +131,13 @@ public class MyApplication extends Application {
                 RongIMClient.connect(tokenInfo.yun_token, new RongIMClient.ConnectCallback() {
                     @Override
                     public void onTokenIncorrect() {
-
                     }
 
                     @Override
                     public void onSuccess(String s) {
-                        Log.v("======>>", "RongClound connect! id:" + s);
                     }
-
                     @Override
                     public void onError(RongIMClient.ErrorCode errorCode) {
-                        Log.v("======>>", "errorCode" + errorCode.getValue() + "-----" + errorCode.getMessage());
                     }
                 });
             }
@@ -128,7 +150,6 @@ public class MyApplication extends Application {
 
                 if (content instanceof TextMessage) {
                     TextMessage textMessage = (TextMessage) content;
-
                     if (CacheUtils.get(CacheConstants.MESSAGE_SWITCHBUTTON) != null) {
 
                         String switchStr = CacheUtils.get(CacheConstants.MESSAGE_SWITCHBUTTON);
@@ -152,7 +173,6 @@ public class MyApplication extends Application {
 
                     //int   消息id
                     CacheUtils.put(CacheConstants.MESSAGEID, message.getMessageId());
-
                     if (CacheUtils.get(CacheConstants.IS_IN_CHAT) != null) {
                         String isChat = CacheUtils.get(CacheConstants.IS_IN_CHAT);
                         if (TextUtils.equals(isChat, message.getSenderUserId())) {
@@ -327,5 +347,7 @@ public class MyApplication extends Application {
         }, Conversation.ConversationType.PRIVATE);
         RongIMClient.getInstance().logout();
     }
+
+
 }
 

@@ -2,9 +2,15 @@ package com.power.mercenary.activity.chat;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.RemoteException;
+import android.service.carrier.CarrierMessagingService;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.annotation.RequiresApi;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
@@ -23,6 +29,7 @@ import com.lzy.okgo.model.Response;
 import com.power.mercenary.MainActivity;
 import com.power.mercenary.MyApplication;
 import com.power.mercenary.R;
+import com.power.mercenary.activity.RegisterActivity;
 import com.power.mercenary.adapter.chat.ChatMsgAdapter;
 import com.power.mercenary.base.BaseActivity;
 import com.power.mercenary.bean.ObtainUserInfo;
@@ -38,6 +45,7 @@ import com.power.mercenary.utils.CacheUtils;
 import com.power.mercenary.utils.ShearUtils;
 import com.power.mercenary.utils.SoftKeyboardTool;
 import com.power.mercenary.utils.TUtils;
+import com.power.mercenary.view.LoadingDialog1;
 import com.power.mercenary.view.chatrefresh.ChatRefreshHeader;
 
 import org.greenrobot.eventbus.EventBus;
@@ -91,7 +99,10 @@ public class ChatActivity extends BaseActivity implements SpringView.OnFreshList
     private String imgUrls;
 
     private String name;
+    private LoadingDialog1 mDialog;
+    private SharedPreferences sp;
 
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP_MR1)
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -105,6 +116,8 @@ public class ChatActivity extends BaseActivity implements SpringView.OnFreshList
         name = getIntent().getStringExtra("name");
         title.setText(name);
         CacheUtils.put(CacheConstants.IS_IN_CHAT, userId);
+        sp = getSharedPreferences("config", MODE_PRIVATE);
+
         chatPresenter = new ChatPresenter(this, this);
 //        chatPresenter.getUserInfo(userId);
         Intent intent = getIntent();
@@ -157,7 +170,11 @@ public class ChatActivity extends BaseActivity implements SpringView.OnFreshList
         });
 
         EventBus.getDefault().register(this);
+
+
     }
+
+
 
     @Override
     protected void onNewIntent(Intent intent) {
@@ -166,11 +183,10 @@ public class ChatActivity extends BaseActivity implements SpringView.OnFreshList
     }
 
     private void getPushMessage(Intent intent) {
-        if (intent == null || intent.getData() == null)
-            return;
-        //push
-       // if (intent.getData().ge)
+
     }
+
+
 
     @OnClick({R.id.left_back, R.id.right_btn, R.id.act_chat_send})
     public void onViewClicked(View view) {
@@ -278,6 +294,7 @@ public class ChatActivity extends BaseActivity implements SpringView.OnFreshList
                 }
             }
         });
+
     }
 
     @Override
@@ -303,6 +320,7 @@ public class ChatActivity extends BaseActivity implements SpringView.OnFreshList
             }
         });
     }
+
 
 
     private void getHistoryList() {

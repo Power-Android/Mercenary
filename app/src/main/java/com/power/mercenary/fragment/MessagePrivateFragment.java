@@ -2,6 +2,7 @@ package com.power.mercenary.fragment;
 
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,6 +25,8 @@ import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import io.rong.imlib.RongIMClient;
 
 /**
  * admin  2018/7/23 wan
@@ -60,6 +63,7 @@ public class MessagePrivateFragment extends BaseFragment implements WanRecyclerV
         presenter.getMessagePrivateList(page);
 
         EventBus.getDefault().register(this);
+
         return view;
     }
 
@@ -93,7 +97,6 @@ public class MessagePrivateFragment extends BaseFragment implements WanRecyclerV
         } else {
             ChatActivity.invoke(getActivity(), msgPrivateBean.getFromuserid(), msgPrivateBean.getFromuserhead_img(), msgPrivateBean.getFromuser_name());
         }
-
         lists.get(position).setRead_status("1");
         adapter.notifyDataSetChanged();
     }
