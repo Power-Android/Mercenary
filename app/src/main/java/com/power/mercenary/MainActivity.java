@@ -783,10 +783,11 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
             case R.id.tv_sure:
                 finish();
                 System.exit(0);
+                RongIMClient.getInstance().disconnect();//当用户退出程序之后也可以收到融云推送过来的消息
             case R.id.tv_cancle:
                 mDialog.dismiss();
-
                 break;
         }
     }
+
 }

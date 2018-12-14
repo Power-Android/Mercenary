@@ -63,6 +63,7 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import io.rong.imlib.RongIMClient;
 import io.rong.push.notification.PushNotificationMessage;
 
 
@@ -396,6 +397,7 @@ public abstract class BaseActivity extends AppCompatActivity  {
         if (activityList != null) {
             activityList.remove(this);
         }
+
     }
 
 

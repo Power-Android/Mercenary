@@ -54,6 +54,7 @@ import io.rong.imlib.model.Conversation;
 import io.rong.imlib.model.Message;
 import io.rong.imlib.model.MessageContent;
 import io.rong.message.TextMessage;
+import io.rong.push.core.MessageHandleService;
 import io.rong.push.notification.PushNotificationMessage;
 import okhttp3.OkHttpClient;
 
@@ -79,10 +80,8 @@ public class MyApplication extends Application {
         ImageLoader.getInstance().init(configuration);
         initRongClound();
         initUM();
-
         CityListLoader.getInstance().loadProData(this);
         Fresco.initialize(this);
-
     }
 
     private void ShearPlate() {
@@ -92,22 +91,13 @@ public class MyApplication extends Application {
     @Override
     public void onTrimMemory(int level) {//判断程序是否处于后台的判断方法
         super.onTrimMemory(level);
-        if (level == TRIM_MEMORY_UI_HIDDEN) {
-            PushNotificationMessage pushNotificationMessage = transformToPushMessage(PushNotificationMessage.CREATOR);
-            sendNotification(getApplicationContext(),pushNotificationMessage);
+        if (level == TRIM_MEMORY_UI_HIDDEN) {//调用融云断开连接的方法让他处于后台也收到消息
+            RongIMClient.getInstance().disconnect();
         }
     }
 
-    //发送通知。如果使用 IMLib 开发，当应用在后台需要弹后台通知时，可以直接调用此函数弹出通知。
-    public static void sendNotification(Context context, PushNotificationMessage notificationMessage) {
 
-    }
-    PushNotificationMessage transformToPushMessage(Creator<PushNotificationMessage> content) {
 
-        PushNotificationMessage pushMsg = new PushNotificationMessage();
-        pushMsg.setPushContent(String.valueOf(content));
-        return pushMsg;
-    }
     private void initUM() {
 
         UMConfigure.init(this, "5a12384aa40fa3551f0001d1"
