@@ -44,26 +44,19 @@ public class MessagePrivateFragment extends BaseFragment implements WanRecyclerV
     private int page = 1;
 
     private boolean isRefresh = false;
-
     @Override
     protected View initView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = LayoutInflater.from(mContext).inflate(R.layout.fragment_message_list, null);
-
         mRecyclerView = view.findViewById(R.id.frag_messageList_recyclerView);
         mRecyclerView.setLinearLayout();
         mRecyclerView.setPullRecyclerViewListener(this);
-
         lists = new ArrayList<>();
         adapter = new MessagePrivateAdapter(getContext(), lists);
         adapter.setOnItemClickListener(this);
-
         mRecyclerView.setAdapter(adapter);
-
         presenter = new MessagePresenter(getActivity(), this);
         presenter.getMessagePrivateList(page);
-
         EventBus.getDefault().register(this);
-
         return view;
     }
 
@@ -104,92 +97,9 @@ public class MessagePrivateFragment extends BaseFragment implements WanRecyclerV
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onRecevierEvent(EventUtils event) {
         switch (event.getType()) {
-//            case EventConstants.TYPE_MESSAGE_SHOW_MINE:
-//                Message message = (Message) event.getData();
-//                MessageContent messageContent = message.getContent();
-//                MsgPrivateBean privateBean = null;
-//                if (messageContent instanceof TextMessage) {
-//                    TextMessage textContent = (TextMessage) messageContent;
-//                    for (int i = 0; i < lists.size(); i++) {
-//                        if (TextUtils.equals(lists.get(i).getTouserid(), message.getTargetId())) {
-//                            String header = lists.get(i).getFromuserhead_img();
-//                            String name = lists.get(i).getFromuser_name();
-//                            String uid = lists.get(i).getFromuserid();
-//                            lists.get(i).setFromuserid(lists.get(i).getTouserid());
-//                            lists.get(i).setFromuser_name(lists.get(i).getTouser_name());
-//                            lists.get(i).setFromuserhead_img(lists.get(i).getTouserhead_img());
-//                            lists.get(i).setTouserid(uid);
-//                            lists.get(i).setTouser_name(name);
-//                            lists.get(i).setTouserhead_img(header);
-//                            lists.get(i).setContent(textContent.getContent());
-//                            lists.get(i).setRead_status("1");
-//                            lists.get(i).setMsgtime(System.currentTimeMillis());
-//                            privateBean = lists.get(i);
-//                            lists.remove(i);
-//                        } else if (TextUtils.equals(lists.get(i).getFromuserid(), message.getTargetId())) {
-//                            lists.get(i).setContent(textContent.getContent());
-//                            lists.get(i).setRead_status("1");
-//                            privateBean = lists.get(i);
-//                            lists.remove(i);
-//                        }
-//                    }
-//                }
-//                lists.add(0, privateBean);
-//                adapter.notifyDataSetChanged();
-//                break;
 
-//            case EventConstants.TYPE_MESSAGE_SHOW_NULL:
-//                String id = (String) event.getData();
-//                for (int i = 0; i < lists.size(); i++) {
-//                    if (TextUtils.equals(lists.get(i).getFromuserid(), id) || TextUtils.equals(lists.get(i).getTouserid(), id)) {
-//                        lists.get(i).setContent("");
-//                    }
-//                }
-//                adapter.notifyDataSetChanged();
-//                break;
             case EventConstants.TYPE_MESSAGE_SHOW:
-//                Message msg = (Message) event.getData();
-//                MessageContent content = msg.getContent();
-//                MsgPrivateBean msgPrivateBean = null;
-//                if (content instanceof TextMessage) {
-//                    TextMessage textMessage = (TextMessage) content;
-//                    for (int i = 0; i < lists.size(); i++) {
-//                        if (TextUtils.equals(lists.get(i).getTouserid(), msg.getTargetId())) {
-//                            String header = lists.get(i).getFromuserhead_img();
-//                            String name = lists.get(i).getFromuser_name();
-//                            String uid = lists.get(i).getFromuserid();
-//                            lists.get(i).setFromuserid(lists.get(i).getTouserid());
-//                            lists.get(i).setFromuser_name(lists.get(i).getTouser_name());
-//                            lists.get(i).setFromuserhead_img(lists.get(i).getTouserhead_img());
-//                            lists.get(i).setTouserid(uid);
-//                            lists.get(i).setTouser_name(name);
-//                            lists.get(i).setTouserhead_img(header);
-//                            lists.get(i).setContent(textMessage.getContent());
-//                            lists.get(i).setRead_status("0");
-//                            lists.get(i).setMsgtime(System.currentTimeMillis());
-//                            msgPrivateBean = lists.get(i);
-//                            lists.remove(i);
-//                            lists.add(0, msgPrivateBean);
-//                            adapter.notifyDataSetChanged();
-//                            return;
-//                        } else if (TextUtils.equals(lists.get(i).getFromuserid(), msg.getTargetId())) {
-//                            lists.get(i).setContent(textMessage.getContent());
-//                            lists.get(i).setRead_status("0");
-//                            msgPrivateBean = lists.get(i);
-//                            lists.remove(i);
-//                            lists.add(0, msgPrivateBean);
-//                            adapter.notifyDataSetChanged();
-//                            return;
-//                        }
-//                    }
-//                    if (!isRefresh) {
-//                        page = 1;
-//                        lists.clear();
-//                        presenter.getMessagePrivateList(page);
-//                        isRefresh = true;
-//                    }
-//                }
-//                break;
+
             case EventConstants.TYPE_MESSAGE_SHOW_NULL:
             case EventConstants.TYPE_MESSAGE_SHOW_MINE:
             case EventConstants.TYPE_MESSAGE_SHOW_RESRESH:
@@ -212,35 +122,7 @@ public class MessagePrivateFragment extends BaseFragment implements WanRecyclerV
             lists.addAll(data);
             adapter.notifyDataSetChanged();
             mRecyclerView.setHasMore(data.size(), 20);
-//            }
-//            else {
-//                int index = 0;
-//
-//                for (int i = 0; i < data.size(); i++) {
-//                    int isFind = 1;
-////                    if (!TextUtils.equals(data.get(i).getFromuserid(), MyApplication.getUserId())) {
-//                    for (int j = 0; j < lists.size(); j++) {
-//                        if (TextUtils.equals(data.get(i).getFromuserid(), lists.get(j).getTouserid()) || TextUtils.equals(data.get(i).getFromuserid(), lists.get(j).getFromuserid())) {
-//                            if (!TextUtils.equals(data.get(i).getContent(), lists.get(j).getContent())) {
-//                                lists.remove(j);
-//                                lists.add(index, data.get(i));
-//                                index++;
-//                                adapter.notifyDataSetChanged();
-//                                break;
-//                            }
-//                        }
-//                        isFind++;
-//                    }
-//
-//                    if (isFind == lists.size()) {
-//                        lists.add(index, data.get(i));
-//                        index++;
-//                        adapter.notifyDataSetChanged();
-//                    }
-////                    }
-//                }
-//                mRecyclerView.setHasMore(data.size(), 20);
-//            }
+
         } else {
             lists.clear();
             adapter.notifyDataSetChanged();

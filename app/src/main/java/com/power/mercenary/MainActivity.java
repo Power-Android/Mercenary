@@ -43,6 +43,7 @@ import com.power.mercenary.fragment.PubFragment;
 import com.power.mercenary.presenter.TaskDetailsPresenter;
 import com.power.mercenary.utils.SharedPreferencesUtils;
 import com.power.mercenary.utils.ShearUtils;
+import com.power.mercenary.utils.TUtils;
 import com.power.mercenary.view.BaseDialog;
 
 import org.greenrobot.eventbus.EventBus;
@@ -60,7 +61,6 @@ import butterknife.OnClick;
 import io.rong.imlib.RongIMClient;
 
 public class MainActivity extends BaseActivity implements View.OnClickListener {
-
     @BindView(R.id.fl_content)
     FrameLayout flContent;
     @BindView(R.id.iv_home)
@@ -109,7 +109,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     private int PAOTUI = 101, SHENGHUO = 102, GERENDINGZHI = 103, GONGZUO = 104, JIANKANG = 105;
     private OptionsPickerView pvCustomOptions;
     private AlertDialog alertDialog;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -119,9 +118,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         addFragments(homeFragment);
         EventBus.getDefault().register(this);
         boolean applicationBroughtToBackground = isApplicationBroughtToBackground(this);
-        Log.i("liubiAO",""+applicationBroughtToBackground);
-
-
     }
 
     public static boolean isApplicationBroughtToBackground(final Context context) {
@@ -294,10 +290,12 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 intent.putExtra("ChildTaskType", "1");
                 startActivity(intent);
                 mDialog.dismiss();
+
             }
         });
         mDialog.show();
     }
+
 
     //健康
     private void showJiankangDialog() {
@@ -647,8 +645,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                     }
                     startActivity(intent2);
                 } else if (tx.equals("工作")) {
-
-
                     Intent intent3 = new Intent(MainActivity.this, PubGongzuoActivity.class);
                     intent3.putExtra("TaskType", "4");
                     if (option2 == 0) {
@@ -710,7 +706,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
 
     }
 
-
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onRecevierEvent(EventUtils event) {
         switch (event.getType()) {
@@ -740,19 +735,19 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         EventBus.getDefault().unregister(this);
 
     }
+
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {//获取用户是否点击了返回键
         if (keyCode == KeyEvent.KEYCODE_BACK) {
-            exit();
+            //弹出提示框
+            alertExitDialog();
+
             return false;
         }
         return super.onKeyDown(keyCode, event);
     }
 
-    private void exit() {
-        //弹出提示框
-        alertExitDialog();
-    }
+
 
     private void alertExitDialog() {
         BaseDialog.Builder builder = new BaseDialog.Builder(this);
@@ -789,5 +784,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 break;
         }
     }
+
 
 }

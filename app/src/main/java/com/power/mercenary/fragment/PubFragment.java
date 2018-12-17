@@ -90,19 +90,6 @@ public class PubFragment extends BaseFragment implements TieZiListPresenter.Task
     private void initData() {
         titleBackIv.setVisibility(View.GONE);
         titleContentTv.setText("全部分类");
-
-        List<Integer> baaaneList = new ArrayList<>();
-        baaaneList.add(R.drawable.test_banner);
-        baaaneList.add(R.drawable.test_banner);
-        baaaneList.add(R.drawable.test_banner);
-//        BannerUtils.startBanner(banner, baaaneList);
-//        banner.setOnBannerListener(new OnBannerListener() {
-//            @Override
-//            public void OnBannerClick(int position) {
-//                TUtils.showShort(mContext, bannerBeans.get(position).getUrl());
-//            }
-//        });
-
         final List<Testbean> titleList = new ArrayList<>();
         Testbean testbean0 = new Testbean();
         testbean0.setTitle("热门推荐");
@@ -135,11 +122,12 @@ public class PubFragment extends BaseFragment implements TieZiListPresenter.Task
                 scrollPosition = position;
                 titleList.get(scrollPosition).setChecked(true);
                 titleAdapter.notifyDataSetChanged();
-                //TODO 刷新热门数据，更新流式布局文字
+                //刷新热门数据，更新流式布局文字
                 if (position == 0) {
-                    presenter.getTaskList(1, "0", "0");
+                    task_type = "0";
+                    presenter.getTaskList(1, task_type, "0");
                     hotNameList.clear();
-                    layoutHottuijian.setVisibility(View.GONE);
+                    //layoutHottuijian.setVisibility(View.GONE);
                     RefreshHot();
                 } else if (position == 1) {
                     task_type = "1";
@@ -192,7 +180,6 @@ public class PubFragment extends BaseFragment implements TieZiListPresenter.Task
 
     private void RefreshHot() {
         fluidlayout.removeAllViews();
-
         layoutHottuijian.setVisibility(View.VISIBLE);
         fluidlayout.setVisibility(View.VISIBLE);
 
@@ -209,7 +196,6 @@ public class PubFragment extends BaseFragment implements TieZiListPresenter.Task
             tv.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-//                    startActivity(new Intent(mContext, PubListActivity.class));
                     for (int i1 = 0; i1 < hotNameList.size(); i1++) {
                         if (i1 == finalI) {
                             task_title = hotNameList.get(i1);
@@ -283,7 +269,6 @@ public class PubFragment extends BaseFragment implements TieZiListPresenter.Task
     @Override
     public void getBannerList(List<BannerBean> datas) {
        bannerBeans = datas;
-        Log.i("getBannerList", "getBannerList: "+datas.size());
        List<String> bannerList = new ArrayList<>();
        if (datas != null) {
            for (int i = 0; i < datas.size(); i++) {

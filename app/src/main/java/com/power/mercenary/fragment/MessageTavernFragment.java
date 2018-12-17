@@ -1,12 +1,16 @@
 package com.power.mercenary.fragment;
 
+import android.app.Application;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.power.mercenary.MyApplication;
 import com.power.mercenary.R;
+import com.power.mercenary.activity.PostDetailActivity;
 import com.power.mercenary.activity.chat.ChatPushActivity;
 import com.power.mercenary.adapter.message.MessageTavernAdapter;
 import com.power.mercenary.base.BaseFragment;
@@ -63,10 +67,13 @@ public class MessageTavernFragment extends BaseFragment implements WanRecyclerVi
 
     @Override
     public void onItemClickListener(MsgTavernBean msgTavernBean, int position) {
-        datas.get(position).setRead_status("1");
+        datas.get(position).setRead_status("2");
         adapter.notifyDataSetChanged();
-        ChatPushActivity.invoke(getActivity(), "酒馆", msgTavernBean.getId(), "post", msgTavernBean.messageType);
+        Intent intent = new Intent(mContext, PostDetailActivity.class);
+        intent.putExtra("id", datas.get(position).getId() + "");
+        startActivityForResult(intent, 1);
         presenter.setMessageState(msgTavernBean.getId(), msgTavernBean.messageType);
+
     }
 
     @Override

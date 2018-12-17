@@ -39,52 +39,21 @@ public class MessageTaskFragment extends BaseFragment implements WanRecyclerView
     @Override
     protected View initView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = LayoutInflater.from(mContext).inflate(R.layout.fragment_message_list, null);
-
         mRecyclerView = view.findViewById(R.id.frag_messageList_recyclerView);
         mRecyclerView.setLinearLayout();
         mRecyclerView.setPullRecyclerViewListener(this);
-
         datas = new ArrayList<>();
         adapter = new MessageTaskAdapter(getContext(), datas);
         adapter.setOnItemClickListener(this);
         mRecyclerView.setAdapter(adapter);
         presenter = new MsgTaskPresenter(getActivity(), this);
         presenter.getTaskList(page);
-
-
-/*        Intent intent = getActivity().getIntent();
-        getPushMessage(intent);*/
-
         return view;
     }
-
     @Override
     protected void initLazyData() {
 
     }
-
-/*    *//**
-     * Android push 消息
-     *//*
-    private void getPushMessage(Intent intent) {
-
-        if (intent != null && intent.getData() != null && intent.getData().getScheme().equals("rong")) {
-
-            //该条推送消息的内容。
-            String content = intent.getData().getQueryParameter("pushContent");
-            //标识该推送消息的唯一 Id。
-            String id = intent.getData().getQueryParameter("pushId");
-            //用户自定义参数 json 格式，解析后用户可根据自己定义的 Key 、Value 值进行业务处理。
-            String extra = intent.getData().getQueryParameter("extra");
-            //统计通知栏点击事件.
-
-            RongIMClient.recordNotificationEvent(id);
-
-            Log.d("TestPushActivity", "--content:" + content + "--id:" + id + "---extra:" + extra);
-        }
-    }*/
-
-
     @Override
     public void onRefresh() {
         page = 1;
@@ -101,7 +70,7 @@ public class MessageTaskFragment extends BaseFragment implements WanRecyclerView
     @Override
     public void onItemClickListener(MsgTaskBean msgTaskBean, int position) {
         presenter.setMessageState(msgTaskBean.getId());
-        ChatActivity.invoke(getActivity(),msgTaskBean.getUser_id(),msgTaskBean.getUser_head_img(),msgTaskBean.getUser_nick_name());
+       // ChatActivity.invoke(getActivity(),msgTaskBean.getUser_id(),msgTaskBean.getUser_head_img(),msgTaskBean.getUser_nick_name());
         datas.get(position).setRead_state("2");
         adapter.notifyDataSetChanged();
 

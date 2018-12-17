@@ -23,6 +23,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 import com.liaoinstan.springview.container.DefaultHeader;
 import com.liaoinstan.springview.widget.SpringView;
 import com.lzy.okgo.model.Response;
@@ -42,6 +43,8 @@ import com.power.mercenary.http.JsonCallback;
 import com.power.mercenary.http.ResponseBean;
 import com.power.mercenary.presenter.ChatPresenter;
 import com.power.mercenary.utils.CacheUtils;
+import com.power.mercenary.utils.SealCSEvaluateInfo;
+import com.power.mercenary.utils.SealCSEvaluateItem;
 import com.power.mercenary.utils.ShearUtils;
 import com.power.mercenary.utils.SoftKeyboardTool;
 import com.power.mercenary.utils.TUtils;
@@ -51,6 +54,7 @@ import com.power.mercenary.view.chatrefresh.ChatRefreshHeader;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -62,6 +66,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import io.rong.imlib.IRongCallback;
 import io.rong.imlib.RongIMClient;
+import io.rong.imlib.cs.CustomServiceManager;
 import io.rong.imlib.model.Conversation;
 import io.rong.imlib.model.Message;
 import io.rong.imlib.model.MessageContent;
@@ -99,8 +104,8 @@ public class ChatActivity extends BaseActivity implements SpringView.OnFreshList
     private String imgUrls;
 
     private String name;
-    private LoadingDialog1 mDialog;
-    private SharedPreferences sp;
+    private List<SealCSEvaluateItem> sealCSEvaluateInfoList;
+
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP_MR1)
     @Override
@@ -110,18 +115,14 @@ public class ChatActivity extends BaseActivity implements SpringView.OnFreshList
         ButterKnife.bind(this);
 
         userId = getIntent().getStringExtra("userId");
-
         imgUrls = getIntent().getStringExtra("imgUrls");
-
         name = getIntent().getStringExtra("name");
         title.setText(name);
         CacheUtils.put(CacheConstants.IS_IN_CHAT, userId);
-        sp = getSharedPreferences("config", MODE_PRIVATE);
 
         chatPresenter = new ChatPresenter(this, this);
 //        chatPresenter.getUserInfo(userId);
-        Intent intent = getIntent();
-        getPushMessage(intent);//推送
+
         mList = new ArrayList<>();
         msgAdapter = new ChatMsgAdapter(this, mList);
         listView.setAdapter(msgAdapter);
@@ -267,7 +268,6 @@ public class ChatActivity extends BaseActivity implements SpringView.OnFreshList
                 //在MessagePrivateFragment接收但是注释掉了
               //  EventBus.getDefault().post(new EventUtils(EventConstants.TYPE_MESSAGE_SHOW_MINE, message));
             }
-
             @Override
             public void onError(Message message, RongIMClient.ErrorCode errorCode) {
                 // 消息发送失败的回调
@@ -373,6 +373,13 @@ public class ChatActivity extends BaseActivity implements SpringView.OnFreshList
     protected void onDestroy() {
         super.onDestroy();
         EventBus.getDefault().unregister(this);
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        Log.i("jjjjj", "onRestart: "+"刘彪");
+        getHistoryList();
     }
 
     @Override

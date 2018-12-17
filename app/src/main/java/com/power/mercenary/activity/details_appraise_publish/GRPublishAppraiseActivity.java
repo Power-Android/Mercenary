@@ -309,7 +309,6 @@ public class GRPublishAppraiseActivity extends BaseActivity implements View.OnCl
             case R.id.iv_right_fx:
                 ShareDialog dialog = new ShareDialog(this, taskDetailsBean.getTask_name(), taskDetailsBean.getTask_description(), taskDetailsBean.getId(),taskDetailsBean.getTask_no());
                 dialog.setOnDismissListener(onDismissListener);
-                ;
                 setShowPop(dialog, iv_right_fx);
                 break;
             case R.id.left_back:

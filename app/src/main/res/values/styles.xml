@@ -8,6 +8,7 @@
         <item name="colorAccent">@color/colorAccent</item>
         <!-- 设置activity切换动画 -->
         <item name="android:windowAnimationStyle">@style/activityAnimation</item>
+        <!-- 解决启动短暂白屏问题-->
         <item name="android:windowIsTranslucent">true</item>
         <item name="android:windowNoTitle">true</item>
         <!--解决部分机型上传图片到服务器短暂出现手机桌面的BUG -->
@@ -15,8 +16,8 @@
 
 
 
-
     </style>
+
     <style name="WinDialog" parent="@android:style/Theme.Dialog">
         <item name="android:windowFrame">@null</item>
         <item name="android:windowIsFloating">true</item>

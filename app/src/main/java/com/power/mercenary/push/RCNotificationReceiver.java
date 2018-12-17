@@ -30,7 +30,7 @@ public class RCNotificationReceiver extends PushMessageReceiver {
 
     @Override
     public boolean onNotificationMessageArrived(Context context, PushNotificationMessage pushNotificationMessage) {
-
+        Log.i("liubiao", "onNotificationMessageArrived: "+pushNotificationMessage.getSenderId());
         return false;
     }
 

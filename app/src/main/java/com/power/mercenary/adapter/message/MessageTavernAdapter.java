@@ -2,6 +2,7 @@ package com.power.mercenary.adapter.message;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,6 +11,7 @@ import android.widget.TextView;
 
 import com.power.mercenary.R;
 import com.power.mercenary.bean.MsgTavernBean;
+import com.power.mercenary.utils.PhpTimeUtils;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -45,23 +47,18 @@ public class MessageTavernAdapter  extends RecyclerView.Adapter {
     public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position) {
         if (holder instanceof TaskViewHolder) {
             TaskViewHolder viewHolder = (TaskViewHolder) holder;
-
-            long nowTime = System.currentTimeMillis();
-            SimpleDateFormat sdf = null;
-            if (nowTime - datas.get(position).getCreate_time() < 1000 * 60 * 60 * 24) {
-                sdf = new SimpleDateFormat("HH:mm");// 1
-            } else {
-                sdf = new SimpleDateFormat("MM月dd日 HH:mm");
-            }
-            viewHolder.time.setText(sdf.format(new Date(datas.get(position).getCreate_time())));
+            //将十位的时间戳通过调用方法转换为正常时间格式
+            String phptime = PhpTimeUtils.phptime(datas.get(position).getCreate_time());
+            Log.i("phptime", "onBindViewHolder: "+phptime);
+            viewHolder.time.setText(phptime);
             viewHolder.title.setText("酒馆消息");
             viewHolder.content.setText(datas.get(position).getLiuyan_content());
             if (datas.get(position).getRead_status() != null) {
                 switch (datas.get(position).getRead_status()) {
-                    case "1":
+                    case "2":
                         viewHolder.state.setVisibility(View.GONE);
                         break;
-                    case "0":
+                    case "1":
                         viewHolder.state.setVisibility(View.VISIBLE);
                         break;
                 }

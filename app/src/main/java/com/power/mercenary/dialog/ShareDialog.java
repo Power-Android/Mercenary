@@ -40,20 +40,17 @@ public class ShareDialog extends PopupWindow {
     private Activity activity;
     private LayoutInflater inflater;
     public View defaultView;
-
     private LinearLayout weixin;
     private LinearLayout weixinP;
     private LinearLayout qq;
     private LinearLayout qzone;
     private LinearLayout sina;
     private TextView cancel;
-
     public ShareDialog(Activity activity, String title, String content, String id,String taskNo) {
         super(activity);
         this.activity = activity;
         initPopupWindow(title, content, id,taskNo);
     }
-
     public void initPopupWindow(final String title, final String content, final String id,final  String taskNo) {
         inflater = (LayoutInflater) activity
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -61,7 +58,6 @@ public class ShareDialog extends PopupWindow {
         defaultView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
                 ViewGroup.LayoutParams.WRAP_CONTENT));
         setContentView(defaultView);
-
         weixin = defaultView.findViewById(R.id.dialog_share_wx);
         weixinP = defaultView.findViewById(R.id.dialog_share_pyq);
         qq = defaultView.findViewById(R.id.dialog_share_qq);
@@ -72,10 +68,14 @@ public class ShareDialog extends PopupWindow {
         weixin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showWx(title, content, id);
+                if (!TextUtils.isEmpty(taskNo)) {
+
+                    showWx(activity, "【任务名称:" + title + "任务编码:" + taskNo + "任务编号:" + id + "】" + "http://yb.dashuibei.com/register/detail.html?id="+id+ "点击链接，在选择浏览器打开或复制这段描述然后打开佣兵天下APP",title);
+                } else {
+                    showWx(activity, "【任务名称:" + title  + "任务编号:" + id + "】" + "http://yb.dashuibei.com/register/detail.html?id="+id+ " 点击链接，在选择浏览器打开或复制这段描述然后打开佣兵天下APP",title);
+                }
             }
         });
-
         weixinP.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -86,7 +86,6 @@ public class ShareDialog extends PopupWindow {
         qq.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-               // showQQ(title, content, id);
                 if (!TextUtils.isEmpty(taskNo)) {
 
                     shareQQ(activity, "【任务名称:" + title + "任务编码:" + taskNo + "任务编号:" + id + "】" + "http://yb.dashuibei.com/register/detail.html?id="+id+ "点击链接，在选择浏览器打开或复制这段描述然后打开佣兵天下APP");
@@ -122,7 +121,6 @@ public class ShareDialog extends PopupWindow {
         setAnimationStyle(R.style.popwin_anim_style);
         setBackgroundDrawable(new ColorDrawable(activity.getResources().getColor(android.R.color.transparent)));
         setFocusable(true);
-
         // setOutsideTouchable(true);
         update();
     }
@@ -133,24 +131,7 @@ public class ShareDialog extends PopupWindow {
         return defaultView;
     }
 
-    public void showQQ( String title, String content, String id) {//因为不支持友盟平台的纯文本分享所以暂时不用
-        UMImage image = new UMImage(activity, "https://ss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=4267222417,1017407570&fm=200&gp=0.jpg");//网络图片
-        UMImage thumb = new UMImage(activity, R.drawable.yongbingicon);
-        image.setThumb(thumb);
-        UMWeb web = new UMWeb("http://yb.dashuibei.com/register/detail.html?id=" + id);
-        web.setTitle(title + "");//标题
-        web.setThumb(thumb);  //缩略图
-        web.setDescription(content + "");//描述
-        //注意在新浪平台，缩略图属于必传参数，否则会报错
-        ShareAction shareAction = new ShareAction(activity);
-        shareAction
-                .setPlatform(SHARE_MEDIA.QQ)//传入平台
-                .withText("hello")//分享内容
-                .withMedia(image)
-                .withMedia(web)
-                .setCallback(listener)
-                .share();
-    }
+
     /**
      * @param mContext 上下文
      * @param content 要分享的文本
@@ -200,21 +181,15 @@ public class ShareDialog extends PopupWindow {
         }
     }
 
-    public void showWx( String title, String content, String id) {
+    public void showWx( Context mContext, String content,String title) {
         UMImage image = new UMImage(activity, "https://ss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=4267222417,1017407570&fm=200&gp=0.jpg");//网络图片
         UMImage thumb = new UMImage(activity, R.drawable.yongbingicon);
         image.setThumb(thumb);
-        UMWeb web = new UMWeb("http://yb.dashuibei.com/register/detail.html?id=" + id);
-        web.setTitle(title + "");//标题
-        web.setThumb(thumb);  //缩略图
-        web.setDescription(content + "");//描述
         //注意在新浪平台，缩略图属于必传参数，否则会报错
         ShareAction shareAction = new ShareAction(activity);
         shareAction
                 .setPlatform(SHARE_MEDIA.WEIXIN)//传入平台
-                .withText("hello")//分享内容
-                .withMedia(image)
-                .withMedia(web)
+                .withText(content)//分享内容
                 .setCallback(listener)
                 .share();
     }

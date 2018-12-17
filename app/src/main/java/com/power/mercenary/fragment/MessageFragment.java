@@ -27,6 +27,10 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import io.rong.imlib.RongIMClient;
+import io.rong.imlib.model.Conversation;
+import io.rong.imlib.model.Conversation.ConversationType;
+
+import static io.rong.imlib.model.Conversation.ConversationType.*;
 
 /**
  * Created by power on 2018/3/21.
@@ -132,15 +136,12 @@ public class MessageFragment extends BaseFragment implements View.OnClickListene
                 Integer mMessageUnreadCount = integer;
                 Log.i("tttttttttttttt", "onSuccess: "+mMessageUnreadCount);
             }
-
             @Override
             public void onError(RongIMClient.ErrorCode errorCode) {
-
             }
         });
         return view;
     }
-
     //任务推荐Tab
     private void initRenwutj() {
         renwutjTv.setTextColor(getResources().getColor(R.color.colorPrimary));

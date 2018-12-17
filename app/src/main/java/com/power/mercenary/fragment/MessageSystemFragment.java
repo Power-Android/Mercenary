@@ -81,7 +81,7 @@ public class MessageSystemFragment extends BaseFragment implements WanRecyclerVi
 
     @Override
     public void onItemClickListener(MsgSystemBean msgSystemBean) {
-        ChatPushActivity.invoke(getActivity(), "系统消息", msgSystemBean.getId(), "notice", "");
+       // ChatPushActivity.invoke(getActivity(), "系统消息", msgSystemBean.getId(), "notice", "");
     }
 
     @Override
